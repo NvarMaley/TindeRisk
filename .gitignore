@@ -19,6 +19,7 @@ results/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !results/.gitkeep
+!results/README.md
 
 # OS / editor
 .DS_Store

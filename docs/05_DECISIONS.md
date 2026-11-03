@@ -20,8 +20,12 @@ Every important decision must have a date, an owner, and a rationale. When a dec
 | D12 | FOMC | Extension after core validation | Proposed | Team |
 | D13 | Regimes | Extension; filtered probabilities only | Proposed | Team |
 | D14 | ESG | Exclusions as constraints, not as alpha | Proposed | Team |
-| D15 | Primary metric | Realized vs target volatility + net Sharpe + maximum drawdown | Open | Team |
+| D15 | Scientific primary metrics | Realized vs reference volatility + net Sharpe + maximum drawdown | Proposed | Team |
 | D16 | Test period | Frozen before the final comparison | Open | Backtest owner |
+| D17 | Risk categories | Conservative 4%–6% (5% ref.); Balanced 6%–9% (8%); Growth 9%–12% (10%); Aggressive 12%–15% (14%) | Proposed | Team/professor |
+| D18 | Client card metrics | Historical net annualized return, realized volatility, net Sharpe, maximum drawdown, annualized cost | Proposed | Team |
+| D19 | Comparison rule | Same risk-band reference, common period, net of costs first; never rank on return alone | Proposed | Team |
+| D20 | Live follow-up | Daily latest-price monitoring after selection; no brokerage or tick-level claim | Proposed | Team |
 
 ## New Decision Template
 

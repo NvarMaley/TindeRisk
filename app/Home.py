@@ -16,8 +16,8 @@ st.set_page_config(
 st.title("💘 RiskMatch")
 st.subheader("Swipe your risk. Choose your portfolio. Track it.")
 st.write(
-    "RiskMatch structures your risk profile, compares several investment strategies "
-    "at the same risk level, and explains their differences."
+    "RiskMatch assigns you to a clear risk category, compares several investment "
+    "strategies prepared at the same reference risk, and helps you follow the one you select."
 )
 
 st.info("Start with the **Profile** page in the menu on the left.")
@@ -25,10 +25,12 @@ st.info("Start with the **Profile** page in the menu on the left.")
 with st.expander("How does the project work?"):
     st.markdown(
         "1. The questionnaire estimates risk tolerance and capacity.\n"
-        "2. The engine translates this profile into a target volatility.\n"
-        "3. The menu compares portfolios built with QARM tools.\n"
-        "4. Monitoring displays drift, alerts, and the next rebalancing date."
+        "2. The lower of the two determines a risk category: Conservative, Balanced, Growth, or Aggressive.\n"
+        "3. You compare strategies in that category using five historical measures and clear trade-offs.\n"
+        "4. After selection, monitoring separates live results from historical evidence."
     )
 
-st.caption("Academic prototype — not financial advice.")
+st.caption(
+    "Academic prototype — not financial advice. Historical performance is not a forecast."
+)
 

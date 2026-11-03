@@ -7,7 +7,49 @@ benchmark: SPY
 currency: USD
 reference_sharpe: 0.35
 transaction_cost_bps: [0, 10, 25]
-target_volatility_grid: [0.04, 0.06, 0.08, 0.10, 0.12, 0.15]
+target_volatility_grid: [0.05, 0.08, 0.10, 0.14]
+
+# Client-facing categories. The continuous score remains available for audit,
+# but the application recommends a band and uses its reference volatility.
+risk_bands:
+  conservative:
+    label: Conservative
+    min_volatility: 0.04
+    max_volatility: 0.06
+    reference_volatility: 0.05
+  balanced:
+    label: Balanced
+    min_volatility: 0.06
+    max_volatility: 0.09
+    reference_volatility: 0.08
+  growth:
+    label: Growth
+    min_volatility: 0.09
+    max_volatility: 0.12
+    reference_volatility: 0.10
+  aggressive:
+    label: Aggressive
+    min_volatility: 0.12
+    max_volatility: 0.15
+    reference_volatility: 0.14
+
+client_display:
+  summary_metrics:
+    - historical_annualized_return_net
+    - realized_volatility
+    - net_sharpe
+    - max_drawdown
+    - annualized_cost
+  detail_metrics:
+    - sortino
+    - calmar
+    - expected_shortfall_95
+    - turnover
+    - concentration
+    - realized_vs_reference_volatility
+  comparison_period: common
+  show_net_of_costs_first: true
+  label_historical_results_as_non_forecasts: true
 
 scope:
   core_strategies: [classic, erc, black_litterman, benchmark_60_40]

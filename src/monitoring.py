@@ -1,2 +1,2 @@
-"""Monitoring, drift, alerts, rebalancing, and client exports (step 7)."""
+"""Since-selection performance, drift, risk-band alerts, and exports (step 7)."""
 

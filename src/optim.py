@@ -1,2 +1,2 @@
-"""Optimize the five strategies and calculate risk analytics (step 5)."""
+"""Optimize risky cores and prepare allocations at each risk-band reference (step 5)."""
 

@@ -15,7 +15,7 @@
 ### QARM Rigor Requirements
 
 - `phi` is risk aversion, and `gamma = 1 / phi` is tolerance in the gamma problem.
-- The relationship `sigma cible = Sharpe / phi` holds within the Tobin/CML framework with a tangency portfolio and a risk-free asset. In the application, it serves as a calibration assumption; the volatility actually obtained must then be recalculated after constraints and leverage capping.
+- The relationship `target volatility = Sharpe / phi` holds within the Tobin/CML framework with a tangency portfolio and a risk-free asset. In RiskMatch, it is an internal calibration assumption used to assign a risk band. The application displays the band and its reference volatility; the volatility actually obtained must then be recalculated after constraints and leverage capping.
 - A BL portfolio anchored to ERC is not literally the market portfolio. The project must refer to a **neutral reference portfolio** and provide a sensitivity analysis using a 60/40 anchor or available market weights.
 - The BL covariance and the view uncertainty matrix must be distinguished; if `omega` is constructed using standard deviations, they must be squared.
 - StockTwits polarity becomes a return view only after prespecified historical validation.

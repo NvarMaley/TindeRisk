@@ -19,6 +19,16 @@ def test_config_declares_reproducible_core():
         config["scope"]["core_strategies"]
     )
 
+    assert list(config["risk_bands"]) == [
+        "conservative",
+        "balanced",
+        "growth",
+        "aggressive",
+    ]
+    assert config["target_volatility_grid"] == [0.05, 0.08, 0.10, 0.14]
+    assert config["client_display"]["comparison_period"] == "common"
+    assert config["client_display"]["show_net_of_costs_first"] is True
+
 
 def test_question_bank_contract_is_explicit():
     bank = json.loads((ROOT / "questions" / "bank.json").read_text(encoding="utf-8"))

@@ -70,9 +70,11 @@ The adaptive Bayesian model is activated only after:
 
 A simulation generated and estimated by the same model validates the code, not real psychometric validity.
 
-### 5.4 Target Volatility
+### 5.4 Risk Category and Reference Volatility
 
-The calibration derived from `phi` provides an initial target. Capacity imposes a ceiling. After applying constraints and the leverage cap, recalculate the ex ante volatility actually achieved and display any deviation from the target.
+The calibration derived from `phi` provides a continuous internal estimate. Capacity imposes a ceiling. The capped estimate is mapped to one of four client-facing categories: Conservative (4%–6%, reference 5%), Balanced (6%–9%, reference 8%), Growth (9%–12%, reference 10%), or Aggressive (12%–15%, reference 14%). Boundaries follow the project configuration.
+
+The category is the recommendation presented to the client. Its reference volatility is used to select prepared portfolios. After applying constraints and the leverage cap, recalculate the ex-ante volatility actually achieved and display any deviation from both the reference and the category range. The continuous score is retained for audit and technical analysis, not presented as a precise promise.
 
 ## 6. Risk and Return Estimation
 
@@ -134,6 +136,8 @@ Extension. First compare descriptive GMM/HMM, select the number of states on the
 
 ## 9. Backtest
 
+The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
+
 ### 9.1 Split
 
 - Initial estimation period.
@@ -161,6 +165,12 @@ Report gross and net results. Use a 0/10/25 bps linear baseline and two-way turn
 - weight stability;
 - results by subperiod, without selecting subperiods after the fact.
 
+### 9.5 Client-Facing Summary
+
+For every `risk_band × strategy` combination, export a common-period, net-of-cost summary containing historical annualized return, realized volatility, net Sharpe ratio, maximum drawdown, and annualized cost. Export Sortino, Calmar, Expected Shortfall, turnover, concentration, tracking error, risk contributions, and subperiod results for the technical panel.
+
+Advantages and limitations are generated from prespecified strategy characteristics and validated diagnostics. A strategy must never be called “best” solely because it has the highest historical return.
+
 ## 10. Preventing Data Snooping
 
 - Maintain an experiment log: hypothesis, date, parameters, result, decision.
@@ -174,7 +184,9 @@ Report gross and net results. Use a 0/10/25 bps linear baseline and two-way turn
 
 The application does not initiate downloads or computationally intensive backtests. It loads versioned artifacts, checks their date, and displays a clear message if they are missing. Every page must work with a local demonstration dataset.
 
-Client mode uses plain language. A technical panel presents formulas, assumptions, and sources for the professor. Every estimate is accompanied by a date, an uncertainty measure, and an academic disclaimer.
+Client mode uses plain language and follows the journey defined in `07_USER_JOURNEY.md`: questionnaire, category, prepared strategy cards, selection, and monitoring. A technical panel presents formulas, assumptions, and sources for the professor. Every estimate is accompanied by a date, an uncertainty measure, and an academic disclaimer.
+
+After selection, historical backtest results remain frozen as the evidence shown at the decision date. A separate live-monitoring layer uses the latest available prices to calculate value since selection, weight drift, current drawdown, rolling realized volatility, and rebalancing alerts. Daily end-of-day updates are sufficient.
 
 ## 12. Minimum Tests
 
@@ -182,5 +194,6 @@ Client mode uses plain language. A technical panel presents formulas, assumption
 - mathematics: variance, annualization, Euler, ERC, BL without views, target volatility;
 - optimization: satisfied constraints, explicit solver failure;
 - backtest: no future returns, correct costs, drifted weights;
-- profile: edge cases, serialization, consistency of caps;
-- application: complete demonstration flow and no crashes.
+- profile: edge cases, serialization, consistency of caps, deterministic category boundaries;
+- catalogue: every active category-strategy pair has dated metrics, advantages, limitations, and a common comparison period;
+- application: complete category-to-selection-to-monitoring flow and no crashes.

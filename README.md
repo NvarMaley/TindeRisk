@@ -1,7 +1,7 @@
 # 💘 RiskMatch — QARM II Project (HEC Lausanne)
 
 > **Swipe your risk. Choose your portfolio. Track it.**
-> A Streamlit web app that (1) structures a client's risk capacity, tolerance, and constraints, (2) offers several portfolios built with QARM tools and compared at the same risk level, and then (3) explains and tracks the selected portfolio.
+> A Streamlit web app that (1) structures a client's risk capacity, tolerance, and constraints, (2) assigns a plain-language risk category, (3) compares QARM portfolios prepared at that category's reference risk using historical ratios and clear trade-offs, and then (4) tracks the selected portfolio from its selection date.
 
 This README is the project's reference document: it explains **the objective, methodology, and every step from A to Z**.
 - The task checklist is in [`CHECKLIST.md`](CHECKLIST.md).
@@ -33,6 +33,7 @@ Launching opens the application in the browser. The prototype starts with a ligh
 | [`docs/03_METHODOLOGY.md`](docs/03_METHODOLOGY.md) | Data, model, validation, backtest, and testing protocol |
 | [`docs/04_EXECUTION_PLAN.md`](docs/04_EXECUTION_PLAN.md) | Phase order, dependencies, and definition of done |
 | [`docs/05_DECISIONS.md`](docs/05_DECISIONS.md) | Open decisions and assumptions to finalize |
+| [`docs/07_USER_JOURNEY.md`](docs/07_USER_JOURNEY.md) | Official client journey, risk bands, comparison cards, and monitoring |
 
 ---
 
@@ -72,7 +73,7 @@ Launching opens the application in the browser. The prototype starts with a ligh
 | Presentation | Clarity · answers to live questions | The instructor completes the questionnaire; every technical choice is justified by the course |
 | Web app | Design/interactivity · completeness · no bugs | 4 pages, compute-intensive operations precomputed, lightweight app |
 
-**Our thesis:** a client's primary question is not “which portfolio?” but “**what level of risk?**” We therefore devote most of our effort to **accurately measuring risk**, then show that, **at equal risk**, several portfolio philosophies are possible.
+**Our thesis:** a client's primary question is not “which portfolio?” but “**what level of risk can I reasonably take?**” RiskMatch first assigns a transparent risk category, then shows several investment philosophies prepared at that category's same reference risk. The client chooses from clear historical evidence and trade-offs, not from a promised return.
 
 ---
 
@@ -82,17 +83,17 @@ Launching opens the application in the browser. The prototype starts with a ligh
 ┌───────────────────────── OFFLINE (notebook / scripts, once) ─────────────────────────────┐
 │ 1. Data: ETF prices, risk-free rate, FRED macro data, StockTwits sentiment, FOMC          │
 │ 2. Estimation: returns, Σ (Ledoit-Wolf), μ (conservative), long-term Sharpe               │
-│ 3. Questionnaire: bank of 60 questions + parameters + simulation-based validation        │
+│ 3. Questionnaire: capacity + tolerance → risk category; adaptive engine is an extension │
 │ 4. Signals: StockTwits polarity → BL views; Fed and regimes = extensions                  │
 │ 5. Risky cores: Classic, ERC, BL, benchmark; Chameleon as an extension                    │
-│ 6. Backtests over a grid of σ* → result files                                             │
+│ 6. Walk-forward validation → prepared catalogue by risk band × strategy                   │
 └──────────────────────────────────────────┬───────────────────────────────────────────────┘
                                            │ .parquet / .json files
 ┌─────────────────────────────── ONLINE (Streamlit app) ────────────────────────────────────┐
-│ Page 1 Profile   : reliable questionnaire → capacity, tolerance, constraints → σ*         │
-│ Page 2 Menu      : portfolios at the same σ* (Tobin allocation + client constraints)      │
-│ Page 3 Analysis  : weights, risk contributions, regime, views, backtest, Monte Carlo      │
-│ Page 4 Monitoring: weight drift, rebalancing, risk/regime alerts, reassessment            │
+│ Page 1 Profile   : questionnaire → category, range, capacity cap, constraints             │
+│ Page 2 Portfolios: simple cards at the category reference risk + pros/cons                │
+│ Page 3 Analysis  : optional technical ratios, weights, risk contributions, evidence       │
+│ Page 4 Monitoring: performance since selection, drift, risk and rebalance alerts          │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -105,7 +106,7 @@ Launching opens the application in the browser. The prototype starts with a ligh
 | Symbol | Meaning |
 |---|---|
 | φ | client's risk aversion (estimated by the questionnaire); γ = 1/φ |
-| σ* | client's annualized target volatility |
+| σ* | internal annualized volatility calibration; mapped to a client-facing risk band |
 | x | weight vector; x_risky = a strategy's risky “core” |
 | Σ, μ | covariance and expected returns (annualized) |
 | r | risk-free rate |
@@ -215,7 +216,7 @@ We distinguish three concepts (as also required by suitability regulations: MiFI
 | Risk **capacity** | “how much risk can you *afford* to take?” | objective (horizon, liquidity, maximum loss) → **rules** |
 | **Constraints** | “what do you refuse?” | exclusions, ESG, leverage, etc. → **optimization constraints** |
 
-Final rule: **σ\* = min(σ\*_tolerance, σ\*_capacity)**—we never propose more risk than the client can bear, even if they want more.
+Internal rule: **σ\* = min(σ\*_tolerance, σ\*_capacity)**—we never propose more risk than the client can bear, even if they want more. The result is then mapped to a stable client-facing risk category; the continuous value remains available only for calibration and technical audit.
 
 ### 3.1 The bank of 60 questions
 
@@ -305,12 +306,25 @@ $$\sigma^*_{\text{tol}} = w\,\sigma_T = \frac{SR_T}{\varphi}$$
 where SR_T = reference Sharpe ratio (Step 2.4). A simple and highly pitchable result.
 **σ\* = min(σ\*_tol, σ\*_cap)**, with an uncertainty band derived from the posterior of φ.
 
+### 3.8b Continuous estimate → client risk category
+
+The application does not present σ* as a precise promise. It assigns one of four prepared categories:
+
+| Category | Volatility band | Reference used for prepared portfolios |
+|---|---:|---:|
+| Conservative | 4%–6% | 5% |
+| Balanced | 6%–9% | 8% |
+| Growth | 9%–12% | 10% |
+| Aggressive | 12%–15% | 14% |
+
+The lower bound is inclusive and the upper bound is exclusive, except for the final band. If tolerance and capacity imply different categories, the more conservative permitted category wins. The client sees the category, its range, and a plain-language explanation; the technical panel retains φ, σ*_tol, σ*_cap, the reference volatility, and the achieved volatility.
+
 ### 3.9 Precision validation (essential—our primary argument)
 **Synthetic client simulation:**
 1. Draw 1,000 “true” φ values (log-uniform over [0.5, 20]).
 2. Simulate their responses using the model in 3.2 (with noise λ).
 3. Administer the **adaptive** questionnaire and compare it with: (a) 15 **random** questions, (b) 15 **fixed** questions, and (c) all **60** questions.
-4. Measure: **RMSE** on log φ, **error in σ*** (in volatility percentage points), and **% of clients assigned to the correct profile** (e.g., 5 classes), as a function of the number of questions.
+4. Measure: **RMSE** on log φ, **error in σ*** (in volatility percentage points), and **% of clients assigned to the correct risk category**, as a function of the number of questions.
 5. Robustness tests: greater noise (low λ), misspecified item parameters.
 
 Deliverable: “error vs. number of questions” curve (adaptive vs. random) → **the key figure in the pitch**.
@@ -321,8 +335,10 @@ Administer all 60 questions to approximately 40–60 students (Google Forms) →
 ### 3.11 Profiling output
 A `profile` object (JSON):
 ```json
-{"phi_median": 3.4, "phi_ci80": [2.6, 4.5], "sigma_star": 0.103,
- "sigma_tol": 0.103, "sigma_cap": 0.12, "precision_sd_theta": 0.18,
+{"phi_median": 3.4, "phi_ci80": [2.6, 4.5], "sigma_star_internal": 0.103,
+ "sigma_tol": 0.103, "sigma_cap": 0.12, "risk_band": "growth",
+ "risk_band_range": [0.09, 0.12], "reference_volatility": 0.10,
+ "precision_sd_theta": 0.18,
  "constraints": {"exclusions": ["XLE"], "leverage": false, "w_max": 0.30},
  "answers": [...]}
 ```
@@ -357,7 +373,7 @@ A `profile` object (JSON):
 
 ## Step 5 — Portfolio construction
 
-**Principle:** each strategy produces a **risky core** x_risky (long-only, sum = 1). The client portfolio uses a **Tobin allocation** between this core and cash to reach σ* (5.6).
+**Principle:** each strategy produces a **risky core** x_risky (long-only, sum = 1). The prepared client portfolio uses a **Tobin allocation** between this core and cash to reach the assigned category's reference volatility (5.6).
 
 ### 5.0 Shared functions (`src/optim.py`)
 `port_vol(x, Σ)`, `risk_contrib(x, Σ)` (RC and RC*, LN5), `tracking_error(x, x_b, Σ)` (LN2), `markowitz_qp(...)`, `erc(Σ)` (log barrier + rescaling, LN5 lab), `risk_budget(Σ, b)`, `bl_posterior(...)` (LN4 lab), `target_vol(...)` (LN1 lab). **Start from the completed labs.**
@@ -386,12 +402,14 @@ A `profile` object (JSON):
 - Core = risk budgeting using Σ (option: regime-specific Σ, or ES instead of volatility—LN6).
 
 ### 5.5 📈 The Benchmark
-60% SPY / 40% IEF, scaled to σ* through allocation to cash. Serves as the reference for TE and the information ratio.
+60% SPY / 40% IEF, scaled to each category reference through allocation to cash. Serves as the reference for TE and the information ratio.
 
-### 5.6 Personalization: Tobin allocation + client constraints
-- Without personal constraints: x_client = (σ*/σ_risky) · x_risky + (1 − σ*/σ_risky) · cash.
-- **Leverage:** if σ* > σ_risky → cap at 100% invested (default), or allow up to 1.5× if the client accepted it (Block D).
+### 5.6 Prepared portfolios by risk category
+- Offline, build one catalogue entry for every validated `risk band × strategy` pair.
+- Without personal constraints: x_client = (σ_ref/σ_risky) · x_risky + (1 − σ_ref/σ_risky) · cash, where σ_ref is the category reference volatility.
+- **Leverage:** if σ_ref > σ_risky → cap at 100% invested by default. Any leveraged variant must be explicitly approved and labelled.
 - **Personal constraints** (exclusions, maximum weights): Tobin separation no longer holds → **re-optimize** the core with the constraints (fast: < 1 s).
+- Store the category range, reference volatility, achieved volatility, weights, metrics, data date, comparison period, and configuration version.
 
 ### 5.7 Analytics by portfolio (displayed in the app)
 Weights · RC and RC* (“X% of your money = Y% of your risk”) · ex-ante volatility · TE and IR vs. benchmark · concentration indices (Herfindahl, LN6) · current regime and active views (Connected, Chameleon).
@@ -401,35 +419,37 @@ Weights · RC and RC* (“X% of your money = Y% of your risk”) · ex-ante vola
 ## Step 6 — Backtesting
 
 ### 6.1 Engine
-- Loop over month-ends. At each date t: estimate Σ (3-year rolling window), signals (past data only), cores of active strategies, and allocation for σ*.
+- Loop over month-ends. At each date t: estimate Σ (3-year rolling window), signals (past data only), cores of active strategies, and allocations for the four category references.
 - Hold the portfolio until t+1 month; weights **drift** with prices between rebalancing dates.
 - Cash return = DTB3.
 
-### 6.2 Profile grid
-σ* ∈ {4%, 6%, 8%, 10%, 12%, 15%} × active strategies. Thanks to Tobin separation, one core per strategy is sufficient; only the allocation changes. The Chameleon enters the main grid only if it meets the extension criteria.
+### 6.2 Prepared risk-band catalogue
+Run the four reference targets `{5%, 8%, 10%, 14%}` × active strategies, corresponding to Conservative, Balanced, Growth, and Aggressive. Thanks to Tobin separation, one risky core per strategy is sufficient in the unconstrained case; only the risky/cash allocation changes. The Chameleon enters the catalogue only if it meets the extension criteria.
 
 ### 6.3 Transaction costs (LN3)
 Cost = c × turnover, with c = 10 bps by default (**assumption**, sensitivity at 0 / 10 / 25 bps). Turnover = Σ|x_new − x_drifted|.
 
 ### 6.4 Metrics
-- **Realized volatility vs. promised σ\*** ← the test that validates the entire chain (questionnaire → portfolio).
-- Annualized return, Sharpe, Sortino, maximum drawdown, Calmar.
+- **Realized volatility vs. category reference and range** ← the test that validates the chain from profile to prepared portfolio.
+- Historical annualized return, Sharpe, Sortino, maximum drawdown, Calmar.
 - Average turnover, total costs.
 - TE and information ratio vs. benchmark.
 - Performance **by regime** (Chameleon vs. others during ⛈️).
+
+The five client-facing measures are: **historical annualized return net of costs, realized volatility, net Sharpe ratio, maximum drawdown, and annualized cost**. Sortino, Calmar, Expected Shortfall, turnover, concentration, TE, IR, and risk contributions appear under “Technical details.” Historical return is never labelled as a forecast.
 
 ### 6.5 Robustness
 Estimation window (2 / 3 / 5 years), frequency (monthly / quarterly), costs, subperiods (2009–2014, 2015–2019, 2020–present), with / without shrinkage.
 
 ### 6.6 Export
-`results/backtests.parquet` (value series), `results/metrics.parquet`, `results/weights_history.parquet` → read by the app.
+`results/backtests.parquet` (value series), `results/metrics.parquet`, `results/weights_history.parquet`, and `results/portfolio_catalogue.parquet` → read by the app. The catalogue contains one dated, versioned row per `risk_band × strategy`, using the same comparison period and net-of-cost results first.
 
 ---
 
 ## Step 7 — Client selection and monitoring
 
 ### 7.1 Selection
-The client compares the available cards at the same σ* and selects one. Record: profile, strategy, date, initial weights, and amount.
+The client compares the available strategy cards within their assigned risk category and selects one. Every card uses the same reference risk and common historical period. It presents five primary measures plus short, evidence-based advantages and limitations. Record: profile, category, strategy, catalogue version, historical metrics shown, date, initial prices, initial weights, and amount.
 
 ### 7.2 Monte Carlo projection
 - Simulate 10,000 wealth paths over the client's horizon (returns drawn from a multivariate normal distribution using conservative μ and Σ, or a **block bootstrap** of historical returns—more realistic).
@@ -440,11 +460,11 @@ Because we do not have real accounts, there are two modes:
 - **Historical mode** (“what if you had invested on January 1, 2020?”): replay monitoring using historical data.
 - **Live mode:** update using the latest yfinance prices (“refresh” button).
 
-Monitored elements: value, performance vs. benchmark, **weight drift** vs. target, and rolling realized volatility vs. σ*.
+Monitored elements: value and return **since selection**, performance vs. benchmark, **weight drift** vs. target, current drawdown, and rolling realized volatility vs. the selected category range. Historical backtest evidence remains frozen and visually separate from live performance.
 
 ### 7.4 Rebalancing rules and alerts
 - **Calendar-based** rebalancing (monthly / quarterly, selected by the client) **and/or threshold-based** rebalancing (a weight deviates by more than ±5 percentage points from its target).
-- Alerts: realized volatility > σ* + 2 percentage points; regime change (Chameleon); drawdown > declared maximum loss; new strong view (Connected).
+- Alerts: realized volatility above the category ceiling; regime change (Chameleon); drawdown above the declared maximum loss; new strong view (Connected); or weights drifting beyond the chosen threshold.
 
 ### 7.5 Reassessment
 Offer a **short** questionnaire (5 adaptive questions, using the previous posterior as the prior) every 12 months or after a life event / major drawdown.
@@ -465,9 +485,9 @@ app/
 ├── Home.py                 # home + three-line pitch + “Start” button
 ├── pages/
 │   ├── 1_🎯_Profile.py      # fixed MVP profile, adaptive later
-│   ├── 2_🍽️_Portfolios.py   # active strategy cards at the same σ*
-│   ├── 3_🔍_Analysis.py     # portfolio detail + backtest + Monte Carlo
-│   └── 4_📡_Monitoring.py   # monitoring, alerts, rebalancing, reassessment
+│   ├── 2_🍽️_Portfolios.py   # simple cards within the assigned risk category
+│   ├── 3_🔍_Analysis.py     # optional technical evidence and methodology
+│   └── 4_📡_Monitoring.py   # since-selection results, drift and rebalance alerts
 └── components/             # reusable cards and charts
 ```
 
@@ -475,10 +495,10 @@ app/
 `st.session_state` contains: `posterior`, `questions_asked`, `answers`, `profile`, `selection`, `portfolio`. One question at a time: click → update posterior → `st.rerun()`.
 
 ### 8.3 Page content
-- **Profile:** progress bar (“question 7/15”), question card, and two side-by-side cards for swipes; at the end, **reveal**: φ, σ*, interval, precision gauge, and named profile (e.g., “Balanced-Bold”).
-- **Menu:** one card per active strategy (weights, volatility, expected return, historical drawdown) + comparison table.
-- **Analysis:** weights vs. risk contributions (side-by-side bars), current regime, active BL views, backtest (curve + metrics), Monte Carlo.
-- **Monitoring:** portfolio value, drift, alerts, rebalance button, reassessment, JSON / report export.
+- **Profile:** one question at a time; at the end reveal the named category, range, capacity explanation, and constraints. Keep φ and precise calibration in “Technical details.”
+- **Portfolios:** one card per validated strategy at the category reference risk. Show historical net annualized return, realized volatility, net Sharpe, maximum drawdown, annualized cost, and concise pros/cons.
+- **Analysis:** optional weights, risk contributions, Sortino, Calmar, Expected Shortfall, turnover, concentration, views, common-period walk-forward evidence, and Monte Carlo only if validated.
+- **Monitoring:** value and performance since selection, benchmark, current drawdown, weight drift, risk-band status, alerts, rebalance button, reassessment, and JSON/report export.
 
 ### 8.4 Performance
 - `@st.cache_data` to load result files; `@st.cache_resource` for heavy objects.
@@ -489,7 +509,7 @@ app/
 Consistent palette, emojis for the 5 characters, short jargon-free client-facing text, and a collapsible “technical details” mode (`st.expander`) for the instructor.
 
 ### 8.6 Tests
-- Unit tests (`pytest`): RC sum to σ (Euler), ERC has equal RC, BL without views → μ̄ = μ̃, posterior is normalized, Tobin allocation produces σ*.
+- Unit tests (`pytest`): RC sum to σ (Euler), ERC has equal RC, BL without views → μ̄ = μ̃, posterior is normalized, category boundaries are deterministic, capacity caps tolerance, and Tobin allocation produces the category reference risk.
 - **End-to-end** test: 20 simulated profiles pass through the entire app without errors.
 - Test on a computer other than the developer's.
 
@@ -533,7 +553,7 @@ riskmatch/
 │   ├── data_loader.py         # Step 1
 │   ├── estimation.py          # Step 2
 │   ├── questionnaire.py       # Step 3 (Bayesian engine, selection, stopping)
-│   ├── profiling.py           # Steps 3.7–3.8 (capacity, φ → σ*)
+│   ├── profiling.py           # Steps 3.7–3.8 (capacity, φ → category)
 │   ├── signals.py             # Step 4 (StockTwits; FOMC/HMM as extensions)
 │   ├── optim.py               # Step 5 (shared functions + active strategies)
 │   ├── backtest.py            # Step 6

@@ -91,6 +91,9 @@
 | [ ] | 3.6 | Add a mirrored question, inconsistency detection, and messages | 🟢 | |
 | [ ] | 3.7 | Define capacity rules → σ*_cap (maximum loss, horizon, liquidity) | 🔴 | |
 | [ ] | 3.8 | Calibrate Tobin φ → σ*_tol, apply the capacity cap, then recalculate achieved volatility | 🔴 | |
+| [ ] | 3.8b | Map the capped continuous estimate deterministically to Conservative, Balanced, Growth, or Aggressive | 🔴 | |
+| [ ] | 3.8c | Test every category boundary and verify that capacity always overrides higher tolerance | 🔴 | |
+| [ ] | 3.8d | Show category, range, and plain-language explanation to clients; keep φ and precise σ values in technical details | 🔴 | |
 | [ ] | 3.9a | Build a synthetic-client simulator (1,000 φ values, noisy responses) | 🟢 | |
 | [ ] | 3.9b | Compare adaptive vs. random vs. fixed vs. 60 questions (RMSE, σ* error, % correctly classified) | 🟢 | |
 | [ ] | 3.9c | Plot “error vs. number of questions” (pitch figure) | 🟢 | |
@@ -131,8 +134,9 @@
 | [ ] | 5.3 | 🧠 Connected: BL (`x0` decided in 5.8, μ̃, views, μ̄, target TE) | 🔴 | |
 | [ ] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | |
 | [ ] | 5.5 | 📈 60/40 benchmark | 🔴 | |
-| [ ] | 5.6a | Apply Tobin scaling toward σ* (plus leverage rule) | 🔴 | |
+| [ ] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | |
 | [ ] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | |
+| [ ] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | |
 | [ ] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | |
 | [ ] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | |
 | [ ] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | |
@@ -147,7 +151,7 @@
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [ ] | 6.1 | Build a monthly backtest engine (weight drift, cash at DTB3) | 🔴 | |
-| [ ] | 6.2 | Run a grid of σ* × active MVP strategies | 🔴 | |
+| [ ] | 6.2 | Run the four risk-band reference targets × active MVP strategies | 🔴 | |
 | [ ] | 6.3 | Model transaction costs and two-way turnover (0 / 10 / 25 bps) | 🔴 | |
 | [ ] | 6.4 | Compute metrics (including **realized volatility vs. σ\***) and performance by regime | 🔴 | |
 | [ ] | 6.5 | Test robustness to window, frequency, subperiods, and shrinkage | 🟡 | |
@@ -159,18 +163,24 @@
 | [ ] | 6.11 | Compare over a common period; present longer histories separately | 🔴 | |
 | [ ] | 6.12 | Save weights, trades, costs, diagnostics, and the configuration version for every run | 🔴 | |
 | [ ] | 6.13 | Run the pipeline twice with the same seed and obtain identical results | 🔴 | |
+| [ ] | 6.14 | Export a common-period, net-of-cost summary for every category-strategy pair | 🔴 | |
+| [ ] | 6.15 | Export the five client metrics: historical net return, realized volatility, net Sharpe, maximum drawdown, annualized cost | 🔴 | |
+| [ ] | 6.16 | Export technical metrics: Sortino, Calmar, ES, turnover, concentration, TE, IR, and risk contributions | 🟡 | |
+| [ ] | 6.17 | Generate prespecified, evidence-backed advantages and limitations; never rank by return alone | 🔴 | |
 
 ## Step 7 — Selection & Monitoring
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 7.1 | Record the selection (profile, strategy, date, weights, amount) | 🔴 | |
+| [ ] | 7.1 | Record the selection (profile, risk band, strategy, catalogue version, shown metrics, date, initial prices, weights, amount) | 🔴 | |
 | [ ] | 7.2 | Run Monte Carlo simulations (normal + block bootstrap) and calculate the probability of reaching the objective | 🟢 | |
 | [ ] | 7.3 | Include historical monitoring in the MVP; enable live mode only with reliable current data | 🟡 | |
 | [ ] | 7.4 | Define rebalancing rules (calendar / threshold) and alerts | 🟡 | |
 | [ ] | 7.5 | Implement brief re-profiling (five questions, prior = previous posterior) | 🟢 | |
 | [ ] | 7.6 | Create a downloadable client report | 🟢 | |
 | [ ] | 7.7 | Add persistence through JSON export/import | 🟡 | |
+| [ ] | 7.8 | Keep frozen historical evidence separate from live performance since selection | 🔴 | |
+| [ ] | 7.9 | Update value, benchmark, drawdown, weight drift, rolling risk, and alerts from latest daily prices | 🟡 | |
 
 ## Step 8 — Web App
 
@@ -178,10 +188,10 @@
 |---|---|---|---|---|
 | [ ] | 8.1 | Build a multipage skeleton (Home + four pages), **deployed by week 2** | 🔴 | |
 | [ ] | 8.2 | Implement `st.session_state` (responses, profile, selection; posterior only if adaptive) | 🔴 | |
-| [ ] | 8.3a | Build the Profile page (one question at a time, swipes, profile reveal) | 🔴 | |
-| [ ] | 8.3b | Build the Menu page (MVP strategy cards + comparison table) | 🔴 | |
-| [ ] | 8.3c | Build the Analysis page (weights vs. RC, views, backtest; regime/Monte Carlo if validated) | 🔴 | |
-| [ ] | 8.3d | Build the Monitoring page (value, drift, alerts, rebalancing, export) | 🟡 | |
+| [ ] | 8.3a | Build the Profile page (one question at a time, then category, range, capacity explanation, constraints) | 🔴 | |
+| [ ] | 8.3b | Build the Portfolios page (same-band cards, five primary metrics, pros/cons, common-period label) | 🔴 | |
+| [ ] | 8.3c | Build the optional Analysis page (weights, RC, Sortino, Calmar, ES, turnover, concentration, technical backtest) | 🔴 | |
+| [ ] | 8.3d | Build the Monitoring page (since-selection value, benchmark, drawdown, drift, risk-band status, alerts, export) | 🟡 | |
 | [ ] | 8.4 | Add caching and perform no heavy computation online | 🔴 | |
 | [ ] | 8.5 | Create the design (palette, characters, “technical details” mode) | 🟡 | |
 | [ ] | 8.6a | Add `pytest` unit tests (Euler, ERC, BL without views, posterior, Tobin) | 🔴 | |
@@ -193,6 +203,8 @@
 | [ ] | 8.11 | Never download data or recompute a heavy backtest during an interaction | 🔴 | |
 | [ ] | 8.12 | Hide/label every feature whose artifact has not been validated | 🔴 | |
 | [ ] | 8.13 | Test keyboard navigation, contrast, mobile display, and error messages | 🟡 | |
+| [ ] | 8.14 | Label every historical result as non-forecast and never call a strategy “best” | 🔴 | |
+| [ ] | 8.15 | User-test whether non-technical users understand the category and five card metrics | 🔴 | |
 
 ## Step 9 — Pitch
 

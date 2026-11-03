@@ -16,6 +16,8 @@ This document defines the order of work. The checklist tracks daily progress; he
 - Select the leverage rule.
 - Select the primary strategy for the pitch.
 - Classify each feature as core or extension.
+- Freeze the four risk-band definitions, their boundary convention, and their reference volatilities.
+- Freeze the five client-facing comparison metrics and the rule for writing evidence-based advantages and limitations.
 
 ### 0.3 Organize
 
@@ -85,7 +87,7 @@ This document defines the order of work. The checklist tracks daily progress; he
 ### 3.2 Implement
 
 - Transparent scoring.
-- Conversion into a volatility ceiling and target.
+- Conversion into a capacity-capped continuous score, then into a risk category and reference volatility.
 - Edge cases and user messages.
 
 ### 3.3 Validate
@@ -94,7 +96,7 @@ This document defines the order of work. The checklist tracks daily progress; he
 - Comprehension testing with 5–10 people.
 - Simple test-retest assessment.
 
-**Done when:** the same profile produces the same result, all rules can be explained, and the JSON schema is stable.
+**Done when:** the same profile produces the same category, category boundaries are covered by tests, all rules can be explained, and the JSON schema is stable.
 
 ## Phase 4 — QARM Engine
 
@@ -117,7 +119,8 @@ This document defines the order of work. The checklist tracks daily progress; he
 ### 4.4 Target Volatility
 
 - Cash, leverage cap, and exclusions.
-- Requested target volatility and achieved volatility.
+- One prepared allocation per validated strategy and risk-band reference.
+- Category range, reference volatility, and achieved volatility.
 
 **Done when:** each strategy satisfies its invariants and produces a reasonable result on a test date.
 
@@ -156,6 +159,8 @@ This document defines the order of work. The checklist tracks daily progress; he
 - Gross/net, risk/return, downside, and benchmark metrics.
 - Target versus realized volatility.
 - Stability and turnover.
+- Common-period, net-of-cost client summaries for every `risk_band × strategy` pair.
+- Prespecified advantages and limitations supported by strategy design and diagnostics.
 
 ### 6.3 Robustness
 
@@ -165,17 +170,19 @@ This document defines the order of work. The checklist tracks daily progress; he
 - With/without shrinkage.
 - Prespecified subperiods.
 
-**Done when:** an anti-look-ahead test passes, all results can be regenerated, and the conclusion does not depend on a single variant.
+**Done when:** an anti-look-ahead test passes, all results can be regenerated, every catalogue entry contains the required metrics and dates, and the conclusion does not depend on a single variant.
 
 ## Phase 7 — MVP Application
 
 ### 7.1 User Journey
 
 - Home page and disclaimer.
-- Client profile.
-- Comparison at the same risk level.
-- Technical analysis.
-- Monitoring/local export.
+- Client profile and plain-language risk category.
+- Prepared portfolio cards at the category's common reference risk.
+- Five primary measures: historical net return, realized volatility, net Sharpe, maximum drawdown, and annualized cost.
+- Evidence-based advantages and limitations for every strategy.
+- Optional technical analysis panel.
+- Selection record, daily monitoring, rebalancing alerts, and local export.
 
 ### 7.2 Robustness
 
@@ -184,7 +191,7 @@ This document defines the order of work. The checklist tracks daily progress; he
 - Caching, load time, and mobile support.
 - Test on a clean computer.
 
-**Done when:** twenty simulated user journeys complete without exceptions and the public link works on a phone.
+**Done when:** twenty simulated journeys complete from questionnaire to category, comparison, selection, and monitoring without exceptions; users can distinguish historical evidence from a forecast; and the public link works on a phone.
 
 ## Phase 8 — Extensions
 
