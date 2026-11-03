@@ -1,0 +1,11 @@
+{
+  "version": "0.1",
+  "status": "draft",
+  "description": "Structure of the 60-question bank. To be completed and validated by the team.",
+  "blocks": {
+    "A": {"name": "financial capacity and circumstances", "target_count": 10, "questions": []},
+    "B": {"name": "psychometric risk tolerance", "target_count": 20, "questions": []},
+    "C": {"name": "portfolio swipe comparisons", "target_count": 24, "questions": []},
+    "D": {"name": "constraints and preferences", "target_count": 6, "questions": []}
+  }
+}

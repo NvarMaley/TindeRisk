@@ -1,0 +1,39 @@
+# Shared project configuration. Make changes here rather than in the code.
+project_name: RiskMatch
+python_version: "3.12"
+seed: 42
+start_date: "2006-01-01"
+benchmark: SPY
+currency: USD
+reference_sharpe: 0.35
+transaction_cost_bps: [0, 10, 25]
+target_volatility_grid: [0.04, 0.06, 0.08, 0.10, 0.12, 0.15]
+
+scope:
+  core_strategies: [classic, erc, black_litterman, benchmark_60_40]
+  extensions: [adaptive_questionnaire, regime_budgeting, fomc_nlp, monte_carlo]
+
+portfolio:
+  rebalance_frequency: monthly
+  estimation_window_years: 3
+  long_only: true
+  leverage_limit: 1.0
+  max_weight_per_asset: 0.35
+
+validation:
+  method: walk_forward
+  final_test_start: null  # to be decided before the final evaluation
+  primary_metrics:
+    - realized_vs_target_volatility
+    - net_sharpe
+    - max_drawdown
+  transaction_cost_bps_main: 10
+
+tickers:
+  sectors: [XLK, XLF, XLE, XLV, XLY, XLP, XLI, XLB, XLU]
+  diversifiers: [IEF, TLT, GLD]
+
+fred_series:
+  risk_free: DTB3
+  macro: [T10Y2Y, BAA10Y, VIXCLS, CPIAUCSL, UNRATE, INDPRO]
+
