@@ -59,12 +59,23 @@ portfolio:
   rebalance_frequency: monthly
   estimation_window_years: 3
   long_only: true
-  leverage_limit: 1.0
+  leverage_limit: 1.5          # approved by the professor (DR-03)
+  borrowing_spread_bps: 100    # cost of borrowed amount = DTB3 + spread (DR-03)
   max_weight_per_asset: 0.35
 
 validation:
   method: walk_forward
   final_test_start: null  # to be decided before the final evaluation
+  periods:                # DR-04 — freeze exact dates before the final comparison
+    main:
+      start: "2010-01-01"
+      end: "2020-03-31"     # end of StockTwits coverage
+      strategies: [classic, erc, black_litterman, benchmark_60_40]
+    extended:
+      start: "2009-01-01"
+      end: null             # latest available date
+      strategies: [classic, erc, black_litterman, benchmark_60_40]
+      note: "BL reverts to its ERC anchor when no sentiment views exist (after 2020-03)"
   primary_metrics:
     - realized_vs_target_volatility
     - net_sharpe
@@ -75,7 +86,16 @@ tickers:
   sectors: [XLK, XLF, XLE, XLV, XLY, XLP, XLI, XLB, XLU]
   diversifiers: [IEF, TLT, GLD]
 
+black_litterman:            # DR-02
+  anchor: erc               # x0; optimality justified (Maillard, Roncalli & Teiletche, 2010)
+  anchor_sensitivity: [benchmark_60_40]
+
+sentiment:                  # DR-01
+  core_dataset: moodle_ln7      # 19 tickers, aggregated daily sentiment, 2010 - 2020-03
+  upgrade_dataset: raw_stocktwits  # ~90M messages, via USB key from the professor
+  coverage_end: "2020-03-31"
+  publish_derived: true         # sector-level series only; raw messages never committed
+
 fred_series:
   risk_free: DTB3
   macro: [T10Y2Y, BAA10Y, VIXCLS, CPIAUCSL, UNRATE, INDPRO]
-

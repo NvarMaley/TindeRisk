@@ -14,7 +14,7 @@ def test_config_declares_reproducible_core():
     assert config["seed"] == 42
     assert config["validation"]["method"] == "walk_forward"
     assert config["portfolio"]["long_only"] is True
-    assert config["portfolio"]["leverage_limit"] <= 1.0
+    assert 1.0 <= config["portfolio"]["leverage_limit"] <= 1.5  # DR-03
     assert {"classic", "erc", "black_litterman", "benchmark_60_40"} <= set(
         config["scope"]["core_strategies"]
     )
@@ -43,4 +43,3 @@ def test_local_course_material_is_ignored():
 
     assert "/cours  copie/" in gitignore
     assert "/Quant projet /" in gitignore
-
