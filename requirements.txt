@@ -20,3 +20,6 @@ pyarrow>=17,<20
 pytest>=8,<9
 jupyterlab>=4,<5
 
+matplotlib>=3.8,<4
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5
