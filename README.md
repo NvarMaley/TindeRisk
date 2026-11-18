@@ -198,7 +198,7 @@ Annualized return and volatility, Sharpe, skewness, kurtosis, and maximum drawdo
 - Document the choice. **Never** use the raw mean over the entire period (look-ahead).
 
 ### 2.4 “Long-term” Sharpe for profiling
-The φ → σ* mapping (Step 3.8) requires a **reference Sharpe ratio** for the risky portfolio. We use a **conservative and stable assumption** (e.g., SR = 0.35, justified using the statistics in 2.1) rather than a noisy estimate. Perform sensitivity analysis.
+The φ → σ* mapping (Step 3.8) requires a **reference Sharpe ratio** for the risky portfolio. We use a fixed profiling assumption of **0.35**. [Step 2.4](docs/14_REFERENCE_SHARPE.md) documents the historical context and tests the effects of alternative assumptions on risk categories.
 
 ---
 

@@ -5,7 +5,7 @@ seed: 42
 start_date: "2005-01-01"
 benchmark: SPY
 currency: USD
-reference_sharpe: 0.35
+reference_sharpe: 0.35  # Fixed profiling assumption; see docs/14_REFERENCE_SHARPE.md
 transaction_cost_bps: [0, 10, 25]
 target_volatility_grid: [0.05, 0.08, 0.10, 0.14]
 
