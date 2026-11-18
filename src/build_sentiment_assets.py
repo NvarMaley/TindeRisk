@@ -12,9 +12,11 @@ import json
 from datetime import UTC, datetime
 
 import yaml
+import pandas as pd
 
 from .data_loader import aggregate_sentiment_to_assets, load_sentiment_firm_daily
 from .paths import PROCESSED_DATA, ROOT
+from .provenance import sha256_file
 
 
 def main() -> None:
@@ -28,6 +30,14 @@ def main() -> None:
     asset_daily = aggregate_sentiment_to_assets(sentiment, mapping)
     output = PROCESSED_DATA / "sentiment_asset_daily.parquet"
     asset_daily.to_parquet(output, index=False)
+    provenance = asset_daily[["asset", "date", "available_date"]].rename(
+        columns={"date": "observation_date"}
+    ).copy()
+    provenance["source"] = "Professor StockTwits; published firm-day counts; direct ETF tags"
+    provenance["downloaded_at_utc"] = pd.NaT
+    provenance["download_status"] = "unknown_original_download"
+    provenance["availability_rule"] = "strictly next NYSE session; conservative daily assumption"
+    provenance.to_parquet(PROCESSED_DATA / "sentiment_observation_provenance.parquet", index=False)
 
     coverage = (
         asset_daily.groupby("asset", observed=True)
@@ -46,6 +56,10 @@ def main() -> None:
         "anti_look_ahead": "available_date is the strictly next NYSE session after message date, including exchange holidays",
         "mapped_tickers": mapping,
         "company_to_gics_status": "pending a dated and reviewed mapping",
+        "source_file": "sentiment_firm_daily.parquet",
+        "source_sha256": sha256_file(PROCESSED_DATA / "sentiment_firm_daily.parquet"),
+        "downloaded_at_utc": None,
+        "download_status": "unknown_original_download; request from data provider; build time is not download time",
     }
     (PROCESSED_DATA / "sentiment_asset_metadata.json").write_text(
         json.dumps(metadata, indent=2) + "\n", encoding="utf-8"

@@ -39,6 +39,32 @@ Generate the provisional direct-ETF artifact with
 sectors. Replace or supplement it only after a dated company-to-GICS mapping
 has been reviewed and tested.
 
+## Observation-level provenance (Step 1.8)
+
+The builders also produce numerical-input-independent provenance sidecars:
+
+- `market_observation_provenance.parquet`: source-series observations (adjusted
+  closes, nonmissing DTB3 observations and transformed macro values) with
+  `observation_date`, modelled `available_date`, source URL/name, and the actual
+  retrieval timestamp in UTC. Monthly transformations retain their original
+  observation month separately from their lagged availability date.
+- `sentiment_observation_provenance.parquet`: each direct-ETF asset/day and its
+  next-NYSE-session availability. The original download timestamp is unknown:
+  `downloaded_at_utc` remains null and `download_status` explains why. Ask the
+  StockTwits data provider to supply the original retrieval date; do not replace
+  it with a build time or filesystem modification time.
+- `metadata.json`: per-source download timestamps and raw CSV SHA-256 hashes;
+  provenance sidecar shape and hash. The sentiment metadata similarly records
+  the input Parquet hash and distinguishes build time from download time.
+
+These records cover source observations, not an expanded lineage row for every
+forward-filled or derived return. The numerical files remain unchanged in
+schema. Availability dates are explicit assumptions: latest-vintage FRED data
+are not revision-safe, daily macro weekday lags need exchange alignment when
+consumed, and DTB3 same-date usage requires a publication-timing review before
+the final backtest. A date alone does not certify that a value was known at the
+open. Prices are available at the close, not the start of the same day.
+
 ## Market quality audit
 
 Run `python -m src.audit_data` after building the market bundle. The audit

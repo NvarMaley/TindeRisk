@@ -15,6 +15,7 @@ import json
 from datetime import UTC, datetime
 
 import yaml
+import pandas as pd
 
 from .data_loader import (
     MACRO_TRANSFORMS,
@@ -26,6 +27,7 @@ from .data_loader import (
     transform_macro_series,
 )
 from .paths import PROCESSED_DATA, RAW_DATA, ROOT
+from .provenance import observation_records, sha256_file
 
 
 def _checksum(path) -> str:
@@ -49,21 +51,53 @@ def main() -> None:
 
     print(f"Downloading adjusted prices for {len(tickers)} tickers...")
     prices_raw = download_adjusted_prices(tickers, start)
+    prices_downloaded = datetime.now(UTC).isoformat(timespec="seconds")
     prices_raw.to_csv(RAW_DATA / "etf_prices_adjusted.csv")
+    provenance = [
+        observation_records(
+            prices_raw[ticker].dropna(),
+            available_dates=prices_raw[ticker].dropna().index,
+            source="Yahoo Finance via yfinance; auto_adjust=True",
+            downloaded_at_utc=prices_downloaded,
+            availability_rule="observation-date close; not usable before close; current session may be provisional",
+        ) for ticker in tickers
+    ]
+    downloads = {"prices": {"downloaded_at_utc": prices_downloaded,
+                            "raw_sha256": sha256_file(RAW_DATA / "etf_prices_adjusted.csv")}}
 
     print(f"Downloading FRED {rf_id}...")
     rf_raw = download_fred_series(rf_id)
+    rf_downloaded = datetime.now(UTC).isoformat(timespec="seconds")
     rf_raw.to_frame(rf_id).to_csv(RAW_DATA / f"{rf_id}.csv")
+    provenance.append(observation_records(
+        rf_raw.dropna(), available_dates=rf_raw.dropna().index,
+        source=f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={rf_id}",
+        downloaded_at_utc=rf_downloaded,
+        availability_rule="observation-date rate; publication time not verified; same-date use requires review before final backtest",
+    ))
+    downloads[rf_id] = {"downloaded_at_utc": rf_downloaded,
+                        "raw_sha256": sha256_file(RAW_DATA / f"{rf_id}.csv")}
 
     macro_available = {}
     for series_id in macro_ids:
         print(f"Downloading FRED {series_id}...")
         raw = download_fred_series(series_id)
+        downloaded = datetime.now(UTC).isoformat(timespec="seconds")
         raw.to_frame(series_id).to_csv(RAW_DATA / f"{series_id}.csv")
         transformed = transform_macro_series(raw, MACRO_TRANSFORMS[series_id])
         macro_available[series_id] = apply_publication_lag(
             transformed, monthly=series_id in MONTHLY_MACRO_SERIES
         )
+        provenance.append(observation_records(
+            transformed, available_dates=macro_available[series_id].index,
+            source=f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}",
+            downloaded_at_utc=downloaded,
+            availability_rule=("end of following month; latest vintage, not revision-safe"
+                               if series_id in MONTHLY_MACRO_SERIES
+                               else "next weekday; latest vintage; exchange alignment required at consumption"),
+        ))
+        downloads[series_id] = {"downloaded_at_utc": downloaded,
+                                "raw_sha256": sha256_file(RAW_DATA / f"{series_id}.csv")}
 
     outputs = clean_market_data(prices_raw, rf_raw, macro_available)
     metadata = {
@@ -83,6 +117,8 @@ def main() -> None:
             "macro_monthly": "end of the month following the observation month",
         },
         "files": {},
+        "downloads": downloads,
+        "provenance_limitations": "Availability dates are modelling assumptions; FRED is latest-vintage, not point-in-time. DTB3 same-date timing requires review.",
     }
 
     for name, frame in outputs.items():
@@ -95,6 +131,13 @@ def main() -> None:
         }
         print(f"Saved {path.relative_to(ROOT)} {frame.shape}")
 
+    provenance_path = PROCESSED_DATA / "market_observation_provenance.parquet"
+    records = pd.concat(provenance, ignore_index=True)
+    records.to_parquet(provenance_path, index=False)
+    metadata["files"]["market_observation_provenance"] = {
+        "file": provenance_path.name, "shape": list(records.shape),
+        "sha256": sha256_file(provenance_path),
+    }
     metadata_path = PROCESSED_DATA / "metadata.json"
     metadata_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     print(f"Saved {metadata_path.relative_to(ROOT)}")
