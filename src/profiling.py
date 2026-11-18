@@ -72,3 +72,19 @@ def tolerance_volatility(risk_aversion: float, reference_sharpe: float) -> float
     if not math.isfinite(volatility) or volatility <= 0:
         raise ValueError("implied volatility must be positive and finite")
     return volatility
+
+
+@dataclass(frozen=True, slots=True)
+class RiskTarget:
+    tolerance: float
+    capacity: float
+    effective: float
+    band: RiskBand | None
+
+
+def risk_target(risk_aversion: float, reference_sharpe: float, capacity: float) -> RiskTarget:
+    """Calibrate willingness, apply capacity and resolve catalogue coverage."""
+    tolerance = tolerance_volatility(risk_aversion, reference_sharpe)
+    effective, band = category_from_profile(tolerance, capacity)
+    return RiskTarget(tolerance, capacity, effective,
+                      band if effective >= RISK_BANDS[0].min_volatility else None)
