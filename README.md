@@ -335,6 +335,8 @@ Deliverable: “error vs. number of questions” curve (adaptive vs. random) →
 Administer all 60 questions to approximately 40–60 students (Google Forms) → estimate parameters a and b_k for Block B items and λ for swipes; remove questions with low discrimination; verify internal consistency (Cronbach's alpha) and the correlation between Blocks B and C. A major credibility bonus.
 
 ### 3.11 Profiling output
+The fixed questionnaire uses the [versioned profile JSON contract](docs/21_PROFILE_JSON.md). The example below illustrates the separate adaptive profile.
+
 A `profile` object (JSON):
 ```json
 {"phi_median": 3.4, "phi_ci80": [2.6, 4.5], "sigma_star_internal": 0.103,
