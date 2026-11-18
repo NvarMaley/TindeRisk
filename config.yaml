@@ -2,7 +2,7 @@
 project_name: RiskMatch
 python_version: "3.12"
 seed: 42
-start_date: "2006-01-01"
+start_date: "2005-01-01"
 benchmark: SPY
 currency: USD
 reference_sharpe: 0.35

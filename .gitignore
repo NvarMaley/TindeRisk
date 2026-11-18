@@ -16,6 +16,7 @@ htmlcov/
 data/raw/*
 data/processed/*
 results/*
+/data_plus/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !results/.gitkeep

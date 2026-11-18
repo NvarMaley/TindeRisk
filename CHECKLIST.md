@@ -12,7 +12,7 @@
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 0.1 | Ask the professor the four questions (2026 requirements, StockTwits data, expected backtest, topic approval) | 🔴 | |
+| [x] | 0.1 | Ask the professor the four questions (2026 requirements, StockTwits data, expected backtest, topic approval) | 🔴 | Raf |
 | [ ] | 0.2 | Record the presentation date and finalize the schedule | 🔴 | |
 | [ ] | 0.3 | Create the GitHub repository and invite all five members | 🔴 | |
 | [x] | 0.4 | Create the repository structure (see README) | 🔴 | Codex |
@@ -20,7 +20,7 @@
 | [x] | 0.6 | `config.yaml`: tickers, dates, SEED, assumptions | 🟡 | Codex |
 | [ ] | 0.7 | Complete the six labs (LN1–LN5, LN7) → foundation for the engine | 🔴 | |
 | [ ] | 0.8 | Assign roles (README § Team Assignments) | 🔴 | |
-| [ ] | 0.9 | Freeze the MVP scope and classify HMM/FOMC/adaptive features as extensions | 🔴 | |
+| [x] | 0.9 | Freeze the MVP scope and classify HMM/FOMC/adaptive features as extensions | 🔴 | Raf |
 | [x] | 0.10 | Start the decision register and experiment log | 🔴 | Codex |
 | [ ] | 0.11 | Select and freeze the train/validation/test periods before producing final results | 🔴 | |
 | [ ] | 0.12 | Verify licenses and publication rights for data, models, and materials | 🔴 | |
@@ -33,20 +33,31 @@
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 1.1 | Download adjusted prices for the 12 ETFs plus SPY (yfinance, 2005 →) | 🔴 | |
-| [ ] | 1.2 | Download DTB3 (FRED) and convert it to a daily rate | 🔴 | |
-| [ ] | 1.3 | Download FRED macroeconomic series (T10Y2Y, BAA10Y, VIXCLS, CPIAUCSL, UNRATE, INDPRO) | 🟡 | |
-| [ ] | 1.3b | Apply the publication lag to monthly series | 🟡 | |
-| [ ] | 1.4 | Obtain the professor's StockTwits data | 🟡 | |
+| [x] | 1.1 | Download adjusted prices for the 12 ETFs plus SPY (yfinance, 2005 →) | 🔴 | Raf / Codex |
+| [x] | 1.2 | Download DTB3 (FRED) and convert it to a daily rate | 🔴 | Raf / Codex |
+| [x] | 1.3 | Download FRED macroeconomic series (T10Y2Y, BAA10Y, VIXCLS, CPIAUCSL, UNRATE, INDPRO) | 🟡 | Raf / Codex |
+| [x] | 1.3b | Apply the publication lag to monthly series | 🟡 | Raf / Codex |
+| [x] | 1.4 | Obtain the professor's StockTwits data | 🟡 | Vlad |
 | [ ] | 1.4b | Build the company → GICS sector mapping table | 🟡 | |
 | [ ] | 1.5 | Obtain FOMC texts (or the gtfintechlab dataset) with publication dates | 🟢 | |
 | [ ] | 1.6 | Clean the data: business-day index, NaNs, duplicates, outliers | 🔴 | |
-| [ ] | 1.7 | Save to `data/processed/*.parquet` and create `README_data.md` | 🔴 | |
+| [x] | 1.7 | Save to `data/processed/*.parquet` and create `README_data.md` | 🔴 | Raf / Codex |
 | [ ] | 1.8 | Add `observation_date`, `available_date`, source, and download date | 🔴 | |
 | [ ] | 1.9 | Add automated tests for schema, duplicates, gaps, chronology, and coverage | 🔴 | |
 | [ ] | 1.10 | Verify total return/adjusted prices, currency, calendar, and units for each source | 🔴 | |
 | [ ] | 1.11 | Build the common sample for all strategies and document the start of each series | 🔴 | |
 | [ ] | 1.12 | Create a small, publishable demonstration dataset with no restricted data | 🔴 | |
+
+### Verified progress — 2026-11-18
+
+- Steps 0.1 and 0.9: professor feedback and approved core/extension scope are recorded in [the decision register](docs/05_DECISIONS.md).
+- Steps 1.2, 1.3, 1.3b, and 1.7: [the market-data builder](src/build_market_data.py) generated prices, returns, DTB3, and six macro series locally, with source metadata and checksums. The suite passed 26 tests.
+- Step 1.1 verified: all 13 adjusted-close series start on 2005-01-03, with 5,505 observations each through 2026-11-18, including 252 sessions in 2005. Prices are positive and finite, with no missing values or duplicate dates. Raw CSV and processed Parquet values match, and the SHA-256 checksum is verified. The shared configuration now starts on 2005-01-01; the market bundle was regenerated consistently. All 26 tests pass. The final session may still be provisional until the US market closes; this is not a frozen final backtest dataset.
+- Step 1.4: Vlad's published firm-day StockTwits artifact is present. [The asset-sentiment builder](src/build_sentiment_assets.py) generated 43,438 direct-ETF/SPY observations covering all 13 assets.
+- Step 1.4b remains open: direct ETF tags are a provisional input, not a validated historical company-to-GICS mapping.
+- Step 1.4b source audit: the local CRSP monthly extract contains `Ticker`, `PERMNO`, `SICCD`, `NAICS`, `ICBIndustry`, and security-history dates; the Compustat annual extract contains `gvkey`, `datadate`, and `sich`. Neither extract contains historical GICS sector codes. Completion requires a dated GICS classification linked to stable company identifiers, plus historical ticker validity and classification availability dates. SIC/ICB codes and today's classifications must not be silently substituted for historical GICS. This source dependency remains unresolved; the direct-ETF signal is still provisional.
+- Steps 1.6, 1.8–1.11 remain open: initial cleaning, availability rules, and schema/coverage tests exist, but exchange-holiday handling, complete per-observation provenance, gap checks, and a finalized common signal sample still require verification. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
+- Step 2 work implemented by Raf is present in the notebook, but has not been independently reproduced end to end here; its boxes remain open pending verification.
 
 ## Step 2 — Exploration & Estimation
 
