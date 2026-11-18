@@ -3,9 +3,193 @@
   "status": "draft",
   "description": "Structure of the 60-question bank. To be completed and validated by the team.",
   "blocks": {
-    "A": {"name": "financial capacity and circumstances", "target_count": 10, "questions": []},
-    "B": {"name": "psychometric risk tolerance", "target_count": 20, "questions": []},
-    "C": {"name": "portfolio swipe comparisons", "target_count": 24, "questions": []},
-    "D": {"name": "constraints and preferences", "target_count": 6, "questions": []}
+    "A": {
+      "name": "financial capacity and circumstances",
+      "target_count": 10,
+      "questions": [
+        {
+          "id": "A01",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "How long can most of this money stay invested?",
+          "options": {
+            "lt_2y": "Under 2 years",
+            "2_to_lt_5y": "2 to under 5 years",
+            "5_to_lt_10y": "5 to under 10 years",
+            "ge_10y": "10 years or more",
+            "unsure": "I am not sure"
+          },
+          "params": {
+            "fixed_question": "F01"
+          },
+          "condition": null
+        },
+        {
+          "id": "A02",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "How much will you need to take out in the next two years?",
+          "options": {
+            "none": "None",
+            "gt_0_to_lt_25pct": "Some, under a quarter",
+            "25_to_lt_50pct": "A quarter to under half",
+            "ge_50pct": "Half or more",
+            "unsure": "I am not sure"
+          },
+          "params": {
+            "fixed_question": "F02"
+          },
+          "condition": null
+        },
+        {
+          "id": "A03",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "If your income stopped, how long could your separate savings cover essentials?",
+          "options": {
+            "lt_1m": "Under 1 month",
+            "1_to_lt_3m": "1 to under 3 months",
+            "3_to_lt_6m": "3 to under 6 months",
+            "ge_6m": "6 months or more",
+            "unsure": "I am not sure"
+          },
+          "params": {
+            "fixed_question": "F03"
+          },
+          "condition": null
+        },
+        {
+          "id": "A04",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "After using separate savings, what investment loss would first make a planned payment hard to cover?",
+          "options": {
+            "lt_5pct": "Under 5%",
+            "5_to_lt_10pct": "5% to under 10%",
+            "10_to_lt_20pct": "10% to under 20%",
+            "ge_20pct": "20% or more",
+            "no_payment": "No payment depends on this money",
+            "unsure": "I am not sure"
+          },
+          "params": {
+            "fixed_question": "F04"
+          },
+          "condition": null
+        },
+        {
+          "id": "A05",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "How much of your accessible savings are you putting into this investment?",
+          "options": {
+            "lt_25pct": "Under a quarter",
+            "25_to_lt_50pct": "A quarter to under half",
+            "ge_50pct": "Half or more",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "A06",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "How predictable is your regular income?",
+          "options": {
+            "steady": "About the same most months",
+            "varies": "Varies from month to month",
+            "none": "I have no regular income",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "A07",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "How much of your monthly income goes to required debt payments?",
+          "options": {
+            "no_debt": "No required debt payments",
+            "gt_0_to_lt_25pct": "Some, under a quarter",
+            "25_to_lt_50pct": "A quarter to under half",
+            "ge_50pct": "Half or more",
+            "no_income": "I have required payments and no regular income",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "A08",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "objectives",
+          "texte": "What do you mainly want this investment to do?",
+          "options": {
+            "preservation": "Preserve my money",
+            "income": "Provide regular income",
+            "growth": "Grow over time",
+            "planned_expense": "Pay for something specific",
+            "other": "Something else",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "A09",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "knowledge",
+          "texte": "Have you ever held funds, ETFs, stocks or bonds?",
+          "options": {
+            "none": "No",
+            "funds_only": "Funds or ETFs only",
+            "individual": "Individual stocks or bonds, with or without funds",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "A10",
+          "bloc": "A",
+          "type": "single",
+          "dimension": "capacity",
+          "texte": "After essentials and required payments, how often do you have money left over?",
+          "options": {
+            "most_months": "Most months",
+            "some_months": "Some months",
+            "rarely": "Rarely or never",
+            "unsure": "I am not sure"
+          },
+          "params": {},
+          "condition": null
+        }
+      ]
+    },
+    "B": {
+      "name": "psychometric risk tolerance",
+      "target_count": 20,
+      "questions": []
+    },
+    "C": {
+      "name": "portfolio swipe comparisons",
+      "target_count": 24,
+      "questions": []
+    },
+    "D": {
+      "name": "constraints and preferences",
+      "target_count": 6,
+      "questions": []
+    }
   }
 }

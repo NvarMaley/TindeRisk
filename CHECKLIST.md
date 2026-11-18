@@ -145,7 +145,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 3.0e | Conduct user testing for comprehension, edge cases, and test-retest stability — [protocol ready and synthetic cases verified](docs/22_PROFILE_PILOT.md); participant sessions pending | 🔴 | Codex |
 | [x] | 3.0f | Display that the tool is academic and not psychometrically certified — Profile page, rendering checked in notebook | 🔴 | Codex |
 | [x] | 3.0g | Test profile serialization, import/export, and version compatibility — [v1 round trip and compatibility rules](docs/21_PROFILE_JSON.md#step-30g--file-round-trip) | 🔴 | Codex |
-| [ ] | 3.1a | Draft the 10 Block A questions (capacity) | 🟢 | |
+| [x] | 3.1a | Draft the 10 Block A questions (capacity) — [cards and research references](questions/README.md#adaptive-cards--step-31a) | 🟢 | Codex |
 | [ ] | 3.1b | Draft the 20 Block B questions (tolerance, ordered scales) | 🟢 | |
 | [ ] | 3.1c | Generate the 24 Block C pairs with φ_seuil on a log grid [0.5, 20] | 🟢 | |
 | [ ] | 3.1d | Draft the six Block D questions (constraints) plus branching conditions | 🟢 | |

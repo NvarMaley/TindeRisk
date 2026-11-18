@@ -241,14 +241,9 @@ Storage format: `questions/bank.json`, one entry per question:
 }
 ```
 
-**Block A — Capacity (10)**—examples: investment horizon; share of wealth invested; emergency savings (in months of expenses); need to withdraw money within 2 years; income stability; **maximum tolerable loss over 1 year, in %**; objective (preservation / growth / high return); market experience; knowledge of products (equities, bonds, ETFs); age bracket. → The 4 fixed-core items: **horizon, maximum loss, liquidity needs, experience**.
+**Block A — Capacity and circumstances (10)** uses short choice cards. The four core cards cover horizon, withdrawals, separate savings and a planned payment threatened by a loss. The other cards add context about finances, objectives or experience. See the [bank and professional references](questions/README.md#adaptive-cards--step-31a).
 
-**Block B — Psychometric tolerance (20)**—scenario questions, each with options ordered from most cautious to most daring. Examples:
-- “Your portfolio loses 20% in one month. You: sell everything / sell some / do nothing / buy more.”
-- “You have won CHF 1,000. You prefer: keep it / a 50% chance of CHF 2,000 / a 20% chance of CHF 5,000.”
-- “Your friends describe you as: very cautious / cautious / willing to take risks / a gambler.”
-- “When you think of the word ‘risk,’ you first think of: loss / uncertainty / opportunity / thrill.”
-Draw inspiration from scales validated in the literature (e.g., Grable & Lytton, 1999)—**do not copy**; rephrase and adapt them.
+**Block B — Tolerance (20)** will use short investment situations with ordered choices. For example, ask what someone would do after a temporary decline when their plans and financial needs are unchanged. Write original, neutral prompts informed by the multi-item approach of Grable and Lytton (1999).
 
 **Block C — Swipes (24)**—the “Tinder” element. Each pair compares a **conservative** portfolio (μ_A, σ_A) with a **bold** one (μ_B, σ_B), presented in concrete terms (1-year range, loss during a historical crisis, average gain). **Design insight:** with mean-variance utility U = μ − (φ/2)σ², the client is **indifferent** between A and B when
 
