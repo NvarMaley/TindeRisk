@@ -139,7 +139,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [x] | 3.0a | Define capacity, tolerance, knowledge, objectives, and constraints separately — [fixed profile specification](docs/19_PROFILE_DIMENSIONS.md) | 🔴 | Codex |
-| [ ] | 3.0b | Draft the fixed 10–15-question baseline using neutral wording | 🔴 | |
+| [x] | 3.0b | Draft the fixed 10–15-question baseline using neutral wording — [14 questions](questions/fixed_mvp.json) | 🔴 | Codex |
 | [ ] | 3.0c | Define fully explainable scoring rules and capacity caps | 🔴 | |
 | [ ] | 3.0d | Freeze and document the JSON `profile` output format | 🔴 | |
 | [ ] | 3.0e | Conduct user testing for comprehension, edge cases, and test-retest stability | 🔴 | |
