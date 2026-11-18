@@ -89,15 +89,11 @@ class AdaptiveSession:
         if precision_reached:
             return None
 
-        reserved = int(MIRROR_ID not in self.answers)
-        remaining = MAX_CARDS - len(self.answers) - reserved
         deficit_b, deficit_c = max(0, 2 - count_b), max(0, 2 - count_c)
-        if remaining <= 0 and self.original_swipe is None:
-            # All swipes may have been skipped, so there is no answered pair to mirror.
-            reserved = 0
-            remaining = MAX_CARDS - len(self.answers)
-        if remaining <= deficit_b + deficit_c:
-            allowed = tuple(block for block, deficit in (("B", deficit_b), ("C", deficit_c)) if deficit)
+        if deficit_b and not deficit_c:
+            allowed = ("B",)
+        elif deficit_c and not deficit_b:
+            allowed = ("C",)
         else:
             allowed = ("B", "C")
         return self.selector.choose(self.posterior, self.answers, allowed or ("B", "C"))

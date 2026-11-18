@@ -49,3 +49,17 @@ def test_all_passed_tolerance_cards_stop_without_inventing_mirror():
     assert len(session.answers) == 15
     assert MIRROR_ID not in session.answers
     np.testing.assert_allclose(session.posterior.mass, AversionPosterior.prior().mass)
+
+
+def test_precision_stops_early_after_format_quotas_and_mirror(monkeypatch):
+    import src.adaptive_session as adaptive_session
+
+    monkeypatch.setattr(adaptive_session, "PRECISION_THRESHOLD", 2.)
+    session = AdaptiveSession()
+    while (card := session.next_card()) is not None:
+        key = card["id"]
+        session.answer(key, "no" if key == "D01" else next(iter(card["options"])))
+    assert len(session.answers) == 13
+    assert list(session.answers)[-1] == MIRROR_ID
+    assert session.answers[MIRROR_ID] == session.answers[session.original_swipe]
+    assert not session.inconsistent
