@@ -1,6 +1,10 @@
 import streamlit as st
 
 st.title("🎯 My Profile")
+st.info(
+    "RiskMatch is an academic prototype. The questionnaire has not been "
+    "psychometrically validated or certified. Use the risk category as an educational estimate."
+)
 st.progress(0, text="Questionnaire under development — 0/15")
 st.write(
     "Your answers will be combined with your financial capacity. The application will "
