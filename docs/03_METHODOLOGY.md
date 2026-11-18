@@ -123,6 +123,24 @@ Because the course's StockTwits coverage ends in 2020, the signal is historical 
 
 FOMC tone is a separate extension. It must not be combined with the StockTwits signal until its dating protocol and out-of-sample value have been established.
 
+### 7.1 Relative view matrix
+
+Step 4.3a uses a labelled matrix `P` with one column per investable asset,
+in portfolio order. For one approved snapshot, rank comparable scores for
+the eligible sector ETFs. The strongest sector receives +1, the weakest
+−1 and the remaining assets zero. The row therefore selects the difference
+between the two expected asset returns. The corresponding return differential
+`Q` and uncertainty `Omega` are estimated in Steps 4.3b and 4.3c.
+[Black and Litterman (1992)](https://people.duke.edu/~charvey/Teaching/BA453_2006/Black_Litterman_Global_Portfolio_Optimization_1992.pdf).
+
+Use the approved validity window of the snapshot and make a row only when
+both extremes are unique and at least two eligible scores are finite. The
+current company-level signal awaits historical GICS and out-of-sample
+validation. The direct-ETF experiment and the FOMC baseline have no approved
+predictive view. The current matrix therefore has zero rows and retains all
+12 asset columns. The notebook demonstrates both shapes. Step 5.3 consumes
+the empty matrix as a no-view case with the ERC equilibrium prior.
+
 ## 8. Strategies
 
 ### 8.1 Baselines
