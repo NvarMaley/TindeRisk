@@ -251,7 +251,7 @@ $$\varphi_{\text{seuil}} = \frac{2(\mu_B - \mu_A)}{\sigma_B^2 - \sigma_A^2}$$
 
 Under this model, φ above the threshold favors A and φ below it favors B. The 24 thresholds are evenly spaced in log units from 0.5 to 20. Later steps model noisy responses and estimate aversion from several choices.
 
-**Block D — Constraints (6)**—sector exclusions (e.g., fossil fuels), refusal to hold gold, maximum weight per asset, whether leverage is permitted, ESG preference, desired rebalancing frequency. **Conditional** questions: ask “which sectors should be excluded?” only if the client answered “yes, I have exclusions.”
+**Block D — Constraints (6)** covers excluded sectors and gold, borrowing, the maximum weight per ETF and review frequency. Sector and gold details appear after a “yes” on the exclusions card. Review frequency is a monitoring preference. See the [branching rules](questions/README.md#constraint-cards--step-31d).
 
 ### 3.2 Response model (how each answer informs φ)
 

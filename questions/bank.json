@@ -1631,7 +1631,113 @@
     "D": {
       "name": "constraints and preferences",
       "target_count": 6,
-      "questions": []
+      "questions": [
+        {
+          "id": "D01",
+          "bloc": "D",
+          "type": "single",
+          "dimension": "constraints",
+          "texte": "Do you want to leave any stock sectors or gold out?",
+          "options": {
+            "yes": "Yes",
+            "no": "No",
+            "unsure": "I have not decided"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "D02",
+          "bloc": "D",
+          "type": "multiple",
+          "dimension": "constraints",
+          "texte": "Which stock sectors do you want to leave out?",
+          "options": {
+            "XLK": "Technology",
+            "XLF": "Financials",
+            "XLE": "Energy",
+            "XLV": "Health care",
+            "XLY": "Non-essential consumer goods and services",
+            "XLP": "Everyday consumer essentials",
+            "XLI": "Industrials",
+            "XLB": "Materials",
+            "XLU": "Utilities",
+            "none": "No stock sector",
+            "unsure": "I have not decided"
+          },
+          "params": {
+            "exclusive_option_ids": [
+              "none",
+              "unsure"
+            ]
+          },
+          "condition": {
+            "question_id": "D01",
+            "equals": "yes"
+          }
+        },
+        {
+          "id": "D03",
+          "bloc": "D",
+          "type": "single",
+          "dimension": "constraints",
+          "texte": "Do you want to leave gold out?",
+          "options": {
+            "yes": "Yes, leave it out",
+            "no": "No, gold is allowed",
+            "unsure": "I have not decided"
+          },
+          "params": {},
+          "condition": {
+            "question_id": "D01",
+            "equals": "yes"
+          }
+        },
+        {
+          "id": "D04",
+          "bloc": "D",
+          "type": "single",
+          "dimension": "constraints",
+          "texte": "Can your portfolio borrow to invest more than you put in?",
+          "options": {
+            "disallow": "No",
+            "allow": "Yes",
+            "unsure": "I have not decided"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "D05",
+          "bloc": "D",
+          "type": "single",
+          "dimension": "constraints",
+          "texte": "How much of your portfolio can go into a single ETF?",
+          "options": {
+            "standard": "Up to the standard 35%",
+            "cap_25pct": "Up to 25%",
+            "cap_20pct": "Up to 20%",
+            "unsure": "I have not decided"
+          },
+          "params": {},
+          "condition": null
+        },
+        {
+          "id": "D06",
+          "bloc": "D",
+          "type": "single",
+          "dimension": "review_preference",
+          "texte": "How often would you like to review your portfolio?",
+          "options": {
+            "monthly": "Every month",
+            "quarterly": "Every three months",
+            "yearly": "Once a year",
+            "unsure": "I have not decided"
+          },
+          "params": {},
+          "condition": null
+        }
+      ]
     }
   }
 }

@@ -148,7 +148,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 3.1a | Draft the 10 Block A questions (capacity) — [cards and research references](questions/README.md#adaptive-cards--step-31a) | 🟢 | Codex |
 | [x] | 3.1b | Draft the 20 Block B questions (tolerance, ordered scales) — [card design](questions/README.md#tolerance-cards--step-31b) | 🟢 | Codex |
 | [x] | 3.1c | Generate the 24 Block C pairs with φ_seuil on a log grid [0.5, 20] — [card design](questions/README.md#paired-swipe-cards--step-31c) | 🟢 | Codex |
-| [ ] | 3.1d | Draft the six Block D questions (constraints) plus branching conditions | 🟢 | |
+| [x] | 3.1d | Draft the six Block D questions (constraints) plus branching conditions — [verified routes](questions/README.md#constraint-cards--step-31d) | 🟢 | Codex |
 | [ ] | 3.1e | Store the question bank in `questions/bank.json` (README format) | 🟢 | |
 | [ ] | 3.2a | Implement swipe likelihood (logit on ΔU, parameter λ) | 🟢 | |
 | [ ] | 3.2b | Implement scale likelihood (graded response / ordered logit) | 🟢 | |
