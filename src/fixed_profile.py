@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from math import isclose
 
 from .paths import ROOT
-from .profiling import RISK_BANDS, RiskBand, category_from_profile, tolerance_volatility
+from .profiling import RiskBand, risk_target
 
 
 # Question IDs and option IDs come from questions/fixed_mvp.json.
@@ -98,10 +98,8 @@ def score_fixed_profile(answers: Mapping[str, str | list[str]], *,
     capacity = assess_financial_capacity(answers)
     score = sum(points.values()) / len(points)
     aversion = 7 - 4.5 * score
-    tolerance = tolerance_volatility(aversion, reference_sharpe)
-    effective, band = category_from_profile(tolerance, capacity.volatility)
-    if effective < RISK_BANDS[0].min_volatility:
-        band = None
+    target = risk_target(aversion, reference_sharpe, capacity.volatility)
+    tolerance, effective, band = target.tolerance, target.effective, target.band
 
     uncertain = capacity.clarification_items + tuple(
         key for key in (*TOLERANCE_POINTS, "F12", "F13", "F14")
