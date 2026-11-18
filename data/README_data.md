@@ -128,6 +128,35 @@ following month. Keep incomplete months out of forward-return tests.
 The notebook reports coverage on closed months and exposes a synthetic
 month-end timing check that runs without the licensed inputs.
 
+## StockTwits statistical checks
+
+Step 4.1e has two independent notebook cells. With the Moodle files in place,
+compare pairs of event types on CAR and CAP at sessions −5, 0 and +5.
+The event check follows the comparison horizons in LN7.
+[Divernois and Filipović, Table 5](https://doi.org/10.1007/s42521-023-00102-z).
+
+The historical run available now uses only direct tags on the nine configured
+sector ETFs. Pool sentiments by availability month and predict each ETF's
+following-month return minus SPY's. Measure each return from the close of the
+following month's first NYSE session to its last NYSE close. A month is
+excluded when either scheduled endpoint is missing.
+
+Fit one Huber regression and one constant historical-mean benchmark per ETF
+using target months in 2010–2015. Score the frozen fits on 2016–2017 and report
+mean absolute error plus a separate descriptive Huber slope fitted on that
+validation window. The rank comparison splits validation months above and
+below each ETF's training polarity median, excluding ties and requiring five
+months in each group. Models require at least 24 train and 12 validation
+months. The output reports the signed rank effect and Holm-adjusted p-values
+within each cell's family of comparisons. Rank-test p-values are exploratory
+because monthly observations and overlapping event windows can be dependent.
+[SciPy Mann–Whitney documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html),
+[statsmodels robust linear models](https://www.statsmodels.org/stable/rlm.html).
+
+This run skips target dates from 2018 onward; the final project split is
+still open. Company-derived sector results and the LN7 event comparison
+remain pending on GICS and the original Moodle files respectively.
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation
