@@ -113,7 +113,7 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | [ ] | 2.2b | Demonstrate instability (composition maps, LN3 lab) | 🟢 | |
 | [x] | 2.3 | Select, implement, and document a conservative μ estimator — regularized Bayes–Stein-style mean; [definitions and limits](docs/13_EXPECTED_RETURNS.md) | 🔴 | Raf / Codex |
 | [x] | 2.4 | Set the reference Sharpe ratio SR_T and perform sensitivity analysis — [0.35 and 40 scenarios](docs/14_REFERENCE_SHARPE.md) | 🔴 | Raf / Codex |
-| [ ] | 2.5 | Implement reproducible baselines: equal-weighted, GMV, and 60/40 | 🔴 | |
+| [x] | 2.5 | Implement reproducible baselines: equal-weighted, GMV, and 60/40 — [monthly results and assumptions](docs/15_BASELINES.md) | 🔴 | Codex |
 | [ ] | 2.6 | Run diagnostics for normality, autocorrelation, historical ES, and subperiod stability | 🟡 | |
 | [ ] | 2.7 | Add unit-consistency tests: daily/annual, variance/volatility, simple/log/excess return | 🔴 | |
 | [ ] | 2.8 | Compare sample/LW by conditioning, weights, turnover, and realized-volatility error | 🔴 | |
