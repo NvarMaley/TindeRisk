@@ -11,7 +11,7 @@ from scipy.special import logsumexp
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 
-from .data_loader import next_market_session
+from .data_loader import MACRO_TRANSFORMS, next_market_session
 
 
 def macro_month_ends(daily: pd.DataFrame, start, end) -> pd.DataFrame:
@@ -149,3 +149,27 @@ def expanding_regime_probabilities(
     result = pd.DataFrame(rows, index=dates[first:].rename("observation_date"))
     result.insert(0, "available_date", next_market_session(result.index))
     return result
+
+
+def macro_regime_profiles(
+    model: GaussianHMM, scaler: StandardScaler, training: pd.DataFrame,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Describe a fixed fit in standard deviations and original reporting units."""
+    z = scaler.transform(training)
+    states = pd.Index([f"state_{i}" for i in range(model.n_components)], name="state")
+    standardized = pd.DataFrame(model.means_, index=states, columns=training.columns)
+    profile = pd.DataFrame(
+        scaler.inverse_transform(model.means_), index=states, columns=training.columns,
+    )
+    for column in training.columns:
+        transform = MACRO_TRANSFORMS.get(column)
+        if transform == "log":
+            profile[column] = np.exp(profile[column])
+        elif transform == "yoy":
+            profile[column] = 100 * profile[column]
+
+    probabilities = filtered_state_probabilities(model, z)
+    profile["mean_filtered_probability"] = probabilities.mean(axis=0)
+    profile["dominant_months"] = np.bincount(probabilities.argmax(axis=1), minlength=len(states))
+    profile["self_transition"] = np.diag(model.transmat_)
+    return standardized, profile

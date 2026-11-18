@@ -244,6 +244,24 @@ past filtered estimates unchanged in the tested sequence. This chronology
 check concerns the filtering algorithm. Historical data vintages are still
 needed to remove revision leakage before backtesting.
 
+Step 4.4c describes the same first model used to align the expanding fits.
+The table uses fitted emission means in reporting units. Probability
+summaries describe the fixed model on its training sample. The expanding
+estimates in Step 4.4b apply to later observations.
+
+| State in the exploratory run | Description | Representative fitted features | Dominant training months |
+|---|---|---|---:|
+| 0 | Expansion under financial strain | Industrial production +3.4% YoY, VIX 21.8, Baa–10y spread 3.0 pp | 39 |
+| 1 | Low-inflation expansion | Inflation +1.2% YoY, production +1.6% YoY, unemployment change −0.9 pp YoY | 41 |
+| 2 | Contraction and financial stress | Production −10.1% YoY, unemployment change +2.9 pp YoY, VIX 32.4 | 18 |
+| 3 | Calm expansion with a flat yield curve | VIX 13.6, 10y–2y slope 0.18 pp, production +2.7% YoY | 34 |
+
+The low-inflation state also leads all 24 exploratory filtered months from
+2016–2017. Its fitted self-transition probability is effectively one in the
+reference fit. This persistence limits the evidence for useful regime
+switching. Revisit the labels on the historical-vintage fit before turning
+them into risk budgets.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.

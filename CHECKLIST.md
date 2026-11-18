@@ -185,7 +185,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | Validation-error method and sensitivity verified on synthetic data. Historical calibration awaits an active view. |
 | [x] | 4.4a | Fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | Four states selected on the 2005–2015 exploratory sample. Recheck with historical FRED vintages before backtesting. |
 | [x] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | 24 exploratory monthly estimates; future-input invariance verified. Rebuild with historical vintages for backtesting. |
-| [ ] | 4.4c | Name and describe the regimes | 🟢 | |
+| [x] | 4.4c | Name and describe the regimes | 🟢 | Four exploratory profiles documented and visualized on the 2005–2015 fit. |
 | [ ] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | |
 | [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | |
 | [ ] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | |

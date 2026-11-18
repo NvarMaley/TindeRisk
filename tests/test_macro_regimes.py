@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 import pytest
 from scipy.stats import norm
+from sklearn.preprocessing import StandardScaler
 
 from src.macro_regimes import (
-    expanding_regime_probabilities, filtered_state_probabilities, macro_month_ends,
+    expanding_regime_probabilities, filtered_state_probabilities, macro_month_ends, macro_regime_profiles,
     select_macro_hmm,
 )
 
@@ -103,3 +104,23 @@ def test_expanding_filter_keeps_state_identifiers_when_a_refit_swaps_them(monkey
     monkeypatch.setattr(regimes, "filtered_state_probabilities", filter_for_fixture)
     result = expanding_regime_probabilities(panel, first_observation=dates[-2], states=2)
     np.testing.assert_allclose(result[["state_0", "state_1"]], [[.2, .8], [.2, .8]])
+
+
+def test_profiles_restore_units_and_keep_state_statistics_aligned():
+    panel = pd.DataFrame({"VIXCLS": np.log([10., 30.]), "CPIAUCSL": [.01, .03], "UNRATE": [-1., 2.]})
+    scaler = StandardScaler().fit(panel)
+    model = GaussianHMM(n_components=2, covariance_type="diag")
+    model.n_features = 3
+    model.startprob_ = np.array([.5, .5])
+    model.transmat_ = np.array([[.8, .2], [.3, .7]])
+    model.means_ = scaler.transform(panel)
+    model.covars_ = np.ones((2, 3))
+    z, profile = macro_regime_profiles(model, scaler, panel)
+
+    assert profile.index.tolist() == z.index.tolist() == ["state_0", "state_1"]
+    np.testing.assert_allclose(profile["VIXCLS"], [10., 30.])
+    np.testing.assert_allclose(profile["CPIAUCSL"], [1., 3.])
+    np.testing.assert_allclose(profile["UNRATE"], [-1., 2.])
+    np.testing.assert_allclose(profile["self_transition"], [.8, .7])
+    assert profile["dominant_months"].sum() == len(panel)
+    assert profile["mean_filtered_probability"].sum() == pytest.approx(1)
