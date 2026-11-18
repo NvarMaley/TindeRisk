@@ -103,3 +103,23 @@ outcomes to the cent. The likelihood uses the model inputs `mu` and
 Run the notebook's 3.1c cell to verify the bank and preview the pairs.
 The outcomes are hypothetical and the sensitivity of choices to the
 amounts and presentation remains an empirical question for the pilot.
+
+## Constraint cards · Step 3.1d
+
+Block D contains an exclusion gate (D01), two follow-ups for sectors and
+gold (D02–D03), borrowing permission (D04), an ETF weight cap (D05) and a
+review reminder preference (D06). The review preference belongs to
+monitoring and leaves the trading schedule to the portfolio rules.
+
+D02 and D03 each have the condition `{"question_id": "D01", "equals": "yes"}`.
+A “no” leaves out the follow-ups and expresses no exclusions from this list.
+An undecided answer also leaves out the follow-ups and remains unresolved.
+Leave it visible as a clarification when translating responses into actual
+constraints. D02 lists the nine available stock-sector ETFs. “No stock sector”
+and “I have not decided” each stand alone. D03 lets someone exclude gold
+without picking a sector. D04 and D05 record separate choices.
+
+`src.questionnaire.available_constraint_cards(answers)` returns unanswered
+eligible cards in bank order. The notebook previews the draft and checks
+the initial, yes, no and undecided routes. Final scheduling and question
+quotas are addressed in Step 3.4.
