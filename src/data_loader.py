@@ -63,12 +63,25 @@ def validate_sentiment_firm_daily(frame: pd.DataFrame) -> None:
         raise ValueError("sentiment data contains duplicate ticker/date rows")
 
     counts = frame[["Nbullish", "Nbearish", "N"]]
+    if any(not pd.api.types.is_numeric_dtype(counts[c]) for c in counts):
+        raise ValueError("sentiment counts must be numeric")
+    values = counts.to_numpy(dtype=float)
+    if not np.isfinite(values).all() or (values != np.floor(values)).any():
+        raise ValueError("sentiment counts must be finite integers")
+    if frame["ticker"].astype(str).str.strip().eq("").any():
+        raise ValueError("sentiment ticker must not be blank")
+    if not pd.api.types.is_datetime64_any_dtype(frame["date"]):
+        raise ValueError("sentiment date must have datetime dtype")
     if (counts < 0).any().any():
         raise ValueError("sentiment counts must be non-negative")
     if (frame["Nbullish"] + frame["Nbearish"] > frame["N"]).any():
         raise ValueError("bullish plus bearish counts cannot exceed total messages")
     if frame["polarity"].dropna().abs().gt(1).any():
         raise ValueError("sentiment polarity must be in [-1, 1]")
+    labelled = frame["Nbullish"] + frame["Nbearish"]
+    expected = (frame["Nbullish"] - frame["Nbearish"]) / labelled.replace(0, np.nan)
+    if not np.allclose(frame["polarity"].to_numpy(dtype=float), expected, equal_nan=True):
+        raise ValueError("sentiment polarity is inconsistent with counts")
 
 
 def load_sentiment_firm_daily(

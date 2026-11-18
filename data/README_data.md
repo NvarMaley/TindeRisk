@@ -77,6 +77,24 @@ sentiment. Historical GICS remains an open dependency: see
 [the checklist dependency gate](../CHECKLIST.md#gics-dependency) before
 company-based sector aggregation or Black-Litterman views.
 
+### Quality tests (Step 1.9)
+
+`python -m pytest -q` tests corrupted numerical identities, schema mismatches,
+missing configured assets, duplicate/unsorted dates, nonfinite prices and
+counts, fractional counts, count/polarity consistency, calendar gaps, and
+same-day sentiment leakage. Tests use small deterministic fixtures; the
+published StockTwits artifact also has a direct-universe integration check.
+Run `python -m src.audit_data` separately after generating the ignored market
+files to validate all local numerical artifacts, macro coverage, input hashes,
+and direct-ETF sentiment chronology.
+
+The quality report lists sessions without a message-date observation per asset
+between its first and last observations. Missing messages and zero labelled
+messages are not assigned a neutral polarity. Because weekends can contribute
+to the next session, this message-date metric is not the final usable-signal
+coverage. Final alignment, minimum volume/confidence thresholds and permissible
+signal age must be settled in checklist Steps 1.11, 4.3c and 4.6.
+
 ## Optional local research data (`data_plus/`)
 
 `data_plus/` is intentionally ignored by Git because it is about 6.2 GB and
