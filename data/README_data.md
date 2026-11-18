@@ -41,6 +41,10 @@ has been reviewed and tested.
 
 ## Observation-level provenance (Step 1.8)
 
+Source units, currency checks, adjusted-price evidence and DTB3 approximation
+limits are documented in [Data Conventions](../docs/08_DATA_CONVENTIONS.md).
+Reproduce the live vendor checks with `python -m src.check_conventions`.
+
 The builders also produce numerical-input-independent provenance sidecars:
 
 - `market_observation_provenance.parquet`: source-series observations (adjusted

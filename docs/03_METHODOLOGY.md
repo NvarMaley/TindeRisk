@@ -39,6 +39,13 @@ At rebalancing date `t`, the engine reads only rows for which `available_date <=
 - Excess returns when a formula requires the risk-free rate.
 - Annualization consistent with the frequency, noting that the square-root-of-time rule is an approximation under temporal dependence.
 
+Source units and current calculation conventions are specified in
+[Data Conventions](08_DATA_CONVENTIONS.md). In particular, DTB3 is a discount-basis
+percent quote; the existing `/100/252` convention is only a daily cash-rate
+proxy. Resolve publication timing and accrual before the final cash/financing
+backtest. Adjusted price ratios are a vendor total-return proxy, not nominal
+historical execution prices.
+
 ## 4. Pre-Model Diagnostics
 
 For each asset and for the benchmark: mean, volatility, Sharpe ratio, skewness, kurtosis, Jarque-Bera, autocorrelations, Ljung-Box, maximum drawdown, and historical Expected Shortfall. Examine rolling correlations and crisis subperiods.
