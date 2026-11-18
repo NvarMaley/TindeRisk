@@ -111,7 +111,7 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | [x] | 2.1b | Create a correlation heatmap and rolling equity/bond correlation — implemented and locally verified | 🟡 | Raf / Codex |
 | [x] | 2.2 | Three-year rolling Σ: sample vs. Ledoit-Wolf — implemented and locally verified | 🔴 | Raf / Codex |
 | [ ] | 2.2b | Demonstrate instability (composition maps, LN3 lab) | 🟢 | |
-| [ ] | 2.3 | Select, implement, and document a conservative μ estimator | 🔴 | |
+| [x] | 2.3 | Select, implement, and document a conservative μ estimator — regularized Bayes–Stein-style mean; [definitions and limits](docs/13_EXPECTED_RETURNS.md) | 🔴 | Raf / Codex |
 | [ ] | 2.4 | Set the reference Sharpe ratio SR_T and perform sensitivity analysis | 🔴 | |
 | [ ] | 2.5 | Implement reproducible baselines: equal-weighted, GMV, and 60/40 | 🔴 | |
 | [ ] | 2.6 | Run diagnostics for normality, autocorrelation, historical ES, and subperiod stability | 🟡 | |
@@ -324,3 +324,17 @@ been corrected. Hash, formula, chronology and integration checks pass;
 `make check` passes 85 tests. [Definitions and evidence](docs/12_CORRELATION_COVARIANCE.md).
 Rows checked at the user’s explicit request after local verification; independent peer review remains pending in PR #2. This does not complete
 2.2b, 2.5 or 2.8, and does not certify the old notebook outputs or a backtest.
+
+### Step 2.3 — verified implementation, 2026-11-18
+
+[The expected-return builder](src/build_expected_returns.py) exports Raf's
+regularized Bayes–Stein-style excess-mean shrinkage default on the main and
+extended common calendars (123 / 214 month-end estimates, 756 trailing sessions).
+Daily LW asset covariance, daily excess-mean inputs and final annualization
+are explicit; the raw mean is a control only. All 337 estimates were checked
+against an independent inverse-form calculation, both figures inspected and
+output hashes verified. `make check` passes 96 tests, including 11 new tests.
+[DR-05 and definitions](docs/13_EXPECTED_RETURNS.md) distinguish this variant
+from exact Jorion optimality, an investable GMV and the BL ERC anchor.
+No future-return ranking, predictive superiority or final OOS certification
+is claimed; 0.11, DTB3 timing/accrual, 2.4 and optimization remain open.

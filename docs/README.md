@@ -23,3 +23,8 @@ Additional execution documents:
 
 Consistency rule: a method must appear in the application only if it has a definition in the methodology, a task in the checklist, an implementation in `src/`, a test in `tests/`, and reproducible evidence in the notebook or results.
 
+Step-specific implementation evidence:
+
+- [Correlations and rolling covariance — 2.1b / 2.2](12_CORRELATION_COVARIANCE.md).
+- [Conservative expected returns — 2.3](13_EXPECTED_RETURNS.md).
+

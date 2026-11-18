@@ -32,3 +32,10 @@ heatmaps, 252-session rolling SPY/diversifier correlations, and month-end
 CSV/Parquet data and a hashed manifest are generated locally and remain ignored.
 See [definitions, tests and interpretation](../docs/12_CORRELATION_COVARIANCE.md).
 These outputs contain no production portfolio or strategy performance claim.
+
+## Step 2.3
+
+Run `python -m src.build_expected_returns` to export the selected regularized
+Bayes–Stein-style means, raw-mean controls, window diagnostics and one PNG per
+period. Outputs are annual arithmetic **excess** means, not CAGRs, total-return
+forecasts or strategy results. See [formula and validation limits](../docs/13_EXPECTED_RETURNS.md).

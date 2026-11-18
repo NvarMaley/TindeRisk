@@ -12,7 +12,7 @@ Every important decision must have a date, an owner, and a rationale. When a dec
 | D04 | Currency | USD, with currency risk disclosed | Proposed | Team |
 | D05 | BL `x0` | ERC portfolio as anchor, with an explicit optimality justification (see DR-02); 60/40 anchor as sensitivity only | **Approved** (professor, 2026-11-17) | — |
 | D06 | Covariance | Ledoit-Wolf, 3-year window; sample covariance as baseline | Proposed | Optimization owner |
-| D07 | Classic `mu` | Shrunk rolling mean or implied prior, with the choice frozen after validation | Open | Optimization owner |
+| D07 | Classic `mu` | Regularized Bayes–Stein-style rolling excess mean toward GMV mean (DR-05); implied ERC prior reserved for later sensitivity | Implementation default (2026-11-18); final OOS validation remains open | Optimization owner |
 | D08 | Leverage | Allowed up to 1.5x, borrowing cost = DTB3 + 100 bps (see DR-03) | **Approved** (professor, 2026-11-17) | — |
 | D09 | Frequency | Monthly rebalancing; quarterly in robustness tests | Proposed | Backtest owner |
 | D10 | Costs | 10 bps as the main assumption; 0 and 25 bps for sensitivity analysis | Proposed | Backtest owner |
@@ -112,6 +112,21 @@ Rationale: The main period matches sentiment coverage and ends with the COVID cr
 Impact on data/code/tests/application: config.yaml backtest section; application shows which period is displayed.
 Reconsideration condition: exact dates frozen before the final comparison, never after observing results.
 ```
+### DR-05 — Classic expected-return implementation default
+
+```text
+ID: DR-05 (updates D07)
+Date: 2026-11-18
+Owner: Codex implementation; optimization owner for final validation
+Context: Step 2.3 in Raf's notebook implements raw, Bayes–Stein-style and implied-ERC estimates. No final holdout is frozen; notebook future-return comparisons are exploratory.
+Options considered: shrunk rolling historical excess mean; implied ERC prior.
+Decision: Implement the regularized Bayes–Stein-style GMV-mean shrinkage rule as the Classic default. Use 756 daily observations at completed month-end closes; daily LW constant-correlation asset covariance; annualize only the final daily excess-mean estimate. Exact formula and boundaries: docs/13_EXPECTED_RETURNS.md.
+Rationale: Reduces cross-sectional mean dispersion by construction, reuses Raf's rule and validated covariance, introduces no return-based hyperparameter search, and keeps Classic structurally distinct from no-view BL. Does not require implementing ERC prematurely.
+Impact: config.expected_returns declares the method, target, units and provisional validation status. src/build_expected_returns.py exports two-period estimates and diagnostics. Raw means are controls only. The unconstrained GMV mean is a mathematical target, not an approved investable allocation or the BL anchor.
+Limits: Regularized variant, not exact Jorion finite-sample optimality; shrinking differences need not lower every return, overall return level or portfolio risk. DTB3 timing/accrual and final holdout remain open. No predictive superiority claimed.
+Reconsideration: Freeze the evaluation protocol before comparing predictive or portfolio performance. An implied ERC alternative may be tested after ERC is independently validated; changes require a logged rationale, not a search on the final test.
+```
+
 ## New Decision Template
 
 ```text

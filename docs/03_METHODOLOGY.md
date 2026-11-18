@@ -99,6 +99,13 @@ Never use a full-sample mean. Compare:
 
 The choice is fixed before final evaluation and documented in the decision log.
 
+Step 2.3's implementation default is the regularized Bayes–Stein-style
+GMV-mean shrinkage rule adapted from Raf's notebook (DR-05). It uses daily
+excess means and daily LW constant-correlation asset covariance over the same
+trailing window, with final arithmetic annualization. It reduces cross-sectional
+differences by construction; predictive superiority and final OOS validation
+remain unclaimed. See [the formula, units and validation gates](13_EXPECTED_RETURNS.md).
+
 ## 7. StockTwits Signal and Black-Litterman
 
 1. Reproduce the polarity measure from course LN7.
