@@ -302,8 +302,8 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 ### Open Decisions (to Be Resolved as a Group)
 
-- [ ] Black-Litterman reference portfolio (`x0`): ERC, 60/40, or available market weights
-- [ ] Is leverage permitted? (100% cap or up to 1.5×)
+- [x] Black-Litterman reference portfolio (`x0`): ERC, approved 2026-11-17 (DR-02); 60/40 for sensitivity
+- [x] Leverage permitted up to 1.5×, borrowing spread 100 bps, approved 2026-11-17 (DR-03)
 - [ ] Final list of macroeconomic variables and number of regimes
 - [ ] Reference SR_T value
 - [ ] Volatility caps by horizon (capacity rules)

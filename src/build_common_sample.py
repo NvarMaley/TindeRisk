@@ -12,7 +12,7 @@ import pandas as pd
 import pandas_market_calendars as mcal
 import yaml
 
-from .audit_data import audit_asset_sentiment, audit_market_bundle
+from .audit_data import audit_asset_sentiment, audit_market_bundle, verify_sentiment_files
 from .paths import PROCESSED_DATA, ROOT
 from .provenance import sha256_file
 
@@ -58,6 +58,7 @@ def sentiment_arrivals(sentiment, dates, assets):
 
 
 def main():
+    verify_sentiment_files()
     config = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     tickers = assets + [config["benchmark"]]

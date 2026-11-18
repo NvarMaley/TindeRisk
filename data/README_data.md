@@ -46,6 +46,13 @@ Generate the provisional direct-ETF artifact with
 sectors. Replace or supplement it only after a dated company-to-GICS mapping
 has been reviewed and tested.
 
+The asset builder records SHA-256 hashes for its source, derived sentiment,
+provenance sidecar and coverage CSV. Both `src.audit_data` and
+`src.build_common_sample` verify these hashes before consuming sentiment.
+An older metadata file without output hashes requires an explicit rerun of
+`python -m src.build_sentiment_assets`. Hashes detect changes since generation;
+they do not certify source accuracy or historical availability.
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation

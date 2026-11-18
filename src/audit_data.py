@@ -15,6 +15,24 @@ from .data_loader import next_market_session, validate_sentiment_firm_daily
 from .provenance import sha256_file
 
 
+def verify_sentiment_files(directory=PROCESSED_DATA) -> None:
+    """Reject missing or modified source/exports before consuming sentiment."""
+    metadata = json.loads((directory / "sentiment_asset_metadata.json").read_text())
+    source = "sentiment_firm_daily.parquet"
+    if metadata.get("source_file") != source:
+        raise ValueError("unexpected firm sentiment source")
+    if sha256_file(directory / source) != metadata["source_sha256"]:
+        raise ValueError("firm sentiment source checksum mismatch")
+    for name in ["sentiment_asset_daily.parquet",
+                 "sentiment_observation_provenance.parquet",
+                 "sentiment_asset_coverage.csv"]:
+        expected = metadata.get("files", {}).get(name, {}).get("sha256")
+        if not expected:
+            raise ValueError(f"missing sentiment checksum: {name}; rebuild sentiment assets")
+        if sha256_file(directory / name) != expected:
+            raise ValueError(f"sentiment checksum mismatch: {name}")
+
+
 def audit_prices(prices: pd.DataFrame) -> dict:
     """Reject gaps, duplicate dates, non-session rows and invalid prices."""
     if prices.empty or len(prices) < 2 or not isinstance(prices.index, pd.DatetimeIndex):
@@ -110,6 +128,7 @@ def audit_asset_sentiment(frame: pd.DataFrame, expected_assets: list[str]) -> di
 
 
 def main() -> None:
+    verify_sentiment_files()
     config = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     frames = {name: pd.read_parquet(PROCESSED_DATA / f"{name}.parquet")
@@ -123,9 +142,6 @@ def main() -> None:
     for info in metadata["files"].values():
         if sha256_file(PROCESSED_DATA / info["file"]) != info["sha256"]:
             raise ValueError(f"checksum mismatch: {info['file']}")
-    sentiment_meta = json.loads((PROCESSED_DATA / "sentiment_asset_metadata.json").read_text())
-    if sha256_file(PROCESSED_DATA / sentiment_meta["source_file"]) != sentiment_meta["source_sha256"]:
-        raise ValueError("firm sentiment source checksum mismatch")
     report["checksums"] = "passed"
     report["scope"] = "market bundle and direct-ETF sentiment; company GICS, point-in-time certification and final sample selection remain open"
     (PROCESSED_DATA / "quality_report.json").write_text(
