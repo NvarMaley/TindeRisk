@@ -141,6 +141,29 @@ predictive view. The current matrix therefore has zero rows and retains all
 12 asset columns. The notebook demonstrates both shapes. Step 5.3 consumes
 the empty matrix as a no-view case with the ERC equilibrium prior.
 
+### 7.2 Expected return spread Q
+
+Step 4.3b calibrates the spread on the realized returns of the views that
+the same signal rule would have selected at each historical decision.
+For each completed holding month, apply that month's row of `P` to
+daily simple returns from the first NYSE close through the last close.
+Take the mean daily spread for the month and omit incomplete months.
+The shared cash rate cancels because the row sums to zero.
+
+Require at least 24 training months and 12 later validation months with
+eligible outcomes. The training mean must be positive, the validation mean
+must also be positive, and the frozen training mean must yield a lower
+validation MAE than a zero-spread forecast. Remove a row of `P` when its
+view fails these checks. For the surviving views, refit the mean over
+train and validation with equal weight per month and multiply by 252 to
+express `Q` in annualized arithmetic units. The calibration excludes the
+decision month and everything from the final-test month onward. A missing
+final-test boundary leaves `Q` empty.
+
+The notebook illustrates these rules on synthetic returns. The checks
+define calibration eligibility. Predictive approval remains a separate
+requirement in Step 4.6.
+
 ## 8. Strategies
 
 ### 8.1 Baselines
