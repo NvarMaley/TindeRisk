@@ -1,0 +1,392 @@
+{
+  "version": "0.1",
+  "status": "draft",
+  "language": "en",
+  "instructions": "Answer for the money you want to invest through this profile. Choose one option unless the question says you can select multiple options.",
+  "questions": [
+    {
+      "id": "F01",
+      "dimension": "capacity",
+      "type": "single",
+      "text": "How long do you plan to keep most of this money invested?",
+      "options": [
+        {
+          "id": "lt_2y",
+          "text": "Less than 2 years"
+        },
+        {
+          "id": "2_to_lt_5y",
+          "text": "At least 2 and less than 5 years"
+        },
+        {
+          "id": "5_to_lt_10y",
+          "text": "At least 5 and less than 10 years"
+        },
+        {
+          "id": "ge_10y",
+          "text": "10 years or more"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "dimension": "capacity",
+      "type": "single",
+      "text": "What share of this money do you expect to withdraw within the next two years?",
+      "options": [
+        {
+          "id": "none",
+          "text": "None"
+        },
+        {
+          "id": "gt_0_to_lt_25pct",
+          "text": "More than 0% and less than 25%"
+        },
+        {
+          "id": "25_to_lt_50pct",
+          "text": "At least 25% and less than 50%"
+        },
+        {
+          "id": "ge_50pct",
+          "text": "50% or more"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "dimension": "capacity",
+      "type": "single",
+      "text": "If your regular income stopped, how long could cash and savings held outside this investment cover your essential expenses?",
+      "options": [
+        {
+          "id": "lt_1m",
+          "text": "Less than 1 month"
+        },
+        {
+          "id": "1_to_lt_3m",
+          "text": "At least 1 and less than 3 months"
+        },
+        {
+          "id": "3_to_lt_6m",
+          "text": "At least 3 and less than 6 months"
+        },
+        {
+          "id": "ge_6m",
+          "text": "6 months or more"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "dimension": "capacity",
+      "type": "single",
+      "text": "What is the smallest loss on this investment that would make it difficult to meet a planned payment, after taking your separate savings into account?",
+      "options": [
+        {
+          "id": "lt_5pct",
+          "text": "Less than 5%"
+        },
+        {
+          "id": "5_to_lt_10pct",
+          "text": "At least 5% and less than 10%"
+        },
+        {
+          "id": "10_to_lt_20pct",
+          "text": "At least 10% and less than 20%"
+        },
+        {
+          "id": "ge_20pct",
+          "text": "20% or more"
+        },
+        {
+          "id": "no_payment",
+          "text": "I have no planned payment that depends on this investment"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "dimension": "tolerance",
+      "type": "single",
+      "text": "Suppose this investment falls by 10% over three months. Your financial needs and investment horizon are unchanged. What would you be most likely to do?",
+      "options": [
+        {
+          "id": "reduce_risk",
+          "text": "Move some or all of it to investments with smaller price swings"
+        },
+        {
+          "id": "keep_allocation",
+          "text": "Keep the current allocation"
+        },
+        {
+          "id": "increase_risk",
+          "text": "Move some of it to investments with larger price swings"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "dimension": "tolerance",
+      "type": "single",
+      "text": "Assume you can financially absorb any of these declines. How large a temporary fall in value over one year would you accept while keeping the current allocation?",
+      "options": [
+        {
+          "id": "lt_5pct",
+          "text": "Less than 5%"
+        },
+        {
+          "id": "5_to_lt_10pct",
+          "text": "At least 5% and less than 10%"
+        },
+        {
+          "id": "10_to_lt_20pct",
+          "text": "At least 10% and less than 20%"
+        },
+        {
+          "id": "ge_20pct",
+          "text": "20% or more"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F07",
+      "dimension": "tolerance",
+      "type": "single",
+      "text": "If both approaches fit your financial situation, which trade-off would you prefer?",
+      "options": [
+        {
+          "id": "smaller_swings",
+          "text": "Smaller changes in value and less potential for growth"
+        },
+        {
+          "id": "middle",
+          "text": "A middle ground between changes in value and potential for growth"
+        },
+        {
+          "id": "larger_swings",
+          "text": "Larger changes in value and more potential for growth"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F08",
+      "dimension": "knowledge",
+      "type": "multiple",
+      "text": "Which of these products, if any, have you held yourself?",
+      "options": [
+        {
+          "id": "cash",
+          "text": "Savings deposits or similar cash products"
+        },
+        {
+          "id": "funds",
+          "text": "Funds or ETFs"
+        },
+        {
+          "id": "individual_securities",
+          "text": "Individual stocks or bonds"
+        },
+        {
+          "id": "other",
+          "text": "Other investment products"
+        },
+        {
+          "id": "none",
+          "text": "I have held none of these"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ],
+      "exclusive_option_ids": [
+        "none",
+        "unsure"
+      ]
+    },
+    {
+      "id": "F09",
+      "dimension": "knowledge",
+      "type": "single",
+      "text": "An ETF holds stocks in many companies. What can still happen if the overall stock market falls?",
+      "options": [
+        {
+          "id": "can_decline",
+          "text": "The ETF can lose value even if its holdings span many companies"
+        },
+        {
+          "id": "stays_flat",
+          "text": "The ETF will hold its value because it owns many companies"
+        },
+        {
+          "id": "must_rise",
+          "text": "The ETF will rise because it owns many companies"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F10",
+      "dimension": "knowledge",
+      "type": "single",
+      "text": "A portfolio falls from 100 to 80. How much does it need to gain from 80 to return to 100?",
+      "options": [
+        {
+          "id": "gain_20",
+          "text": "20%"
+        },
+        {
+          "id": "gain_25",
+          "text": "25%"
+        },
+        {
+          "id": "gain_80",
+          "text": "80%"
+        },
+        {
+          "id": "unsure",
+          "text": "I am not sure"
+        }
+      ]
+    },
+    {
+      "id": "F11",
+      "dimension": "objectives",
+      "type": "single",
+      "text": "What is the main purpose of this investment?",
+      "options": [
+        {
+          "id": "preservation",
+          "text": "Preserve the money already invested"
+        },
+        {
+          "id": "income",
+          "text": "Generate regular income"
+        },
+        {
+          "id": "growth",
+          "text": "Grow the invested amount over time"
+        },
+        {
+          "id": "planned_expense",
+          "text": "Fund a specific expense"
+        },
+        {
+          "id": "other",
+          "text": "Another purpose"
+        },
+        {
+          "id": "unsure",
+          "text": "I have not decided"
+        }
+      ]
+    },
+    {
+      "id": "F12",
+      "dimension": "constraints",
+      "type": "multiple",
+      "text": "Should portfolios exclude any of the following investments?",
+      "options": [
+        {
+          "id": "energy",
+          "text": "Energy sector stocks"
+        },
+        {
+          "id": "gold",
+          "text": "Gold"
+        },
+        {
+          "id": "treasuries",
+          "text": "US Treasury bonds"
+        },
+        {
+          "id": "none",
+          "text": "No exclusions from this list"
+        },
+        {
+          "id": "unsure",
+          "text": "I have not decided"
+        }
+      ],
+      "exclusive_option_ids": [
+        "none",
+        "unsure"
+      ]
+    },
+    {
+      "id": "F13",
+      "dimension": "constraints",
+      "type": "single",
+      "text": "Can a portfolio borrow money to invest more than the amount you contribute?",
+      "options": [
+        {
+          "id": "disallow",
+          "text": "No, borrowing is excluded"
+        },
+        {
+          "id": "allow",
+          "text": "Yes, borrowing is permitted"
+        },
+        {
+          "id": "unsure",
+          "text": "I have not decided"
+        }
+      ]
+    },
+    {
+      "id": "F14",
+      "dimension": "constraints",
+      "type": "single",
+      "text": "Do you want a lower limit than 35% of the portfolio value in any one ETF?",
+      "options": [
+        {
+          "id": "standard",
+          "text": "Keep the standard 35% limit"
+        },
+        {
+          "id": "cap_25pct",
+          "text": "Use a 25% limit"
+        },
+        {
+          "id": "cap_20pct",
+          "text": "Use a 20% limit"
+        },
+        {
+          "id": "unsure",
+          "text": "I have not decided"
+        }
+      ]
+    }
+  ]
+}

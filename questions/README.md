@@ -13,3 +13,17 @@ The fixed MVP questionnaire produces a capacity-capped internal volatility estim
 
 
 The [five profile dimensions](../docs/19_PROFILE_DIMENSIONS.md) guide the fixed questionnaire design.
+
+## Fixed MVP draft · Step 3.0b
+
+[fixed_mvp.json](fixed_mvp.json) contains 14 questions in English, the
+language of the existing notebook. It has four capacity items, three
+tolerance items, three knowledge and experience items, one objective item
+and three constraint items. Each question and answer has a stable ID.
+
+Use one answer for a single-choice item. For a multiple-choice item,
+`none` and `unsure` each stand alone. For example, requesting an exclusion
+and selecting “No exclusions from this list” would be contradictory. The
+questions distinguish a loss that threatens a payment from discomfort
+with a hypothetical loss. The `unsure` option captures uncertainty for
+the scoring rules to resolve in 3.0c. The wording will be tested in 3.0e.
