@@ -243,7 +243,7 @@ Storage format: `questions/bank.json`, one entry per question:
 
 **Block A — Capacity and circumstances (10)** uses short choice cards. The four core cards cover horizon, withdrawals, separate savings and a planned payment threatened by a loss. The other cards add context about finances, objectives or experience. See the [bank and professional references](questions/README.md#adaptive-cards--step-31a).
 
-**Block B — Tolerance (20)** will use short investment situations with ordered choices. For example, ask what someone would do after a temporary decline when their plans and financial needs are unchanged. Write original, neutral prompts informed by the multi-item approach of Grable and Lytton (1999).
+**Block B — Tolerance (20)** uses short investment situations with four ordered choices and a skip option. For example, ask what someone would do after a temporary decline when their plans and financial needs are unchanged. The original prompts follow the multi-item approach of Grable and Lytton (1999). See the [Block B draft](questions/README.md#tolerance-cards--step-31b).
 
 **Block C — Swipes (24)**—the “Tinder” element. Each pair compares a **conservative** portfolio (μ_A, σ_A) with a **bold** one (μ_B, σ_B), presented in concrete terms (1-year range, loss during a historical crisis, average gain). **Design insight:** with mean-variance utility U = μ − (φ/2)σ², the client is **indifferent** between A and B when
 
@@ -263,7 +263,7 @@ We work with **θ = log φ** (a more symmetric scale). Each question type has a 
 - **Ordered scale (Block B)**—graded response model (IRT) / ordered logit:
   $$P(\text{response} \geq k \mid \theta) = \frac{1}{1+\exp(-a\,(b_k - \theta))}$$
   a = the question's discrimination parameter; b_k = option thresholds. (Sign: a bold response indicates a **low** θ, i.e., low aversion.) Parameters are set **a priori** by the group, then **recalibrated** if the survey is conducted (3.10).
-- **Block A:** does not enter the likelihood for φ (it measures capacity)—except “maximum loss,” which can be used **both** as a capacity measure and as a weakly informative item.
+- **Block A** supplies capacity and context. Only Blocks B and C inform the likelihood for φ.
 
 ### 3.3 Bayesian engine
 - **Prior** on θ: a 200-point grid over [log 0.3, log 30], with a sufficiently broad normal prior centered on “average” aversion (e.g., φ ≈ 3).
