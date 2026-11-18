@@ -53,6 +53,35 @@ An older metadata file without output hashes requires an explicit rerun of
 `python -m src.build_sentiment_assets`. Hashes detect changes since generation;
 they do not certify source accuracy or historical availability.
 
+## LN7 lab reproduction
+
+Run the two Step 4.1 cells of [RiskMatch_pipeline.ipynb](../RiskMatch_pipeline.ipynb).
+The first cell reproduces the five SPY close-to-close returns shown in the
+LN7 lab between 4 and 8 January 2010, at six decimals, using
+`raw/etf_prices_adjusted.csv` from the Step 1 market-data build.
+
+For the full run, place these original Moodle files under `data/raw/` and
+load only copies from the instructor:
+
+- `sentratio_and_price_closetoclose_adj2.pkl` supplies the ticker and SPY returns.
+- `sentratio_and_price_for_pf2.pkl` supplies aligned message data, the market
+  polarity benchmark and the instructor's event labels.
+
+The lab's AR regression fits an intercept and SPY beta per ticker on
+`(t − 365 days, t]`. For AP and AV, the reconstruction uses historical
+observations strictly before each date and the instructor's aligned polarity,
+market polarity and total message volume. The event rules use a rolling
+sample standard deviation and the thresholds in the published methodology.
+CAR and CAP sum residuals over complete windows of ±20 observed SPY sessions.
+The second notebook cell compares reconstructed event counts and labels with
+the Moodle data and reports how many complete event windows are available.
+Exact event preprocessing and coverage remain to be checked on the original files.
+[Divernois and Filipović, sections 4 and 6](https://doi.org/10.1007/s42521-023-00102-z).
+
+The project's firm-day parquet is a calendar-day aggregate with a different
+message count for AAPL on 4 January 2010 (24 versus 21 in the lab). The
+reference for the Moodle run is 1,131 events (454 good, 294 neutral, 383 bad).
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation

@@ -175,8 +175,8 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | |
-| [ ] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | |
+| [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | Models implemented. Historical validation needs the two Moodle files. |
+| [x] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | SPY daily returns, 5/5 at six decimals, 4–8 Jan 2010. |
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | |
 | [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | |
@@ -193,6 +193,8 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | |
 | [ ] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | |
 | [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | |
+
+[LN7 inputs and replication status](data/README_data.md#ln7-lab-reproduction).
 
 ## Step 5 — Portfolio Construction
 
