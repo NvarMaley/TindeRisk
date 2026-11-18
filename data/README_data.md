@@ -82,6 +82,31 @@ The project's firm-day parquet is a calendar-day aggregate with a different
 message count for AAPL on 4 January 2010 (24 versus 21 in the lab). The
 reference for the Moodle run is 1,131 events (454 good, 294 neutral, 383 bad).
 
+## LN7 historical company-to-sector links
+
+The Step 4.1c notebook cell audits the 13 company symbols identified by the
+lab, using observations in the project sentiment parquet between 4 January
+2010 and 23 March 2020. The six fund symbols are outside the company link.
+It links CRSP security-history tickers to PERMNO, then PERMNO to Compustat
+GVKEY via the local CCM history. CCM uses primary links `P/C` and link types
+`LC/LU/LS` following the WRDS example. Dates at either end of an interval
+are inclusive. CCM end dates marked `E` represent open intervals. Missing
+and conflicting mappings remain visible in the coverage counts. [WRDS CCM
+example](https://wrds-www.wharton.upenn.edu/pages/wrds-research/macros/wrds-macro-market-book-ratios-ciz/).
+
+The local extracts lack historical GICS. Request the company-level **HGIC**
+extract with GVKEY, sector code (`GSECTORH`) and effective start/end dates
+(`INDFROM` and `INDTHRU`). Also obtain evidence of when the classification
+was first available for use. Save the normalized export at
+`data/raw/stocktwits_gics_history.csv` with the columns
+`gvkey,gics_sector,effective_from,effective_through,known_from`.
+Use ISO calendar dates and an empty end date for open intervals.
+`known_from` means the first calendar date it was available for daily use.
+Preserve leading zeroes in GVKEY. A row is eligible only when its sector
+was effective and known on the observation date. [CCM HGIC data
+guide](https://wrds-www.wharton.upenn.edu/documents/402/CRSP-Compustat_Merged_Database_Data_Guide_9efDcmD.pdf),
+[S&P Global GICS History](https://www.marketplace.spglobal.com/en/datasets/gics-%2890%29).
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation
