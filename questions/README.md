@@ -11,3 +11,5 @@ Each question must have a stable identifier, a type, text, options, and calibrat
 
 The fixed MVP questionnaire produces a capacity-capped internal volatility estimate and then assigns one client-facing category: Conservative, Balanced, Growth, or Aggressive. It must not present the continuous estimate as a guaranteed or exact risk level. Adaptive question selection remains an extension.
 
+
+The [five profile dimensions](../docs/19_PROFILE_DIMENSIONS.md) guide the fixed questionnaire design.
