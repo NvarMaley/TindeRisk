@@ -76,6 +76,30 @@ Each card keeps four ordered choices in `params.ordered_option_ids`, from
 lower to higher willingness to accept risk. The separate `unsure` choice is
 displayed as “Skip this card.” It has no position on the ordered scale and
 supplies no evidence about risk aversion. Discrimination and thresholds
-belong to Step 3.2c. Step 3.1c will define the separate set of two-option
+belong to Step 3.2c. Step 3.1c defines the separate set of two-option
 portfolio comparisons. The notebook reads and displays the draft from
 `bank.json` without market data.
+
+## Paired swipe cards · Step 3.1c
+
+Block C uses 24 hypothetical one-year pairs with a common starting amount
+of CHF 1,000. Each option lists a possible loss and gain with a 50% chance
+of each. Keep the labels neutral on screen and offer a separate skip
+action. The bank stores the default display order so the higher-volatility
+option is on each side in 12 cards. The engine's canonical key remains B
+for the option with the wider range, irrespective of display order.
+
+The model treats each option as an equally likely pair of returns
+`mu - sigma` and `mu + sigma`. For each target `phi` on the logarithmic
+grid from 0.5 to 20, the generator sets
+`mu_B = mu_A + phi * (sigma_B² - sigma_A²) / 2`. Both choices then have
+the same mean–variance utility at that threshold. For higher thresholds
+the generator narrows the volatility range so B continues to have both
+more upside and a larger potential loss. The app can display the CHF
+outcomes to the cent. The likelihood uses the model inputs `mu` and
+`sigma`, with threshold and probabilities stored alongside them.
+
+`src.swipe_cards.build_swipe_cards()` regenerates the Block C questions.
+Run the notebook's 3.1c cell to verify the bank and preview the pairs.
+The outcomes are hypothetical and the sensitivity of choices to the
+amounts and presentation remains an empirical question for the pilot.

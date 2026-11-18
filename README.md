@@ -245,11 +245,11 @@ Storage format: `questions/bank.json`, one entry per question:
 
 **Block B — Tolerance (20)** uses short investment situations with four ordered choices and a skip option. For example, ask what someone would do after a temporary decline when their plans and financial needs are unchanged. The original prompts follow the multi-item approach of Grable and Lytton (1999). See the [Block B draft](questions/README.md#tolerance-cards--step-31b).
 
-**Block C — Swipes (24)**—the “Tinder” element. Each pair compares a **conservative** portfolio (μ_A, σ_A) with a **bold** one (μ_B, σ_B), presented in concrete terms (1-year range, loss during a historical crisis, average gain). **Design insight:** with mean-variance utility U = μ − (φ/2)σ², the client is **indifferent** between A and B when
+**Block C — Swipes (24)**—the “Tinder” element. Each pair shows two equally likely one-year outcomes per option, as gains or losses on CHF 1,000. Option B has higher expected return, greater volatility and a worse low outcome. The displayed sides alternate. See the [card design](questions/README.md#paired-swipe-cards--step-31c). **Design insight:** with mean-variance utility U = μ − (φ/2)σ², the client is **indifferent** between A and B when
 
 $$\varphi_{\text{seuil}} = \frac{2(\mu_B - \mu_A)}{\sigma_B^2 - \sigma_A^2}$$
 
-A client with φ > φ_seuil chooses A (conservative), otherwise B. Each pair is therefore a “step” on the φ scale. We **construct the 24 pairs** so that their φ_seuil values are **distributed on a logarithmic grid** from 0.5 to 20 → allowing us to locate any client.
+Under this model, φ above the threshold favors A and φ below it favors B. The 24 thresholds are evenly spaced in log units from 0.5 to 20. Later steps model noisy responses and estimate aversion from several choices.
 
 **Block D — Constraints (6)**—sector exclusions (e.g., fossil fuels), refusal to hold gold, maximum weight per asset, whether leverage is permitted, ESG preference, desired rebalancing frequency. **Conditional** questions: ask “which sectors should be excluded?” only if the client answered “yes, I have exclusions.”
 
