@@ -37,5 +37,28 @@ assets and enforce applicable project limits.
 
 Keep this schema stable for v1. Any incompatible field or type change
 requires a new schema version. Changes to answer vocabulary or scoring
-must be tracked by their respective versions. File import, export and
-compatibility behavior are tracked in 3.0g.
+must be tracked by their respective versions. The transport rules are defined below.
+
+## Step 3.0g · File round trip
+
+Use `src.profile_serialization.export_profile(profile)` to produce UTF-8
+JSON text. Read a saved file as bytes and pass it to
+`src.profile_serialization.import_profile(payload)`. These functions are
+the file codec. The application upload and download controls are tracked
+in Step 7.7.
+
+Both directions check the format, questionnaire and scoring versions.
+The currently supported combination is `1 / "0.1" / "1.0"`. Unsupported
+combinations raise a version-specific error. A v1 snapshot preserves its
+recorded reference Sharpe even if the current configuration has a new
+default. Rescoring under a new assumption is a separate operation.
+
+Import rejects malformed JSON, duplicate keys, non-finite numbers and
+unknown or invalid fields. Both directions recompute the score and
+constraints from the recorded choices and calibration and reject inconsistent
+derived fields. This is a consistency check. A file's origin still requires
+separate verification if that becomes a product requirement.
+
+The notebook saves a synthetic profile in a temporary file, reimports it
+and checks exact equality. It also demonstrates rejection of an unknown
+format version and an edited effective volatility.
