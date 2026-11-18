@@ -7,6 +7,7 @@ This log helps prevent data snooping and retrospective decision-making. Add an e
 | E001 |  |  | LW covariance is more stable than sample covariance | Validation | 3-year window | Turnover and volatility error |  |  |
 | E002 |  |  | ERC reduces risk concentration | Validation | Long-only | RC Herfindahl index and stability |  |  |
 | E003 |  |  | StockTwits provides a useful sector view | Train/validation | Aggregation defined before testing | Net OOS performance / IC |  |  |
+| E004 | 2026-11-18 | Codex | Reproduce Raf's regularized Bayes–Stein mean rule; verify mathematical shrinkage, not predictive superiority | Main/extended common calendars; historical diagnostics only | 756 trailing sessions; month-end close; LW constant-correlation asset covariance; GMV-mean target; intensity (p+2)/(p+2+T*d'Σ⁻¹d) | Formula identities, smaller cross-sectional dispersion, future-perturbation invariance | 96 tests pass (11 new); 337 windows independently checked; dispersion reduced at every date; mean intensity 62.56% main / 63.80% extended; no predictive scores computed | Implementation default; no future-return ranking; holdout still open |
 
 ## Rules
 

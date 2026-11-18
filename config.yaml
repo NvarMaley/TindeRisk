@@ -63,6 +63,14 @@ portfolio:
   borrowing_spread_bps: 100    # cost of borrowed amount = DTB3 + spread (DR-03)
   max_weight_per_asset: 0.35
 
+# Step 2.3: implement Raf's shrinkage rule, not a winner selected on future returns.
+expected_returns:
+  method: regularized_bayes_stein
+  target: gmv_mean
+  covariance: lw_constcorr
+  units: annualized_excess_arithmetic
+  status: implementation_default_not_final_oos_validated
+
 validation:
   method: walk_forward
   final_test_start: null  # to be decided before the final evaluation
