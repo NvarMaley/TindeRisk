@@ -157,7 +157,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 3.4 | Implement adaptive selection (minimize expected posterior variance) plus block quotas | 🟢 | |
 | [ ] | 3.5 | Define the stopping rule (SD < threshold or 15 questions) | 🟢 | |
 | [ ] | 3.6 | Add a mirrored question, inconsistency detection, and messages | 🟢 | |
-| [ ] | 3.7 | Define capacity rules → σ*_cap (maximum loss, horizon, liquidity) | 🔴 | |
+| [x] | 3.7 | Define capacity rules → σ*_cap (maximum loss, horizon, liquidity) — [calculation and limiting answers](docs/20_FIXED_PROFILE_SCORING.md) | 🔴 | Codex |
 | [ ] | 3.8 | Calibrate Tobin φ → σ*_tol, apply the capacity cap, then recalculate achieved volatility | 🔴 | |
 | [ ] | 3.8b | Map the capped continuous estimate deterministically to Conservative, Balanced, Growth, or Aggressive | 🔴 | |
 | [ ] | 3.8c | Test every category boundary and verify that capacity always overrides higher tolerance | 🔴 | |

@@ -26,6 +26,16 @@ capacity falls below the range of the catalogue. The loss in F04 is a
 constraint on the client's finances. A volatility ceiling cannot guarantee
 that losses stay below that threshold.
 
+### Step 3.7 · Capacity calculation on its own
+
+`src.fixed_profile.assess_financial_capacity(answers)` accepts the four
+capacity responses F01–F04 and returns each candidate ceiling, the minimum,
+all binding question IDs and the items to clarify. For example, uncertain
+withdrawals (F02) and a cash reserve below one month (F03) both imply 4%.
+Both are binding, and F02 alone requires clarification. The fixed profile
+uses this same function. The 3.7 notebook cell shows the individual caps
+and checks which inputs set the limit on synthetic cases.
+
 ## Risk tolerance
 
 Normalize each tolerance answer to a point value between zero and one.
