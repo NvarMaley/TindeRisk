@@ -33,8 +33,11 @@ def test_q_filters_unstable_views_and_excludes_entire_final_test_month():
     assert q.loc["stable"] == pytest.approx(.0336)
     assert report["status"].to_dict() == {"stable": "active", "unstable": "unstable"}
     assert report.loc["stable", "validation_months"] == 12
+    assert report.loc["stable", "validation_mse"] == pytest.approx(1e-8)
     history.loc["2017-01":] = -100
-    pd.testing.assert_series_equal(estimate_relative_q(p, history, **dates)[1], q)
+    _, new_q, new_report = estimate_relative_q(p, history, **dates)
+    pd.testing.assert_series_equal(new_q, q)
+    pd.testing.assert_frame_equal(new_report, report)
 
 
 def test_q_removes_view_if_its_frozen_training_mean_cannot_beat_zero():

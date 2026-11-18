@@ -164,6 +164,28 @@ The notebook illustrates these rules on synthetic returns. The checks
 define calibration eligibility. Predictive approval remains a separate
 requirement in Step 4.6.
 
+### 7.3 View uncertainty Omega
+
+Take the mean squared error (MSE) of each active view's frozen training
+forecast on its completed validation months. Step 4.3b supplies this error
+before refitting the spread, so training fit and final-test outcomes do not
+enter this uncertainty estimate. The supplied StockTwits counts do not
+include classifier probabilities. Message volume may be studied as a
+separate weight once a dated view has been validated.
+
+For each row `p` of `P`, multiply the daily spread MSE by 252² so that it
+matches the squared units of the annualized `Q`. Use the larger of this
+quantity and the prior view variance `tau × p × Sigma × pᵀ` as the diagonal
+entry of `Omega`. This conservative floor protects against spuriously
+small validation errors. `Sigma` is the annualized asset covariance in
+portfolio order. The current single-view rule yields a diagonal matrix.
+
+The notebook varies the validation-error component by 0.5×, 1× and 2×
+with the prior floor fixed. For one view, its weight in the posterior
+spread is `prior_view_variance / (prior_view_variance + Omega)`. A lower
+weight means a smaller revision toward `Q`. The current empty `P`
+produces an empty `Omega`.
+
 ## 8. Strategies
 
 ### 8.1 Baselines
