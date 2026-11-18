@@ -61,6 +61,7 @@ def test_reject_derived_values_that_disagree_with_answers(answers, section, fiel
     ('{"value": NaN}', "non-finite"),
     ('{"value": 1e500}', "non-finite"),
     ('{"schema_version":', "invalid profile JSON"),
+    pytest.param("[" * 2000 + "]" * 2000, "invalid profile JSON|JSON object", id="deep-array"),
     (b"\xff", "UTF-8"),
 ])
 def test_reject_malformed_or_ambiguous_files(payload, reason):

@@ -74,6 +74,6 @@ def import_profile(payload: str | bytes) -> dict:
     try:
         profile = json.loads(payload, object_pairs_hook=_unique_object,
                              parse_float=_finite_float, parse_constant=_finite_float)
-    except json.JSONDecodeError as error:
+    except (json.JSONDecodeError, RecursionError) as error:
         raise ValueError("invalid profile JSON") from error
     return _validate_profile(profile)
