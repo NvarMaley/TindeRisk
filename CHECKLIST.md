@@ -45,7 +45,7 @@
 | [ ] | 1.8 | Add `observation_date`, `available_date`, source, and download date — implemented; original StockTwits download date pending | 🔴 | Codex / Vlad |
 | [x] | 1.9 | Add automated tests for schema, duplicates, gaps, chronology, and coverage (market bundle and provisional direct-ETF sentiment) | 🔴 | Codex |
 | [x] | 1.10 | Verify total return/adjusted prices, currency, calendar, and units for each source — [conventions and approximation limits](docs/08_DATA_CONVENTIONS.md) | 🔴 | Codex |
-| [ ] | 1.11 | Build the common sample for all strategies and document the start of each series | 🔴 | |
+| [x] | 1.11 | Build the common sample for all strategies and document the start of each series — [provisional direct-ETF input and dependencies](docs/09_COMMON_SAMPLE.md) | 🔴 | Codex |
 | [ ] | 1.12 | Create a small, publishable demonstration dataset with no restricted data | 🔴 | |
 
 <a id="gics-dependency"></a>
@@ -76,11 +76,21 @@ checks in 1.6 rather than waiting for either source.
 - Step 1.4b remains open: direct ETF tags are a provisional input, not a validated historical company-to-GICS mapping.
 - Step 1.4b source audit: the local CRSP monthly extract contains `Ticker`, `PERMNO`, `SICCD`, `NAICS`, `ICBIndustry`, and security-history dates; the Compustat annual extract contains `gvkey`, `datadate`, and `sich`. Neither extract contains historical GICS sector codes. Completion requires a dated GICS classification linked to stable company identifiers, plus historical ticker validity and classification availability dates. SIC/ICB codes and today's classifications must not be silently substituted for historical GICS. This source dependency remains unresolved; the direct-ETF signal is still provisional.
 - Step 1.6 passed for the market bundle and provisional direct-ETF sentiment: `python -m src.audit_data` checked all 5,505 price sessions for 13 assets against the NYSE calendar, with zero missing/unexpected sessions, complete positive finite prices, consistent returns, and aligned risk-free/excess returns. No absolute daily moves exceeded the 25% review threshold. Sentiment availability now uses the strictly next NYSE session, tested on holidays, weekends and the 2012 Hurricane Sandy closure; the asset artifact was regenerated. Zero-labelled days retain undefined polarity rather than being replaced by artificial zeros. The local market report is `data/processed/quality_report.json`; 30 tests pass. Re-run these checks when company-derived sentiment is introduced after [1.4b](#gics-dependency).
-- Steps 1.8 and 1.11 remain open: original StockTwits retrieval provenance and a finalized common signal sample still require work. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
+- Step 1.8 remains open for original StockTwits retrieval provenance. Common market samples are prepared in 1.11; final train/validation/test periods and signal eligibility remain open in 0.11 and 4.3c/4.6. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
 - Step 1.8 implemented and generated: market and direct-ETF sentiment provenance sidecars retain observation and modelled availability dates, source, retrieval status, actual Yahoo/FRED retrieval timestamps, and source checksums. The numerical input schemas are unchanged. 32 tests pass. Keep the box open until the StockTwits provider supplies the original download date (currently explicitly null, never fabricated). Details and remaining timing limitations: [data provenance](data/README_data.md#observation-level-provenance-step-18). Before final backtesting, review same-date DTB3 usage and distinguish latest-vintage FRED assumptions from genuine point-in-time information. Work on 1.9 can proceed independently of this provider dependency.
 - Step 1.9 verified: 52 tests pass, including deliberately invalid schemas, duplicate/unsorted dates, missing NYSE sessions, holiday availability, nonfinite/fractional counts, inconsistent polarities, corrupted return arithmetic, misaligned risk-free/macro inputs and missing configured assets. `python -m src.audit_data` passes on the local bundle and checks stored SHA-256 hashes. The report measures sentiment coverage and undefined polarity per asset, without filling observations. IEF has 950 NYSE sessions without a message-date observation between its first/last observations; these are not assumed to be neutral sentiment or lost source rows. Revisit coverage and signal eligibility in **1.11, 4.3c and 4.6**. Passing quality tests is not proof of predictive power or point-in-time source validity; the [GICS gate](#gics-dependency) remains open.
 - Step 1.10 verified: `python -m src.check_conventions` confirmed USD quote currency and New York exchange timezone for all 13 tickers, cross-checked adjusted returns against Yahoo Adj Close over 2019, and verified DTB3 percent-to-decimal daily-proxy arithmetic. Macro units, transforms, return annualization and StockTwits units are documented with official source links in [data conventions](docs/08_DATA_CONVENTIONS.md). The local timestamped report is `data/processed/conventions_report.json`; 56 tests pass. DTB3/100/252 remains an explicitly approximate proxy, not an exact bill holding-period return. Resolve publication timing and cash/borrowing accrual in 6.1/6.3; this completed convention audit is not certification of historical vintages or predictive signals.
 - Step 2 work implemented by Raf is present in the notebook, but has not been independently reproduced end to end here; its boxes remain open pending verification.
+
+Step 1.11 verified: [common-sample builder](src/build_common_sample.py) generated
+2,578 common main sessions (2010-01-04–2020-03-31) and 4,497 extended sessions
+(2009-01-02–2026-11-17), excluding the unfinished current session. Both preserve
+756 strictly prior warm-up returns. Sentiment counts are grouped by availability
+session; missing views stay missing and do not remove market dates. Input/output
+hashes, per-series starts and signal coverage are saved locally. 60 tests pass.
+See [the sample specification](docs/09_COMMON_SAMPLE.md) before 4.3c/4.6, 5.3,
+and 6.1/6.11. Rebuild after the [GICS dependency](#gics-dependency) is resolved;
+this does not close the final holdout or predictive-validation tasks.
 
 ## Step 2 — Exploration & Estimation
 

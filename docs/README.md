@@ -12,6 +12,7 @@ Recommended reading order:
 6. [`06_EXPERIMENT_LOG.md`](06_EXPERIMENT_LOG.md) — hypotheses, tested variants, and decisions made to limit data snooping.
 7. [`07_USER_JOURNEY.md`](07_USER_JOURNEY.md) — risk categories, portfolio cards, client selection, and live monitoring.
 8. [`08_DATA_CONVENTIONS.md`](08_DATA_CONVENTIONS.md) — verified source units, adjusted prices, currency, return conventions and cash-proxy limitations.
+9. [`09_COMMON_SAMPLE.md`](09_COMMON_SAMPLE.md) — aligned comparison calendars, strictly prior warm-up, sparse sentiment availability and rebuild gates.
 
 Additional execution documents:
 

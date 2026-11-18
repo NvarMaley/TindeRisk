@@ -69,6 +69,17 @@ consumed, and DTB3 same-date usage requires a publication-timing review before
 the final backtest. A date alone does not certify that a value was known at the
 open. Prices are available at the close, not the start of the same day.
 
+## Common comparison samples (Step 1.11)
+
+Run `python -m src.build_common_sample` after both data builders. It retains
+common complete market dates, excludes unclosed sessions, exports strictly
+prior warm-up returns and aligns message counts on their availability sessions.
+No missing sentiment is filled and no market dates are removed for missing
+views. Periods, source coverage and input/output hashes are saved in
+`common_sample_manifest.json`. See the
+[common-sample specification](../docs/09_COMMON_SAMPLE.md) for filenames,
+remaining GICS/cash-timing dependencies and signal-validation requirements.
+
 ## Market quality audit
 
 Run `python -m src.audit_data` after building the market bundle. The audit
