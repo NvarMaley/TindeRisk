@@ -107,6 +107,27 @@ was effective and known on the observation date. [CCM HGIC data
 guide](https://wrds-www.wharton.upenn.edu/documents/402/CRSP-Compustat_Merged_Database_Data_Guide_9efDcmD.pdf),
 [S&P Global GICS History](https://www.marketplace.spglobal.com/en/datasets/gics-%2890%29).
 
+## Company-derived sector sentiment
+
+Step 4.1d tests a separate hypothesis from the LN7 company event study:
+monthly polarity pooled across companies in a historical GICS sector could
+relate to that sector's next-month return relative to the market. The notebook
+calculates sector polarity and coverage. The comparison with forward returns and
+its statistical validation are still pending.
+
+For each eligible ticker-day, use the sector matched on the message date.
+Sum bullish, bearish and total counts by sector, then calculate
+`(bullish - bearish) / (bullish + bearish)` from the pooled counts.
+The panels also report labelled counts and distinct GVKEYs. Days with ambiguous
+or unavailable links contribute no counts. If a group has zero labelled
+messages, its polarity stays undefined. Counts represent ticker mentions.
+
+Monthly groups use the month of the next NYSE session after each message date.
+The completed monthly signal is usable from the first NYSE session of the
+following month. Keep incomplete months out of forward-return tests.
+The notebook reports coverage on closed months and exposes a synthetic
+month-end timing check that runs without the licensed inputs.
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation

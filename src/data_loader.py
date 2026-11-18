@@ -52,6 +52,12 @@ def _normalise_datetime(values: pd.Series | pd.Index) -> pd.DatetimeIndex:
     return dates.tz_convert(None).normalize()
 
 
+def sentiment_polarity(counts: pd.DataFrame) -> pd.Series:
+    """Compute polarity from pooled bullish and bearish counts."""
+    labelled = counts["Nbullish"] + counts["Nbearish"]
+    return (counts["Nbullish"] - counts["Nbearish"]) / labelled.replace(0, np.nan)
+
+
 def validate_sentiment_firm_daily(frame: pd.DataFrame) -> None:
     """Validate the contract of the published firm-day sentiment artifact."""
     missing = [column for column in SENTIMENT_COLUMNS if column not in frame.columns]
@@ -78,8 +84,7 @@ def validate_sentiment_firm_daily(frame: pd.DataFrame) -> None:
         raise ValueError("bullish plus bearish counts cannot exceed total messages")
     if frame["polarity"].dropna().abs().gt(1).any():
         raise ValueError("sentiment polarity must be in [-1, 1]")
-    labelled = frame["Nbullish"] + frame["Nbearish"]
-    expected = (frame["Nbullish"] - frame["Nbearish"]) / labelled.replace(0, np.nan)
+    expected = sentiment_polarity(frame)
     if not np.allclose(frame["polarity"].to_numpy(dtype=float), expected, equal_nan=True):
         raise ValueError("sentiment polarity is inconsistent with counts")
 
@@ -133,10 +138,7 @@ def aggregate_sentiment_to_assets(
         [["Nbullish", "Nbearish", "N"]]
         .sum()
     )
-    labelled = grouped["Nbullish"] + grouped["Nbearish"]
-    grouped["polarity"] = (
-        (grouped["Nbullish"] - grouped["Nbearish"]) / labelled.replace(0, np.nan)
-    )
+    grouped["polarity"] = sentiment_polarity(grouped)
     return grouped.sort_values(["asset", "date"], ignore_index=True)
 
 
