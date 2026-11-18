@@ -292,6 +292,8 @@ Stop when the **posterior standard deviation of θ < threshold** (e.g., 0.20) **
 - Detect tolerance/capacity contradictions (e.g., wants substantial risk but horizon < 2 years) → explanatory message.
 
 ### 3.7 Capacity → σ*_capacity (explicit rules)
+The fixed MVP uses the [explicit capacity ceilings and tolerance score from 3.0c](docs/20_FIXED_PROFILE_SCORING.md). The Gaussian loss heuristic below describes an alternative model.
+
 - **Maximum loss L** (1 year, in %): using a 95% Gaussian approximation, loss ≈ 1.645·σ − μ, therefore
   $$\sigma^*_{\text{cap}} \approx \frac{L + \mu_{\text{port}}}{1.645}$$
 - **Horizon:** caps by bracket (e.g., < 2 years → σ ≤ 5%; 2–5 years → σ ≤ 10%; > 5 years → no cap). Values must be **justified** in the documentation.
