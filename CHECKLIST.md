@@ -142,7 +142,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 3.0b | Draft the fixed 10–15-question baseline using neutral wording — [14 questions](questions/fixed_mvp.json) | 🔴 | Codex |
 | [x] | 3.0c | Define fully explainable scoring rules and capacity caps — [tables and examples](docs/20_FIXED_PROFILE_SCORING.md) | 🔴 | Codex |
 | [x] | 3.0d | Freeze and document the JSON `profile` output format — [v1 schema and example](docs/21_PROFILE_JSON.md) | 🔴 | Codex |
-| [ ] | 3.0e | Conduct user testing for comprehension, edge cases, and test-retest stability | 🔴 | |
+| [ ] | 3.0e | Conduct user testing for comprehension, edge cases, and test-retest stability — [protocol ready and synthetic cases verified](docs/22_PROFILE_PILOT.md); participant sessions pending | 🔴 | Codex |
 | [ ] | 3.0f | Display that the tool is academic and not psychometrically certified | 🔴 | |
 | [ ] | 3.0g | Test profile serialization, import/export, and version compatibility | 🔴 | |
 | [ ] | 3.1a | Draft the 10 Block A questions (capacity) | 🟢 | |
