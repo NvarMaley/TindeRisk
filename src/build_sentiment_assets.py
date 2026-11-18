@@ -58,6 +58,12 @@ def main() -> None:
         "company_to_gics_status": "pending a dated and reviewed mapping",
         "source_file": "sentiment_firm_daily.parquet",
         "source_sha256": sha256_file(PROCESSED_DATA / "sentiment_firm_daily.parquet"),
+        "files": {
+            name: {"sha256": sha256_file(PROCESSED_DATA / name)}
+            for name in ["sentiment_asset_daily.parquet",
+                         "sentiment_observation_provenance.parquet",
+                         "sentiment_asset_coverage.csv"]
+        },
         "downloaded_at_utc": None,
         "download_status": "unknown_original_download; request from data provider; build time is not download time",
     }
