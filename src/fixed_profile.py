@@ -26,6 +26,32 @@ TOLERANCE_POINTS = {
 
 
 @dataclass(frozen=True)
+class CapacityAssessment:
+    """Capacity ceilings, limiting responses and unresolved capacity answers."""
+
+    caps: dict[str, float]
+    volatility: float
+    binding_items: tuple[str, ...]
+    clarification_items: tuple[str, ...]
+
+
+def assess_financial_capacity(answers: Mapping[str, str | list[str]]) -> CapacityAssessment:
+    """Assess the four required capacity answers independently of willingness."""
+    caps = {}
+    clarify = []
+    for key, rule in CAPACITY_RULES.items():
+        choice = answers.get(key)
+        if not isinstance(choice, str) or choice not in rule:
+            raise ValueError(f"{key} requires one valid capacity answer")
+        caps[key] = rule[choice]
+        if choice == "unsure":
+            clarify.append(key)
+    limit = min(caps.values())
+    binding = tuple(key for key, cap in caps.items() if cap == limit)
+    return CapacityAssessment(caps, limit, binding, tuple(clarify))
+
+
+@dataclass(frozen=True)
 class FixedScoringResult:
     """Internal scoring output. The shared profile format follows in Step 3.0d."""
 
@@ -69,22 +95,23 @@ def score_fixed_profile(answers: Mapping[str, str | list[str]], *,
             raise ValueError(f"{key} requires exclusive choices to stand alone")
 
     points = {key: rule[answers[key]] for key, rule in TOLERANCE_POINTS.items()}
-    caps = {key: rule[answers[key]] for key, rule in CAPACITY_RULES.items()}
+    capacity = assess_financial_capacity(answers)
     score = sum(points.values()) / len(points)
     aversion = 7 - 4.5 * score
     tolerance = tolerance_volatility(aversion, reference_sharpe)
-    capacity = min(caps.values())
-    effective, band = category_from_profile(tolerance, capacity)
+    effective, band = category_from_profile(tolerance, capacity.volatility)
     if effective < RISK_BANDS[0].min_volatility:
         band = None
 
-    uncertain = tuple(key for key in (*CAPACITY_RULES, *TOLERANCE_POINTS, "F12", "F13", "F14")
-                      if answers[key] in ("unsure", ["unsure"]))
+    uncertain = capacity.clarification_items + tuple(
+        key for key in (*TOLERANCE_POINTS, "F12", "F13", "F14")
+        if answers[key] in ("unsure", ["unsure"])
+    )
     reference_within_limit = (
         not uncertain and band is not None
         and (band.reference_volatility <= effective
              or isclose(band.reference_volatility, effective, rel_tol=0, abs_tol=1e-12))
     )
-    return FixedScoringResult(points, score, aversion, tolerance, caps, capacity,
-                              tuple(key for key, cap in caps.items() if cap == capacity),
+    return FixedScoringResult(points, score, aversion, tolerance, capacity.caps,
+                              capacity.volatility, capacity.binding_items,
                               effective, band, reference_within_limit, uncertain)
