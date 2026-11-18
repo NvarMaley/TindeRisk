@@ -1,4 +1,4 @@
-"""Select a monthly Gaussian HMM on macro training data."""
+"""Select and filter a monthly Gaussian HMM on macro data."""
 
 from collections.abc import Sequence
 
@@ -6,8 +6,12 @@ from hmmlearn.hmm import GaussianHMM
 import numpy as np
 import pandas as pd
 import pandas_market_calendars as mcal
+from scipy.optimize import linear_sum_assignment
+from scipy.special import logsumexp
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
+
+from .data_loader import next_market_session
 
 
 def macro_month_ends(daily: pd.DataFrame, start, end) -> pd.DataFrame:
@@ -79,3 +83,69 @@ def select_macro_hmm(
     comparison = pd.DataFrame(rows).set_index("states").sort_index()
     comparison["delta_bic"] = comparison["bic"] - comparison["bic"].min()
     return models[comparison["bic"].idxmin()], scaler, comparison
+
+
+def filtered_state_probabilities(model: GaussianHMM, observations: np.ndarray) -> np.ndarray:
+    """Evaluate P(state_t | observations through t) using only forward updates."""
+    z = np.asarray(observations, dtype=float)
+    if (model.covariance_type != "diag" or z.ndim != 2 or len(z) == 0
+            or z.shape[1] != model.means_.shape[1] or not np.isfinite(z).all()):
+        raise ValueError("Filtering requires a diagonal HMM and finite observations")
+    variances = np.diagonal(model.covars_, axis1=1, axis2=2)
+    if not np.isfinite(variances).all() or (variances <= 0).any():
+        raise ValueError("Each state requires positive, finite emission variances")
+    distance = z[:, None, :] - model.means_[None, :, :]
+    emissions = -0.5 * (np.log(2 * np.pi * variances) + distance**2 / variances).sum(axis=2)
+    with np.errstate(divide="ignore"):
+        log_start = np.log(model.startprob_)
+        log_transitions = np.log(model.transmat_)
+    result = np.empty_like(emissions)
+    log_prior = log_start
+    for i, emission in enumerate(emissions):
+        log_joint = log_prior + emission
+        normalizer = logsumexp(log_joint)
+        if not np.isfinite(normalizer):
+            raise ValueError("The HMM assigns no probability to the observed sequence")
+        log_filtered = log_joint - normalizer
+        result[i] = np.exp(log_filtered)
+        log_prior = logsumexp(log_filtered[:, None] + log_transitions, axis=0)
+    return result
+
+
+def expanding_regime_probabilities(
+    panel: pd.DataFrame,
+    *,
+    first_observation,
+    states: int,
+    seeds: Sequence[int] = tuple(range(12)),
+) -> pd.DataFrame:
+    """Re-estimate before each month, then filter through that month's observation."""
+    dates = panel.index
+    if (not isinstance(dates, pd.DatetimeIndex) or dates.hasnans
+            or dates.tz is not None or not dates.is_unique or not dates.is_monotonic_increasing):
+        raise ValueError("Regime observations require sorted, unique timezone-naive dates")
+    first = dates.get_indexer([pd.Timestamp(first_observation)])[0]
+    if first < 12:
+        raise ValueError("The first prediction must follow at least 12 training months")
+    if not dates.to_period("M").equals(pd.period_range(dates[0], periods=len(dates), freq="M")):
+        raise ValueError("Regime observations must be consecutive months")
+
+    rows = []
+    for position in range(first, len(dates)):
+        train = panel.iloc[:position]
+        model, scaler, comparison = select_macro_hmm(train, candidates=(states,), seeds=seeds)
+        if position == first:
+            reference_means, reference_scaler = model.means_.copy(), scaler
+        means = (scaler.inverse_transform(model.means_) - reference_scaler.mean_) / reference_scaler.scale_
+        distances = ((reference_means[:, None, :] - means[None, :, :])**2).sum(axis=2)
+        order = linear_sum_assignment(distances)[1]
+        z = scaler.transform(panel.iloc[:position + 1])
+        probabilities = filtered_state_probabilities(model, z)[-1, order]
+        rows.append({
+            "train_through": dates[position - 1], "train_months": position,
+            "converged_starts": comparison.loc[states, "converged_starts"],
+            **{f"state_{j}": value for j, value in enumerate(probabilities)},
+        })
+    result = pd.DataFrame(rows, index=dates[first:].rename("observation_date"))
+    result.insert(0, "available_date", next_market_session(result.index))
+    return result
