@@ -116,7 +116,7 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | [x] | 2.5 | Implement reproducible baselines: equal-weighted, GMV, and 60/40 — [monthly results and assumptions](docs/15_BASELINES.md) | 🔴 | Codex |
 | [x] | 2.6 | Run diagnostics for normality, autocorrelation, historical ES, and subperiod stability — [112 verified rows](docs/16_SUBPERIOD_DIAGNOSTICS.md) | 🟡 | Codex |
 | [x] | 2.7 | Add unit-consistency tests: daily/annual, variance/volatility, simple/log/excess return — [offline audit and formulas](docs/17_RETURN_UNITS.md) | 🔴 | Codex |
-| [ ] | 2.8 | Compare sample/LW by conditioning, weights, turnover, and realized-volatility error | 🔴 | |
+| [x] | 2.8 | Compare sample/LW by conditioning, weights, turnover, and realized-volatility error — [method and results](docs/18_COVARIANCE_COMPARISON.md) | 🔴 | Codex |
 | [ ] | 2.9 | LN3 option: use the resampled frontier as a demonstration, not a production requirement | 🟢 | |
 
 Step 2.1 verified: [shared statistics](src/descriptive.py) and
