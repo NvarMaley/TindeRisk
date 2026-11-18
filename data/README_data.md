@@ -178,11 +178,21 @@ sentences, including neutral. The published date and the next NYSE session
 are stored separately. The 2010–2019 scores are retrospective because the
 baseline was fitted using annotations through 2019.
 
-FOMC-RoBERTa is gated. With access to the authors' CC BY-NC checkpoint, install
-`"torch>=2.6,<3"` and `"transformers>=4.49,<5"`. Cache the official model at
-revision `1c0e40cc6f364fe60f92482ffa496f65647f4a34`, then run
-`python -m src.fomc roberta`. Offline mode uses only that cached revision
-and writes a separate result. Market predictiveness remains to be tested.
+Request access to FOMC-RoBERTa from the model card while signed into Hugging
+Face. After approval, install the optional compute dependencies and download the
+pinned checkpoint with the approved account.
+
+```sh
+python -m pip install "torch>=2.6,<3" "transformers>=4.49,<5"
+hf auth login
+hf download gtfintechlab/FOMC-RoBERTa --revision 1c0e40cc6f364fe60f92482ffa496f65647f4a34
+python -m src.fomc roberta
+```
+
+The final command runs offline. The Step 4.2 notebook cell also selects the
+pinned checkpoint when it is cached. Otherwise it runs the baseline and
+reports its identity explicitly. The two classifiers write separate files.
+Market predictiveness remains to be tested.
 [Model card and access](https://huggingface.co/gtfintechlab/FOMC-RoBERTa),
 [Shah, Paturi and Chava (2023)](https://aclanthology.org/2023.acl-long.368/).
 
