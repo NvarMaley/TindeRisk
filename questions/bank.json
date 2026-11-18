@@ -179,7 +179,488 @@
     "B": {
       "name": "psychometric risk tolerance",
       "target_count": 20,
-      "questions": []
+      "questions": [
+        {
+          "id": "B01",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Your investment falls 10% in three months. Your plans are unchanged. What would you do?",
+          "options": {
+            "low": "Move all of it to steadier investments",
+            "medium_low": "Move about half to steadier investments",
+            "medium_high": "Move a small part to steadier investments",
+            "high": "Keep the same mix",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "reaction",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B02",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Which temporary drop could you accept while keeping the same mix?",
+          "options": {
+            "low": "Less than 5%",
+            "medium_low": "5% to under 10%",
+            "medium_high": "10% to under 20%",
+            "high": "20% or more",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "loss_comfort",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B03",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Both can lose value. How much would you put in stocks if the rest went into steadier bonds?",
+          "options": {
+            "low": "None in stocks",
+            "medium_low": "About a quarter in stocks",
+            "medium_high": "About half in stocks",
+            "high": "About three quarters in stocks",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "risk_mix",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B04",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Each card has two equally likely outcomes in a year. Which would you pick for CHF 1,000?",
+          "options": {
+            "low": "Lose CHF 20 or gain CHF 50",
+            "medium_low": "Lose CHF 50 or gain CHF 100",
+            "medium_high": "Lose CHF 90 or gain CHF 160",
+            "high": "Lose CHF 140 or gain CHF 230",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "tradeoff",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B05",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "To seek more growth, how much extra movement in value would you accept over a year?",
+          "options": {
+            "low": "No extra movement",
+            "medium_low": "A little extra movement",
+            "medium_high": "Some extra movement",
+            "high": "A lot of extra movement",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "tradeoff",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B06",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "A broad market drop takes CHF 200 off CHF 2,000. Your plans are unchanged. What would you do?",
+          "options": {
+            "low": "Replace all my stock funds with steadier holdings",
+            "medium_low": "Replace half my stock funds",
+            "medium_high": "Replace a small part of my stock funds",
+            "high": "Keep my stock funds",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "reaction",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B07",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "How large a one-month dip could you accept while keeping the same mix?",
+          "options": {
+            "low": "Less than 2%",
+            "medium_low": "2% to under 5%",
+            "medium_high": "5% to under 10%",
+            "high": "10% or more",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "loss_comfort",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B08",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "When investing spare cash, what share would you put in an option with larger price swings?",
+          "options": {
+            "low": "None",
+            "medium_low": "About a quarter",
+            "medium_high": "About half",
+            "high": "About three quarters",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "risk_mix",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B09",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "For CHF 1,000, each card shows two equally likely changes in one year. Which would you pick?",
+          "options": {
+            "low": "Lose CHF 10 or gain CHF 35",
+            "medium_low": "Lose CHF 35 or gain CHF 75",
+            "medium_high": "Lose CHF 70 or gain CHF 125",
+            "high": "Lose CHF 120 or gain CHF 195",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "tradeoff",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B10",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "One year ends down 5%. You do not need the money soon. How much risk would you dial back?",
+          "options": {
+            "low": "A lot",
+            "medium_low": "Some",
+            "medium_high": "A little",
+            "high": "None",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "reaction",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B11",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Your account peaked at CHF 1,000. How far could it drop before you wanted a steadier mix?",
+          "options": {
+            "low": "A drop of less than CHF 50",
+            "medium_low": "A drop of CHF 50 to under CHF 100",
+            "medium_high": "A drop of CHF 100 to under CHF 200",
+            "high": "A drop of CHF 200 or more",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "loss_comfort",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B12",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "You have two diversified funds for the same goal. How much would you put in the one with bigger swings?",
+          "options": {
+            "low": "None of the investment",
+            "medium_low": "About a quarter",
+            "medium_high": "About half",
+            "high": "Almost all of the investment",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "risk_mix",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B13",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "How much growth potential would you give up if it meant smaller drops?",
+          "options": {
+            "low": "A lot",
+            "medium_low": "Some",
+            "medium_high": "A little",
+            "high": "None",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "tradeoff",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B14",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Prices are swinging more than usual and your cash needs are unchanged. What would you do?",
+          "options": {
+            "low": "Move most of my investment to steadier holdings",
+            "medium_low": "Move about half to steadier holdings",
+            "medium_high": "Move a small part to steadier holdings",
+            "high": "Keep the same mix",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "reaction",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B15",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "A bad quarter costs you CHF 100 on CHF 1,000. How comfortable would you be keeping the same mix?",
+          "options": {
+            "low": "Very uncomfortable",
+            "medium_low": "Somewhat uncomfortable",
+            "medium_high": "Somewhat comfortable",
+            "high": "Very comfortable",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "loss_comfort",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B16",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "You can split a long-term contribution between a steadier fund and one that swings more. How would you split it?",
+          "options": {
+            "low": "All in the steadier fund",
+            "medium_low": "Mostly in the steadier fund",
+            "medium_high": "Half in each fund",
+            "high": "Mostly in the fund that swings more",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "risk_mix",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B17",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Higher growth potential comes with a deeper dip in a bad year. Which bad-year dip could you accept on CHF 1,000?",
+          "options": {
+            "low": "Up to CHF 30",
+            "medium_low": "Up to CHF 60",
+            "medium_high": "Up to CHF 100",
+            "high": "Up to CHF 150",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "tradeoff",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B18",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "Your investment goes down for the second year in a row. Your plans are unchanged. What would you do?",
+          "options": {
+            "low": "Move most of it to steadier investments",
+            "medium_low": "Move about half to steadier investments",
+            "medium_high": "Move a small part to steadier investments",
+            "high": "Keep the same mix",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "reaction",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B19",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "How much do price swings bother you when your long-term plans are on track?",
+          "options": {
+            "low": "A lot",
+            "medium_low": "Quite a bit",
+            "medium_high": "A little",
+            "high": "Very little",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "loss_comfort",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        },
+        {
+          "id": "B20",
+          "bloc": "B",
+          "type": "ordered",
+          "dimension": "tolerance",
+          "texte": "If both options fit your plans, how much of the money would you put in the fund with bigger potential gains and losses?",
+          "options": {
+            "low": "None",
+            "medium_low": "About a quarter",
+            "medium_high": "About half",
+            "high": "Most of the money",
+            "unsure": "Skip this card"
+          },
+          "params": {
+            "theme": "risk_mix",
+            "ordered_option_ids": [
+              "low",
+              "medium_low",
+              "medium_high",
+              "high"
+            ]
+          },
+          "condition": null
+        }
+      ]
     },
     "C": {
       "name": "portfolio swipe comparisons",

@@ -48,7 +48,7 @@ and A09 records experience. The fixed capacity calculation still uses F01–F04.
   distinguish willingness to accept risk from the ability to absorb a loss.
   Block A supplies the financial ceiling. It leaves willingness to Blocks B and C.
 - [Grable and Lytton](https://static.arnaudsylvain.fr/2017/03/Grable-Lyton-1999-Financial-Risk-revisited.pdf)
-  developed a multi-item financial tolerance instrument. Block B will use
+  developed a multi-item financial tolerance instrument. Block B uses
   original questions based on everyday investment situations.
 - [Holt and Laury](https://www.aeaweb.org/articles?id=10.1257%2F000282802762024700)
   use repeated pairs of risky prospects to infer a preference from choices.
@@ -63,3 +63,19 @@ higher-risk option when implementing the swipe cards. An illustrative card
 could start with CHF 1,000 and two equally likely one-year outcomes. One
 option shows –CHF 50 or +CHF 90; the other shows –CHF 150 or +CHF 220.
 The calculation of risk aversion stays behind the cards.
+
+## Tolerance cards · Step 3.1b
+
+Block B contains 20 original cards across four themes with five cards each.
+The themes cover reactions to declines, comfort with losses, the share placed
+in riskier investments, and the trade-off between fluctuations and growth.
+Similar topics use different situations, which gives the future selection
+and pilot work a basis for spotting redundant cards.
+
+Each card keeps four ordered choices in `params.ordered_option_ids`, from
+lower to higher willingness to accept risk. The separate `unsure` choice is
+displayed as “Skip this card.” It has no position on the ordered scale and
+supplies no evidence about risk aversion. Discrimination and thresholds
+belong to Step 3.2c. Step 3.1c will define the separate set of two-option
+portfolio comparisons. The notebook reads and displays the draft from
+`bank.json` without market data.
