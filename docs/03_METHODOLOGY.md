@@ -213,6 +213,22 @@ An option within the core only if the previous three methods have been stabilize
 
 Extension. First compare descriptive GMM/HMM, select the number of states on the training set using BIC and stability, and then use only filtered probabilities. Test a static version as the baseline and measure the gain net of costs.
 
+For Step 4.4a, sample the six publication-lagged FRED features at the last
+scheduled NYSE session of each completed month. Fit the scaler on the
+exploratory training window January 2005–December 2015. Fit diagonal Gaussian
+HMMs with three and four states using 12 deterministic starts each. For each
+candidate keep the converged run with the highest log-likelihood and select
+the lowest BIC on the same sample. Repeat the comparison through December
+2014 to check sensitivity to the training endpoint.
+[hmmlearn model selection](https://hmmlearn.readthedocs.io/en/latest/auto_examples/plot_gaussian_model_selection.html).
+
+The 132-month run selects four states (BIC 1243.94 versus 1357.70). The
+120-month sensitivity run selects four as well. These fits use latest-vintage
+FRED exports with modeled publication lags. Recheck the selection with
+historical vintages before using regime probabilities in a backtest. The
+final project test split stays open. Step 4.4b implements filtering.
+[ALFRED historical vintages](https://alfred.stlouisfed.org/help/downloaddata).
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
