@@ -226,8 +226,23 @@ The 132-month run selects four states (BIC 1243.94 versus 1357.70). The
 120-month sensitivity run selects four as well. These fits use latest-vintage
 FRED exports with modeled publication lags. Recheck the selection with
 historical vintages before using regime probabilities in a backtest. The
-final project test split stays open. Step 4.4b implements filtering.
+final project test split stays open.
 [ALFRED historical vintages](https://alfred.stlouisfed.org/help/downloaddata).
+
+Step 4.4b fixes the exploratory state count at four and uses six starts
+per monthly fit. For each month, refit both the scaler and the HMM on months
+strictly before the observation, then apply the forward filter through the
+current observation. Store the probability vector with the next NYSE
+session as its availability date. Match state means between fits and the
+first model in the first scaler's units, so the numerical labels have a
+common reference across re-estimation.
+[Rabiner's forward algorithm](https://www.ee.columbia.edu/~dpwe/e6820/papers/Rabiner89-hmm.pdf).
+
+The exploratory run produces 24 monthly vectors for 2016–2017. The same
+numerical state ranks first in all 24. Appending future observations leaves
+past filtered estimates unchanged in the tested sequence. This chronology
+check concerns the filtering algorithm. Historical data vintages are still
+needed to remove revision leakage before backtesting.
 
 ## 9. Backtest
 

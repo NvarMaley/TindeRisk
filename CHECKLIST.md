@@ -184,7 +184,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | Estimator tested. Live calibration awaits an approved view and the frozen final-test boundary. |
 | [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | Validation-error method and sensitivity verified on synthetic data. Historical calibration awaits an active view. |
 | [x] | 4.4a | Fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | Four states selected on the 2005–2015 exploratory sample. Recheck with historical FRED vintages before backtesting. |
-| [ ] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | |
+| [x] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | 24 exploratory monthly estimates; future-input invariance verified. Rebuild with historical vintages for backtesting. |
 | [ ] | 4.4c | Name and describe the regimes | 🟢 | |
 | [ ] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | |
 | [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | |
