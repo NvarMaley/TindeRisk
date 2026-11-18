@@ -2,6 +2,13 @@ import pandas as pd
 import pytest
 
 from src.audit_data import audit_prices
+from src.data_loader import next_market_session
+
+
+def test_sentiment_availability_skips_holiday_and_weekend():
+    dates = pd.to_datetime(["2024-07-03", "2024-07-04", "2024-07-05", "2012-10-26"])
+    expected = pd.to_datetime(["2024-07-05", "2024-07-05", "2024-07-08", "2012-10-31"])
+    pd.testing.assert_index_equal(next_market_session(dates), expected, check_names=False)
 
 
 def test_exchange_holiday_is_not_a_gap():

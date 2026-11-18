@@ -43,7 +43,7 @@ def main() -> None:
     metadata = {
         "created_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "method": "direct ETF and SPY StockTwits tags only",
-        "anti_look_ahead": "available_date is the next business day after message date",
+        "anti_look_ahead": "available_date is the strictly next NYSE session after message date, including exchange holidays",
         "mapped_tickers": mapping,
         "company_to_gics_status": "pending a dated and reviewed mapping",
     }

@@ -28,6 +28,24 @@ MACRO_TRANSFORMS = {
 }
 
 
+def next_market_session(dates: pd.Series | pd.Index) -> pd.DatetimeIndex:
+    """Return the strictly following NYSE session, including holiday closures."""
+    import pandas_market_calendars as mcal
+
+    observations = _normalise_datetime(dates)
+    if observations.empty:
+        return observations
+    if observations.isna().any():
+        raise ValueError("observation dates must not contain NaT")
+    sessions = mcal.get_calendar("NYSE").valid_days(
+        observations.min(), observations.max() + pd.Timedelta(days=31), tz=None
+    )
+    positions = sessions.searchsorted(observations, side="right")
+    if (positions >= len(sessions)).any():
+        raise ValueError("calendar does not cover the next market session")
+    return sessions.take(positions)
+
+
 def _normalise_datetime(values: pd.Series | pd.Index) -> pd.DatetimeIndex:
     """Return timezone-naive, normalized dates without changing chronology."""
     dates = pd.DatetimeIndex(pd.to_datetime(values, utc=True))
@@ -61,8 +79,9 @@ def load_sentiment_firm_daily(
     """Load firm-day sentiment and add its first safe trading-use date.
 
     StockTwits messages observed on calendar day ``t`` are treated as known
-    only after that day's close, so ``available_date`` is the next business
-    day.  Passing ``tickers`` uses Parquet predicate pushdown and avoids loading
+    only after that day's close, so ``available_date`` is the strictly next
+    NYSE session (including holidays). Passing ``tickers`` uses Parquet
+    predicate pushdown and avoids loading
     the full multi-million-row dataset when only the investable ETFs are needed.
     """
     path = Path(path)
@@ -76,7 +95,7 @@ def load_sentiment_firm_daily(
     frame["date"] = _normalise_datetime(frame["date"])
     frame = frame.sort_values(["ticker", "date"], ignore_index=True)
     validate_sentiment_firm_daily(frame)
-    frame["available_date"] = frame["date"] + pd.offsets.BDay(1)
+    frame["available_date"] = next_market_session(frame["date"])
     return frame
 
 

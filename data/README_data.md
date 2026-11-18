@@ -27,8 +27,8 @@ contains no message text or user identifiers.
 | `returns.parquet`, `log_returns.parquet` | Derived from adjusted prices | No price filling |
 | `rf_daily.parquet` | FRED DTB3 | Last observation forward-filled on trading days |
 | `macro.parquet` | FRED series in `config.yaml` | Daily: next business day; monthly: end of following month |
-| `sentiment_firm_daily.parquet` | Professor-provided StockTwits data | Message day; usable from next business day |
-| `sentiment_asset_daily.parquet` | Direct StockTwits tags for the 12 ETFs and SPY | Next business day; provisional MVP signal |
+| `sentiment_firm_daily.parquet` | Professor-provided StockTwits data | Message day; loader assigns the strictly next NYSE session |
+| `sentiment_asset_daily.parquet` | Direct StockTwits tags for the 12 ETFs and SPY | Next NYSE session including holidays; provisional MVP signal |
 
 The notebook and application must load sentiment through
 `src.data_loader.load_sentiment_firm_daily`, which adds `available_date` and

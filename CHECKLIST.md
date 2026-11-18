@@ -40,7 +40,7 @@
 | [x] | 1.4 | Obtain the professor's StockTwits data | 🟡 | Vlad |
 | [ ] | 1.4b | Build the company → GICS sector mapping table | 🟡 | |
 | [ ] | 1.5 | Obtain FOMC texts (or the gtfintechlab dataset) with publication dates | 🟢 | |
-| [ ] | 1.6 | Clean the data: business-day index, NaNs, duplicates, outliers | 🔴 | |
+| [x] | 1.6 | Clean the data: business-day index, NaNs, duplicates, outliers (market bundle and provisional direct-ETF sentiment) | 🔴 | Raf / Codex |
 | [x] | 1.7 | Save to `data/processed/*.parquet` and create `README_data.md` | 🔴 | Raf / Codex |
 | [ ] | 1.8 | Add `observation_date`, `available_date`, source, and download date | 🔴 | |
 | [ ] | 1.9 | Add automated tests for schema, duplicates, gaps, chronology, and coverage | 🔴 | |
@@ -75,8 +75,8 @@ checks in 1.6 rather than waiting for either source.
 - Step 1.4: Vlad's published firm-day StockTwits artifact is present. [The asset-sentiment builder](src/build_sentiment_assets.py) generated 43,438 direct-ETF/SPY observations covering all 13 assets.
 - Step 1.4b remains open: direct ETF tags are a provisional input, not a validated historical company-to-GICS mapping.
 - Step 1.4b source audit: the local CRSP monthly extract contains `Ticker`, `PERMNO`, `SICCD`, `NAICS`, `ICBIndustry`, and security-history dates; the Compustat annual extract contains `gvkey`, `datadate`, and `sich`. Neither extract contains historical GICS sector codes. Completion requires a dated GICS classification linked to stable company identifiers, plus historical ticker validity and classification availability dates. SIC/ICB codes and today's classifications must not be silently substituted for historical GICS. This source dependency remains unresolved; the direct-ETF signal is still provisional.
-- Step 1.6 market audit passed: `python -m src.audit_data` checked all 5,505 price sessions for 13 assets against the NYSE calendar, with zero missing/unexpected sessions, complete positive finite prices, consistent returns, and aligned risk-free/excess returns. No absolute daily moves exceeded the 25% review threshold. The local report is `data/processed/quality_report.json`; 29 tests pass. Keep 1.6 open until sentiment availability is aligned to actual exchange sessions (the current loader uses weekdays), including holiday edge cases. This remaining work does not require GICS.
-- Steps 1.6, 1.8–1.11 remain open: initial cleaning, availability rules, and schema/coverage tests exist, but exchange-holiday handling, complete per-observation provenance, gap checks, and a finalized common signal sample still require verification. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
+- Step 1.6 passed for the market bundle and provisional direct-ETF sentiment: `python -m src.audit_data` checked all 5,505 price sessions for 13 assets against the NYSE calendar, with zero missing/unexpected sessions, complete positive finite prices, consistent returns, and aligned risk-free/excess returns. No absolute daily moves exceeded the 25% review threshold. Sentiment availability now uses the strictly next NYSE session, tested on holidays, weekends and the 2012 Hurricane Sandy closure; the asset artifact was regenerated. Zero-labelled days retain undefined polarity rather than being replaced by artificial zeros. The local market report is `data/processed/quality_report.json`; 30 tests pass. Re-run these checks when company-derived sentiment is introduced after [1.4b](#gics-dependency).
+- Steps 1.8–1.11 remain open: complete per-observation provenance, broader schema/gap tests, source-unit verification, and a finalized common signal sample still require work. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
 - Step 2 work implemented by Raf is present in the notebook, but has not been independently reproduced end to end here; its boxes remain open pending verification.
 
 ## Step 2 — Exploration & Estimation
