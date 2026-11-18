@@ -62,6 +62,8 @@ These diagnostics are not used to select models opportunistically. They are used
 - Constraints: exclusions, maximum weight, leverage, ESG.
 - Objective: preservation, growth, income, or a quantified goal.
 
+[Step 3.0a](19_PROFILE_DIMENSIONS.md) defines what each dimension captures and how it informs the fixed profile.
+
 ### 5.2 MVP
 
 Begin with a fixed questionnaire of 10 to 15 questions, with transparent rules and a reproducible result. Produce a versioned JSON profile. Test edge cases and have the wording reviewed by people outside the group.

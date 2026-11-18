@@ -138,7 +138,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 3.0a | Define capacity, tolerance, knowledge, objectives, and constraints separately | 🔴 | |
+| [x] | 3.0a | Define capacity, tolerance, knowledge, objectives, and constraints separately — [fixed profile specification](docs/19_PROFILE_DIMENSIONS.md) | 🔴 | Codex |
 | [ ] | 3.0b | Draft the fixed 10–15-question baseline using neutral wording | 🔴 | |
 | [ ] | 3.0c | Define fully explainable scoring rules and capacity caps | 🔴 | |
 | [ ] | 3.0d | Freeze and document the JSON `profile` output format | 🔴 | |
