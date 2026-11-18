@@ -1,57 +1,109 @@
-"""Covariance estimators used by the notebook, the backtest and the application."""
+"""Validated daily-return covariance estimators; outputs are annualized."""
 
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from sklearn.covariance import LedoitWolf
+
+
+def validate_returns(returns: pd.DataFrame, annualize: int = 252) -> None:
+    """Require a complete ordered panel and nonconstant asset returns."""
+    if len(returns) < 2 or returns.shape[1] < 2:
+        raise ValueError("need at least 2 observations and 2 assets")
+    if not np.isfinite(annualize) or annualize <= 0:
+        raise ValueError("annualization must be positive and finite")
+    if not isinstance(returns.index, pd.DatetimeIndex) or returns.index.hasnans:
+        raise ValueError("returns require nonmissing datetime dates")
+    if not returns.index.is_unique or not returns.index.is_monotonic_increasing:
+        raise ValueError("returns require sorted unique dates")
+    if returns.columns.has_duplicates:
+        raise ValueError("asset columns must be unique")
+    values = returns.to_numpy(dtype=float)
+    if not np.isfinite(values).all() or (values <= -1).any():
+        raise ValueError("returns must be finite and strictly above -1")
+    if (returns.nunique() < 2).any():
+        raise ValueError("each asset must have nonzero variance")
 
 
 def sample_cov(returns: pd.DataFrame, annualize: int = 252) -> pd.DataFrame:
-    """Unbiased sample covariance, annualised."""
+    """Unbiased sample covariance (ddof=1), annualized."""
+    validate_returns(returns, annualize)
     return returns.cov() * annualize
 
 
 def ledoit_wolf_constant_corr(returns: pd.DataFrame, annualize: int = 252) -> tuple[pd.DataFrame, float]:
-    """Ledoit & Wolf (2004) shrinkage towards the constant-correlation model (QARM II, LN3).
+    """Ledoit–Wolf constant-correlation target (LN3), with sample-scale output.
 
-    Sigma_hat = delta * F + (1 - delta) * S, where F keeps each asset's own variance and
-    sets every correlation to the average sample correlation. The optimal delta follows
-    "Honey, I Shrunk the Sample Covariance Matrix" (Appendix B of the LN3 slides).
-
-    Returns the annualised covariance matrix and the shrinkage intensity delta in [0, 1].
+    Moment estimates use denominator n as in Ledoit & Wolf (2004), Appendix B.
+    After estimating shrinkage, scale the whole matrix by n/(n-1) so all
+    estimators have the same ddof=1 convention. The diagonal is thus identical
+    to the unbiased sample diagonal. This differs from shrinking toward identity.
     """
+    validate_returns(returns, annualize)
     X = returns.to_numpy(dtype=float)
-    t, n = X.shape
-    if t < 2 or n < 2:
-        raise ValueError("need at least 2 observations and 2 assets")
+    n, p = X.shape
     X = X - X.mean(axis=0)
-    T = t - 1  # effective sample size after demeaning
-
-    S = X.T @ X / T
+    S = X.T @ X / n
     var = np.diag(S)
     sd = np.sqrt(var)
     corr = S / np.outer(sd, sd)
-    r_bar = (corr.sum() - n) / (n * (n - 1))
+    r_bar = (corr.sum() - p) / (p * (p - 1))
+    target = r_bar * np.outer(sd, sd)
+    np.fill_diagonal(target, var)
+    X2 = X**2
+    pi_mat = X2.T @ X2 / n - S**2
+    theta = (X**3).T @ X / n - var[:, None] * S
+    np.fill_diagonal(theta, 0.)
+    rho = np.trace(pi_mat) + r_bar * (np.outer(1 / sd, sd) * theta).sum()
+    gamma = np.linalg.norm(S - target, "fro")**2
+    # With two assets (or exactly constant correlations), S already equals F.
+    if gamma <= np.finfo(float).eps * np.linalg.norm(S, "fro")**2:
+        delta = 1.
+    else:
+        delta = float(np.clip((pi_mat.sum() - rho) / (n * gamma), 0., 1.))
+    sigma = (delta * target + (1 - delta) * S) * (n / (n - 1)) * annualize
+    return pd.DataFrame(sigma, index=returns.columns, columns=returns.columns), delta
 
-    F = r_bar * np.outer(sd, sd)
-    np.fill_diagonal(F, var)
 
-    # pi: sum of asymptotic variances of the entries of S
-    X2 = X ** 2
-    pi_mat = X2.T @ X2 / T - S ** 2
-    pi_hat = pi_mat.sum()
+def rolling_covariances(returns: pd.DataFrame, decision_dates: pd.DatetimeIndex,
+                        window: int = 756, annualize: int = 252):
+    """Estimate at the close on explicit dates, using exactly window past rows.
 
-    # rho: sum of asymptotic covariances between entries of F and S
-    theta = (X ** 3).T @ X / T - var[:, None] * S
-    np.fill_diagonal(theta, 0.0)
-    rho_hat = np.trace(pi_mat) + r_bar * (np.outer(1 / sd, sd) * theta).sum()
-
-    # gamma: misspecification of the target
-    gamma_hat = np.linalg.norm(S - F, "fro") ** 2
-
-    kappa = (pi_hat - rho_hat) / gamma_hat
-    delta = float(np.clip(kappa / T, 0.0, 1.0))
-
-    sigma = delta * F + (1 - delta) * S
-    cols = returns.columns
-    return pd.DataFrame(sigma * annualize, cols, cols), delta
+    Includes the decision-session close; usable only AFTER that close. There is
+    no trading or strategy performance simulation here. SPY is excluded by the
+    caller when it is a benchmark rather than an investable asset.
+    """
+    validate_returns(returns, annualize)
+    if not isinstance(window, int) or window < 2:
+        raise ValueError("window must be an integer of at least 2")
+    dates = pd.DatetimeIndex(decision_dates)
+    if dates.empty or dates.hasnans or not dates.is_unique or not dates.is_monotonic_increasing:
+        raise ValueError("decision dates must be nonempty, sorted and unique")
+    if not dates.isin(returns.index).all():
+        raise ValueError("decision dates must belong to the return panel")
+    matrices, diagnostics = [], []
+    for date in dates:
+        end = returns.index.get_loc(date) + 1
+        if end < window:
+            raise ValueError("insufficient strictly historical estimation data")
+        panel = returns.iloc[end-window:end]
+        cc, delta = ledoit_wolf_constant_corr(panel, annualize)
+        identity = LedoitWolf().fit(panel.to_numpy())
+        values = {"sample": sample_cov(panel, annualize),
+                  "lw_constcorr": cc,
+                  "lw_identity": pd.DataFrame(identity.covariance_ * window / (window-1) * annualize,
+                                               index=panel.columns, columns=panel.columns)}
+        for estimator, cov in values.items():
+            block = cov.copy()
+            block.index.name = "asset"
+            matrices.append(pd.concat({(date, estimator): block}, names=["date", "estimator"]))
+            eigenvalues = np.linalg.eigvalsh(cov)
+            diagnostics.append({"date": date, "estimator": estimator,
+                "window_start": panel.index[0], "window_end": panel.index[-1],
+                "observations": len(panel), "condition_number": np.linalg.cond(cov),
+                "min_eigenvalue": eigenvalues[0], "max_eigenvalue": eigenvalues[-1],
+                "shrinkage": np.nan if estimator == "sample" else (
+                    delta if estimator == "lw_constcorr" else identity.shrinkage_)})
+    return (pd.concat(matrices).sort_index(level=["date", "estimator"], sort_remaining=False),
+            pd.DataFrame(diagnostics).set_index(["date", "estimator"]).sort_index())

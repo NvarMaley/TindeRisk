@@ -19,5 +19,5 @@ jobs:
       - name: Validate JSON
         run: python -m json.tool questions/bank.json > /dev/null && python -m json.tool RiskMatch_pipeline.ipynb > /dev/null
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
 
