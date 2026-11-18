@@ -51,6 +51,8 @@ def test_ln7_rank_test_reports_group_sizes_and_signed_effect_at_each_horizon():
     report = ln7_event_rank_tests(paths)
     assert len(report) == 18
     comparison = report.query("session == -5 and measure == 'CAP' and first == 'Good' and second == 'Neutral'").iloc[0]
+    tied = report.query("session == -5 and measure == 'CAR' and first == 'Good' and second == 'Neutral'").iloc[0]
     assert comparison["rank_effect"] == 1
-    assert comparison["holm_p"] > comparison["nominal_p"]
+    assert comparison["holm_p"] == pytest.approx(2 * comparison["nominal_p"])
+    assert (tied["rank_effect"], tied["nominal_p"]) == (0.0, 1.0)
     assert report.query("second == 'Bad'")["holm_p"].isna().all()

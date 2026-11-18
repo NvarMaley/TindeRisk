@@ -41,6 +41,8 @@ def matched_forward_returns(monthly, prices, benchmark):
 def _rank_comparison(first, second):
     if min(len(first), len(second)) < 5:
         return np.nan, np.nan
+    if first.nunique() == second.nunique() == 1 and first.iloc[0] == second.iloc[0]:
+        return 0.0, 1.0
     result = mannwhitneyu(first, second, alternative="two-sided", method="asymptotic")
     return 2 * result.statistic / (len(first) * len(second)) - 1, result.pvalue
 
