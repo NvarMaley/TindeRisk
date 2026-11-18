@@ -665,7 +665,968 @@
     "C": {
       "name": "portfolio swipe comparisons",
       "target_count": 24,
-      "questions": []
+      "questions": [
+        {
+          "id": "C01",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.01,
+              "sigma": 0.05,
+              "outcomes_chf": [
+                -40.0,
+                60.0
+              ]
+            },
+            "B": {
+              "mu": 0.012975,
+              "sigma": 0.12,
+              "outcomes_chf": [
+                -107.02,
+                132.98
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 0.5,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C02",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.012,
+              "sigma": 0.06,
+              "outcomes_chf": [
+                -48.0,
+                72.0
+              ]
+            },
+            "B": {
+              "mu": 0.016695856031,
+              "sigma": 0.14,
+              "outcomes_chf": [
+                -123.3,
+                156.7
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 0.586982003922,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C03",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.014,
+              "sigma": 0.07,
+              "outcomes_chf": [
+                -56.0,
+                84.0
+              ]
+            },
+            "B": {
+              "mu": 0.018134574475,
+              "sigma": 0.13,
+              "outcomes_chf": [
+                -111.87,
+                148.13
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 0.689095745857,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C04",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.016,
+              "sigma": 0.08,
+              "outcomes_chf": [
+                -64.0,
+                96.0
+              ]
+            },
+            "B": {
+              "mu": 0.022512237509,
+              "sigma": 0.15,
+              "outcomes_chf": [
+                -127.49,
+                172.51
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 0.808973603595,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C05",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.01,
+              "sigma": 0.05,
+              "outcomes_chf": [
+                -40.0,
+                60.0
+              ]
+            },
+            "B": {
+              "mu": 0.015650750069,
+              "sigma": 0.12,
+              "outcomes_chf": [
+                -104.35,
+                135.65
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 0.949705893916,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C06",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.012,
+              "sigma": 0.06,
+              "outcomes_chf": [
+                -48.0,
+                72.0
+              ]
+            },
+            "B": {
+              "mu": 0.0209193643,
+              "sigma": 0.14,
+              "outcomes_chf": [
+                -119.08,
+                160.92
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 1.114920537495,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C07",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.014,
+              "sigma": 0.07,
+              "outcomes_chf": [
+                -56.0,
+                84.0
+              ]
+            },
+            "B": {
+              "mu": 0.021853259496,
+              "sigma": 0.13,
+              "outcomes_chf": [
+                -108.15,
+                151.85
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 1.308876582625,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C08",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.016,
+              "sigma": 0.08,
+              "outcomes_chf": [
+                -64.0,
+                96.0
+              ]
+            },
+            "B": {
+              "mu": 0.02836942069,
+              "sigma": 0.15,
+              "outcomes_chf": [
+                -121.63,
+                178.37
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 1.536573998712,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C09",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.01,
+              "sigma": 0.05,
+              "outcomes_chf": [
+                -40.0,
+                60.0
+              ]
+            },
+            "B": {
+              "mu": 0.020733101291,
+              "sigma": 0.12,
+              "outcomes_chf": [
+                -99.27,
+                140.73
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 1.803882569878,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C10",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.012,
+              "sigma": 0.06,
+              "outcomes_chf": [
+                -48.0,
+                72.0
+              ]
+            },
+            "B": {
+              "mu": 0.028941545691,
+              "sigma": 0.14,
+              "outcomes_chf": [
+                -111.06,
+                168.94
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 2.117693211414,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C11",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.014,
+              "sigma": 0.07,
+              "outcomes_chf": [
+                -56.0,
+                84.0
+              ]
+            },
+            "B": {
+              "mu": 0.028916573659,
+              "sigma": 0.13,
+              "outcomes_chf": [
+                -101.08,
+                158.92
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 2.486095609856,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C12",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.016,
+              "sigma": 0.08,
+              "outcomes_chf": [
+                -64.0,
+                96.0
+              ]
+            },
+            "B": {
+              "mu": 0.039494623467,
+              "sigma": 0.15,
+              "outcomes_chf": [
+                -110.51,
+                189.49
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 2.91858676603,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C13",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.01,
+              "sigma": 0.05,
+              "outcomes_chf": [
+                -40.0,
+                60.0
+              ]
+            },
+            "B": {
+              "mu": 0.030386579112,
+              "sigma": 0.12,
+              "outcomes_chf": [
+                -89.61,
+                150.39
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 3.42631581709,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C14",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.012,
+              "sigma": 0.06,
+              "outcomes_chf": [
+                -48.0,
+                72.0
+              ]
+            },
+            "B": {
+              "mu": 0.04417897159,
+              "sigma": 0.14,
+              "outcomes_chf": [
+                -95.82,
+                184.18
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 4.022371448771,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C15",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.012706159268,
+              "sigma": 0.063530796342,
+              "outcomes_chf": [
+                -50.82,
+                76.24
+              ]
+            },
+            "B": {
+              "mu": 0.043078447962,
+              "sigma": 0.13,
+              "outcomes_chf": [
+                -86.92,
+                173.08
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 4.722119307038,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C16",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.010823295419,
+              "sigma": 0.054116477096,
+              "outcomes_chf": [
+                -43.29,
+                64.94
+              ]
+            },
+            "B": {
+              "mu": 0.065071302561,
+              "sigma": 0.15,
+              "outcomes_chf": [
+                -84.93,
+                215.07
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 5.543598107209,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C17",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.009219443992,
+              "sigma": 0.046097219961,
+              "outcomes_chf": [
+                -36.88,
+                55.32
+              ]
+            },
+            "B": {
+              "mu": 0.049162350491,
+              "sigma": 0.12,
+              "outcomes_chf": [
+                -70.84,
+                169.16
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 6.507984651816,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C18",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.007853259496,
+              "sigma": 0.039266297479,
+              "outcomes_chf": [
+                -31.41,
+                47.12
+              ]
+            },
+            "B": {
+              "mu": 0.049246481421,
+              "sigma": 0.111254509523,
+              "outcomes_chf": [
+                -62.01,
+                160.5
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 7.640139744835,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C19",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.006689523225,
+              "sigma": 0.033447616125,
+              "outcomes_chf": [
+                -26.76,
+                40.14
+              ]
+            },
+            "B": {
+              "mu": 0.041948885223,
+              "sigma": 0.094768245687,
+              "outcomes_chf": [
+                -52.82,
+                136.72
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 8.969249075337,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C20",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.005698235363,
+              "sigma": 0.028491176817,
+              "outcomes_chf": [
+                -22.79,
+                34.19
+              ]
+            },
+            "B": {
+              "mu": 0.035732684259,
+              "sigma": 0.080725000983,
+              "outcomes_chf": [
+                -44.99,
+                116.46
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 10.529575591835,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C21",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.004853841622,
+              "sigma": 0.024269208108,
+              "outcomes_chf": [
+                -19.42,
+                29.12
+              ]
+            },
+            "B": {
+              "mu": 0.030437631835,
+              "sigma": 0.068762756306,
+              "outcomes_chf": [
+                -38.33,
+                99.2
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 12.36134276269,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C22",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.004134574475,
+              "sigma": 0.020672872376,
+              "outcomes_chf": [
+                -16.54,
+                24.81
+              ]
+            },
+            "B": {
+              "mu": 0.025927227438,
+              "sigma": 0.058573138398,
+              "outcomes_chf": [
+                -32.65,
+                84.5
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 14.511771492023,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C23",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.003521892024,
+              "sigma": 0.017609460118,
+              "outcomes_chf": [
+                -14.09,
+                21.13
+              ]
+            },
+            "B": {
+              "mu": 0.022085197898,
+              "sigma": 0.049893470333,
+              "outcomes_chf": [
+                -27.81,
+                71.98
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 17.036297421696,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "A",
+              "B"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        },
+        {
+          "id": "C24",
+          "bloc": "C",
+          "type": "swipe",
+          "dimension": "tolerance",
+          "texte": "Which option would you choose for CHF 1,000 over one year?",
+          "options": {
+            "A": {
+              "mu": 0.003,
+              "sigma": 0.015,
+              "outcomes_chf": [
+                -12.0,
+                18.0
+              ]
+            },
+            "B": {
+              "mu": 0.0188125,
+              "sigma": 0.0425,
+              "outcomes_chf": [
+                -23.69,
+                61.31
+              ]
+            }
+          },
+          "params": {
+            "phi_seuil": 20.0,
+            "starting_chf": 1000,
+            "horizon_years": 1,
+            "outcome_probabilities": [
+              0.5,
+              0.5
+            ],
+            "display_order": [
+              "B",
+              "A"
+            ],
+            "skip_label": "Skip this card"
+          },
+          "condition": null
+        }
+      ]
     },
     "D": {
       "name": "constraints and preferences",
