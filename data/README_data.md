@@ -157,6 +157,35 @@ This run skips target dates from 2018 onward; the final project split is
 still open. Company-derived sector results and the LN7 event comparison
 remain pending on GICS and the original Moodle files respectively.
 
+## FOMC statement tone
+
+Run `python -m src.fomc fetch` to obtain the 86 statements linked in the
+Federal Reserve's 2010–2020 historical meeting archives through March 2020.
+The command uses `curl`, checks the publication date in each release header
+against its URL, and records the source URL and the HTML checksum. It also
+downloads the authors' pinned 1996–2019 and 2020–2022 annotated splits into
+ignored local storage under `data/raw/fomc/`.
+[Federal Reserve archive](https://www.federalreserve.gov/monetarypolicy/fomc_historical_year.htm),
+[authors' chronological split](https://github.com/gtfintechlab/fomc-hawkish-dovish/tree/98646987452b326507479cf641571b33814bb73f/look_ahead_bias).
+
+Install the optional Excel reader with `python -m pip install "openpyxl>=3.1,<4"`.
+Then run `python -m src.fomc baseline` entirely offline. It fits a TF–IDF logistic
+model on 2,014 annotated training sentences, excludes four exact repeats from
+the chronological test split and evaluates the remaining 462 rows. The offline
+run writes `data/processed/fomc_tone_baseline.parquet` and a JSON report.
+Each document's score is (hawkish − dovish) divided by all classified
+sentences, including neutral. The published date and the next NYSE session
+are stored separately. The 2010–2019 scores are retrospective because the
+baseline was fitted using annotations through 2019.
+
+FOMC-RoBERTa is gated. With access to the authors' CC BY-NC checkpoint, install
+`"torch>=2.6,<3"` and `"transformers>=4.49,<5"`. Cache the official model at
+revision `1c0e40cc6f364fe60f92482ffa496f65647f4a34`, then run
+`python -m src.fomc roberta`. Offline mode uses only that cached revision
+and writes a separate result. Market predictiveness remains to be tested.
+[Model card and access](https://huggingface.co/gtfintechlab/FOMC-RoBERTa),
+[Shah, Paturi and Chava (2023)](https://aclanthology.org/2023.acl-long.368/).
+
 ## Observation-level provenance (Step 1.8)
 
 Source units, currency checks, adjusted-price evidence and DTB3 approximation

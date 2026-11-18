@@ -355,6 +355,7 @@ A `profile` object (JSON):
 ### 4.2 Fed tone (FOMC)—extension
 - Classify each sentence in statements with FOMC-RoBERTa (hawkish / dovish / neutral) **offline**.
 - Tone index per document: (no. hawkish − no. dovish)/total no. Associate it with the **publication date**.
+- The offline TF–IDF baseline is available for the historical statement corpus while access to the pinned FOMC-RoBERTa checkpoint is pending. [Data and reproduction steps](data/README_data.md#fomc-statement-tone).
 
 ### 4.3 Constructing Black-Litterman views (P, Q, Ω)
 - **Candidate sentiment view** (relative): “sector with the strongest abnormal signal − sector with the weakest” → row of P with +1 / −1, only if the Step 4.1 test is conclusive.

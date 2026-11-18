@@ -39,7 +39,7 @@
 | [x] | 1.3b | Apply the publication lag to monthly series | 🟡 | Raf / Codex |
 | [x] | 1.4 | Obtain the professor's StockTwits data | 🟡 | Vlad |
 | [ ] | 1.4b | Build the company → GICS sector mapping table | 🟡 | |
-| [ ] | 1.5 | Obtain FOMC texts (or the gtfintechlab dataset) with publication dates | 🟢 | |
+| [x] | 1.5 | Obtain FOMC texts (or the gtfintechlab dataset) with publication dates | 🟢 | 86 dated official statements for January 2010–March 2020. |
 | [x] | 1.6 | Clean the data: business-day index, NaNs, duplicates, outliers (market bundle and provisional direct-ETF sentiment) | 🔴 | Raf / Codex |
 | [x] | 1.7 | Save to `data/processed/*.parquet` and create `README_data.md` | 🔴 | Raf / Codex |
 | [ ] | 1.8 | Add `observation_date`, `available_date`, source, and download date — implemented; original StockTwits download date pending | 🔴 | Codex / Vlad |
@@ -64,8 +64,7 @@ Return here before completing:
 - **5.3**: company-sentiment BL — requires validated views. ERC-anchor/no-views BL can proceed without GICS.
 - **1.11 and 6.11**: finalize common coverage again when company-derived sentiment is introduced.
 
-Step 1.5 (FOMC) remains an optional extension. Continue with the core market-data
-checks in 1.6 rather than waiting for either source.
+The dated Step 1.5 corpus is available for the optional FOMC extension.
 
 ### Verified progress — 2026-11-18
 
@@ -180,7 +179,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | Dated identifiers match 37,955 / 42,154 observed ticker-days. Historical GICS export pending. |
 | [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | Daily/monthly calculation verified on synthetic inputs. Historical test awaits 4.1c. |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | Exploratory direct-ETF validation complete. Moodle event and company-derived sector tests pending. |
-| [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | |
+| [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | Baseline scored 86 releases. The specified FOMC-RoBERTa checkpoint requires authorized access. |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | |
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | |
 | [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | |
