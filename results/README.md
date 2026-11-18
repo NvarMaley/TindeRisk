@@ -23,3 +23,12 @@ not strategy backtests or portfolio-card evidence. The 60/40 row is a daily
 reference, not the monthly production strategy. See
 [the definitions and correction notes](../docs/10_DESCRIPTIVE_STATISTICS.md).
 
+
+## Steps 2.1b and 2.2
+
+Run `python -m src.build_dependence` to export main/extended correlation tables,
+heatmaps, 252-session rolling SPY/diversifier correlations, and month-end
+756-session sample/Ledoit–Wolf covariances and diagnostics. Six PNG figures,
+CSV/Parquet data and a hashed manifest are generated locally and remain ignored.
+See [definitions, tests and interpretation](../docs/12_CORRELATION_COVARIANCE.md).
+These outputs contain no production portfolio or strategy performance claim.
