@@ -178,7 +178,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | Models implemented. Historical validation needs the two Moodle files. |
 | [x] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | SPY daily returns, 5/5 at six decimals, 4–8 Jan 2010. |
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | Dated identifiers match 37,955 / 42,154 observed ticker-days. Historical GICS export pending. |
-| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | |
+| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | Daily/monthly calculation verified on synthetic inputs. Historical test awaits 4.1c. |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | |
 | [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | |
@@ -196,6 +196,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 [LN7 replication inputs](data/README_data.md#ln7-lab-reproduction) and
 [historical company-link audit](data/README_data.md#ln7-historical-company-to-sector-links).
+[Sector sentiment hypothesis](data/README_data.md#company-derived-sector-sentiment).
 
 ## Step 5 — Portfolio Construction
 
