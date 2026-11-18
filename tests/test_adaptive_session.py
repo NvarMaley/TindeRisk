@@ -38,6 +38,8 @@ def test_session_budget_required_cards_and_mirror(exclude):
     counts = Counter(session.selector.cards[key]["bloc"] for key in session.answers if key in session.selector.cards)
     assert counts["B"] >= 2 and counts["C"] >= 2 and session.inconsistent
     assert session.message and np.isclose(session.posterior.mass.sum(), 1)
+    target = session.estimated_target(.35)
+    assert target.effective <= target.capacity == .03 and target.band is None
 
 
 def test_all_passed_tolerance_cards_stop_without_inventing_mirror():
@@ -49,6 +51,8 @@ def test_all_passed_tolerance_cards_stop_without_inventing_mirror():
     assert len(session.answers) == 15
     assert MIRROR_ID not in session.answers
     np.testing.assert_allclose(session.posterior.mass, AversionPosterior.prior().mass)
+    with pytest.raises(ValueError, match="tolerance response"):
+        session.estimated_target(.35)
 
 
 def test_precision_stops_early_after_format_quotas_and_mirror(monkeypatch):

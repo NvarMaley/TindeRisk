@@ -277,13 +277,13 @@ At each step, among questions **not yet asked** and **eligible** (conditions, qu
 
 Intuition: like a **binary search**—ask the pair whose φ_seuil is close to the current estimate. For swipes, this is very close to “choose φ_seuil ≈ posterior median.”
 
-**Quotas** to maintain a varied experience: typical order = 4 Block A questions (fixed core) → adaptive alternation between B / C → 1–2 Block D questions at the end.
+**Quotas** for the prototype: ask the four mandatory A cards and eligible D cards, then choose B/C cards with at least two of each format. The 15-card limit includes the mirrored swipe when one can be shown. [Implementation and simulation](docs/23_ADAPTIVE_PROFILE.md).
 
 ### 3.5 Stopping rule
 Stop when the **posterior standard deviation of θ < threshold** (e.g., 0.20) **or** 15 questions have been reached. Display the achieved precision.
 
 ### 3.6 Consistency check
-- 1 “mirror” Block C question (same φ_seuil, different presentation). If the answer contradicts the first → a playful message (“are you swiping at random? 👀”) and a lower λ (noisier responses → wider interval).
+- 1 “mirror” Block C question (same φ_seuil, different presentation). If the canonical choice differs, explain the difference and reduce λ to soften the swipe likelihoods.
 - Detect tolerance/capacity contradictions (e.g., wants substantial risk but horizon < 2 years) → explanatory message.
 
 ### 3.7 Capacity → σ*_capacity (explicit rules)

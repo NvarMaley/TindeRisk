@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from .adaptive_profile import DEFAULT_SHARPNESS, AversionPosterior, card_model
-from .adaptive_session import VarianceSelector
+from .adaptive_session import VarianceSelector, tolerance_formats
 from .questionnaire import load_question_bank
 
 
@@ -55,9 +55,7 @@ def compare_designs(count: int = 1000, seed: int = 42, *,
             asked = {}
             for step, key in enumerate(order, 1):
                 if design == "adaptive":
-                    # Reserve early slots for both response formats.
-                    allowed = ("B",) if step in (2, 4) else ("C",) if step in (1, 3) else ("B", "C")
-                    key = selector.choose(posterior, asked, allowed)["id"]
+                    key = selector.choose(posterior, asked, tolerance_formats(asked))["id"]
                 answer = responses[key][index]
                 asked[key] = answer
                 posterior = selector.observe(posterior, key, answer)

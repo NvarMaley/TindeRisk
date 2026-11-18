@@ -5,11 +5,24 @@ from collections.abc import Mapping
 import numpy as np
 
 from .adaptive_profile import DEFAULT_SHARPNESS, AversionPosterior, card_model
+from .fixed_profile import assess_financial_capacity
+from .profiling import RiskTarget, risk_target
 from .questionnaire import available_constraint_cards, load_question_bank
 
 MAX_CARDS = 15
 PRECISION_THRESHOLD = .20
 MIRROR_ID = "C_mirror"
+
+
+def tolerance_formats(asked: Mapping) -> tuple[str, ...]:
+    """Protect the two-card minimum across both tolerance formats."""
+    count_b = sum(key.startswith("B") for key in asked)
+    count_c = sum(key.startswith("C") and key != MIRROR_ID for key in asked)
+    if count_b < 2 <= count_c:
+        return ("B",)
+    if count_c < 2 <= count_b:
+        return ("C",)
+    return ("B", "C")
 
 
 class VarianceSelector:
@@ -89,14 +102,22 @@ class AdaptiveSession:
         if precision_reached:
             return None
 
-        deficit_b, deficit_c = max(0, 2 - count_b), max(0, 2 - count_c)
-        if deficit_b and not deficit_c:
-            allowed = ("B",)
-        elif deficit_c and not deficit_b:
-            allowed = ("C",)
-        else:
-            allowed = ("B", "C")
-        return self.selector.choose(self.posterior, self.answers, allowed or ("B", "C"))
+        return self.selector.choose(self.posterior, self.answers, tolerance_formats(self.answers))
+
+    def estimated_target(self, reference_sharpe: float) -> RiskTarget:
+        """Apply the financial ceiling to the posterior median after completion."""
+        if self.next_card() is not None:
+            raise ValueError("complete the adaptive session before classifying it")
+        if not any(key in self.selector.cards and response != "unsure"
+                   for key, response in self.answers.items()):
+            raise ValueError("at least one tolerance response is required")
+        capacity_answers = {
+            card["params"]["fixed_question"]: self.answers[card["id"]]
+            for card in self.cards[:4]
+        }
+        capacity = assess_financial_capacity(capacity_answers)
+        return risk_target(self.posterior.summary()["phi_median"],
+                           reference_sharpe, capacity.volatility)
 
     def answer(self, key: str, choice: str | list[str]) -> None:
         card = self.next_card()

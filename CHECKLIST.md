@@ -149,25 +149,27 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 3.1b | Draft the 20 Block B questions (tolerance, ordered scales) — [card design](questions/README.md#tolerance-cards--step-31b) | 🟢 | Codex |
 | [x] | 3.1c | Generate the 24 Block C pairs with φ_seuil on a log grid [0.5, 20] — [card design](questions/README.md#paired-swipe-cards--step-31c) | 🟢 | Codex |
 | [x] | 3.1d | Draft the six Block D questions (constraints) plus branching conditions — [verified routes](questions/README.md#constraint-cards--step-31d) | 🟢 | Codex |
-| [ ] | 3.1e | Store the question bank in `questions/bank.json` (README format) | 🟢 | |
-| [ ] | 3.2a | Implement swipe likelihood (logit on ΔU, parameter λ) | 🟢 | |
-| [ ] | 3.2b | Implement scale likelihood (graded response / ordered logit) | 🟢 | |
-| [ ] | 3.2c | Set prior parameters for Block B items (a, b_k) | 🟢 | |
-| [ ] | 3.3 | Implement the grid-based Bayesian engine (prior, update, mean/median, SD, 80% CI) | 🟢 | |
-| [ ] | 3.4 | Implement adaptive selection (minimize expected posterior variance) plus block quotas | 🟢 | |
-| [ ] | 3.5 | Define the stopping rule (SD < threshold or 15 questions) | 🟢 | |
-| [ ] | 3.6 | Add a mirrored question, inconsistency detection, and messages | 🟢 | |
+| [x] | 3.1e | Store the question bank in `questions/bank.json` (README format) | 🟢 | Codex |
+| [x] | 3.2a | Implement swipe likelihood (logit on ΔU, parameter λ) | 🟢 | Codex |
+| [x] | 3.2b | Implement scale likelihood (graded response / ordered logit) | 🟢 | Codex |
+| [x] | 3.2c | Set prior parameters for Block B items (a, b_k) | 🟢 | Codex |
+| [x] | 3.3 | Implement the grid-based Bayesian engine (prior, update, mean/median, SD, 80% CI) | 🟢 | Codex |
+| [x] | 3.4 | Implement adaptive selection (minimize expected posterior variance) plus block quotas | 🟢 | Codex |
+| [x] | 3.5 | Define the stopping rule (SD < threshold or 15 questions) | 🟢 | Codex |
+| [x] | 3.6 | Add a mirrored question, inconsistency detection, and messages | 🟢 | Codex |
 | [x] | 3.7 | Define capacity rules → σ*_cap (maximum loss, horizon, liquidity) — [calculation and limiting answers](docs/20_FIXED_PROFILE_SCORING.md) | 🔴 | Codex |
-| [ ] | 3.8 | Calibrate Tobin φ → σ*_tol, apply the capacity cap, then recalculate achieved volatility | 🔴 | |
-| [ ] | 3.8b | Map the capped continuous estimate deterministically to Conservative, Balanced, Growth, or Aggressive | 🔴 | |
-| [ ] | 3.8c | Test every category boundary and verify that capacity always overrides higher tolerance | 🔴 | |
-| [ ] | 3.8d | Show category, range, and plain-language explanation to clients; keep φ and precise σ values in technical details | 🔴 | |
-| [ ] | 3.9a | Build a synthetic-client simulator (1,000 φ values, noisy responses) | 🟢 | |
-| [ ] | 3.9b | Compare adaptive vs. random vs. fixed vs. 60 questions (RMSE, σ* error, % correctly classified) | 🟢 | |
-| [ ] | 3.9c | Plot “error vs. number of questions” (pitch figure) | 🟢 | |
-| [ ] | 3.9d | Test robustness to high noise and misspecified parameters | 🟢 | |
-| [ ] | 3.10 | (Optional) Conduct a real survey of 40–60 students, recalibrate, and prune items | 🟢 | |
-| [ ] | 3.11 | Compare the adaptive approach's real-world validity with the baseline, not only its internal simulation | 🟢 | |
+| [x] | 3.8 | Calibrate Tobin φ → σ*_tol, apply the capacity cap, then recalculate achieved volatility | 🔴 | Codex |
+| [x] | 3.8b | Map the capped continuous estimate deterministically to Conservative, Balanced, Growth, or Aggressive | 🔴 | Codex |
+| [x] | 3.8c | Test every category boundary and verify that capacity always overrides higher tolerance | 🔴 | Codex |
+| [x] | 3.8d | Show category, range, and plain-language explanation to clients; keep φ and precise σ values in technical details | 🔴 | Codex |
+| [x] | 3.9a | Build a synthetic-client simulator (1,000 φ values, noisy responses) | 🟢 | Codex |
+| [x] | 3.9b | Compare adaptive vs. random vs. fixed vs. 60 questions (RMSE, σ* error, % correctly classified) | 🟢 | Codex |
+| [x] | 3.9c | Plot “error vs. number of questions” (pitch figure) | 🟢 | Codex |
+| [x] | 3.9d | Test robustness to high noise and misspecified parameters | 🟢 | Codex |
+| [ ] | 3.10 | (Optional) Conduct a real survey of 40–60 students, recalibrate, and prune items — protocol ready; data pending | 🟢 | Codex |
+| [ ] | 3.11 | Compare adaptive and fixed profiles with real participants — protocol ready; data pending | 🟢 | Codex |
+
+[Chapter 3 implementation, simulation and study protocol](docs/23_ADAPTIVE_PROFILE.md).
 
 ## Step 4 — Signals
 
