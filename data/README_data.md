@@ -39,6 +39,18 @@ Generate the provisional direct-ETF artifact with
 sectors. Replace or supplement it only after a dated company-to-GICS mapping
 has been reviewed and tested.
 
+## Market quality audit
+
+Run `python -m src.audit_data` after building the market bundle. The audit
+compares the price index with NYSE sessions, rejects missing sessions and
+invalid/duplicate prices, verifies return arithmetic and risk-free alignment,
+and writes `processed/quality_report.json`. Absolute daily moves above 25%
+are reported for review, not clipped or deleted. A passing audit does not
+certify the current session as final, historical FRED vintages, or company-sector
+sentiment. Historical GICS remains an open dependency: see
+[the checklist dependency gate](../CHECKLIST.md#gics-dependency) before
+company-based sector aggregation or Black-Litterman views.
+
 ## Optional local research data (`data_plus/`)
 
 `data_plus/` is intentionally ignored by Git because it is about 6.2 GB and

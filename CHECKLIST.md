@@ -48,6 +48,25 @@
 | [ ] | 1.11 | Build the common sample for all strategies and document the start of each series | 🔴 | |
 | [ ] | 1.12 | Create a small, publishable demonstration dataset with no restricted data | 🔴 | |
 
+<a id="gics-dependency"></a>
+### Deferred dependency — historical GICS (1.4b)
+
+By team decision, keep 1.4b open while the historical classification is requested.
+This does not block market-data cleaning, equal-weight/GMV/60-40, Classic, ERC,
+or a no-views BL baseline. Direct-ETF sentiment is a separate provisional input,
+not a replacement for company-sector aggregation.
+
+Return here before completing:
+
+- **4.1c**: dated company-to-sector mapping — historical GICS and identifier links are required.
+- **4.1d**: company-based sector aggregation — requires validated 4.1c.
+- **4.3a and 4.6**: company-derived BL views and their out-of-sample validation — require the mapped signal; direct-ETF views must be tested and labelled separately.
+- **5.3**: company-sentiment BL — requires validated views. ERC-anchor/no-views BL can proceed without GICS.
+- **1.11 and 6.11**: finalize common coverage again when company-derived sentiment is introduced.
+
+Step 1.5 (FOMC) remains an optional extension. Continue with the core market-data
+checks in 1.6 rather than waiting for either source.
+
 ### Verified progress — 2026-11-18
 
 - Steps 0.1 and 0.9: professor feedback and approved core/extension scope are recorded in [the decision register](docs/05_DECISIONS.md).
@@ -56,6 +75,7 @@
 - Step 1.4: Vlad's published firm-day StockTwits artifact is present. [The asset-sentiment builder](src/build_sentiment_assets.py) generated 43,438 direct-ETF/SPY observations covering all 13 assets.
 - Step 1.4b remains open: direct ETF tags are a provisional input, not a validated historical company-to-GICS mapping.
 - Step 1.4b source audit: the local CRSP monthly extract contains `Ticker`, `PERMNO`, `SICCD`, `NAICS`, `ICBIndustry`, and security-history dates; the Compustat annual extract contains `gvkey`, `datadate`, and `sich`. Neither extract contains historical GICS sector codes. Completion requires a dated GICS classification linked to stable company identifiers, plus historical ticker validity and classification availability dates. SIC/ICB codes and today's classifications must not be silently substituted for historical GICS. This source dependency remains unresolved; the direct-ETF signal is still provisional.
+- Step 1.6 market audit passed: `python -m src.audit_data` checked all 5,505 price sessions for 13 assets against the NYSE calendar, with zero missing/unexpected sessions, complete positive finite prices, consistent returns, and aligned risk-free/excess returns. No absolute daily moves exceeded the 25% review threshold. The local report is `data/processed/quality_report.json`; 29 tests pass. Keep 1.6 open until sentiment availability is aligned to actual exchange sessions (the current loader uses weekdays), including holiday edge cases. This remaining work does not require GICS.
 - Steps 1.6, 1.8–1.11 remain open: initial cleaning, availability rules, and schema/coverage tests exist, but exchange-holiday handling, complete per-observation provenance, gap checks, and a finalized common signal sample still require verification. Monthly FRED lags do not eliminate revision bias in latest-vintage data.
 - Step 2 work implemented by Raf is present in the notebook, but has not been independently reproduced end to end here; its boxes remain open pending verification.
 
@@ -118,18 +138,18 @@
 |---|---|---|---|---|
 | [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | |
 | [ ] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | |
-| [ ] | 4.1c | Build a dated and validated company → sector mapping | 🔴 | |
-| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis | 🟡 | |
+| [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | |
+| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | |
 | [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | |
-| [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated | 🔴 | |
+| [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | |
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | |
 | [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | |
 | [ ] | 4.4a | Fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | |
 | [ ] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | |
 | [ ] | 4.4c | Name and describe the regimes | 🟢 | |
 | [ ] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | |
-| [ ] | 4.6 | Validate StockTwits out of sample before producing BL views | 🔴 | |
+| [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | |
 | [ ] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | |
 | [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | |
 | [ ] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | |
@@ -142,7 +162,7 @@
 | [ ] | 5.0 | Implement and test shared functions (`vol`, `risk_contrib`, `tracking_error`, `erc`, `risk_budget`, `bl_posterior`, `target_vol`) | 🔴 | |
 | [ ] | 5.1 | 🏛️ Classic: constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | |
 | [ ] | 5.2 | ⚖️ Balanced: ERC (log barrier + rescaling) | 🔴 | |
-| [ ] | 5.3 | 🧠 Connected: BL (`x0` decided in 5.8, μ̃, views, μ̄, target TE) | 🔴 | |
+| [ ] | 5.3 | 🧠 Connected: BL (`x0` decided in 5.8, μ̃, views, μ̄, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | |
 | [ ] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | |
 | [ ] | 5.5 | 📈 60/40 benchmark | 🔴 | |
 | [ ] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | |
