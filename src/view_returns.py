@@ -56,7 +56,7 @@ def estimate_relative_q(
     q = pd.Series(dtype=float, name="Q", index=proposed_p.index[:0])
     diagnostics = pd.DataFrame(index=proposed_p.index, columns=[
         "status", "train_months", "validation_months", "train_spread_daily",
-        "validation_spread_daily", "validation_mae", "zero_mae",
+        "validation_spread_daily", "validation_mae", "zero_mae", "validation_mse",
     ])
     if proposed_p.empty:
         return proposed_p, q, diagnostics
@@ -84,7 +84,8 @@ def estimate_relative_q(
         train = spread.loc[spread.index < validation_month]
         validation = spread.loc[spread.index >= validation_month]
         train_mean, validation_mean = train.mean(), validation.mean()
-        mae = (validation - train_mean).abs().mean()
+        errors = validation - train_mean
+        mae = errors.abs().mean()
         zero_mae = validation.abs().mean()
         if len(train) < 24 or len(validation) < 12:
             status = "insufficient_history"
@@ -94,6 +95,6 @@ def estimate_relative_q(
             status = "active"
             q.loc[view] = float(spread.mean() * SESSIONS_PER_YEAR)
         diagnostics.loc[view] = [status, len(train), len(validation), train_mean,
-                                 validation_mean, mae, zero_mae]
+                                 validation_mean, mae, zero_mae, errors.pow(2).mean()]
 
     return proposed_p.loc[q.index], q, diagnostics

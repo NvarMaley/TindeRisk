@@ -182,7 +182,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | Baseline scored 86 releases. The specified FOMC-RoBERTa checkpoint requires authorized access. |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | Matrix implemented and verified. Zero eligible views while signal validation is pending. |
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | Estimator tested. Live calibration awaits an approved view and the frozen final-test boundary. |
-| [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | |
+| [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | Validation-error method and sensitivity verified on synthetic data. Historical calibration awaits an active view. |
 | [ ] | 4.4a | Fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | |
 | [ ] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | |
 | [ ] | 4.4c | Name and describe the regimes | 🟢 | |
