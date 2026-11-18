@@ -16,3 +16,10 @@ Historical evidence shown at selection time must remain frozen. Live performance
 
 Locally generated results are not version-controlled by default. To share a result required for the demonstration, add a small, documented, reproducible file that contains no personal data.
 
+Step 2.1 asset diagnostics are generated with `python -m src.build_descriptive`
+as `2_1_main_descriptive_stats.csv`, `2_1_extended_descriptive_stats.csv` and
+`2_1_manifest.json`. These are historical gross asset/reference statistics,
+not strategy backtests or portfolio-card evidence. The 60/40 row is a daily
+reference, not the monthly production strategy. See
+[the definitions and correction notes](../docs/10_DESCRIPTIVE_STATISTICS.md).
+

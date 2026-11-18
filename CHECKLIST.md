@@ -80,7 +80,7 @@ checks in 1.6 rather than waiting for either source.
 - Step 1.8 implemented and generated: market and direct-ETF sentiment provenance sidecars retain observation and modelled availability dates, source, retrieval status, actual Yahoo/FRED retrieval timestamps, and source checksums. The numerical input schemas are unchanged. 32 tests pass. Keep the box open until the StockTwits provider supplies the original download date (currently explicitly null, never fabricated). Details and remaining timing limitations: [data provenance](data/README_data.md#observation-level-provenance-step-18). Before final backtesting, review same-date DTB3 usage and distinguish latest-vintage FRED assumptions from genuine point-in-time information. Work on 1.9 can proceed independently of this provider dependency.
 - Step 1.9 verified: 52 tests pass, including deliberately invalid schemas, duplicate/unsorted dates, missing NYSE sessions, holiday availability, nonfinite/fractional counts, inconsistent polarities, corrupted return arithmetic, misaligned risk-free/macro inputs and missing configured assets. `python -m src.audit_data` passes on the local bundle and checks stored SHA-256 hashes. The report measures sentiment coverage and undefined polarity per asset, without filling observations. IEF has 950 NYSE sessions without a message-date observation between its first/last observations; these are not assumed to be neutral sentiment or lost source rows. Revisit coverage and signal eligibility in **1.11, 4.3c and 4.6**. Passing quality tests is not proof of predictive power or point-in-time source validity; the [GICS gate](#gics-dependency) remains open.
 - Step 1.10 verified: `python -m src.check_conventions` confirmed USD quote currency and New York exchange timezone for all 13 tickers, cross-checked adjusted returns against Yahoo Adj Close over 2019, and verified DTB3 percent-to-decimal daily-proxy arithmetic. Macro units, transforms, return annualization and StockTwits units are documented with official source links in [data conventions](docs/08_DATA_CONVENTIONS.md). The local timestamped report is `data/processed/conventions_report.json`; 56 tests pass. DTB3/100/252 remains an explicitly approximate proxy, not an exact bill holding-period return. Resolve publication timing and cash/borrowing accrual in 6.1/6.3; this completed convention audit is not certification of historical vintages or predictive signals.
-- Step 2 work implemented by Raf is present in the notebook, but has not been independently reproduced end to end here; its boxes remain open pending verification.
+- Step 2 work implemented by Raf is present in the notebook. Step 2.1 has now been reproduced; later Step 2 boxes remain open pending their own verification.
 
 Step 1.11 verified: [common-sample builder](src/build_common_sample.py) generated
 2,578 common main sessions (2010-01-04–2020-03-31) and 4,497 extended sessions
@@ -107,7 +107,7 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 2.1 | Compute descriptive statistics by asset (return, volatility, Sharpe, skewness, kurtosis, max drawdown) | 🟡 | |
+| [x] | 2.1 | Compute descriptive statistics by asset (return, volatility, Sharpe, skewness, kurtosis, max drawdown) — [reproduction and definitions](docs/10_DESCRIPTIVE_STATISTICS.md) | 🟡 | Raf / Codex |
 | [ ] | 2.1b | Create a correlation heatmap and rolling equity/bond correlation | 🟡 | |
 | [ ] | 2.2 | Three-year rolling Σ: sample vs. Ledoit-Wolf | 🔴 | |
 | [ ] | 2.2b | Demonstrate instability (composition maps, LN3 lab) | 🟢 | |
@@ -118,6 +118,19 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | [ ] | 2.7 | Add unit-consistency tests: daily/annual, variance/volatility, simple/log/excess return | 🔴 | |
 | [ ] | 2.8 | Compare sample/LW by conditioning, weights, turnover, and realized-volatility error | 🔴 | |
 | [ ] | 2.9 | LN3 option: use the resampled frontier as a demonstration, not a production requirement | 🟢 | |
+
+Step 2.1 verified: [shared statistics](src/descriptive.py) and
+[the reproducible builder](src/build_descriptive.py) regenerate 14-row tables
+(13 assets plus a daily-rebalanced descriptive 60/40 reference) for the main
+and extended common samples. Eleven original metric columns match Raf's old
+notebook formulas on identical inputs to numerical tolerance. Drawdown now
+includes initial wealth so first-day losses are counted. 67 tests pass,
+including hand-checkable drawdown, CAGR, volatility, Sharpe and tail-return
+cases, constant-series handling and invalid inputs. Local CSVs and an
+input/output-hashed manifest are saved under results; the notebook source
+uses the shared main-sample implementation and labels saved old outputs
+as stale. This does not close 2.6, create a monthly baseline, or validate a
+strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 ## Step 3 — Client Profile: Baseline, Then Adaptive Questionnaire
 
