@@ -46,7 +46,7 @@
 | [x] | 1.9 | Add automated tests for schema, duplicates, gaps, chronology, and coverage (market bundle and provisional direct-ETF sentiment) | 🔴 | Codex |
 | [x] | 1.10 | Verify total return/adjusted prices, currency, calendar, and units for each source — [conventions and approximation limits](docs/08_DATA_CONVENTIONS.md) | 🔴 | Codex |
 | [x] | 1.11 | Build the common sample for all strategies and document the start of each series — [provisional direct-ETF input and dependencies](docs/09_COMMON_SAMPLE.md) | 🔴 | Codex |
-| [ ] | 1.12 | Create a small, publishable demonstration dataset with no restricted data | 🔴 | |
+| [x] | 1.12 | Create a small, publishable demonstration dataset with no restricted data — [synthetic offline fixture](data/demo/README.md) | 🔴 | Codex |
 
 <a id="gics-dependency"></a>
 ### Deferred dependency — historical GICS (1.4b)
@@ -93,6 +93,17 @@ and 6.1/6.11. Rebuild after the [GICS dependency](#gics-dependency) is resolved;
 this does not close the final holdout or predictive-validation tasks.
 
 ## Step 2 — Exploration & Estimation
+
+Step 1.12 verified: [the demo generator](src/demo_data.py) creates a fixed-seed,
+fully synthetic fixture committed under [data/demo](data/demo/README.md), about
+160 KB. It contains no source observations, uses explicit synthetic labels,
+and loads offline through `load_demo()` without writing to production paths.
+Market and sentiment schema/arithmetic audits pass, including intentional
+missing observations and undefined polarity. 63 tests pass. This completes the
+data fixture only: app demo integration, visible labelling and missing-artifact
+messages remain in **8.8/8.12**; no performance claim or production warm-up is
+supported by the short fixture. GICS (1.4b), FOMC (1.5) and original StockTwits
+retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|

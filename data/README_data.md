@@ -2,6 +2,13 @@
 
 This directory deliberately separates raw data from prepared data.
 
+An additional [demo/](demo/README.md) directory contains a small committed,
+fully synthetic offline fixture. Load it explicitly with
+`from src.demo_data import load_demo`; it never replaces real market data or
+supports investment-performance claims. Regenerate with
+`python -m src.demo_data`. This fixture does not redistribute external-source
+observations.
+
 - `raw/`: files downloaded or provided by the professor. Never modify them.
 - `processed/`: cleaned and aligned files, ready for the notebook and application.
 

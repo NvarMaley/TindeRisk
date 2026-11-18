@@ -534,6 +534,12 @@ Consistent palette, emojis for the 5 characters, short jargon-free client-facing
 
 ## Repository structure
 
+For offline development, a small **fully synthetic** dataset is committed in
+[data/demo/](data/demo/README.md). Load it explicitly with
+`from src.demo_data import load_demo`. It is for schema/UI testing only, not
+historical performance or signal validation, and does not overwrite production
+data.
+
 ```
 riskmatch/
 ├── README.md                  # this document
