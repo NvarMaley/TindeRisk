@@ -60,3 +60,15 @@ def category_from_profile(
     effective_volatility = min(tolerance_volatility, capacity_volatility)
     return effective_volatility, assign_risk_band(effective_volatility)
 
+
+
+def tolerance_volatility(risk_aversion: float, reference_sharpe: float) -> float:
+    """Compute the annual volatility implied by the Tobin calibration."""
+    if not math.isfinite(risk_aversion) or risk_aversion <= 0:
+        raise ValueError("risk aversion must be positive and finite")
+    if not math.isfinite(reference_sharpe) or reference_sharpe <= 0:
+        raise ValueError("reference Sharpe must be positive and finite")
+    volatility = reference_sharpe / risk_aversion
+    if not math.isfinite(volatility) or volatility <= 0:
+        raise ValueError("implied volatility must be positive and finite")
+    return volatility

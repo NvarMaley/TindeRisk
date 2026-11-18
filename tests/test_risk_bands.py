@@ -56,3 +56,26 @@ def test_capacity_caps_higher_tolerance():
 def test_invalid_volatility_is_rejected(invalid):
     with pytest.raises(ValueError):
         assign_risk_band(invalid)
+
+
+def test_sharpe_sensitivity_changes_category_and_capacity_can_limit_it():
+    from src.profiling import tolerance_volatility
+
+    baseline = tolerance_volatility(4, .35)
+    higher = tolerance_volatility(4, .40)
+    assert baseline == pytest.approx(.0875)
+    assert higher == pytest.approx(.10)
+    assert assign_risk_band(baseline).key == "balanced"
+    assert assign_risk_band(higher).key == "growth"
+    for tolerance in (baseline, higher):
+        capped, band = category_from_profile(tolerance, .08)
+        assert capped == .08
+        assert band.key == "balanced"
+
+
+@pytest.mark.parametrize("phi,sharpe", [(0, .35), (4, 0), (float("nan"), .35)])
+def test_tolerance_volatility_rejects_invalid_calibration(phi, sharpe):
+    from src.profiling import tolerance_volatility
+
+    with pytest.raises(ValueError):
+        tolerance_volatility(phi, sharpe)

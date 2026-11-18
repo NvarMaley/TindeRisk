@@ -112,7 +112,7 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | [x] | 2.2 | Three-year rolling Σ: sample vs. Ledoit-Wolf — implemented and locally verified | 🔴 | Raf / Codex |
 | [ ] | 2.2b | Demonstrate instability (composition maps, LN3 lab) | 🟢 | |
 | [x] | 2.3 | Select, implement, and document a conservative μ estimator — regularized Bayes–Stein-style mean; [definitions and limits](docs/13_EXPECTED_RETURNS.md) | 🔴 | Raf / Codex |
-| [ ] | 2.4 | Set the reference Sharpe ratio SR_T and perform sensitivity analysis | 🔴 | |
+| [x] | 2.4 | Set the reference Sharpe ratio SR_T and perform sensitivity analysis — [0.35 and 40 scenarios](docs/14_REFERENCE_SHARPE.md) | 🔴 | Raf / Codex |
 | [ ] | 2.5 | Implement reproducible baselines: equal-weighted, GMV, and 60/40 | 🔴 | |
 | [ ] | 2.6 | Run diagnostics for normality, autocorrelation, historical ES, and subperiod stability | 🟡 | |
 | [ ] | 2.7 | Add unit-consistency tests: daily/annual, variance/volatility, simple/log/excess return | 🔴 | |
@@ -305,7 +305,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 - [x] Black-Litterman reference portfolio (`x0`): ERC, approved 2026-11-17 (DR-02); 60/40 for sensitivity
 - [x] Leverage permitted up to 1.5×, borrowing spread 100 bps, approved 2026-11-17 (DR-03)
 - [ ] Final list of macroeconomic variables and number of regimes
-- [ ] Reference SR_T value
+- [x] Reference SR_T value for profiling — 0.35 with documented sensitivity
 - [ ] Volatility caps by horizon (capacity rules)
 - [ ] Risk budgets by regime (Chameleon)
 - [ ] CHF option (currency risk): yes / no
