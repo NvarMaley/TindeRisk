@@ -1,7 +1,13 @@
+import sys
+from types import SimpleNamespace
+
 import pandas as pd
 import pytest
 
-from src.fomc import parse_statement, score_statements, split_sentences, statement_links
+from src.fomc import (
+    MODEL_ID, MODEL_REVISION, parse_statement, roberta_cached, score_statements,
+    split_sentences, statement_links,
+)
 
 URL = "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200315a.htm"
 
@@ -53,3 +59,16 @@ def test_tone_includes_neutral_sentences_and_uses_next_nyse_session():
     assert tone.loc[0, "available_date"] == pd.Timestamp("2020-03-16")
     with pytest.raises(ValueError, match="Invalid sentence predictions"):
         score_statements(docs, lambda sentences: [0, 2, 3])
+
+
+def test_roberta_readiness_requires_files_of_the_pinned_revision(monkeypatch):
+    cached = {"config.json", "tokenizer.json", "tokenizer_config.json"}
+
+    def lookup(model, filename, *, revision):
+        assert (model, revision) == (MODEL_ID, MODEL_REVISION)
+        return str(filename) if filename in cached else None
+
+    monkeypatch.setitem(sys.modules, "huggingface_hub", SimpleNamespace(try_to_load_from_cache=lookup))
+    assert not roberta_cached()
+    cached.add("pytorch_model.bin")
+    assert roberta_cached()

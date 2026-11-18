@@ -26,6 +26,7 @@ START, END = "2010-01-01", "2020-03-31"
 LABELS = {0: "dovish", 1: "hawkish", 2: "neutral"}
 MODEL_ID = "gtfintechlab/FOMC-RoBERTa"
 MODEL_REVISION = "1c0e40cc6f364fe60f92482ffa496f65647f4a34"
+ROBERTA_FILES = ("config.json", "pytorch_model.bin", "tokenizer.json", "tokenizer_config.json")
 DATA_REVISION = "98646987452b326507479cf641571b33814bb73f"
 TRAIN_FILE, TEST_FILE = "1996-2019-train.xlsx", "2020-2022-test.xlsx"
 STATEMENTS = "statements.json"
@@ -145,6 +146,18 @@ def baseline_predictor(directory):
     }
 
 
+def roberta_cached() -> bool:
+    """Check the pinned checkpoint without contacting the Hub."""
+    try:
+        from huggingface_hub import try_to_load_from_cache
+    except ImportError:
+        return False
+    return all(
+        isinstance(try_to_load_from_cache(MODEL_ID, filename, revision=MODEL_REVISION), str)
+        for filename in ROBERTA_FILES
+    )
+
+
 def roberta_predictor():
     """Use the official pinned checkpoint from the local Hugging Face cache."""
     import torch
@@ -205,6 +218,9 @@ def main():
     if args.action == "fetch":
         print(f"Downloaded {fetch_inputs(directory)} dated statements and two annotated splits.")
     else:
+        if args.action == "roberta" and not roberta_cached():
+            parser.error(f"Official checkpoint missing locally. Request access at https://huggingface.co/{MODEL_ID}, "
+                         f"then cache revision {MODEL_REVISION} before running offline.")
         _, report = build_tone(directory, PROCESSED_DATA, args.action)
         print(json.dumps(report, indent=2))
 
