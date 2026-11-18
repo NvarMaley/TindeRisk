@@ -105,6 +105,6 @@ SciPy/scikit-learn/narwhals installations were repaired at their existing
 versions, and Matplotlib was installed from the declared dependency range.
 This is not a new clean-environment installation certification.
 
-The two checklist rows remain unchecked pending peer review, as required by
-`CONTRIBUTING.md`: “A task is complete only after another person has reviewed
-the code, tests, documentation, and reproducible evidence.”
+The two checklist rows were checked at the user’s explicit request after local
+verification. Independent peer review remains pending in PR #2; no independent
+review is claimed by those check marks.

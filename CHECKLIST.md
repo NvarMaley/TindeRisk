@@ -108,8 +108,8 @@ retrieval timing (1.8) remain open and do not block market-only Step 2 work.
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [x] | 2.1 | Compute descriptive statistics by asset (return, volatility, Sharpe, skewness, kurtosis, max drawdown) — [reproduction and definitions](docs/10_DESCRIPTIVE_STATISTICS.md) | 🟡 | Raf / Codex |
-| [ ] | 2.1b | Create a correlation heatmap and rolling equity/bond correlation — implemented and locally verified; peer review pending | 🟡 | Raf / Codex |
-| [ ] | 2.2 | Three-year rolling Σ: sample vs. Ledoit-Wolf — implemented and locally verified; peer review pending | 🔴 | Raf / Codex |
+| [x] | 2.1b | Create a correlation heatmap and rolling equity/bond correlation — implemented and locally verified | 🟡 | Raf / Codex |
+| [x] | 2.2 | Three-year rolling Σ: sample vs. Ledoit-Wolf — implemented and locally verified | 🔴 | Raf / Codex |
 | [ ] | 2.2b | Demonstrate instability (composition maps, LN3 lab) | 🟢 | |
 | [ ] | 2.3 | Select, implement, and document a conservative μ estimator | 🔴 | |
 | [ ] | 2.4 | Set the reference Sharpe ratio SR_T and perform sensitivity analysis | 🔴 | |
@@ -322,5 +322,5 @@ Sample, constant-correlation LW (LN3) and scaled-identity LW are distinguished.
 The constant-correlation moment normalization and equal-target edge case have
 been corrected. Hash, formula, chronology and integration checks pass;
 `make check` passes 85 tests. [Definitions and evidence](docs/12_CORRELATION_COVARIANCE.md).
-Rows stay open until peer review under CONTRIBUTING.md. This does not complete
+Rows checked at the user’s explicit request after local verification; independent peer review remains pending in PR #2. This does not complete
 2.2b, 2.5 or 2.8, and does not certify the old notebook outputs or a backtest.
