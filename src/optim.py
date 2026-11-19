@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize
 
 
 def _covariance(covariance: pd.DataFrame, *, positive_definite: bool = False) -> np.ndarray:
@@ -89,6 +90,37 @@ def erc(covariance: pd.DataFrame) -> pd.Series:
     if assets.empty:
         raise ValueError("ERC requires at least one asset")
     return risk_budget(covariance, pd.Series(1 / len(assets), index=assets))
+
+
+def capped_erc(covariance: pd.DataFrame, max_weight: float) -> pd.Series:
+    """Minimize the ERC log-barrier objective with a cap on normalized weights."""
+    reference = erc(covariance)
+    n = len(reference)
+    if not np.isfinite(max_weight) or not 1 / n <= max_weight <= 1:
+        raise ValueError("infeasible maximum ERC weight")
+    if reference.max() <= max_weight:
+        return reference
+    if max_weight == 1 / n:
+        return pd.Series(1 / n, index=reference.index)
+
+    matrix = _covariance(covariance, positive_definite=True)
+    matrix /= np.max(matrix.diagonal())
+    cap_constraints = max_weight - np.eye(n)
+    initial = np.ones(n) / np.sqrt(matrix.sum())
+    result = minimize(
+        lambda x: .5 * x @ matrix @ x - np.log(x).mean(),
+        initial, jac=lambda x: matrix @ x - 1 / (n * x),
+        bounds=[(1e-12, None)] * n,
+        constraints={"type": "ineq", "fun": lambda x: cap_constraints @ x,
+                     "jac": lambda x: cap_constraints},
+        method="SLSQP", options={"ftol": 1e-12, "maxiter": 300},
+    )
+    if not result.success or not np.isfinite(result.x).all() or (result.x <= 0).any():
+        raise RuntimeError(f"capped ERC optimization failed: {result.message}")
+    weights = result.x / result.x.sum()
+    if weights.max() > max_weight + 1e-9:
+        raise RuntimeError("capped ERC returned infeasible weights")
+    return pd.Series(weights, index=reference.index)
 
 
 def bl_posterior(prior: pd.Series, covariance: pd.DataFrame, p: pd.DataFrame,

@@ -25,7 +25,8 @@ class ConnectedPortfolio:
 def connected_portfolio(reference: pd.Series, annual_covariance: pd.DataFrame, *,
                         reference_sharpe: float, p: pd.DataFrame | None = None,
                         q: pd.Series | None = None, omega: pd.DataFrame | None = None,
-                        tau_max: float = .05, target_tracking_error: float = .03) -> ConnectedPortfolio:
+                        tau_max: float = .05, target_tracking_error: float = .03,
+                        max_weight: float = 1.) -> ConnectedPortfolio:
     """Construct the long-only risky sleeve from an anchor and optional approved views."""
     if not np.isfinite(reference_sharpe) or reference_sharpe <= 0:
         raise ValueError("reference Sharpe must be positive and finite")
@@ -36,6 +37,10 @@ def connected_portfolio(reference: pd.Series, annual_covariance: pd.DataFrame, *
     reference_vol = vol(reference, annual_covariance)
     if reference_vol <= 0 or (reference < 0).any() or not np.isclose(reference.sum(), 1, atol=1e-10, rtol=0):
         raise ValueError("reference must be long-only, fully invested, and have positive volatility")
+    if not np.isfinite(max_weight) or not 1 / len(reference) <= max_weight <= 1:
+        raise ValueError("infeasible maximum Connected weight")
+    if reference.max() > max_weight + 1e-9:
+        raise ValueError("reference weights must respect the Connected cap")
     prior = ((reference_sharpe / reference_vol) * (annual_covariance @ reference)).rename("excess_mean")
 
     if p is None and q is None and omega is None:
@@ -45,7 +50,7 @@ def connected_portfolio(reference: pd.Series, annual_covariance: pd.DataFrame, *
 
     def optimize(tau: float):
         posterior = bl_posterior(prior, annual_covariance, p, q, omega, tau=tau)
-        weights, method = classic_weights(posterior, annual_covariance, max_weight=1.)
+        weights, method = classic_weights(posterior, annual_covariance, max_weight=max_weight)
         if method != "tangency":
             raise RuntimeError("Connected views yield no feasible positive tangency portfolio")
         return posterior, weights, tracking_error(weights, reference, annual_covariance)

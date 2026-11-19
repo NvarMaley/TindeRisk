@@ -401,6 +401,38 @@ each strategy's risky sleeve before applying the personal constraints in
 Step 5.6b. Step 6 will apply the borrowing cost in DR-03 and measure
 realized volatility.
 
+### 8.9 Client constraints
+
+Resolve the questionnaire's exclusions, borrowing permission and ETF cap
+before constructing an allocation. Remove excluded assets from the
+eligible covariance and risky sleeve. A sector exclusion also removes SPY
+from the personalized benchmark variant because the broad ETF can hold
+that sector. Gold excludes GLD. Treasuries exclude IEF and TLT. The
+historical 60/40 benchmark keeps its fixed mandate.
+
+First optimize on the eligible assets. If the proposed allocation would
+exceed the client's capital cap, use the proposed risky exposure to
+translate that cap into a normalized sleeve cap, then re-optimize. Classic
+uses tangency and the existing GMV fallback. Balanced uses the convex
+log-barrier ERC objective with the sleeve cap. A binding cap can change
+the risk shares. Connected rebuilds its constrained ERC anchor and drops
+any view touching an excluded asset. Its no-view allocation equals
+constrained Balanced. The benchmark variant preserves the relative mix of
+its surviving legs. A strategy with no eligible ETF is unavailable.
+
+Scale the resulting sleeve with cash, applying the capital cap and the
+borrowing limit to the final weights. The effective risk target is the
+smaller of the category reference and the client's capacity, when
+provided. Report the achieved volatility and the shortfall from the
+category reference. With few eligible ETFs, the final capital limits can
+leave a substantial cash balance.
+
+The notebook verifies 144 allocations across three market snapshots and
+three constraint scenarios. On 31 December 2015, for an 8% effective
+target with energy and gold excluded, a 25% ETF cap and no borrowing,
+Classic achieves 7.19% estimated volatility. Balanced and Connected
+achieve 6.81%. The eligible benchmark has 25% IEF and 75% cash.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.

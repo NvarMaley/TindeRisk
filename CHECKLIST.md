@@ -209,7 +209,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | 24 exploratory fits meet their risk budgets. Historical vintages and changing regimes are needed to assess portfolio utility. |
 | [x] | 5.5 | 📈 60/40 benchmark | 🔴 | Verified monthly SPY/IEF drift and gross daily returns on 2,578 main and 4,498 extended sessions. |
 | [x] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | 3,072 allocations checked. Default 1×. Explicit leverage variant uses 1.5× and reports achieved volatility and shortfalls. |
-| [ ] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | |
+| [x] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | 144 allocations checked for exclusions, ETF caps, borrowing permission and effective risk targets. |
 | [ ] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | |
 | [ ] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | |
 | [ ] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | |
@@ -231,7 +231,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [ ] | 6.5 | Test robustness to window, frequency, subperiods, and shrinkage | 🟡 | |
 | [ ] | 6.6 | Export `results/*.parquet` | 🔴 | |
 | [ ] | 6.7 | Add an anti-look-ahead test: weights at `t` use no subsequent returns | 🔴 | |
-| [ ] | 6.8 | Report gross and net results, plus alpha/beta with HAC errors | 🟡 | |
+| [ ] | 6.8 | Report gross and net results, plus alpha/beta with HAC errors | 🟡 | Use the local `data_plus/clean/daily_factors.parquet` Fama–French series for a factor diagnostic on overlapping dates. |
 | [ ] | 6.9 | Preserve a frozen final test; distinguish confirmatory from exploratory analyses | 🔴 | |
 | [ ] | 6.10 | Verify the weight lag: decision at `t`, return earned at `t+1` | 🔴 | |
 | [ ] | 6.11 | Compare over a common period; present longer histories separately | 🔴 | |
