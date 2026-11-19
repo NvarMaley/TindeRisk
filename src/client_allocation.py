@@ -10,10 +10,14 @@ from .baselines import benchmark_60_40_weights
 from .classic import classic_weights
 from .connected import connected_portfolio
 from .optim import TargetAllocation, capped_erc, target_vol, vol
-from .profiling import RiskBand
+from .profiling import RiskBand, volatility_band_position
 
 _SECTORS = {"XLK", "XLF", "XLE", "XLV", "XLY", "XLP", "XLI", "XLB", "XLU"}
 _EXCLUSION_GROUPS = {"energy": ("XLE",), "gold": ("GLD",), "treasuries": ("IEF", "TLT")}
+
+
+class NoEligibleAssetsError(ValueError):
+    """All risky assets of the requested strategy were excluded."""
 
 
 def resolve_client_exclusions(choices: Sequence[str] | None, *, benchmark_equity: str = "SPY") -> tuple[str, ...]:
@@ -40,6 +44,14 @@ class ClientAllocation:
     @property
     def target_shortfall(self) -> float:
         return max(0., self.band.reference_volatility - self.allocation.achieved_volatility)
+
+    @property
+    def reference_gap(self) -> float:
+        return self.allocation.achieved_volatility - self.band.reference_volatility
+
+    @property
+    def band_position(self) -> str:
+        return volatility_band_position(self.allocation.achieved_volatility, self.band)
 
 
 def reoptimize_for_client(
@@ -77,7 +89,7 @@ def reoptimize_for_client(
         raise ValueError("covariance must cover all strategy assets")
     eligible = strategy_assets[~strategy_assets.isin(excluded_assets)]
     if eligible.empty:
-        raise ValueError("no eligible ETF remains for this strategy")
+        raise NoEligibleAssetsError("no eligible ETF remains for this strategy")
     covariance = annual_covariance.loc[eligible, eligible]
 
     connected_views = {}
@@ -116,6 +128,6 @@ def reoptimize_for_client(
 
     scaled = target_vol(weights, covariance, target, max_risky_exposure=exposure_limit,
                         max_etf_weight=max_etf_weight)
-    allocation = TargetAllocation(scaled.risky_weights.reindex(labels, fill_value=0.),
-                                  scaled.cash_weight, scaled.achieved_volatility)
+    final_weights = scaled.risky_weights.reindex(labels, fill_value=0.)
+    allocation = TargetAllocation(final_weights, scaled.cash_weight, vol(final_weights, annual_covariance))
     return ClientAllocation(band, target, allocation, method)

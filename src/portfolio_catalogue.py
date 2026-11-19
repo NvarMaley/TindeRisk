@@ -11,7 +11,7 @@ import yaml
 
 from .baselines import benchmark_60_40_weights, monthly_decision_closes
 from .classic import fit_classic
-from .client_allocation import reoptimize_for_client
+from .client_allocation import NoEligibleAssetsError, reoptimize_for_client, resolve_client_exclusions
 from .estimation import ledoit_wolf_constant_corr, trailing_returns_at_close
 from .optim import tracking_error
 from .paths import PROCESSED_DATA, RESULTS, ROOT
@@ -22,8 +22,19 @@ from .portfolio_analytics import (
 from .profiling import RiskBand
 from .provenance import sha256_file
 
-CATALOGUE_SCHEMA_VERSION = 3
+CATALOGUE_SCHEMA_VERSION = 4
 CATALOGUE_FILE = "portfolio_catalogue.parquet"
+
+
+def _fit_catalogue_sleeves(config, returns, excess_returns, decision, window):
+    assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
+    cap = config["portfolio"]["max_weight_per_asset"]
+    benchmark = benchmark_60_40_weights(config["benchmark"])
+    fit = fit_classic(returns[assets], excess_returns[assets], decision_date=decision,
+                      window=window, max_weight=max(cap, 1 / len(assets)))
+    benchmark_history = trailing_returns_at_close(returns[benchmark.index], decision, window)
+    benchmark_covariance, _ = ledoit_wolf_constant_corr(benchmark_history)
+    return fit, benchmark_covariance
 
 
 def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_returns: pd.DataFrame, *,
@@ -37,11 +48,7 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     equity = config["benchmark"]
     universe = assets + [equity]
-    benchmark = benchmark_60_40_weights(equity)
-    fit = fit_classic(returns[assets], excess_returns[assets], decision_date=decision,
-                      window=window, max_weight=max(cap, 1 / len(assets)))
-    benchmark_returns = trailing_returns_at_close(returns[benchmark.index], decision, window)
-    benchmark_covariance, _ = ledoit_wolf_constant_corr(benchmark_returns)
+    fit, benchmark_covariance = _fit_catalogue_sleeves(config, returns, excess_returns, decision, window)
     joint_returns = trailing_returns_at_close(returns[universe], decision, window)
     joint_covariance, _ = ledoit_wolf_constant_corr(joint_returns)
     bands = [RiskBand(key=key, **values) for key, values in config["risk_bands"].items()]
@@ -70,8 +77,6 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
             weights = allocation.risky_weights.reindex(universe, fill_value=0.)
             risk = risk_breakdown(allocation.risky_weights, covariance).reindex(universe, fill_value=0.)
             entropy = risky_weight_shannon(weights)
-            within_band = (band.min_volatility <= achieved < band.max_volatility
-                           or (band == bands[-1] and achieved == band.max_volatility))
             records.append({
                 "risk_band": band.key, "strategy": strategy, "risk_band_label": band.label,
                 "decision_date": decision.date().isoformat(), "estimation_window_sessions": window,
@@ -80,6 +85,7 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
                 "reference_volatility": band.reference_volatility,
                 "band_min_volatility": band.min_volatility, "band_max_volatility": band.max_volatility,
                 "ex_ante_volatility": achieved, "target_shortfall": result.target_shortfall,
+                "reference_volatility_gap": result.reference_gap, "risk_band_position": result.band_position,
                 "ex_ante_tracking_error": tracking_error(weights, reference_weights, joint_covariance),
                 "risky_weight_herfindahl": risky_weight_herfindahl(weights),
                 "risky_weight_shannon": entropy,
@@ -87,7 +93,7 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
                 "diversification_ratio": diversification_ratio(allocation.risky_weights, covariance),
                 "snapshot_es95_daily_loss": expected_shortfall_loss(joint_returns @ weights),
                 "information_ratio": float("nan"),
-                "within_risk_band": within_band,
+                "within_risk_band": result.band_position == "within",
                 "reference_reached": result.target_shortfall <= 1e-10,
                 "allocation_method": result.method, "historical_metrics_status": "pending_backtest",
                 "allow_borrowing": False, "max_etf_weight": cap, "cash_weight": max(0., allocation.cash_weight),
@@ -106,6 +112,55 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
     fingerprint = hashlib.sha256(contents.encode("utf-8")).hexdigest()[:12]
     catalogue.insert(1, "catalogue_version", f"v{CATALOGUE_SCHEMA_VERSION}-{decision:%Y%m%d}-{fingerprint}")
     return catalogue
+
+
+def profile_volatility_preview(profile: dict, risk_band: str):
+    """Re-optimize the chosen band at the prepared, locally verified decision close."""
+    config_path = ROOT / "config.yaml"
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    risk = profile["risk"]
+    if not risk["reference_check_passed"] or risk["category"]["id"] != risk_band:
+        raise ValueError("profile risk reference is unresolved")
+    catalogue = pd.read_parquet(
+        RESULTS / CATALOGUE_FILE,
+        columns=["risk_band", "decision_date", "schema_version", "config_sha256",
+                 "returns_sha256", "excess_returns_sha256"],
+        filters=[("risk_band", "==", risk_band)],
+    ).drop_duplicates()
+    if (len(catalogue) != 1 or catalogue["schema_version"].iat[0] != CATALOGUE_SCHEMA_VERSION
+            or catalogue["config_sha256"].iat[0] != sha256_file(config_path)):
+        raise ValueError("regenerate the catalogue for the current configuration")
+    metadata = catalogue.iloc[0]
+    data = []
+    for name in ("returns", "excess_returns"):
+        path = PROCESSED_DATA / f"{name}.parquet"
+        if sha256_file(path) != metadata[f"{name}_sha256"]:
+            raise ValueError("prepared portfolio inputs have changed")
+        data.append(pd.read_parquet(path))
+
+    date = pd.Timestamp(metadata["decision_date"])
+    settings = config["portfolio"]
+    window = settings["estimation_window_years"] * 252
+    fit, benchmark_covariance = _fit_catalogue_sleeves(config, *data, date, window)
+    band = RiskBand(key=risk_band, **config["risk_bands"][risk_band])
+    constraints = profile["constraints"]
+    equity = config["benchmark"]
+    excluded = resolve_client_exclusions(constraints["excluded_groups"], benchmark_equity=equity)
+    cap = constraints["max_etf_weight"]
+    cap = min(cap, settings["max_weight_per_asset"]) if cap is not None else None
+    allocations = {}
+    for strategy in config["scope"]["core_strategies"]:
+        covariance = benchmark_covariance if strategy == "benchmark_60_40" else fit.annual_covariance
+        try:
+            allocations[strategy] = reoptimize_for_client(
+                strategy, covariance, band, excluded_assets=excluded, max_etf_weight=cap,
+                allow_borrowing=constraints["allow_borrowing"], leverage_limit=settings["leverage_limit"],
+                capacity_volatility=risk["capacity_volatility"], annual_excess_mean=fit.annual_excess_mean,
+                reference_sharpe=config["reference_sharpe"], benchmark_equity=equity,
+            )
+        except NoEligibleAssetsError:
+            allocations[strategy] = None
+    return date, allocations
 
 
 def main() -> Path:

@@ -38,6 +38,9 @@ def test_catalogue_keys_weights_and_pending_metrics_round_trip(tmp_path):
     assert catalogue.loc[catalogue.strategy.eq("benchmark_60_40"), "ex_ante_tracking_error"].eq(0).all()
     assert catalogue["ex_ante_tracking_error"].ge(0).all()
     assert catalogue["information_ratio"].isna().all()
+    np.testing.assert_allclose(catalogue["reference_volatility_gap"],
+                               catalogue["ex_ante_volatility"] - catalogue["reference_volatility"])
+    assert catalogue["within_risk_band"].equals(catalogue["risk_band_position"].eq("within"))
     assert catalogue["snapshot_es95_daily_loss"].notna().all()
     assert catalogue["diversification_ratio"].ge(1 - 1e-12).all()
     np.testing.assert_allclose(np.exp(catalogue["risky_weight_shannon"]),
