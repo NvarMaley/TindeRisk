@@ -272,6 +272,19 @@ reference fit. This persistence limits the evidence for useful regime
 switching. Revisit the labels on the historical-vintage fit before turning
 them into risk budgets.
 
+In Step 4.7, refit a four-component diagonal Gaussian mixture and the
+four-state HMM on each expanding prefix, with the same scaler fitted on
+that prefix. Score the next monthly macro vector with the HMM state
+probabilities forecast from the preceding filtered distribution. The
+static mixture uses its fitted component weights. Compare predictive log
+density in transformed feature units on identical dates.
+[Gaussian mixture log density](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html#sklearn.mixture.GaussianMixture.score_samples).
+
+On the exploratory 2016–2017 window the HMM leads on 21 of 24 months, with
+a mean advantage of 0.686 nats per month. The gain falls from 1.025 in
+2016 to 0.347 in 2017. The comparison measures macro density fit on revised
+FRED inputs. Portfolio utility and vintage-aware validation remain open.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
