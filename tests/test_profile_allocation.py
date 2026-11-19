@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.profile_allocation import allocate_for_profile
-from src.profiling import risk_target
+from src.profile_allocation import allocate_for_profile, allocate_for_risk_band
+from src.profiling import RISK_BANDS, risk_target
 
 
 @pytest.mark.parametrize("capacity,category", [
@@ -35,3 +35,27 @@ def test_achieved_volatility_is_recomputed_after_weight_and_leverage_limits():
                                         reference_sharpe=.35, capacity=.08)
     assert no_borrowing.cash_weight == pytest.approx(0)
     assert no_borrowing.achieved_volatility < .08
+
+
+def test_band_allocations_default_to_cash_or_at_most_full_risky_exposure():
+    weights = pd.Series({"A": 1.})
+    covariance = pd.DataFrame([[.06**2]], index=weights.index, columns=weights.index)
+    low = allocate_for_risk_band(weights, covariance, RISK_BANDS[0])
+    assert low.allocation.achieved_volatility == pytest.approx(.05)
+    assert low.allocation.cash_weight == pytest.approx(1 - .05 / .06)
+    high = allocate_for_risk_band(weights, covariance, RISK_BANDS[-1])
+    assert high.risky_exposure == pytest.approx(1.)
+    assert high.allocation.cash_weight == pytest.approx(0.)
+    assert high.target_shortfall == pytest.approx(.08)
+
+
+def test_band_leverage_is_explicit_and_limited_by_gross_exposure():
+    weights = pd.Series({"A": 1.})
+    covariance = pd.DataFrame([[.06**2]], index=weights.index, columns=weights.index)
+    levered = allocate_for_risk_band(weights, covariance, RISK_BANDS[-1], allow_leverage=True)
+    assert levered.risky_exposure == pytest.approx(1.5)
+    assert levered.allocation.cash_weight == pytest.approx(-.5)
+    assert levered.allocation.achieved_volatility == pytest.approx(.09)
+    assert levered.target_shortfall == pytest.approx(.05)
+    with pytest.raises(ValueError, match="explicit boolean"):
+        allocate_for_risk_band(weights, covariance, RISK_BANDS[-1], allow_leverage="false")

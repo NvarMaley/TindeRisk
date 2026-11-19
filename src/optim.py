@@ -127,7 +127,7 @@ class TargetAllocation:
 
 
 def target_vol(weights: pd.Series, covariance: pd.DataFrame, target: float, *,
-               max_risky_exposure: float = 1.0, max_etf_weight: float = 1.0) -> TargetAllocation:
+               max_risky_exposure: float = 1.0, max_etf_weight: float | None = 1.0) -> TargetAllocation:
     """Scale a fully invested long-only sleeve and put the remainder in cash."""
     values = _aligned_values(weights, covariance.columns, "risky weights")
     matrix = _covariance(covariance)
@@ -135,12 +135,15 @@ def target_vol(weights: pd.Series, covariance: pd.DataFrame, target: float, *,
         raise ValueError("risky sleeve must be fully invested and long-only")
     if not np.isfinite(target) or target < 0:
         raise ValueError("target volatility must be nonnegative and finite")
-    if (not np.isfinite(max_risky_exposure) or max_risky_exposure <= 0
-            or not np.isfinite(max_etf_weight) or not 0 < max_etf_weight <= 1):
+    if not np.isfinite(max_risky_exposure) or max_risky_exposure <= 0:
+        raise ValueError("invalid allocation limits")
+    if max_etf_weight is not None and (not np.isfinite(max_etf_weight) or not 0 < max_etf_weight <= 1):
         raise ValueError("invalid allocation limits")
     volatility = _volatility(values, matrix)
     if volatility == 0:
         raise ValueError("risky sleeve volatility must be positive")
-    exposure = min(target / volatility, max_risky_exposure, max_etf_weight / values.max())
+    exposure = min(target / volatility, max_risky_exposure)
+    if max_etf_weight is not None:
+        exposure = min(exposure, max_etf_weight / values.max())
     actual = weights * exposure
     return TargetAllocation(actual, float(1 - actual.sum()), _volatility(values * exposure, matrix))
