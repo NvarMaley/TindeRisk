@@ -524,6 +524,28 @@ std(active, ddof=1)`. It is undefined with zero active volatility.
 Step 6 supplies the matched net returns. Until then the catalogue field
 remains null.
 
+### 8.12 Expected Shortfall and diversification (LN6)
+
+Catalogue schema v3 applies the prepared portfolio's decision-close weights
+to the trailing 756 observations of daily ETF returns. Cash carries a
+zero shock in this risk diagnostic. Report Expected Shortfall at 95% as
+the average signed loss over the worst 5% of the empirical distribution.
+Use fractional mass at the boundary when 5% of the observations is not an
+integer. The output is a daily decimal loss, with positive values indicating
+losses. The Step 2.1 descriptive table retains its original signed-return
+convention. Step 6 will apply the loss calculation to realized net returns.
+
+Normalize risky weights to sum to one for Herfindahl and Shannon. Shannon
+uses natural logarithms, and its exponential gives the effective number of
+ETF holdings. The diversification ratio is the weighted sum of individual
+volatilities divided by the sleeve volatility, both from the same covariance.
+It is undefined for zero portfolio volatility.
+
+The Step 5.10 notebook checks all 16 snapshots on the window from
+26 October 2023 to 30 October 2026. Balanced in the 8% risk band has
+a daily Expected Shortfall of 1.09% loss, a Herfindahl index of 0.110,
+10.64 effective holdings and a diversification ratio of 1.751.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.

@@ -3,7 +3,10 @@ import pandas as pd
 import pytest
 
 from src.optim import vol
-from src.portfolio_analytics import information_ratio, risk_breakdown, risky_weight_herfindahl
+from src.portfolio_analytics import (
+    diversification_ratio, expected_shortfall_loss, information_ratio, risk_breakdown,
+    risky_weight_herfindahl, risky_weight_shannon,
+)
 
 
 def test_risk_analytics_keep_signed_euler_contributions_and_cash_neutral_concentration():
@@ -30,3 +33,23 @@ def test_information_ratio_uses_realized_active_returns_on_identical_dates():
     assert np.isnan(information_ratio(benchmark, benchmark))
     with pytest.raises(ValueError, match="aligned"):
         information_ratio(benchmark, benchmark.iloc[::-1])
+
+
+def test_expected_shortfall_uses_exact_fractional_tail_and_loss_units():
+    returns = pd.Series([.02, -.06, .00, -.10, .04])
+    assert expected_shortfall_loss(returns, .70) == pytest.approx((.10 + .5 * .06) / 1.5)
+    assert expected_shortfall_loss(returns) == pytest.approx(.10)
+    assert expected_shortfall_loss(pd.Series([.02] * 20)) == pytest.approx(-.02)
+    with pytest.raises(ValueError, match="nonempty finite"):
+        expected_shortfall_loss(pd.Series([-.01, pd.NA], dtype="Float64"))
+
+
+def test_entropy_and_diversification_match_analytical_cases():
+    weights = pd.Series({"A": .25, "B": .25})
+    covariance = pd.DataFrame(np.diag([.04, .04]), index=weights.index, columns=weights.index)
+    assert risky_weight_shannon(weights) == pytest.approx(np.log(2))
+    assert risky_weight_shannon(weights * 2) == pytest.approx(np.log(2))
+    assert diversification_ratio(weights, covariance) == pytest.approx(np.sqrt(2))
+    concentrated = pd.Series({"A": .5, "B": 0.})
+    assert risky_weight_shannon(concentrated) == 0
+    assert diversification_ratio(concentrated, covariance) == pytest.approx(1.)
