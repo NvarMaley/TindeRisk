@@ -6,8 +6,8 @@ from scipy.stats import norm
 from sklearn.preprocessing import StandardScaler
 
 from src.macro_regimes import (
-    expanding_regime_probabilities, filtered_state_probabilities, macro_month_ends, macro_regime_profiles,
-    select_macro_hmm,
+    compare_hmm_to_static_gmm, expanding_regime_probabilities, filtered_state_probabilities,
+    macro_month_ends, macro_regime_profiles, select_macro_hmm,
 )
 
 
@@ -124,3 +124,26 @@ def test_profiles_restore_units_and_keep_state_statistics_aligned():
     np.testing.assert_allclose(profile["self_transition"], [.8, .7])
     assert profile["dominant_months"].sum() == len(panel)
     assert profile["mean_filtered_probability"].sum() == pytest.approx(1)
+
+
+def test_static_comparison_scores_unseen_month_and_is_invariant_to_future_input():
+    rng = np.random.default_rng(391)
+    states = np.tile(np.repeat([-3., 3.], 12), 4)
+    dates = pd.date_range("2010-01-31", periods=len(states), freq="ME")
+    data = pd.DataFrame({"A": states + rng.normal(0, .25, len(states)),
+                         "B": -states + rng.normal(0, .4, len(states))}, index=dates)
+    seeds = (0, 4, 9)
+    options = dict(first_observation=dates[-2], states=2, seeds=seeds)
+    result = compare_hmm_to_static_gmm(data, **options)
+    revised = data.copy()
+    revised.iloc[-1] += 20
+    pd.testing.assert_series_equal(compare_hmm_to_static_gmm(revised, **options).iloc[0], result.iloc[0])
+    assert (result["train_through"] < result.index).all()
+
+    model, scaler, _ = select_macro_hmm(data.iloc[:-2], candidates=(2,), seeds=seeds)
+    z = scaler.transform(data.iloc[:-1])
+    expected = model.score(z) - model.score(z[:-1]) - np.log(scaler.scale_).sum()
+    assert result.iloc[0]["hmm_log_score"] == pytest.approx(expected)
+    assert result.iloc[0]["hmm_minus_gmm"] == pytest.approx(
+        result.iloc[0]["hmm_log_score"] - result.iloc[0]["gmm_log_score"]
+    )

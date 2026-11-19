@@ -8,6 +8,7 @@ import pandas as pd
 import pandas_market_calendars as mcal
 from scipy.optimize import linear_sum_assignment
 from scipy.special import logsumexp
+from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import StandardScaler
 from threadpoolctl import threadpool_limits
 
@@ -87,6 +88,10 @@ def select_macro_hmm(
 
 def filtered_state_probabilities(model: GaussianHMM, observations: np.ndarray) -> np.ndarray:
     """Evaluate P(state_t | observations through t) using only forward updates."""
+    return _forward_filter(model, observations)[0]
+
+
+def _forward_filter(model: GaussianHMM, observations: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     z = np.asarray(observations, dtype=float)
     if (model.covariance_type != "diag" or z.ndim != 2 or len(z) == 0
             or z.shape[1] != model.means_.shape[1] or not np.isfinite(z).all()):
@@ -100,6 +105,7 @@ def filtered_state_probabilities(model: GaussianHMM, observations: np.ndarray) -
         log_start = np.log(model.startprob_)
         log_transitions = np.log(model.transmat_)
     result = np.empty_like(emissions)
+    log_scores = np.empty(len(z))
     log_prior = log_start
     for i, emission in enumerate(emissions):
         log_joint = log_prior + emission
@@ -108,8 +114,26 @@ def filtered_state_probabilities(model: GaussianHMM, observations: np.ndarray) -
             raise ValueError("The HMM assigns no probability to the observed sequence")
         log_filtered = log_joint - normalizer
         result[i] = np.exp(log_filtered)
+        log_scores[i] = normalizer
         log_prior = logsumexp(log_filtered[:, None] + log_transitions, axis=0)
-    return result
+    return result, log_scores
+
+
+def _expanding_fits(panel, first_observation, states, seeds):
+    dates = panel.index
+    if (not isinstance(dates, pd.DatetimeIndex) or dates.hasnans
+            or dates.tz is not None or not dates.is_unique or not dates.is_monotonic_increasing):
+        raise ValueError("Regime observations require sorted, unique timezone-naive dates")
+    first = dates.get_indexer([pd.Timestamp(first_observation)])[0]
+    if first < 12:
+        raise ValueError("The first prediction must follow at least 12 training months")
+    if not dates.to_period("M").equals(pd.period_range(dates[0], periods=len(dates), freq="M")):
+        raise ValueError("Regime observations must be consecutive months")
+
+    for position in range(first, len(dates)):
+        train = panel.iloc[:position]
+        model, scaler, comparison = select_macro_hmm(train, candidates=(states,), seeds=seeds)
+        yield position, model, scaler, comparison
 
 
 def expanding_regime_probabilities(
@@ -121,20 +145,9 @@ def expanding_regime_probabilities(
 ) -> pd.DataFrame:
     """Re-estimate before each month, then filter through that month's observation."""
     dates = panel.index
-    if (not isinstance(dates, pd.DatetimeIndex) or dates.hasnans
-            or dates.tz is not None or not dates.is_unique or not dates.is_monotonic_increasing):
-        raise ValueError("Regime observations require sorted, unique timezone-naive dates")
-    first = dates.get_indexer([pd.Timestamp(first_observation)])[0]
-    if first < 12:
-        raise ValueError("The first prediction must follow at least 12 training months")
-    if not dates.to_period("M").equals(pd.period_range(dates[0], periods=len(dates), freq="M")):
-        raise ValueError("Regime observations must be consecutive months")
-
     rows = []
-    for position in range(first, len(dates)):
-        train = panel.iloc[:position]
-        model, scaler, comparison = select_macro_hmm(train, candidates=(states,), seeds=seeds)
-        if position == first:
+    for position, model, scaler, comparison in _expanding_fits(panel, first_observation, states, seeds):
+        if not rows:
             reference_means, reference_scaler = model.means_.copy(), scaler
         means = (scaler.inverse_transform(model.means_) - reference_scaler.mean_) / reference_scaler.scale_
         distances = ((reference_means[:, None, :] - means[None, :, :])**2).sum(axis=2)
@@ -146,8 +159,37 @@ def expanding_regime_probabilities(
             "converged_starts": comparison.loc[states, "converged_starts"],
             **{f"state_{j}": value for j, value in enumerate(probabilities)},
         })
-    result = pd.DataFrame(rows, index=dates[first:].rename("observation_date"))
+    result = pd.DataFrame(rows, index=dates[-len(rows):].rename("observation_date"))
     result.insert(0, "available_date", next_market_session(result.index))
+    return result
+
+
+def compare_hmm_to_static_gmm(
+    panel: pd.DataFrame, *, first_observation, states: int, seeds: Sequence[int] = tuple(range(6)),
+) -> pd.DataFrame:
+    """Score held-out macro vectors with the HMM prior and a static mixture."""
+    rows = []
+    dates = panel.index
+    for position, model, scaler, _ in _expanding_fits(panel, first_observation, states, seeds):
+        z = scaler.transform(panel.iloc[:position + 1])
+        with threadpool_limits(limits=1):
+            mixture = GaussianMixture(
+                n_components=states, covariance_type="diag", n_init=len(seeds),
+                max_iter=300, tol=1e-4, random_state=0,
+            ).fit(z[:-1])
+        if not mixture.converged_:
+            raise RuntimeError(f"Static mixture did not converge before {dates[position].date()}")
+
+        _, forward_scores = _forward_filter(model, z)
+        # Put both densities back in the same transformed macro units.
+        log_jacobian = np.log(scaler.scale_).sum()
+        rows.append({
+            "observation_date": dates[position], "train_through": dates[position - 1],
+            "train_months": position, "hmm_log_score": forward_scores[-1] - log_jacobian,
+            "gmm_log_score": mixture.score_samples(z[-1:]).item() - log_jacobian,
+        })
+    result = pd.DataFrame(rows).set_index("observation_date")
+    result["hmm_minus_gmm"] = result["hmm_log_score"] - result["gmm_log_score"]
     return result
 
 
