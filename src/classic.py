@@ -7,7 +7,7 @@ import pandas as pd
 from scipy.optimize import minimize
 
 from .baselines import minimum_variance_weights
-from .estimation import ledoit_wolf_constant_corr
+from .estimation import ledoit_wolf_constant_corr, trailing_returns_at_close
 from .expected_returns import rolling_expected_returns
 from .optim import _aligned_values, _covariance
 
@@ -73,11 +73,7 @@ def fit_classic(returns: pd.DataFrame, excess_returns: pd.DataFrame, *,
                 decision_date: pd.Timestamp, max_weight: float, window: int = 756) -> ClassicPortfolio:
     """Fit Classic on a trailing window through the decision close inclusive."""
     date = pd.Timestamp(decision_date)
-    if not isinstance(window, int) or isinstance(window, bool) or window < 2:
-        raise ValueError("window must be an integer of at least 2")
-    if not returns.index.is_unique or not returns.index.is_monotonic_increasing:
-        raise ValueError("risky returns require sorted and unique dates")
-    history = returns.loc[returns.index <= date].tail(window)
+    history = trailing_returns_at_close(returns, date, window)
     excess = excess_returns.loc[excess_returns.index.isin(history.index)]
     means, _, _ = rolling_expected_returns(history, excess, pd.DatetimeIndex([date]), window=window)
     covariance, _ = ledoit_wolf_constant_corr(history)

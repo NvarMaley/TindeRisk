@@ -7,6 +7,24 @@ import pandas as pd
 from sklearn.covariance import LedoitWolf
 
 
+def trailing_returns_at_close(returns: pd.DataFrame, decision_date: pd.Timestamp,
+                              window: int) -> pd.DataFrame:
+    """Select the exact trailing sample, including the observed decision close."""
+    if not isinstance(window, int) or isinstance(window, bool) or window < 2:
+        raise ValueError("window must be an integer of at least 2")
+    dates = returns.index
+    if (not isinstance(dates, pd.DatetimeIndex) or dates.hasnans
+            or not dates.is_unique or not dates.is_monotonic_increasing):
+        raise ValueError("risky returns require sorted and unique dates")
+    date = pd.Timestamp(decision_date)
+    if date not in dates:
+        raise ValueError("decision close must belong to returns")
+    end = dates.get_loc(date) + 1
+    if end < window:
+        raise ValueError("insufficient trailing history")
+    return returns.iloc[end - window:end]
+
+
 def validate_returns(returns: pd.DataFrame, annualize: int = 252) -> None:
     """Require a complete ordered panel and nonconstant asset returns."""
     if len(returns) < 2 or returns.shape[1] < 2:
