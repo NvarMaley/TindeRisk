@@ -198,6 +198,33 @@ produces an empty `Omega`.
 
 ## 8. Strategies
 
+### Shared portfolio functions
+
+`src/optim.py` uses labelled weights and covariance in a common asset order.
+Volatility and tracking error use the same horizon as the covariance. Euler
+contribution to volatility for asset `i` is `w_i * (Sigma @ w)_i / vol`.
+The risk-budget solver minimizes the convex log-barrier objective via exact
+coordinate updates, then normalizes to unit invested weight. It requires
+positive budgets summing to one and positive definite covariance. ERC uses
+equal budgets.
+
+The Black–Litterman helper returns the posterior expected excess returns.
+An empty view set returns the prior exactly. Active views use the innovation
+`Q - P @ prior` and solve the linear system with covariance
+`P @ (tau * Sigma) @ P.T + Omega`. The portfolio optimizer will apply the
+strategy's reference and tracking-error rules in Step 5.3.
+
+The shared target-volatility helper scales a fully invested long-only sleeve
+against cash. The maximum risky exposure and the per-ETF cap can limit the
+achievable risk, which is recomputed on the scaled holdings. Step 3's profile
+allocation uses this same function.
+
+The Step 5.0 notebook verifies the formulas on synthetic inputs and checks a
+756-session market snapshot ending 31 December 2015. The 12-ETF ERC sleeve
+has ex-ante annualized volatility of 6.55%, with a maximum absolute risk-share
+error below 2e-11. Under the configured caps, the 5% and 8% volatility
+targets are reached. The 10% and 14% targets both result in 8.48% volatility.
+
 ### 8.1 Baselines
 
 - Equal-weighted portfolio over the available universe.
