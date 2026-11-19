@@ -340,8 +340,8 @@ estimates in Step 4.4b apply to later observations.
 The low-inflation state also leads all 24 exploratory filtered months from
 2016–2017. Its fitted self-transition probability is effectively one in the
 reference fit. This persistence limits the evidence for useful regime
-switching. Revisit the labels on the historical-vintage fit before turning
-them into risk budgets.
+switching. Revisit the labels and budget assumptions on the historical-vintage
+fit before portfolio validation.
 
 In Step 4.7, refit a four-component diagonal Gaussian mixture and the
 four-state HMM on each expanding prefix, with the same scaler fitted on
@@ -355,6 +355,34 @@ On the exploratory 2016–2017 window the HMM leads on 21 of 24 months, with
 a mean advantage of 0.686 nats per month. The gain falls from 1.025 in
 2016 to 0.347 in 2017. The comparison measures macro density fit on revised
 FRED inputs. Portfolio utility and vintage-aware validation remain open.
+
+### 8.7 Chameleon exploratory allocations
+
+The Step 5.4 experiment E022 uses the Step 4.4b state labels for this
+specific exploratory fit. These group shares were set before the portfolio
+run, using more bond and gold risk in stress and more equity risk in calm
+expansion.
+
+| Filtered regime | Equity | Bonds | Gold |
+|---|---:|---:|---:|
+| 0 — Expansion under financial strain | 45% | 40% | 15% |
+| 1 — Low-inflation expansion | 60% | 30% | 10% |
+| 2 — Contraction and financial stress | 30% | 45% | 25% |
+| 3 — Calm expansion, flat curve | 70% | 20% | 10% |
+
+At the decision close, use the latest available filtered probabilities.
+Month-end macro observations become available at the next NYSE session.
+Mix the rows by probability, then split each resulting group risk budget
+equally across its ETFs. The portfolio uses the shared risk-budget solver
+and the 756-session trailing covariance. The table describes shares of
+portfolio risk. The resulting capital weights can differ materially.
+
+The 24 exploratory decisions from 29 February 2016 to 31 January 2018
+match their group budgets within a maximum absolute error of 1.42e-10. The
+low-inflation state dominates each month and the largest change in a group
+target is 0.0276 percentage points. The budget choices and portfolio value
+require vintage-aware validation across different regimes before the
+extension enters the catalogue.
 
 ## 9. Backtest
 
