@@ -286,6 +286,28 @@ is 0.15% in the weak-confidence case and 3.00% in the strong-confidence
 case at calibrated `tau = 0.0153`. Activation of real views depends on
 Step 4.6. Sensitivity to the anchor, `tau` and `Omega` is tracked in Step 5.9.
 
+#### Chosen reference portfolio
+
+DR-02 selects ERC because it distributes estimated volatility risk equally
+among the eligible ETFs and requires no expected-return forecast. Under
+equal positive individual Sharpe ratios and constant pairwise correlations,
+the ERC and maximum-Sharpe portfolios coincide.
+[Maillard, Roncalli & Teïletche, §3.5](https://doi.org/10.3905/jpm.2010.36.4.060).
+
+For positive-definite `Sigma`, take `prior = s × Sigma @ x0 / vol(x0)`
+with `s > 0`. The Sharpe of a candidate `w` under that prior is
+`s × (w.T @ Sigma @ x0) / (vol(w) × vol(x0))`. By Cauchy–Schwarz it is
+at most `s`, with equality when `w` is a positive multiple of `x0`.
+Full investment then gives `w = x0`, provided the anchor is feasible.
+This reverse-optimization result holds for any feasible anchor under its
+own implied means. The 60/40 anchor is an alternative for Step 5.9.
+
+Across 96 month-ends from January 2010 to December 2017, the ERC anchor's
+implied Sharpe is 0.35. Solving the linear system for the anchor gives a
+maximum absolute weight difference of 1.33e-15. The separate long-only
+tangency optimizer recovers it within 4.14e-6 in weight units. The notebook
+also records these checks. Realized returns are evaluated in Step 6.
+
 ### 8.5 Non-Equal Risk Budget
 
 An option within the core only if the previous three methods have been stabilized. Budgets must come from a prespecified economic rule, not from a search for the best backtest.
