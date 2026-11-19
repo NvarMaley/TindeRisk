@@ -384,6 +384,23 @@ target is 0.0276 percentage points. The budget choices and portfolio value
 require vintage-aware validation across different regimes before the
 extension enters the catalogue.
 
+### 8.8 Risk-band volatility targeting
+
+Step 5.6a scales the fully invested risky sleeve by the band's reference
+volatility divided by its ex-ante volatility. The default caps risky
+exposure at 1×. The labelled leveraged variant uses the configured 1.5×
+ceiling. The remaining weight goes to cash, which is negative when
+borrowing. The function recalculates ex-ante volatility and reports any
+amount by which it falls below the reference.
+
+The notebook verifies 3,072 allocations across four strategies, four risk
+bands, two leverage settings and 96 month-ends in 2010–2017. With leverage
+allowed, the 14% reference is reached on 0 of 96 dates for Classic,
+11 for Balanced and Connected, and 40 for 60/40. The scaling check uses
+each strategy's risky sleeve before applying the personal constraints in
+Step 5.6b. Step 6 will apply the borrowing cost in DR-03 and measure
+realized volatility.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
