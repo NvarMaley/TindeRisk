@@ -9,12 +9,12 @@ import pandas as pd
 def sentiment_view_matrix(
     assets: Sequence[str], sectors: Sequence[str], decision_date,
     *, scores: pd.Series | None = None, validated: bool = False,
-    usable_from=None, usable_through=None,
+    usable_from=None, usable_through=None, coverage_end=None,
 ) -> pd.DataFrame:
     """Return at most one spread from a single dated, validated score snapshot.
 
     Scores must already reflect the strongest-to-weakest signal convention.
-    The caller supplies the approved validity window for that snapshot.
+    The caller supplies the snapshot validity window and the approved source cutoff.
     """
     columns = pd.Index(assets, name="asset")
     eligible = pd.Index(sectors)
@@ -27,13 +27,13 @@ def sentiment_view_matrix(
     if validated is not True or scores is None:
         return empty
 
-    dates = pd.DatetimeIndex([decision_date, usable_from, usable_through])
+    dates = pd.DatetimeIndex([decision_date, usable_from, usable_through, coverage_end])
     if dates.hasnans or dates.tz is not None or not dates.equals(dates.normalize()):
-        raise ValueError("A validated view requires normalized decision and validity dates")
-    decision, start, end = dates
+        raise ValueError("A validated view requires normalized decision, validity dates and coverage end")
+    decision, start, end, cutoff = dates
     if start > end:
         raise ValueError("View validity starts after it ends")
-    if not start <= decision <= end:
+    if not start <= decision <= min(end, cutoff):
         return empty
 
     if scores.index.has_duplicates:

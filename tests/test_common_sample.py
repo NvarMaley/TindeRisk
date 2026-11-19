@@ -45,3 +45,17 @@ def test_configured_period_bounds_are_preserved():
     result = select_common_dates(returns, returns * 0, start=dates[3], end=dates[4],
                                  window_days=2, completed_dates=dates)
     pd.testing.assert_index_equal(result, dates[3:5])
+
+
+def test_stocktwits_cutoff_excludes_later_arrivals_without_dropping_market_dates():
+    dates = pd.bdate_range("2020-03-31", periods=3)
+    sentiment = pd.DataFrame({
+        "asset": "ETF", "date": pd.to_datetime(["2020-03-30", "2020-03-31", "2020-04-01"]),
+        "available_date": dates, "Nbullish": 3, "Nbearish": 1, "N": 4,
+    })
+    result = sentiment_arrivals(sentiment, dates, ["ETF"], coverage_end="2020-03-31")
+    for frame in result.values():
+        pd.testing.assert_index_equal(frame.index, dates)
+    assert result["sentiment_polarity"]["ETF"].iloc[0] == .5
+    assert result["sentiment_polarity"]["ETF"].iloc[1:].isna().all()
+    assert not result["sentiment_labelled"]["ETF"].iloc[1:].any()

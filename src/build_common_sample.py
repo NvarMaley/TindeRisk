@@ -13,6 +13,7 @@ import pandas_market_calendars as mcal
 import yaml
 
 from .audit_data import audit_asset_sentiment, audit_market_bundle, verify_sentiment_files
+from .data_loader import sentiment_polarity
 from .paths import PROCESSED_DATA, ROOT
 from .provenance import sha256_file
 
@@ -39,7 +40,7 @@ def select_common_dates(returns, rf_daily, *, start, end, window_days, completed
     return dates
 
 
-def sentiment_arrivals(sentiment, dates, assets):
+def sentiment_arrivals(sentiment, dates, assets, *, coverage_end=None):
     """Sum message counts available on each session, not mean daily polarities.
 
     Weekend and holiday messages can arrive together. Missing arrivals stay
@@ -47,9 +48,11 @@ def sentiment_arrivals(sentiment, dates, assets):
     """
     if set(sentiment.asset.unique()) != set(assets):
         raise ValueError("sentiment assets differ from expected universe")
+    if coverage_end is not None:
+        cutoff = pd.Timestamp(coverage_end)
+        sentiment = sentiment.loc[sentiment["date"].le(cutoff) & sentiment["available_date"].le(cutoff)]
     counts = sentiment.groupby(["available_date", "asset"])[["Nbullish", "Nbearish", "N"]].sum()
-    labelled = counts.Nbullish + counts.Nbearish
-    counts["polarity"] = (counts.Nbullish - counts.Nbearish) / labelled.replace(0, np.nan)
+    counts["polarity"] = sentiment_polarity(counts)
     polarity = counts.polarity.unstack("asset").reindex(index=dates, columns=assets)
     messages = counts.N.unstack("asset").reindex(index=dates, columns=assets)
     return {"sentiment_polarity": polarity, "sentiment_messages": messages,
@@ -67,6 +70,9 @@ def main():
     audit_market_bundle(frames, tickers, config["fred_series"]["macro"])
     sentiment = pd.read_parquet(PROCESSED_DATA / "sentiment_asset_daily.parquet")
     audit_asset_sentiment(sentiment, assets + ["MARKET"])
+    cutoff = pd.Timestamp(config["sentiment"]["coverage_end"])
+    if pd.isna(cutoff) or cutoff.tz is not None or cutoff != cutoff.normalize():
+        raise ValueError("Historical sentiment requires a normalized coverage_end date")
     now = pd.Timestamp.now(tz="UTC")
     schedule = mcal.get_calendar("NYSE").schedule(
         frames["prices"].index.min(), frames["prices"].index.max()
@@ -77,6 +83,8 @@ def main():
         "created_utc": datetime.now(UTC).isoformat(), "window_days": window,
         "status": "prepared data, not a frozen test split or validated backtest",
         "sentiment_method": "direct ETF tags, counts aggregated on next NYSE availability session",
+        "sentiment_mode": "historical_only",
+        "sentiment_coverage_end": cutoff.date().isoformat(),
         "missing_signal_policy": "retain all common market dates; missing view is not zero; future BL must use no-view anchor or explicitly validated view subset",
         "gics_dependency": "Rebuild after CHECKLIST 1.4b/4.1c; do not substitute company-sector signals silently",
         "final_test_start": config["validation"]["final_test_start"],
@@ -106,7 +114,7 @@ def main():
         outputs = {name: frames[name].loc[dates] for name in names}
         first_pos = frames["returns"].index.get_loc(dates[0])
         outputs["warmup_returns"] = frames["returns"].iloc[first_pos-window:first_pos]
-        outputs.update(sentiment_arrivals(sentiment, dates, assets + ["MARKET"]))
+        outputs.update(sentiment_arrivals(sentiment, dates, assets + ["MARKET"], coverage_end=cutoff))
         for name, frame in outputs.items():
             path = PROCESSED_DATA / f"common_{period}_{name}.parquet"
             frame.to_parquet(path)

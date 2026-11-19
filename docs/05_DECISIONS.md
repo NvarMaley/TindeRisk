@@ -152,3 +152,18 @@ Reconsideration condition:
 - a Swiss user is exposed to USD currency risk;
 - the academic questionnaire has not been psychometrically validated;
 - this is an educational tool, not financial advice.
+
+### DR-06 — StockTwits coverage
+
+Decision on 2026-11-19 for Step 4.9. Use StockTwits as a historical
+demonstration through 31 March 2020. In the available source, the final
+message date is 23 March 2020 and the last availability session is
+24 March 2020. The rest of March remains sparse. Keep every later market
+session in the extended calendar and leave StockTwits inputs missing.
+Black–Litterman uses the no-view ERC specification over these sessions.
+Step 5.3 will implement and verify the portfolio fallback.
+
+The common sample enforces both the message and availability cutoff. A
+validated view must also expire by that cutoff, including a monthly
+snapshot that would first become available in April. Expanding coverage
+requires a separate validated source with documented historical availability.

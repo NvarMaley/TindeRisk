@@ -54,7 +54,11 @@ there were no messages in the original universe.
 Before **4.3c/4.6**, choose and validate confidence/volume thresholds, signal
 history and any permitted signal age. Before **5.3/6.1**, implement the
 no-view ERC anchor or validated view subset explicitly; this builder does not
-execute that fallback. Do not carry sentiment through the post-2020 period.
+execute that fallback. Step 4.9 limits historical sentiment to 31 March
+2020, inclusive, on both message and availability dates. The extended
+sample retains all later market sessions with missing sentiment. A monthly
+score first usable in April falls outside coverage.
+[Coverage decision](05_DECISIONS.md#dr-06--stocktwits-coverage).
 
 Company-derived sentiment remains deferred behind
 [1.4b/4.1c](../CHECKLIST.md#gics-dependency). Rebuild this sample and reconsider
