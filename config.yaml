@@ -101,6 +101,7 @@ black_litterman:            # DR-02
 sentiment:                  # DR-01
   core_dataset: moodle_ln7      # 19 tickers, aggregated daily sentiment, 2010 - 2020-03
   upgrade_dataset: raw_stocktwits  # ~90M messages, via USB key from the professor
+  original_download_month: "2026-11"  # reported; day unknown
   coverage_end: "2020-03-31"
   publish_derived: true         # sector-level series only; raw messages never committed
 
