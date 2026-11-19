@@ -8,7 +8,7 @@ from src.signals import sentiment_view_matrix
 ASSETS = ["IEF", "XLF", "XLE", "XLK", "TLT"]
 SECTORS = ["XLE", "XLK", "XLF"]
 SCORES = pd.Series({"XLF": -.2, "XLE": .4, "XLK": .1, "TLT": 2, "SPY": -2})
-DATES = dict(usable_from="2020-03-02", usable_through="2020-03-31")
+DATES = dict(usable_from="2020-03-02", usable_through="2020-03-31", coverage_end="2020-03-31")
 
 
 def test_relative_view_is_aligned_and_spreads_only_eligible_sectors():
@@ -49,3 +49,13 @@ def test_invalid_universe_or_missing_provenance_dates_raise():
         sentiment_view_matrix(ASSETS, ["SPY"], "2020-03-02")
     with pytest.raises(ValueError, match="validity dates"):
         sentiment_view_matrix(ASSETS, SECTORS, "2020-03-02", scores=SCORES, validated=True)
+
+
+def test_snapshot_cannot_extend_past_source_coverage():
+    options = dict(DATES, usable_through="2020-04-30")
+    on_cutoff = sentiment_view_matrix(ASSETS, SECTORS, "2020-03-31", scores=SCORES,
+                                      validated=True, **options)
+    after_cutoff = sentiment_view_matrix(ASSETS, SECTORS, "2020-04-01", scores=SCORES,
+                                         validated=True, **options)
+    assert on_cutoff.shape == (1, len(ASSETS))
+    assert after_cutoff.shape == (0, len(ASSETS))
