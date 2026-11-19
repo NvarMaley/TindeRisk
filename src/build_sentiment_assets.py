@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 
 import yaml
 import pandas as pd
@@ -22,10 +22,22 @@ from .provenance import sha256_file
 
 def main() -> None:
     config = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
-    download_month = config["sentiment"].get("original_download_month")
+    sentiment_config = config["sentiment"]
+    download_date = sentiment_config.get("original_download_date")
+    download_month = sentiment_config.get("original_download_month")
     if download_month is not None and not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", str(download_month)):
         raise ValueError("StockTwits original_download_month must use YYYY-MM format")
     download_status = "reported_month_only" if download_month else "unknown_original_download"
+    if download_date is not None:
+        reported_date = str(download_date)
+        try:
+            download_date = date.fromisoformat(reported_date).isoformat()
+            if download_date != reported_date:
+                raise ValueError
+        except ValueError as exc:
+            raise ValueError("StockTwits original_download_date must use YYYY-MM-DD format") from exc
+        download_month = download_date[:7]
+        download_status = "reported_date"
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     benchmark = config["benchmark"]
     tickers = assets + [benchmark]
@@ -40,6 +52,7 @@ def main() -> None:
     ).copy()
     provenance["source"] = "Professor StockTwits; published firm-day counts; direct ETF tags"
     provenance["downloaded_at_utc"] = pd.NaT
+    provenance["download_date"] = pd.Series(download_date, index=provenance.index, dtype="string")
     provenance["download_month"] = pd.Series(download_month, index=provenance.index, dtype="string")
     provenance["download_status"] = download_status
     provenance["availability_rule"] = "strictly next NYSE session; conservative daily assumption"
@@ -71,6 +84,7 @@ def main() -> None:
                          "sentiment_asset_coverage.csv"]
         },
         "downloaded_at_utc": None,
+        "download_date": download_date,
         "download_month": download_month,
         "download_status": download_status,
     }
