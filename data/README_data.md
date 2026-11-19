@@ -82,6 +82,24 @@ The project's firm-day parquet is a calendar-day aggregate with a different
 message count for AAPL on 4 January 2010 (24 versus 21 in the lab). The
 reference for the Moodle run is 1,131 events (454 good, 294 neutral, 383 bad).
 
+Step 4.8 independently compares the five AAPL residuals displayed in section
+1 of the lab (3–7 January 2011). If the Moodle price file is present, the
+notebook uses its returns. The public price check uses the same rolling
+regression on AAPL/SPY adjusted closes downloaded via the project's existing
+Yahoo Finance loader. Save the public inputs locally with:
+
+```sh
+python - <<'PY'
+from src.data_loader import download_adjusted_prices
+prices = download_adjusted_prices(["AAPL", "SPY"], "2009-12-30", "2011-01-08")
+prices.to_csv("data/raw/ln7_public_aapl_spy_prices.csv")
+PY
+```
+
+The public-input check had a maximum absolute error of 1.105 basis points
+and zero exact matches at six decimals. The original price file is still
+needed for the full-panel check.
+
 ## LN7 historical company-to-sector links
 
 The Step 4.1c notebook cell audits the 13 company symbols identified by the
