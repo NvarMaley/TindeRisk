@@ -332,6 +332,21 @@ The [experiment log](06_EXPERIMENT_LOG.md) records E023. This experiment
 uses realized market covariances and synthetic views to check portfolio
 mechanics. Step 4.6 remains the gate for real sentiment views.
 
+#### No-view identity and confidence response
+
+Step 5.13 runs the sentiment view matrix, spread calibration and
+uncertainty estimate with zero eligible views. The posterior equals the
+implied prior, and Connected has exactly the same ETF and cash weights
+as Balanced in all four bands at both the 31 December 2015 and
+30 October 2026 decision closes.
+
+At the December 2015 close, vary the estimated uncertainty of the
+same synthetic 8% annual XLK–XLE spread, holding the anchor and
+`tau = 0.05` fixed. At four times, twice and once the uncertainty
+floor, annualized tracking error to ERC is 1.40%, 1.93% and 2.51%.
+The posterior spread rises from 0.87% to 3.55%. Cutting validation
+error further leaves the floor binding and keeps the tilt at 2.51%.
+
 ### 8.5 Non-Equal Risk Budget
 
 An option within the core only if the previous three methods have been stabilized. Budgets must come from a prespecified economic rule, not from a search for the best backtest.

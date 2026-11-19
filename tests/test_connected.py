@@ -50,3 +50,23 @@ def test_connected_rejects_incomplete_or_misaligned_views(inputs):
     with pytest.raises(ValueError, match="Q labels"):
         connected_portfolio(reference, covariance, reference_sharpe=.35,
                             p=p, q=q.rename(index={"spread": "other"}), omega=omega)
+
+
+def test_ineligible_sentiment_flows_through_empty_views_to_the_erc_anchor(inputs):
+    from src.signals import sentiment_view_matrix
+    from src.view_returns import estimate_relative_q
+    from src.view_uncertainty import estimate_omega
+
+    reference, covariance, _, _, _ = inputs
+    date = pd.Timestamp("2017-12-29")
+    unapproved_scores = pd.Series({"A": .9, "B": -.9})
+    p = sentiment_view_matrix(covariance.columns, covariance.columns, date, scores=unapproved_scores)
+    active, q, diagnostics = estimate_relative_q(
+        p, pd.DataFrame(), validation_start=None, final_test_start=None, decision_date=date
+    )
+    omega = estimate_omega(active, covariance, diagnostics, tau=.05)
+    assert active.shape == (0, 2) and q.empty and omega.shape == (0, 0)
+    result = connected_portfolio(reference, covariance, reference_sharpe=.35, p=active, q=q, omega=omega)
+    pd.testing.assert_series_equal(result.weights, reference)
+    pd.testing.assert_series_equal(result.posterior_excess_mean, result.prior_excess_mean)
+    assert result.annual_tracking_error == 0

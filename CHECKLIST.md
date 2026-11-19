@@ -217,7 +217,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.10 | Produce LN6 analytics: Expected Shortfall, Herfindahl, Shannon, diversification ratio | 🟡 | Catalogue v3 verifies 16 snapshots on 756 trailing sessions. Realized net ES awaits Step 6. |
 | [x] | 5.11 | Recalculate and display the volatility actually achieved after constraints/leverage | 🔴 | Catalogue v4 and Portfolio Menu show final-weight estimates, reference gaps and band status. |
 | [x] | 5.12 | Test constraints: weights sum to 1, bounds, classes, exclusions, explicit solver failure | 🔴 | 96 dated cases plus simulated Classic, ERC and GMV solver failures. The interface reports optimizer failures. |
-| [ ] | 5.13 | Verify that BL without views reproduces the prior and that a higher-confidence view produces a stronger tilt | 🔴 | |
+| [x] | 5.13 | Verify that BL without views reproduces the prior and that a higher-confidence view produces a stronger tilt | 🔴 | Empty P/Q/Omega verified through 8 prepared allocations. Synthetic tilt rises as uncertainty falls to its floor. |
 | [ ] | 5.14 | Add a turnover constraint/penalty if justified by the net benefit | 🟡 | |
 
 ## Step 6 — Backtest
