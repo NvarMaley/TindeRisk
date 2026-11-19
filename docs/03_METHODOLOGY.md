@@ -600,6 +600,22 @@ an invalid solution even when the reported status indicates success.
 The Portfolio Menu distinguishes optimizer failures from missing or
 incompatible input data.
 
+### 8.15 Turnover screening
+
+Experiment E024 compares regular monthly Classic rebalancing with a single
+5% no-trade threshold on two-way turnover. At each elapsed decision close,
+measure turnover against the drifted holdings. The threshold still requires
+a trade if the drifted weights would violate the ETF cap at that decision.
+The initial position is the same across variants. Illustrative fees at 0,
+10 and 25 basis points apply to traded weight after the decision-session
+asset moves. This pilot uses the fully invested Classic sleeve.
+
+On the reused exploratory 2016–2017 validation window, both variants make
+23 trades and have annualized two-way turnover of 206.01%. The net annualized
+return is identical at all tested fee levels, including 5.87% at 10 bps.
+Regular monthly rebalancing remains the implementation choice. Step 6
+will evaluate all strategies with the full cash and financing assumptions.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.

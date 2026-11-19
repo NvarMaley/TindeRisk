@@ -218,7 +218,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.11 | Recalculate and display the volatility actually achieved after constraints/leverage | 🔴 | Catalogue v4 and Portfolio Menu show final-weight estimates, reference gaps and band status. |
 | [x] | 5.12 | Test constraints: weights sum to 1, bounds, classes, exclusions, explicit solver failure | 🔴 | 96 dated cases plus simulated Classic, ERC and GMV solver failures. The interface reports optimizer failures. |
 | [x] | 5.13 | Verify that BL without views reproduces the prior and that a higher-confidence view produces a stronger tilt | 🔴 | Empty P/Q/Omega verified through 8 prepared allocations. Synthetic tilt rises as uncertainty falls to its floor. |
-| [ ] | 5.14 | Add a turnover constraint/penalty if justified by the net benefit | 🟡 | |
+| [x] | 5.14 | Add a turnover constraint/penalty if justified by the net benefit | 🟡 | E024 kept regular monthly rebalancing. The 5% threshold gave zero net benefit on the exploratory 2016–2017 validation. |
 
 ## Step 6 — Backtest
 
