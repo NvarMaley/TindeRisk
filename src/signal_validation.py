@@ -20,8 +20,8 @@ def monthly_tag_polarity(asset_daily):
     return pooled.assign(polarity=sentiment_polarity(pooled))
 
 
-def matched_forward_returns(monthly, prices, benchmark):
-    """Pair month t polarity with month t+1 close-to-close relative returns."""
+def monthly_holding_returns(prices):
+    """Return each scheduled month's first-close to last-close asset returns."""
     if prices.empty:
         raise ValueError("Adjusted closes are required for forward returns")
     start = prices.index.min().to_period("M").start_time
@@ -30,7 +30,13 @@ def matched_forward_returns(monthly, prices, benchmark):
     endpoints = sessions.to_series().groupby(sessions.to_period("M")).agg(["first", "last"])
     opening = prices.reindex(endpoints["first"]).set_axis(endpoints.index)
     closing = prices.reindex(endpoints["last"]).set_axis(endpoints.index)
-    realized = closing / opening - 1
+    valid = opening.gt(0) & closing.gt(0) & np.isfinite(opening) & np.isfinite(closing)
+    return (closing / opening - 1).where(valid).rename_axis(index="target_month")
+
+
+def matched_forward_returns(monthly, prices, benchmark):
+    """Pair month t polarity with month t+1 close-to-close relative returns."""
+    realized = monthly_holding_returns(prices)
     relative = (realized.sub(realized[benchmark], axis="index").drop(columns=benchmark)
                 .rename_axis(index="target_month", columns="asset").stack()
                 .rename("relative_return").reset_index())

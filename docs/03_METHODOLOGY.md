@@ -164,6 +164,16 @@ The notebook illustrates these rules on synthetic returns. The checks
 define calibration eligibility. Predictive approval remains a separate
 requirement in Step 4.6.
 
+Step 4.6 selects the strongest and weakest observed sector scores before
+joining prices. If an extreme is tied or a selected leg cannot be priced at
+both scheduled closes, the month contributes no realized spread. The
+company test E014 uses the project's nine [sector ETF
+proxies](https://www.ssga.com/us/en/individual/capabilities/equities/sector-investing/select-sector-etfs)
+and excludes sectors outside the portfolio universe. On the reused
+exploratory window, the direct-tag variant E015 reverses from +0.623% per
+month in training to −0.879% in validation. See the [experiment
+log](06_EXPERIMENT_LOG.md) for coverage and the outstanding company test.
+
 ### 7.3 View uncertainty Omega
 
 Take the mean squared error (MSE) of each active view's frozen training
