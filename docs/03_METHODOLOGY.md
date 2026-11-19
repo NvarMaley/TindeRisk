@@ -457,6 +457,27 @@ common-sample net-of-cost series before the catalogue is used to compare
 performances. The allocation snapshot and the comparison dates are separate
 fields.
 
+### 8.11 Portfolio analytics
+
+Catalogue schema v2 adds signed Euler volatility contributions and each
+ETF's share of total risk. Use the same sleeve covariance as the allocation,
+and include cash with zero estimated volatility. The contributions sum to
+portfolio volatility. Relative shares are undefined when volatility is zero.
+Concentration is the Herfindahl index of the risky weights normalized to sum
+to one, excluding cash.
+
+Ex-ante tracking error uses the active weights relative to the 60/40
+catalogue allocation for the same band. Estimate a joint Ledoit–Wolf
+covariance on the 13 ETFs over the same decision window so both portfolios'
+holdings enter the active-risk calculation. The reference allocation can
+fall below the band's target because it shares the standard constraints.
+
+The realized information ratio uses daily strategy return minus benchmark
+return on identical dates, annualized as `sqrt(252) * mean(active) /
+std(active, ddof=1)`. It is undefined with zero active volatility.
+Step 6 supplies the matched net returns. Until then the catalogue field
+remains null.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.

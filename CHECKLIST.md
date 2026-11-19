@@ -211,7 +211,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | 3,072 allocations checked. Default 1×. Explicit leverage variant uses 1.5× and reports achieved volatility and shortfalls. |
 | [x] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | 144 allocations checked for exclusions, ETF caps, borrowing permission and effective risk targets. |
 | [x] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | 16 dated allocations in `portfolio_catalogue.parquet`. Out-of-range allocations flagged. Historical metrics await Step 6. |
-| [ ] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | |
+| [x] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | Risk analytics saved in catalogue v2. IR calculation tested; realized ratios await matched Step 6 returns. |
 | [ ] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | |
 | [ ] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | |
 | [ ] | 5.10 | Produce LN6 analytics: Expected Shortfall, Herfindahl, Shannon, diversification ratio | 🟡 | |

@@ -12,11 +12,13 @@ from .baselines import benchmark_60_40_weights, monthly_decision_closes
 from .classic import fit_classic
 from .client_allocation import reoptimize_for_client
 from .estimation import ledoit_wolf_constant_corr, trailing_returns_at_close
+from .optim import tracking_error
 from .paths import PROCESSED_DATA, RESULTS, ROOT
+from .portfolio_analytics import risk_breakdown, risky_weight_herfindahl
 from .profiling import RiskBand
 from .provenance import sha256_file
 
-CATALOGUE_SCHEMA_VERSION = 1
+CATALOGUE_SCHEMA_VERSION = 2
 CATALOGUE_FILE = "portfolio_catalogue.parquet"
 
 
@@ -36,21 +38,33 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
                       window=window, max_weight=max(cap, 1 / len(assets)))
     benchmark_returns = trailing_returns_at_close(returns[benchmark.index], decision, window)
     benchmark_covariance, _ = ledoit_wolf_constant_corr(benchmark_returns)
+    joint_returns = trailing_returns_at_close(returns[universe], decision, window)
+    joint_covariance, _ = ledoit_wolf_constant_corr(joint_returns)
     bands = [RiskBand(key=key, **values) for key, values in config["risk_bands"].items()]
     strategies = config["scope"]["core_strategies"]
     if not strategies or len(strategies) != len(set(strategies)) or not bands:
         raise ValueError("catalogue requires nonempty risk bands and unique strategies")
     records = []
     for band in bands:
+        benchmark_result = reoptimize_for_client(
+            "benchmark_60_40", benchmark_covariance, band, max_etf_weight=cap, allow_borrowing=False,
+            benchmark_equity=equity,
+        )
+        reference_weights = benchmark_result.allocation.risky_weights.reindex(universe, fill_value=0.)
         for strategy in strategies:
-            covariance = benchmark_covariance if strategy == "benchmark_60_40" else fit.annual_covariance
-            result = reoptimize_for_client(
-                strategy, covariance, band, max_etf_weight=cap, allow_borrowing=False,
-                annual_excess_mean=fit.annual_excess_mean, reference_sharpe=config["reference_sharpe"],
-                benchmark_equity=equity,
-            )
+            if strategy == "benchmark_60_40":
+                covariance, result = benchmark_covariance, benchmark_result
+            else:
+                covariance = fit.annual_covariance
+                result = reoptimize_for_client(
+                    strategy, covariance, band, max_etf_weight=cap, allow_borrowing=False,
+                    annual_excess_mean=fit.annual_excess_mean, reference_sharpe=config["reference_sharpe"],
+                    benchmark_equity=equity,
+                )
             allocation = result.allocation
             achieved = allocation.achieved_volatility
+            weights = allocation.risky_weights.reindex(universe, fill_value=0.)
+            risk = risk_breakdown(allocation.risky_weights, covariance).reindex(universe, fill_value=0.)
             within_band = (band.min_volatility <= achieved < band.max_volatility
                            or (band == bands[-1] and achieved == band.max_volatility))
             records.append({
@@ -60,11 +74,16 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
                 "reference_volatility": band.reference_volatility,
                 "band_min_volatility": band.min_volatility, "band_max_volatility": band.max_volatility,
                 "ex_ante_volatility": achieved, "target_shortfall": result.target_shortfall,
+                "ex_ante_tracking_error": tracking_error(weights, reference_weights, joint_covariance),
+                "risky_weight_herfindahl": risky_weight_herfindahl(weights),
+                "information_ratio": float("nan"),
                 "within_risk_band": within_band,
                 "reference_reached": result.target_shortfall <= 1e-10,
                 "allocation_method": result.method, "historical_metrics_status": "pending_backtest",
                 "allow_borrowing": False, "max_etf_weight": cap, "cash_weight": max(0., allocation.cash_weight),
-                **{f"weight_{asset}": allocation.risky_weights.get(asset, 0.) for asset in universe},
+                **{f"weight_{asset}": weights[asset] for asset in universe},
+                **{f"risk_contribution_{asset}": risk.at[asset, "risk_contribution"] for asset in universe},
+                **{f"risk_share_{asset}": risk.at[asset, "risk_share"] for asset in universe},
             })
 
     catalogue = pd.DataFrame(records)

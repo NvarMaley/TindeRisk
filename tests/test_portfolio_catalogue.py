@@ -32,6 +32,13 @@ def test_catalogue_keys_weights_and_pending_metrics_round_trip(tmp_path):
     benchmark = weights.loc[catalogue.strategy.eq("benchmark_60_40")]
     np.testing.assert_allclose(benchmark.weight_SPY / benchmark.weight_IEF, 1.5)
 
+    np.testing.assert_allclose(catalogue.filter(regex=r"^risk_contribution_").sum(axis=1),
+                               catalogue.ex_ante_volatility, atol=1e-12, rtol=0)
+    np.testing.assert_allclose(catalogue.filter(regex=r"^risk_share_").sum(axis=1), 1., atol=1e-12, rtol=0)
+    assert catalogue.loc[catalogue.strategy.eq("benchmark_60_40"), "ex_ante_tracking_error"].eq(0).all()
+    assert catalogue["ex_ante_tracking_error"].ge(0).all()
+    assert catalogue["information_ratio"].isna().all()
+
     repeat = build_portfolio_catalogue(config, returns, returns - .0001, **arguments)
     pd.testing.assert_frame_equal(repeat, catalogue)
     altered_inputs = {**arguments, "input_hashes": {"config": "b" * 64}}
