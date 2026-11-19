@@ -59,7 +59,7 @@ not a replacement for company-sector aggregation.
 Return here before completing:
 
 - **4.1c**: dated company-to-sector mapping — historical GICS and identifier links are required.
-- **4.1d**: company-based sector aggregation — requires validated 4.1c.
+- **4.1d**: the GICS-based test requires validated 4.1c. The exploratory ICB panel is available in E021.
 - **4.3a and 4.6**: company-derived BL views and their out-of-sample validation — require the mapped signal; direct-ETF views must be tested and labelled separately.
 - **5.3**: company-sentiment BL — requires validated views. ERC-anchor/no-views BL can proceed without GICS.
 - **1.11 and 6.11**: finalize common coverage again when company-derived sentiment is introduced.
@@ -177,7 +177,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | Both Moodle files verified. Supplied labels total 1,131 events. The independent reconstruction finds 1,414, with 993 supplied ticker/date/type matches. |
 | [x] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | SPY daily returns, 5/5 at six decimals, 4–8 Jan 2010. |
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | Dated identifiers match 37,955 / 42,154 observed ticker-days. Historical GICS export pending. |
-| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | Daily/monthly calculation verified on synthetic inputs. Historical test awaits 4.1c. |
+| [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | Exploratory ICB panel E021: 89.8% coverage and 622 defined industry-months. GICS-based return test awaits 4.1c. |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | Exploratory direct-ETF and reconstructed event rank tests run. Exact event replication and company-derived sector tests remain open. |
 | [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | Baseline scored 86 releases. The specified FOMC-RoBERTa checkpoint requires authorized access. |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | Matrix implemented and verified. Zero eligible views while signal validation is pending. |
