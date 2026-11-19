@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import re
 from datetime import UTC, date, datetime
+from zoneinfo import ZoneInfo
 
 import yaml
 import pandas as pd
@@ -38,6 +39,14 @@ def main() -> None:
             raise ValueError("StockTwits original_download_date must use YYYY-MM-DD format") from exc
         download_month = download_date[:7]
         download_status = "reported_date"
+    approximate_time = sentiment_config.get("approximate_download_local_time")
+    download_timezone = sentiment_config.get("download_timezone")
+    if approximate_time is not None:
+        if download_date is None or not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", str(approximate_time)):
+            raise ValueError("An approximate StockTwits download time requires a retrieval date and HH:MM time")
+        if not download_timezone:
+            raise ValueError("An approximate StockTwits download time requires an IANA timezone")
+        ZoneInfo(download_timezone)
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     benchmark = config["benchmark"]
     tickers = assets + [benchmark]
@@ -53,6 +62,8 @@ def main() -> None:
     provenance["source"] = "Professor StockTwits; published firm-day counts; direct ETF tags"
     provenance["downloaded_at_utc"] = pd.NaT
     provenance["download_date"] = pd.Series(download_date, index=provenance.index, dtype="string")
+    provenance["approximate_download_local_time"] = pd.Series(approximate_time, index=provenance.index, dtype="string")
+    provenance["download_timezone"] = pd.Series(download_timezone, index=provenance.index, dtype="string")
     provenance["download_month"] = pd.Series(download_month, index=provenance.index, dtype="string")
     provenance["download_status"] = download_status
     provenance["availability_rule"] = "strictly next NYSE session; conservative daily assumption"
@@ -85,6 +96,8 @@ def main() -> None:
         },
         "downloaded_at_utc": None,
         "download_date": download_date,
+        "approximate_download_local_time": approximate_time,
+        "download_timezone": download_timezone,
         "download_month": download_month,
         "download_status": download_status,
     }
