@@ -48,3 +48,12 @@ def test_portfolios_display_personalized_estimated_volatility_separate_from_back
     assert estimates[0].value == f"{fit.allocation.achieved_volatility:.2%}"
     assert estimates[0].delta == f"{100 * fit.reference_gap:+.2f} pp vs reference"
     assert all(item.value == "—" for item in app.metric if item.label == "Realized risk")
+
+    def failed_preview(*args):
+        raise RuntimeError("simulated optimizer failure")
+
+    monkeypatch.setattr(catalogue, "profile_volatility_preview", failed_preview)
+    app.run(timeout=30)
+    assert not app.exception
+    assert any("optimizer could not produce" in notice.value for notice in app.info)
+    assert all(item.label != "Estimated annual volatility" for item in app.metric)

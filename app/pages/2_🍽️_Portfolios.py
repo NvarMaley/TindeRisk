@@ -18,7 +18,9 @@ else:
     if profile:
         try:
             date, estimates = profile_volatility_preview(profile, risk_band)
-        except (OSError, ValueError, RuntimeError):
+        except RuntimeError:
+            st.info("The optimizer could not produce a valid allocation for these inputs.")
+        except (OSError, ValueError):
             st.info("Portfolio risk estimates are unavailable. Check the prepared portfolio data.")
         else:
             st.caption(f"Portfolio risk estimates as of {date:%d %B %Y}, using your investment constraints.")
