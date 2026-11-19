@@ -238,7 +238,8 @@ The builders also produce numerical-input-independent provenance sidecars:
   next-NYSE-session availability. The reported retrieval date is Tuesday
   17 November 2026. The sidecar and metadata store `download_date` as
   `2026-11-17`, `download_month` as `2026-11`, and `download_status` as
-  `reported_date`. The time of day is unknown, so `downloaded_at_utc` is null.
+  `reported_date`. They also record the approximate local time (`12:00`)
+  and timezone (`Europe/Zurich`). The exact timestamp `downloaded_at_utc` is null.
 - `metadata.json`: per-source download timestamps and raw CSV SHA-256 hashes;
   provenance sidecar shape and hash. The sentiment metadata similarly records
   the input Parquet hash and distinguishes build time from download time.
