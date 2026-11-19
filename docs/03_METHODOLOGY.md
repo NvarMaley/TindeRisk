@@ -252,7 +252,18 @@ Realized strategy performance is evaluated in Step 6.
 
 ### 8.3 Balanced
 
-ERC using a convex/log-barrier problem, followed by rescaling. Invariants: positive weights, weights sum to one, and equal relative contributions within numerical tolerance.
+Fit the Ledoit–Wolf constant-correlation covariance on the configured 756
+simple-return observations through the decision close. Solve the equal
+risk-budget log-barrier problem and rescale the weights to sum to one.
+Balanced uses covariance alone. Each ETF's share of volatility is 1 divided
+by the number of eligible ETFs in the risky sleeve.
+
+On the 96 monthly decisions from January 2010 through December 2017, the
+12-ETF sleeve has a maximum absolute risk-share error below 9e-11. Its
+estimated annual volatility on 31 December 2015 is 6.55%. The raw sleeve
+exceeds the configured 35% per-ETF limit on 11 dates and reaches 36.03%
+in IEF on 30 July 2010. Client-specific reoptimization belongs to Step
+5.6b. Recalculate contributions after applying the client constraints.
 
 ### 8.4 Connected
 
