@@ -18,13 +18,48 @@ def risk_breakdown(weights: pd.Series, covariance: pd.DataFrame) -> pd.DataFrame
     return pd.DataFrame({"weight": weights, "risk_contribution": contribution, "risk_share": shares})
 
 
-def risky_weight_herfindahl(weights: pd.Series) -> float:
-    """Measure concentration within the long-only risky sleeve, excluding cash."""
+def _risky_weight_shares(weights: pd.Series) -> np.ndarray:
     values = weights.to_numpy(dtype=float, na_value=np.nan)
     if not np.isfinite(values).all() or (values < 0).any():
         raise ValueError("concentration requires finite long-only weights")
-    total = values.sum()
-    return float(((values / total) ** 2).sum()) if total > 0 else float("nan")
+    positive = values[values > 0]
+    return positive / positive.sum() if positive.size else positive
+
+
+def risky_weight_herfindahl(weights: pd.Series) -> float:
+    """Measure concentration within the long-only risky sleeve, excluding cash."""
+    shares = _risky_weight_shares(weights)
+    return float((shares ** 2).sum()) if shares.size else float("nan")
+
+
+def risky_weight_shannon(weights: pd.Series) -> float:
+    """Return Shannon entropy in natural-log units, excluding cash."""
+    shares = _risky_weight_shares(weights)
+    return float(-shares @ np.log(shares)) if shares.size else float("nan")
+
+
+def diversification_ratio(weights: pd.Series, covariance: pd.DataFrame) -> float:
+    """Divide weighted standalone volatilities by portfolio volatility."""
+    volatility = vol(weights, covariance)
+    values = weights.to_numpy(dtype=float)
+    if (values < 0).any():
+        raise ValueError("diversification ratio requires long-only weights")
+    standalone = np.sqrt(np.maximum(np.diag(covariance), 0.))
+    return float(values @ standalone / volatility) if volatility > 0 else float("nan")
+
+
+def expected_shortfall_loss(returns: pd.Series, confidence: float = .95) -> float:
+    """Return the empirical average loss over the worst probability mass."""
+    if not np.isfinite(confidence) or not 0 < confidence < 1:
+        raise ValueError("confidence must be strictly between zero and one")
+    values = returns.to_numpy(dtype=float, na_value=np.nan)
+    if not values.size or not np.isfinite(values).all():
+        raise ValueError("expected shortfall requires nonempty finite returns")
+    ordered = np.sort(values)
+    mass = (1 - confidence) * values.size
+    count = int(mass)
+    boundary = ordered[min(count, values.size - 1)]
+    return -float((ordered[:count].sum() + (mass - count) * boundary) / mass)
 
 
 def information_ratio(returns: pd.Series, benchmark: pd.Series, periods_per_year: int = 252) -> float:

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import numpy as np
 import pandas as pd
 import yaml
 
@@ -14,11 +15,14 @@ from .client_allocation import reoptimize_for_client
 from .estimation import ledoit_wolf_constant_corr, trailing_returns_at_close
 from .optim import tracking_error
 from .paths import PROCESSED_DATA, RESULTS, ROOT
-from .portfolio_analytics import risk_breakdown, risky_weight_herfindahl
+from .portfolio_analytics import (
+    diversification_ratio, expected_shortfall_loss, risk_breakdown, risky_weight_herfindahl,
+    risky_weight_shannon,
+)
 from .profiling import RiskBand
 from .provenance import sha256_file
 
-CATALOGUE_SCHEMA_VERSION = 2
+CATALOGUE_SCHEMA_VERSION = 3
 CATALOGUE_FILE = "portfolio_catalogue.parquet"
 
 
@@ -65,17 +69,23 @@ def build_portfolio_catalogue(config: dict, returns: pd.DataFrame, excess_return
             achieved = allocation.achieved_volatility
             weights = allocation.risky_weights.reindex(universe, fill_value=0.)
             risk = risk_breakdown(allocation.risky_weights, covariance).reindex(universe, fill_value=0.)
+            entropy = risky_weight_shannon(weights)
             within_band = (band.min_volatility <= achieved < band.max_volatility
                            or (band == bands[-1] and achieved == band.max_volatility))
             records.append({
                 "risk_band": band.key, "strategy": strategy, "risk_band_label": band.label,
                 "decision_date": decision.date().isoformat(), "estimation_window_sessions": window,
+                "estimation_window_start": joint_returns.index[0].date().isoformat(),
                 "comparison_start": comparison_start, "comparison_end": comparison_end,
                 "reference_volatility": band.reference_volatility,
                 "band_min_volatility": band.min_volatility, "band_max_volatility": band.max_volatility,
                 "ex_ante_volatility": achieved, "target_shortfall": result.target_shortfall,
                 "ex_ante_tracking_error": tracking_error(weights, reference_weights, joint_covariance),
                 "risky_weight_herfindahl": risky_weight_herfindahl(weights),
+                "risky_weight_shannon": entropy,
+                "risky_weight_effective_holdings": np.exp(entropy),
+                "diversification_ratio": diversification_ratio(allocation.risky_weights, covariance),
+                "snapshot_es95_daily_loss": expected_shortfall_loss(joint_returns @ weights),
                 "information_ratio": float("nan"),
                 "within_risk_band": within_band,
                 "reference_reached": result.target_shortfall <= 1e-10,
