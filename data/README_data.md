@@ -228,10 +228,10 @@ The builders also produce numerical-input-independent provenance sidecars:
   retrieval timestamp in UTC. Monthly transformations retain their original
   observation month separately from their lagged availability date.
 - `sentiment_observation_provenance.parquet`: each direct-ETF asset/day and its
-  next-NYSE-session availability. The original download timestamp is unknown:
-  `downloaded_at_utc` remains null and `download_status` explains why. Ask the
-  StockTwits data provider to supply the original retrieval date; do not replace
-  it with a build time or filesystem modification time.
+  next-NYSE-session availability. The project user reported November 2026
+  as the original retrieval month. The sidecar stores `download_month`
+  as `2026-11` and `download_status` as `reported_month_only`. The exact
+  date and time remain unknown, so `downloaded_at_utc` is null.
 - `metadata.json`: per-source download timestamps and raw CSV SHA-256 hashes;
   provenance sidecar shape and hash. The sentiment metadata similarly records
   the input Parquet hash and distinguishes build time from download time.

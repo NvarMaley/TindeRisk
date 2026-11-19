@@ -9,6 +9,7 @@ undocumented or look-ahead-prone company classification.
 from __future__ import annotations
 
 import json
+import re
 from datetime import UTC, datetime
 
 import yaml
@@ -21,6 +22,10 @@ from .provenance import sha256_file
 
 def main() -> None:
     config = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
+    download_month = config["sentiment"].get("original_download_month")
+    if download_month is not None and not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", str(download_month)):
+        raise ValueError("StockTwits original_download_month must use YYYY-MM format")
+    download_status = "reported_month_only" if download_month else "unknown_original_download"
     assets = config["tickers"]["sectors"] + config["tickers"]["diversifiers"]
     benchmark = config["benchmark"]
     tickers = assets + [benchmark]
@@ -35,7 +40,8 @@ def main() -> None:
     ).copy()
     provenance["source"] = "Professor StockTwits; published firm-day counts; direct ETF tags"
     provenance["downloaded_at_utc"] = pd.NaT
-    provenance["download_status"] = "unknown_original_download"
+    provenance["download_month"] = pd.Series(download_month, index=provenance.index, dtype="string")
+    provenance["download_status"] = download_status
     provenance["availability_rule"] = "strictly next NYSE session; conservative daily assumption"
     provenance.to_parquet(PROCESSED_DATA / "sentiment_observation_provenance.parquet", index=False)
 
@@ -65,7 +71,8 @@ def main() -> None:
                          "sentiment_asset_coverage.csv"]
         },
         "downloaded_at_utc": None,
-        "download_status": "unknown_original_download; request from data provider; build time is not download time",
+        "download_month": download_month,
+        "download_status": download_status,
     }
     (PROCESSED_DATA / "sentiment_asset_metadata.json").write_text(
         json.dumps(metadata, indent=2) + "\n", encoding="utf-8"
