@@ -31,7 +31,7 @@ includes its final partial month with weights formed at the previous month-end.
 | Extended | GMV | 7.01% | 6.79% | 0.82 | −19.51% |
 | Extended | 60/40 | 9.63% | 10.17% | 0.81 | −21.28% |
 
-The main sample has 2,578 sessions and the extended sample has 4,497.
+The original Step 2.5 build in the table has 2,578 main sessions and 4,497 extended sessions.
 The results are gross of trading costs. Sharpe uses the Step 2.1 convention,
 including the descriptive DTB3 proxy. The two samples overlap. Final
 out-of-sample evaluation and execution assumptions belong to Step 6.
@@ -40,3 +40,18 @@ The builder verifies the source hashes and session coverage, then exports
 `2_5_summary.csv`, dated targets, daily returns and wealth for each period,
 and a hash manifest in `results/`. This 60/40 series uses monthly rebalancing.
 Step 2.1 continues to use a daily rebalanced 60/40 illustration.
+
+
+## Step 5.5 monthly 60/40 benchmark
+
+The Step 5.5 notebook reruns the 60% SPY and 40% IEF benchmark on both
+prepared calendars and verifies daily returns and wealth against independent
+compounding of the two holdings between month-ends.
+
+| Sample | Dates | Sessions | Annualized return | Annualized volatility | Sharpe | Max drawdown |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Main | 2010-01-04 to 2020-03-31 | 2,578 | 8.93% | 8.97% | 0.934 | −18.89% |
+| Extended | 2009-01-02 to 2026-11-18 | 4,498 | 9.63% | 10.17% | 0.814 | −21.28% |
+
+These are historical results gross of trading costs. Step 5.6a handles
+volatility targeting with a cash sleeve. Step 6 covers the net comparison.
