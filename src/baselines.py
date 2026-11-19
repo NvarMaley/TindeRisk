@@ -69,6 +69,25 @@ def apply_monthly_targets(returns: pd.DataFrame, targets: pd.DataFrame) -> pd.Da
     Output columns record the portfolio return and gross wealth. The first
     target must precede the sample. Other target dates must be return dates.
     """
+    return simulate_monthly_targets(returns, targets)[["gross_return", "wealth"]]
+
+
+def simulate_monthly_targets(
+    returns: pd.DataFrame, targets: pd.DataFrame, *, min_turnover: float = 0.,
+    cost_bps: float = 0., max_weight: float = 1.,
+) -> pd.DataFrame:
+    """Simulate fully invested holdings and an optional no-trade threshold.
+
+    Later target trades occur after the decision-session asset moves. Fees
+    are a fraction of post-move wealth. The initial invested position is
+    shared across variants.
+    """
+    if not np.isfinite(min_turnover) or not 0 <= min_turnover <= 2:
+        raise ValueError("minimum two-way turnover must be in [0, 2]")
+    if not np.isfinite(cost_bps) or not 0 <= cost_bps < 5000:
+        raise ValueError("cost bps must keep capital positive at maximum turnover")
+    if not np.isfinite(max_weight) or not 0 < max_weight <= 1:
+        raise ValueError("maximum weight must be in (0, 1]")
     if returns.empty or targets.empty or not returns.columns.equals(targets.columns):
         raise ValueError("returns and targets must be nonempty with matching assets")
     if any(not idx.is_unique or not idx.is_monotonic_increasing or idx.hasnans
@@ -81,17 +100,30 @@ def apply_monthly_targets(returns: pd.DataFrame, targets: pd.DataFrame) -> pd.Da
     if not np.isfinite(daily).all() or (daily <= -1).any():
         raise ValueError("asset returns must be finite and strictly above -1")
     if (not np.isfinite(allocation).all() or (allocation < -1e-9).any()
+            or (allocation > max_weight + 1e-9).any()
             or not np.allclose(allocation.sum(axis=1), 1, rtol=0, atol=1e-9)):
-        raise ValueError("targets must be finite, long-only and fully invested")
+        raise ValueError("targets must be finite, long-only, fully invested and within the weight cap")
 
     events = dict(zip(targets.index[1:], allocation[1:], strict=True))
     weights = allocation[0]
-    portfolio_returns = []
+    rate = cost_bps / 10_000
+    rows = []
     for date, asset_returns in zip(returns.index, daily, strict=True):
         grown = weights * (1 + asset_returns)
         growth = grown.sum()
-        portfolio_returns.append(growth - 1)
-        weights = events[date] if date in events else grown / growth
-    result = pd.DataFrame({"gross_return": portfolio_returns}, index=returns.index)
+        drifted = grown / growth
+        weights = drifted
+        turnover = 0.
+        if date in events:
+            target = events[date]
+            proposed = np.abs(target - drifted).sum()
+            if proposed >= min_turnover or drifted.max() > max_weight + 1e-9:
+                weights = target
+                turnover = proposed
+        cost = turnover * rate
+        rows.append((growth - 1, growth * (1 - cost) - 1, turnover, cost))
+    result = pd.DataFrame(rows, index=returns.index,
+                          columns=["gross_return", "net_return", "turnover", "cost_fraction"])
     result["wealth"] = (1 + result["gross_return"]).cumprod()
+    result["net_wealth"] = (1 + result["net_return"]).cumprod()
     return result

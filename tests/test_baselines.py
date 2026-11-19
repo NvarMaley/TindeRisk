@@ -4,6 +4,7 @@ import pytest
 
 from src.baselines import (
     apply_monthly_targets, benchmark_60_40_weights, minimum_variance_weights, monthly_decision_closes,
+    simulate_monthly_targets,
 )
 
 
@@ -36,3 +37,19 @@ def test_60_40_uses_nyse_month_end_targets_and_skips_the_final_close():
     pd.testing.assert_series_equal(benchmark_60_40_weights(), pd.Series({"SPY": .6, "IEF": .4}))
     with pytest.raises(ValueError, match="all scheduled NYSE sessions"):
         monthly_decision_closes(sessions[[0, 2]])
+
+
+def test_small_rebalance_is_skipped_unless_drift_would_exceed_the_cap():
+    dates = pd.to_datetime(["2019-12-31", "2020-01-31", "2020-02-03"])
+    returns = pd.DataFrame({"A": [.04, 0.], "B": [0., .1]}, index=dates[1:])
+    targets = pd.DataFrame(.5, index=dates[:2], columns=returns.columns)
+    skipped = simulate_monthly_targets(returns, targets, min_turnover=.05, cost_bps=10.)
+    forced = simulate_monthly_targets(returns, targets, min_turnover=.05, cost_bps=10., max_weight=.5)
+    assert skipped.turnover.eq(0).all()
+    turnover = 2 * (.52 / 1.02 - .5)
+    assert forced.turnover.iat[0] == pytest.approx(turnover)
+    assert forced.net_wealth.iat[0] == pytest.approx(1.02 * (1 - .001 * turnover))
+    assert forced.gross_return.iat[1] == pytest.approx(.05)
+    assert skipped.gross_return.iat[1] < forced.gross_return.iat[1]
+    no_cost = simulate_monthly_targets(returns, targets)
+    pd.testing.assert_series_equal(no_cost.net_wealth, no_cost.wealth, check_names=False)
