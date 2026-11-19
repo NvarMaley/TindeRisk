@@ -1,6 +1,6 @@
 """Re-optimize a strategy on eligible assets and enforce final ETF weights."""
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from math import isfinite
 
@@ -61,6 +61,7 @@ def reoptimize_for_client(
     annual_excess_mean: pd.Series | None = None, reference_sharpe: float = .35,
     views: tuple[pd.DataFrame, pd.Series, pd.DataFrame] | None = None,
     benchmark_equity: str = "SPY",
+    class_weight_caps: Mapping[str, float] | None = None,
 ) -> ClientAllocation:
     """Fit the eligible risky sleeve, then enforce the actual capital and risk limits."""
     if strategy not in {"classic", "erc", "black_litterman", "benchmark_60_40"}:
@@ -80,6 +81,15 @@ def reoptimize_for_client(
         raise ValueError("client capacity must be finite and nonnegative")
     target = reference if capacity_volatility is None else min(reference, capacity_volatility)
     exposure_limit = leverage_limit if allow_borrowing else 1.
+    class_assets = {"equity": _SECTORS | {benchmark_equity}, "bonds": {"IEF", "TLT"}, "gold": {"GLD"}}
+    caps = class_weight_caps or {}
+    if any(name not in class_assets or not isfinite(limit) or not 0 <= limit <= 1
+           for name, limit in caps.items()):
+        raise ValueError("asset-class caps require equity, bonds or gold and limits in [0, 1]")
+    excluded = set(excluded_assets)
+    for name, limit in caps.items():
+        if limit == 0:
+            excluded.update(class_assets[name])
 
     labels = annual_covariance.columns
     if not labels.is_unique or not annual_covariance.index.equals(labels):
@@ -87,7 +97,7 @@ def reoptimize_for_client(
     strategy_assets = benchmark_60_40_weights(benchmark_equity).index if strategy == "benchmark_60_40" else labels
     if not strategy_assets.isin(labels).all():
         raise ValueError("covariance must cover all strategy assets")
-    eligible = strategy_assets[~strategy_assets.isin(excluded_assets)]
+    eligible = strategy_assets[~strategy_assets.isin(excluded)]
     if eligible.empty:
         raise NoEligibleAssetsError("no eligible ETF remains for this strategy")
     covariance = annual_covariance.loc[eligible, eligible]
@@ -126,6 +136,10 @@ def reoptimize_for_client(
             sleeve_cap = max(1 / len(eligible), max_etf_weight / requested_exposure)
             weights, method = fit(sleeve_cap)
 
+    for name, limit in caps.items():
+        weight_in_class = weights.loc[weights.index.isin(class_assets[name])].sum()
+        if weight_in_class > 0:
+            exposure_limit = min(exposure_limit, limit / weight_in_class)
     scaled = target_vol(weights, covariance, target, max_risky_exposure=exposure_limit,
                         max_etf_weight=max_etf_weight)
     final_weights = scaled.risky_weights.reindex(labels, fill_value=0.)

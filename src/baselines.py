@@ -37,7 +37,7 @@ def minimum_variance_weights(covariance: pd.DataFrame, max_weight: float) -> pd.
     if (not solution.success or not np.isfinite(weights).all()
             or abs(weights.sum() - 1) > 1e-9 or weights.min() < -1e-9
             or weights.max() > max_weight + 1e-9):
-        raise ValueError(f"minimum-variance optimization failed: {solution.message}")
+        raise RuntimeError(f"minimum-variance optimization failed: {solution.message}")
     return pd.Series(weights, index=labels)
 
 

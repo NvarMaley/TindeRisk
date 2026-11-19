@@ -569,6 +569,22 @@ volatilities are 13.07% for Classic and 12.66% for Balanced and Connected.
 All three reach the permitted 1.5× risky exposure. The standard ETF cap
 limits the benchmark variant to 5.62% estimated volatility.
 
+### 8.14 Constraint and solver audit
+
+Step 5.12 verifies total capital, long-only ETF bounds, exclusions,
+borrowing and optional caps on equity, bonds and gold. Class caps refer
+to final portfolio capital. A zero cap excludes the class. A positive
+cap can reduce risky exposure and add cash while preserving the
+re-optimized sleeve proportions. Class caps are supplied explicitly
+for scenarios that need them.
+
+The notebook validates 96 allocations over three decision closes, two
+constraint scenarios, four risk bands and four strategies. The unit
+tests simulate failures in the Classic, ERC and GMV solvers and reject
+an invalid solution even when the reported status indicates success.
+The Portfolio Menu distinguishes optimizer failures from missing or
+incompatible input data.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
