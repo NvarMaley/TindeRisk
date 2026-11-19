@@ -70,15 +70,19 @@ Context: No reliable multi-asset market capitalizations; the professor accepts a
 Options considered: ERC; 60/40; equal weight.
 Decision: ERC portfolio (estimated with the same rolling Ledoit-Wolf covariance) as anchor x0.
 Rationale:
-  - ERC is the maximum-Sharpe portfolio when all assets have the same Sharpe ratio and correlations are constant (Maillard, Roncalli & Teiletche, 2010): it is the optimal portfolio of an investor with no differential views.
+  - ERC gives every eligible ETF the same share of estimated volatility risk and uses covariance alone. Under equal positive individual Sharpe ratios and constant pairwise correlations, it is also the tangency portfolio (Maillard, Roncalli & Teiletche, 2010).
   - Reverse optimization pi = delta * Sigma * x0 makes x0 optimal by construction under the implied returns; BL departs from ERC only to the extent justified by the sentiment views.
-  - 60/40 has no comparable optimality argument; it remains the benchmark, not the anchor.
+  - The 60/40 mix remains the benchmark and a Step 5.9 alternative. Reverse optimization would also recover 60/40 from its own implied returns.
 Impact on data/code/tests/application:
   - Test: with no views, BL weights = ERC weights (identity test).
   - One slide / one report paragraph presents the optimality argument.
   - 60/40 anchor reported as a sensitivity analysis.
 Reconsideration condition: none expected.
 ```
+
+Step 5.8 verifies the ERC selection on 96 month-ends from January 2010
+through December 2017. See the [proof and numeric checks](03_METHODOLOGY.md#chosen-reference-portfolio).
+The equal-Sharpe special case is discussed in [Maillard, Roncalli & Teïletche, §3.5](https://doi.org/10.3905/jpm.2010.36.4.060).
 
 ### DR-03 — Leverage
 
