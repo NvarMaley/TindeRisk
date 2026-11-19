@@ -1,4 +1,4 @@
-"""Date-aware identifier and GICS links for the LN7 company cohort."""
+"""Date-aware identifier and industry links for the LN7 company cohort."""
 
 from pathlib import Path
 
@@ -54,8 +54,7 @@ def _match_history(rows, history, key, value):
     return matched, issue
 
 
-def link_company_days(days, security_history, company_links, gics_history=None):
-    """Link each observation without using ticker or GICS values from later dates."""
+def _link_company_identifiers(days, security_history, company_links):
     result = days[["ticker", "date"]].reset_index(drop=True)
     result["date"] = pd.to_datetime(result["date"], utc=True).dt.tz_localize(None).dt.normalize()
     if result.isna().any().any() or result.duplicated().any():
@@ -67,6 +66,12 @@ def link_company_days(days, security_history, company_links, gics_history=None):
         result, _dated_history(company_links), "permno", "gvkey"
     )
     result["status"] = result["status"].fillna(company_issue)
+    return result
+
+
+def link_company_days(days, security_history, company_links, gics_history=None):
+    """Link each observation without using ticker or GICS values from later dates."""
+    result = _link_company_identifiers(days, security_history, company_links)
     if gics_history is None:
         result["gics_sector"] = pd.Series(pd.NA, index=result.index, dtype="string")
         result["status"] = result["status"].fillna("gics_history_missing")
@@ -81,20 +86,39 @@ def link_company_days(days, security_history, company_links, gics_history=None):
     return result
 
 
-def audit_ln7_companies(days, wrds_dir: Path, gics_path: Path):
-    """Read local WRDS extracts in chunks and return the join audit for LN7."""
+def _load_ln7_links(wrds_dir: Path, *, include_icb: bool = False):
+    columns = {**CRSP_COLUMNS, **({"ICBIndustry": "icb_industry"} if include_icb else {})}
     security_chunks = pd.read_csv(
-        wrds_dir / "crsp_msf.csv", usecols=CRSP_COLUMNS, dtype="string", chunksize=250_000,
+        wrds_dir / "crsp_msf.csv", usecols=columns, dtype="string", chunksize=250_000,
     )
     securities = pd.concat([
         chunk.loc[chunk["Ticker"].isin(LN7_COMPANIES)].drop_duplicates()
         for chunk in security_chunks
-    ], ignore_index=True).rename(columns=CRSP_COLUMNS)
+    ], ignore_index=True).rename(columns=columns)
     links = pd.read_csv(
         wrds_dir / "ccm_lnkhist.csv", usecols=[*CCM_COLUMNS, "LINKPRIM", "LINKTYPE"],
         dtype="string", na_values={"LINKENDDT": ["E"]},
     )
     primary = links["LINKPRIM"].isin(["P", "C"]) & links["LINKTYPE"].isin(["LC", "LU", "LS"])
     links = links.loc[primary & links["LPERMNO"].isin(securities["permno"]), list(CCM_COLUMNS)]
+    return securities, links.rename(columns=CCM_COLUMNS)
+
+
+def audit_ln7_companies(days, wrds_dir: Path, gics_path: Path):
+    """Read local WRDS extracts in chunks and return the GICS join audit."""
+    securities, links = _load_ln7_links(wrds_dir)
     gics = pd.read_csv(gics_path, dtype="string", usecols=GICS_COLUMNS) if gics_path.is_file() else None
-    return link_company_days(days, securities, links.rename(columns=CCM_COLUMNS), gics)
+    return link_company_days(days, securities, links, gics)
+
+
+def audit_ln7_icb(days, wrds_dir: Path):
+    """Use effective CRSP ICB intervals for an exploratory classification."""
+    securities, links = _load_ln7_links(wrds_dir, include_icb=True)
+    result = _link_company_identifiers(days, securities, links)
+    securities["icb_industry"] = securities["icb_industry"].replace("NOAVAIL", pd.NA)
+    result["icb_industry"], issue = _match_history(
+        result, _dated_history(securities), "permno", "icb_industry"
+    )
+    result["status"] = result["status"].fillna(issue).fillna("mapped")
+    result.loc[result["status"].ne("mapped"), "icb_industry"] = pd.NA
+    return result

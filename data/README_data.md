@@ -152,6 +152,19 @@ following month. Keep incomplete months out of forward-return tests.
 The notebook reports coverage on closed months and exposes a synthetic
 month-end timing check that runs without the licensed inputs.
 
+### Exploratory ICB panel (E021)
+
+The Step 4.1d ICB notebook cell uses `ICBIndustry` from the local CRSP monthly
+extract on its dated security interval. The join requires an unambiguous
+PERMNO and GVKEY and excludes `NOAVAIL`. First availability of each historical
+industry code remains unverified.
+
+The run maps 37,870 of 42,154 LN7 company-days (89.8%). After excluding the
+final partial month, six ICB industries have 622 defined industry-month scores
+out of 624. Of those defined scores, 265 come from one company. The run
+measures panel coverage. An ICB return test requires a benchmark aligned to
+the ICB industries. The GICS-based ETF comparison stays in E014.
+
 ## StockTwits statistical checks
 
 Step 4.1e has two independent notebook cells. The Moodle event run compares

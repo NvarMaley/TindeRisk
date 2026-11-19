@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.historical_gics import link_company_days
+from src.historical_gics import audit_ln7_icb, link_company_days
 
 
 def frame(fields, rows):
@@ -82,3 +82,20 @@ def test_local_extract_supports_the_ccm_open_end_marker(tmp_path):
     days = frame("ticker date", [("AAPL", "2018-01-02")])
     result = audit_ln7_companies(days, tmp_path, gics)
     assert result.loc[0, ["gvkey", "gics_sector", "status"]].tolist() == ["000123", "45", "mapped"]
+
+
+def test_icb_audit_respects_dated_codes_and_missing_classifications(tmp_path):
+    (tmp_path / "crsp_msf.csv").write_text(
+        "Ticker,PERMNO,SecInfoStartDt,SecInfoEndDt,ICBIndustry\n"
+        "AAPL,12345,2010-01-04,2018-01-01,NOAVAIL\n"
+        "AAPL,12345,2018-01-02,2018-01-02,TECH\n"
+        "AAPL,12345,2018-01-03,,TELECOM\n"
+    )
+    (tmp_path / "ccm_lnkhist.csv").write_text(
+        "LPERMNO,gvkey,LINKDT,LINKENDDT,LINKPRIM,LINKTYPE\n"
+        "12345,000123,2010-01-04,2018-01-03,P,LC\n"
+    )
+    days = frame("ticker date", [("AAPL", f"2018-01-0{day}") for day in range(1, 5)])
+    result = audit_ln7_icb(days, tmp_path)
+    assert result["status"].tolist() == ["missing_icb_industry", "mapped", "mapped", "missing_gvkey"]
+    assert result["icb_industry"].dropna().tolist() == ["TECH", "TELECOM"]
