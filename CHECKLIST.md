@@ -213,7 +213,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | 16 dated allocations in `portfolio_catalogue.parquet`. Out-of-range allocations flagged. Historical metrics await Step 6. |
 | [x] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | Risk analytics saved in catalogue v2. IR calculation tested; realized ratios await matched Step 6 returns. |
 | [x] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | DR-02 selects ERC. Implied Sharpe and recovery with an independent tangency solve verified on 96 month-ends. |
-| [ ] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | |
+| [x] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | E023: 108 cases using ERC and 60/40. Three synthetic cases hit the 3% tracking-error ceiling. |
 | [ ] | 5.10 | Produce LN6 analytics: Expected Shortfall, Herfindahl, Shannon, diversification ratio | 🟡 | |
 | [ ] | 5.11 | Recalculate and display the volatility actually achieved after constraints/leverage | 🔴 | |
 | [ ] | 5.12 | Test constraints: weights sum to 1, bounds, classes, exclusions, explicit solver failure | 🔴 | |

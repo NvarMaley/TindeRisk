@@ -308,6 +308,30 @@ maximum absolute weight difference of 1.33e-15. The separate long-only
 tangency optimizer recovers it within 4.14e-6 in weight units. The notebook
 also records these checks. Realized returns are evaluated in Step 6.
 
+#### Sensitivity to the reference and uncertainty
+
+Step 5.9 uses 756-session windows ending 30 July 2010, 31 December 2015
+and 29 December 2017. At each date, embed the 12-ETF ERC sleeve and the
+60/40 SPY–IEF benchmark on the same 13-ETF Ledoit–Wolf covariance. Both
+references use an implied Sharpe of 0.35. The only active test view is a
+synthetic annual XLK minus XLE excess-return spread of 8%. The grid uses
+`tau = 0.01, 0.025, 0.05` and `Omega` equal to 1, 2 or 4 times
+`0.05 × P @ Sigma @ P.T`, which keeps view uncertainty fixed while
+varying tau at each multiplier.
+
+All 54 no-view cases preserve the anchor and its implied means. In the
+54 active cases, fixed-tau tracking error ranges from 0.29% to 5.74%.
+Three cases require smaller tau to meet the 3% ceiling. On 31 December
+2015, with the ERC anchor and tau fixed at 0.05, raising the Omega
+multiplier from 1 to 4 reduces the posterior spread from 3.55% to 0.87%.
+At fixed Omega the posterior moves closer to the view as tau rises.
+Scaling both tau and Omega by the same factor leaves the posterior
+unchanged because the factors cancel in the Black–Litterman update.
+
+The [experiment log](06_EXPERIMENT_LOG.md) records E023. This experiment
+uses realized market covariances and synthetic views to check portfolio
+mechanics. Step 4.6 remains the gate for real sentiment views.
+
 ### 8.5 Non-Equal Risk Budget
 
 An option within the core only if the previous three methods have been stabilized. Budgets must come from a prespecified economic rule, not from a search for the best backtest.
