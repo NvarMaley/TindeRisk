@@ -45,6 +45,17 @@ def test_abnormal_return_respects_ticker_and_lab_window():
     assert abs(apple.iloc[4]) > 1
 
 
+def test_lab_ar_uses_market_fallback_and_strictly_prior_training():
+    dates = ["2011-01-03", "2011-01-04", "2011-01-05"]
+    prices = pd.DataFrame({
+        "ticker": ["SPY"] * 3 + ["AAPL"] * 3, "date": dates * 2,
+        "daily_return": [0.02, .03, .04, .10, .13, .90],
+    })
+    apple = abnormal_returns(prices).query("ticker == 'AAPL'")["AR"]
+    assert apple.iloc[0] == pytest.approx(.08)
+    assert apple.iloc[2] == pytest.approx(.74)
+
+
 def test_reconstruction_finds_volume_spike_and_classifies_abnormal_polarity():
     market = np.tile([-0.2, 0.3, 0.5, -0.4], 10)
     polarity = 0.1 + 0.5 * market

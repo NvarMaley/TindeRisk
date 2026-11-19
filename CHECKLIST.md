@@ -174,11 +174,11 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | Models implemented. Historical validation needs the two Moodle files. |
+| [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | Both Moodle files verified. Supplied labels total 1,131 events. The independent reconstruction finds 1,414, with 993 supplied ticker/date/type matches. |
 | [x] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | SPY daily returns, 5/5 at six decimals, 4–8 Jan 2010. |
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | Dated identifiers match 37,955 / 42,154 observed ticker-days. Historical GICS export pending. |
 | [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | Daily/monthly calculation verified on synthetic inputs. Historical test awaits 4.1c. |
-| [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | Exploratory direct-ETF validation complete. Moodle event and company-derived sector tests pending. |
+| [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | Exploratory direct-ETF and reconstructed event rank tests run. Exact event replication and company-derived sector tests remain open. |
 | [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | Baseline scored 86 releases. The specified FOMC-RoBERTa checkpoint requires authorized access. |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | Matrix implemented and verified. Zero eligible views while signal validation is pending. |
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | Estimator tested. Live calibration awaits an approved view and the frozen final-test boundary. |
@@ -189,7 +189,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | [Protocol v1](docs/24_SIGNAL_PROTOCOL.md) and [experiment log](docs/06_EXPERIMENT_LOG.md) recorded. Final-test split remains open in 0.11. |
 | [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | Direct-ETF spread reversed in exploratory validation. Company test E014 awaits dated GICS and the fixed split. |
 | [x] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | HMM wins on 21/24 exploratory macro months; average log-score advantage +0.686 nats. |
-| [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | Public AAPL/SPY cross-check: max error 1.105 bp over five lab rows. Exact reproduction awaits Moodle prices. |
+| [x] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | Original Moodle inputs: 5/5 displayed AAPL rows at six decimals and 37,950/37,950 supplied residuals within numerical tolerance. |
 | [x] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | Historical-only, with a 31 March 2020 cutoff and no later StockTwits views. [DR-06](docs/05_DECISIONS.md#dr-06--stocktwits-coverage). |
 | [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | Calendar control verified. Full performance comparison awaits Step 5 strategy returns and Step 6 backtests. |
 

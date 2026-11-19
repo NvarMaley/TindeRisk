@@ -36,7 +36,7 @@ def _ordered_panel(data):
     return panel.sort_values(["ticker", "date"]).reset_index(drop=True)
 
 
-def _market_residual(data, outcome, benchmark, *, include_today=False):
+def _market_residual(data, outcome, benchmark, *, allow_short_history=False):
     """Fit a separate intercept and slope per ticker in a 365-calendar-day window."""
     result = pd.Series(np.nan, index=data.index, dtype=float)
     for _, ticker in data.groupby("ticker", sort=False):
@@ -47,26 +47,30 @@ def _market_residual(data, outcome, benchmark, *, include_today=False):
         valid = np.isfinite(x) & np.isfinite(y)
         residuals = np.full(len(ticker), np.nan)
         for row in np.flatnonzero(valid & (dates > pd.Timestamp("2011-01-01", tz="UTC"))):
-            fit = slice(left[row], row + int(include_today))
+            fit = slice(left[row], row)
             x_train, y_train = x[fit][valid[fit]], y[fit][valid[fit]]
-            if len(x_train) < 3 or np.ptp(x_train) == 0:
+            if not allow_short_history and (len(x_train) < 3 or np.ptp(x_train) == 0):
                 continue
-            slope, intercept = np.linalg.lstsq(
-                np.column_stack([x_train, np.ones(len(x_train))]), y_train, rcond=None
-            )[0]
+            if len(x_train) == 0:
+                # The lab uses SPY directly before a regression can be fitted.
+                slope, intercept = 1.0, 0.0
+            else:
+                slope, intercept = np.linalg.lstsq(
+                    np.column_stack([x_train, np.ones(len(x_train))]), y_train, rcond=None
+                )[0]
             residuals[row] = y[row] - (intercept + slope * x[row])
         result.loc[ticker.index] = residuals
     return result
 
 
 def abnormal_returns(prices):
-    """Use the lab's SPY-only regression, with the endpoint included as shown."""
+    """Fit the SPY-only regression on the prior year before scoring each day."""
     panel = _ordered_panel(prices[["ticker", "date", "daily_return"]])
     spy = panel.loc[panel["ticker"].eq("SPY")].set_index("date")["daily_return"]
     if spy.empty:
         raise ValueError("The LN7 price panel must contain SPY")
     panel["market_return"] = panel["date"].map(spy)
-    panel["AR"] = _market_residual(panel, "daily_return", "market_return", include_today=True)
+    panel["AR"] = _market_residual(panel, "daily_return", "market_return", allow_short_history=True)
     return panel
 
 

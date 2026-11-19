@@ -68,14 +68,18 @@ load only copies from the instructor:
   polarity benchmark and the instructor's event labels.
 
 The lab's AR regression fits an intercept and SPY beta per ticker on
-`(t − 365 days, t]`. For AP and AV, the reconstruction uses historical
+`(t − 365 days, t)` and scores day `t`. With no valid prior fits, AR
+subtracts SPY directly. With one or two observations, it uses the
+least-squares solution. For AP and AV, the reconstruction uses historical
 observations strictly before each date and the instructor's aligned polarity,
 market polarity and total message volume. The event rules use a rolling
 sample standard deviation and the thresholds in the published methodology.
 CAR and CAP sum residuals over complete windows of ±20 observed SPY sessions.
 The second notebook cell compares reconstructed event counts and labels with
 the Moodle data and reports how many complete event windows are available.
-Exact event preprocessing and coverage remain to be checked on the original files.
+The supplied labels total 1,131 events. The independent reconstruction
+finds 1,414 events, including 993 supplied ticker/date/type matches,
+and yields 1,240 complete CAR/CAP windows. Event preprocessing remains open.
 [Divernois and Filipović, sections 4 and 6](https://doi.org/10.1007/s42521-023-00102-z).
 
 The project's firm-day parquet is a calendar-day aggregate with a different
@@ -96,9 +100,11 @@ prices.to_csv("data/raw/ln7_public_aapl_spy_prices.csv")
 PY
 ```
 
-The public-input check had a maximum absolute error of 1.105 basis points
-and zero exact matches at six decimals. The original price file is still
-needed for the full-panel check.
+The original Moodle prices reproduce all five displayed AAPL residuals
+at six decimals. The aligned event file confirms all 37,950 supplied
+residuals within absolute tolerance of 1e-10, with matching missing values.
+The earlier public-input experiment E017 used an inclusive fit window
+and recorded a maximum absolute difference of 1.105 basis points.
 
 ## LN7 historical company-to-sector links
 
@@ -148,12 +154,12 @@ month-end timing check that runs without the licensed inputs.
 
 ## StockTwits statistical checks
 
-Step 4.1e has two independent notebook cells. With the Moodle files in place,
-compare pairs of event types on CAR and CAP at sessions −5, 0 and +5.
+Step 4.1e has two independent notebook cells. The Moodle event run compares
+pairs of reconstructed event types on CAR and CAP at sessions −5, 0 and +5.
 The event check follows the comparison horizons in LN7.
 [Divernois and Filipović, Table 5](https://doi.org/10.1007/s42521-023-00102-z).
 
-The historical run available now uses only direct tags on the nine configured
+The historical sector run uses only direct tags on the nine configured
 sector ETFs. Pool sentiments by availability month and predict each ETF's
 following-month return minus SPY's. Measure each return from the close of the
 following month's first NYSE session to its last NYSE close. A month is
@@ -172,8 +178,9 @@ because monthly observations and overlapping event windows can be dependent.
 [statsmodels robust linear models](https://www.statsmodels.org/stable/rlm.html).
 
 This run skips target dates from 2018 onward; the final project split is
-still open. Company-derived sector results and the LN7 event comparison
-remain pending on GICS and the original Moodle files respectively.
+still open. Company-derived sector results require historical GICS. The LN7
+rank results remain exploratory while the event reconstruction differs from
+the supplied labels.
 
 ## FOMC statement tone
 
