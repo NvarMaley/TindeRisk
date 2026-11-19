@@ -161,7 +161,7 @@ message date is 23 March 2020 and the last availability session is
 24 March 2020. The rest of March remains sparse. Keep every later market
 session in the extended calendar and leave StockTwits inputs missing.
 Black–Litterman uses the no-view ERC specification over these sessions.
-Step 5.3 will implement and verify the portfolio fallback.
+Step 5.3 verified the portfolio fallback on 214 month-end decisions.
 
 The common sample enforces both the message and availability cutoff. A
 validated view must also expire by that cutoff, including a monthly

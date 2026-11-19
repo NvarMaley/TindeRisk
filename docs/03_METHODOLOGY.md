@@ -267,7 +267,24 @@ in IEF on 30 July 2010. Client-specific reoptimization belongs to Step
 
 ### 8.4 Connected
 
-Black-Litterman with an explicit reference portfolio, relative sector views, documented confidence, and a target tracking error. Provide sensitivity to the prior and to `tau`.
+Use the Step 5.2 ERC sleeve as the reference and the same annualized
+covariance. The annual excess-mean prior is `(reference_sharpe / vol(x0))
+* Sigma @ x0`, so the reference has the configured implied Sharpe of 0.35.
+Inputs `Q` and `Omega` use the annual units described in Step 4.3.
+
+When there are active views, fit a long-only tangency sleeve using the
+posterior excess means and the same covariance. Start at the exploratory
+upper value `tau = 0.05` with fixed `Omega`. If tracking error exceeds 3%
+annualized, solve for a smaller `tau` that reaches the 3% boundary. Smaller
+tilts can remain below 3%. Both settings are explicit inputs. Step 5.6b
+handles client constraints on the resulting sleeve.
+
+With zero active views, Connected returns the ERC weights and prior exactly.
+The notebook verified this identity on 214 extended-sample month-ends from
+30 January 2009 to 30 October 2026. With synthetic views, tracking error
+is 0.15% in the weak-confidence case and 3.00% in the strong-confidence
+case at calibrated `tau = 0.0153`. Activation of real views depends on
+Step 4.6. Sensitivity to the anchor, `tau` and `Omega` is tracked in Step 5.9.
 
 ### 8.5 Non-Equal Risk Budget
 

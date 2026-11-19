@@ -52,9 +52,8 @@ predictiveness or view eligibility**. Missing observations do not prove that
 there were no messages in the original universe.
 
 Before **4.3c/4.6**, choose and validate confidence/volume thresholds, signal
-history and any permitted signal age. Before **5.3/6.1**, implement the
-no-view ERC anchor or validated view subset explicitly; this builder does not
-execute that fallback. Step 4.9 limits historical sentiment to 31 March
+history and any permitted signal age. Step **5.3** verified the no-view ERC anchor. Step **6.1** will use the strategy
+weights on this calendar. Step 4.9 limits historical sentiment to 31 March
 2020, inclusive, on both message and availability dates. The extended
 sample retains all later market sessions with missing sentiment. A monthly
 score first usable in April falls outside coverage.
