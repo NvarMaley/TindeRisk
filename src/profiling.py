@@ -23,6 +23,18 @@ RISK_BANDS = (
 )
 
 
+def volatility_band_position(volatility: float, band: RiskBand) -> str:
+    """Compare estimated volatility with the band's stated boundaries."""
+    if not math.isfinite(volatility) or volatility < 0:
+        raise ValueError("estimated volatility must be finite and nonnegative")
+    if volatility < band.min_volatility:
+        return "below"
+    upper_inclusive = band.key == RISK_BANDS[-1].key
+    if volatility > band.max_volatility or (volatility == band.max_volatility and not upper_inclusive):
+        return "above"
+    return "within"
+
+
 def assign_risk_band(volatility: float) -> RiskBand:
     """Map a positive annualized volatility estimate to a stable risk band.
 

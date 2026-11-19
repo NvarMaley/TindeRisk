@@ -215,7 +215,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | DR-02 selects ERC. Implied Sharpe and recovery with an independent tangency solve verified on 96 month-ends. |
 | [x] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | E023: 108 cases using ERC and 60/40. Three synthetic cases hit the 3% tracking-error ceiling. |
 | [x] | 5.10 | Produce LN6 analytics: Expected Shortfall, Herfindahl, Shannon, diversification ratio | 🟡 | Catalogue v3 verifies 16 snapshots on 756 trailing sessions. Realized net ES awaits Step 6. |
-| [ ] | 5.11 | Recalculate and display the volatility actually achieved after constraints/leverage | 🔴 | |
+| [x] | 5.11 | Recalculate and display the volatility actually achieved after constraints/leverage | 🔴 | Catalogue v4 and Portfolio Menu show final-weight estimates, reference gaps and band status. |
 | [ ] | 5.12 | Test constraints: weights sum to 1, bounds, classes, exclusions, explicit solver failure | 🔴 | |
 | [ ] | 5.13 | Verify that BL without views reproduces the prior and that a higher-confidence view produces a stronger tilt | 🔴 | |
 | [ ] | 5.14 | Add a turnover constraint/penalty if justified by the net benefit | 🟡 | |

@@ -546,6 +546,29 @@ The Step 5.10 notebook checks all 16 snapshots on the window from
 a daily Expected Shortfall of 1.09% loss, a Herfindahl index of 0.110,
 10.64 effective holdings and a diversification ratio of 1.751.
 
+### 8.13 Displaying achieved volatility
+
+Recompute estimated annual volatility on the final ETF weights and the
+decision-close covariance, treating cash as having zero variance. Catalogue
+schema v4 stores the signed gap from the category reference and indicates
+whether the estimate is below, within or above the category range. The
+Portfolio Menu reuses the catalogue decision date and verifies the local
+input hashes, then re-optimizes with the profile's resolved exclusions,
+ETF cap, capacity ceiling and borrowing permission.
+
+The page shows the reference, final estimate, signed gap in percentage
+points and position relative to the band. It shows borrowed cash when
+used and marks a strategy unavailable if its eligible ETF universe is
+empty. Estimated risk is displayed separately from realized volatility,
+which awaits the backtest. Local market files and the prepared catalogue
+are required for the personalized estimates.
+
+The notebook verifies eight estimates on two profiles at the 30 October
+2026 close. With borrowing allowed in the 14% band, the estimated
+volatilities are 13.07% for Classic and 12.66% for Balanced and Connected.
+All three reach the permitted 1.5× risky exposure. The standard ETF cap
+limits the benchmark variant to 5.62% estimated volatility.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
