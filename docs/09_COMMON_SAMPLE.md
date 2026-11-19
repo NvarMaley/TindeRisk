@@ -81,3 +81,20 @@ Generated files stay ignored by Git; the builder, tests and this specification
 are versioned. To reproduce, regenerate the source bundle or use the exact
 source artifacts identified by the manifest hashes. A fresh download may be
 revised by the provider; hashes make such changes visible.
+
+## Strategy calendar comparison (4.10)
+
+Use the prepared main NYSE index as the fixed comparison calendar. Compare
+the core strategies in their configured order. Missing dates and nonfinite
+strategy returns appear in the audit. An incomplete strategy prevents the
+combined comparison panel from being produced. An extended return history
+can be audited separately, keeping observations outside the main calendar
+out of the main comparison.
+
+The 19 November 2026 audit found 2,578 main sessions from 4 January 2010
+through 31 March 2020, and 4,498 extended sessions from 2 January 2009
+through 18 November 2026. The extended calendar contains all main sessions
+and 1,920 additional sessions. The gross 60/40 benchmark from Step 2.5
+matches both prepared calendars. Classic, ERC and Black–Litterman await
+their strategy returns. The Step 4.10 notebook records this coverage check.
+Use the same control on net strategy returns in Step 6.11.
