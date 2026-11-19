@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as mcal
 from scipy.optimize import minimize
 
 
@@ -38,6 +39,28 @@ def minimum_variance_weights(covariance: pd.DataFrame, max_weight: float) -> pd.
             or weights.max() > max_weight + 1e-9):
         raise ValueError(f"minimum-variance optimization failed: {solution.message}")
     return pd.Series(weights, index=labels)
+
+
+def benchmark_60_40_weights(equity: str = "SPY") -> pd.Series:
+    """Return the fully invested equity/bond benchmark targets."""
+    if not equity or equity == "IEF":
+        raise ValueError("60/40 requires an equity ticker distinct from IEF")
+    return pd.Series([.6, .4], index=[equity, "IEF"])
+
+
+def monthly_decision_closes(sessions: pd.DatetimeIndex) -> pd.DatetimeIndex:
+    """Return the initial NYSE month-end and the closes that can affect the sample."""
+    if (not isinstance(sessions, pd.DatetimeIndex) or sessions.empty or sessions.tz is not None
+            or sessions.hasnans or not sessions.is_unique or not sessions.is_monotonic_increasing):
+        raise ValueError("monthly decisions require sorted unique NYSE session dates")
+    first, last = sessions[[0, -1]]
+    previous_month = first.to_period("M") - 1
+    calendar = mcal.get_calendar("NYSE")
+    schedule = calendar.valid_days(previous_month.start_time, last + pd.offsets.MonthEnd(0), tz=None)
+    if not sessions.equals(schedule[(schedule >= first) & (schedule <= last)]):
+        raise ValueError("returns must cover all scheduled NYSE sessions")
+    month_ends = schedule[~schedule.to_period("M").duplicated(keep="last")]
+    return month_ends[month_ends < last]
 
 
 def apply_monthly_targets(returns: pd.DataFrame, targets: pd.DataFrame) -> pd.DataFrame:

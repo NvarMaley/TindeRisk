@@ -6,7 +6,9 @@ import pandas as pd
 import pandas_market_calendars as mcal
 import yaml
 
-from .baselines import apply_monthly_targets, minimum_variance_weights
+from .baselines import (
+    apply_monthly_targets, benchmark_60_40_weights, minimum_variance_weights, monthly_decision_closes,
+)
 from .descriptive import descriptive_statistics
 from .estimation import ledoit_wolf_constant_corr, validate_returns
 from .paths import PROCESSED_DATA, RESULTS, ROOT
@@ -44,11 +46,7 @@ def main():
         if list(returns.columns) != universe or list(frames["warmup_returns"].columns) != universe:
             raise ValueError("common return universe differs from config")
         first, last = returns.index[[0, -1]]
-        prev_month = first.replace(day=1) - pd.offsets.MonthBegin()
-        schedule = calendar.valid_days(prev_month, last + pd.offsets.MonthEnd(0), tz=None)
-        month_ends = schedule[~schedule.to_period("M").duplicated(keep="last")]
-        initial = month_ends[month_ends < first][-1]
-        dates = month_ends[(month_ends >= initial) & (month_ends < last)]
+        dates = monthly_decision_closes(returns.index)
         if not dates.isin(history.index).all():
             raise ValueError("required NYSE month-end close is missing from the sample")
         history_sessions = calendar.valid_days(history.index[0], last, tz=None)
@@ -56,7 +54,7 @@ def main():
             raise ValueError("return history has missing or unexpected NYSE sessions")
 
         equal = pd.DataFrame(1 / len(assets), index=dates, columns=assets)
-        blend = pd.DataFrame({benchmark: .6, "IEF": .4}, index=dates)
+        blend = pd.DataFrame(benchmark_60_40_weights(benchmark).to_dict(), index=dates)
         gmv_rows = []
         for date in dates:
             panel = history.loc[:date, assets].tail(window)

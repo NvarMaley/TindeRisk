@@ -207,7 +207,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.2 | ⚖️ Balanced: ERC (log barrier + rescaling) | 🔴 | 96 month-end fits verified. The raw sleeve exceeds the 35% cap on 11 dates. Apply client constraints in 5.6b. |
 | [x] | 5.3 | 🧠 Connected: BL (`x0`, implied and posterior means, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | 214 month-end fits match ERC exactly. Synthetic view reaches 3% TE. Real views remain gated by 4.6. |
 | [x] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | 24 exploratory fits meet their risk budgets. Historical vintages and changing regimes are needed to assess portfolio utility. |
-| [ ] | 5.5 | 📈 60/40 benchmark | 🔴 | |
+| [x] | 5.5 | 📈 60/40 benchmark | 🔴 | Verified monthly SPY/IEF drift and gross daily returns on 2,578 main and 4,498 extended sessions. |
 | [ ] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | |
 | [ ] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | |
 | [ ] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | |

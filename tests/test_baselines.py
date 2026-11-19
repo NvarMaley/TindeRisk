@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.baselines import apply_monthly_targets, minimum_variance_weights
+from src.baselines import (
+    apply_monthly_targets, benchmark_60_40_weights, minimum_variance_weights, monthly_decision_closes,
+)
 
 
 def test_minimum_variance_with_binding_cap():
@@ -24,3 +26,13 @@ def test_holdings_drift_and_close_rebalance_only_applies_next_session():
     np.testing.assert_allclose(result["gross_return"], [.1, .06 / 1.1, .2])
     with pytest.raises(ValueError, match="precede"):
         apply_monthly_targets(returns, targets.set_axis(dates[[1, 2]]))
+
+
+def test_60_40_uses_nyse_month_end_targets_and_skips_the_final_close():
+    sessions = pd.to_datetime(["2020-01-30", "2020-01-31", "2020-02-03"])
+    targets = monthly_decision_closes(sessions)
+    assert targets.tolist() == pd.to_datetime(["2019-12-31", "2020-01-31"]).tolist()
+    assert monthly_decision_closes(sessions[:2]).tolist() == [pd.Timestamp("2019-12-31")]
+    pd.testing.assert_series_equal(benchmark_60_40_weights(), pd.Series({"SPY": .6, "IEF": .4}))
+    with pytest.raises(ValueError, match="all scheduled NYSE sessions"):
+        monthly_decision_closes(sessions[[0, 2]])
