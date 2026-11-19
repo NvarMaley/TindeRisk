@@ -191,7 +191,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | HMM wins on 21/24 exploratory macro months; average log-score advantage +0.686 nats. |
 | [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | Public AAPL/SPY cross-check: max error 1.105 bp over five lab rows. Exact reproduction awaits Moodle prices. |
 | [x] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | Historical-only, with a 31 March 2020 cutoff and no later StockTwits views. [DR-06](docs/05_DECISIONS.md#dr-06--stocktwits-coverage). |
-| [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | |
+| [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | Calendar control verified. Full performance comparison awaits Step 5 strategy returns and Step 6 backtests. |
 
 [LN7 replication inputs](data/README_data.md#ln7-lab-reproduction) and
 [historical company-link audit](data/README_data.md#ln7-historical-company-to-sector-links).
