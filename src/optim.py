@@ -20,7 +20,7 @@ def _covariance(covariance: pd.DataFrame, *, positive_definite: bool = False) ->
     matrix = (matrix + matrix.T) / 2
     smallest = np.linalg.eigvalsh(matrix)[0]
     if positive_definite and smallest <= 0:
-        raise ValueError("covariance must be positive definite for risk budgeting")
+        raise ValueError("covariance must be positive definite")
     if smallest < -tolerance:
         raise ValueError("covariance must be positive semidefinite")
     return matrix

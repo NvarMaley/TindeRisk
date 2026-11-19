@@ -8,7 +8,7 @@ implements the shrunk-mean option in README §2.3. It keeps Classic distinct
 from Black–Litterman without requiring an unvalidated ERC optimizer here.
 An implied-return prior remains an alternative for later robustness analysis;
 it is not silently implemented with an equal-weight proxy for the approved ERC
-anchor. ERC and production Classic optimization remain separate tasks.
+anchor. Step 5.1 uses these means in the [Classic optimizer](03_METHODOLOGY.md#82-classical).
 
 This is an implementation decision based on explicit structure, not a claim
 that it wins a predictive or portfolio-return comparison. The final holdout
