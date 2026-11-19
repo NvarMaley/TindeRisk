@@ -393,8 +393,8 @@ A `profile` object (JSON):
 3. Views P, Q, Ω from Step 4.3 (if no view is available → μ̄ = μ̃).
 4. Γ = τΣ, μ̄ = μ̃ + ΓPᵀ(PΓPᵀ + Ω)⁻¹(Q − Pμ̃).
 5. Core = long-only tangency portfolio using μ̄.
-6. τ calibrated to a **target tracking error** vs. x0 (e.g., 3%), as in the LN4 lab.
-- Available over the sentiment period (2010–2020); outside it, only the Fed view is available.
+6. With active views, calibrate τ down from 0.05 when needed to respect the **3% annual tracking error ceiling** vs. x0.
+- Without approved views, Connected uses the ERC anchor in both samples. StockTwits views remain subject to the March 2020 coverage cutoff and Step 4.6 validation.
 
 ### 5.4 🌦️ The Chameleon—risk budgeting by regime (LN5, LN6)
 - For each regime k: risk budgets b(k) by asset group (e.g., ☀️ equities 70% / bonds 20% / gold 10%; ⛈️ equities 30% / bonds 45% / gold 25%—**assumptions to justify**).

@@ -61,7 +61,7 @@ Return here before completing:
 - **4.1c**: dated company-to-sector mapping — historical GICS and identifier links are required.
 - **4.1d**: the GICS-based test requires validated 4.1c. The exploratory ICB panel is available in E021.
 - **4.3a and 4.6**: company-derived BL views and their out-of-sample validation — require the mapped signal; direct-ETF views must be tested and labelled separately.
-- **5.3**: company-sentiment BL — requires validated views. ERC-anchor/no-views BL can proceed without GICS.
+- **5.3**: the ERC-anchor implementation is verified. Activating company-sentiment BL requires validated views from 4.6.
 - **1.11 and 6.11**: finalize common coverage again when company-derived sentiment is introduced.
 
 The dated Step 1.5 corpus is available for the optional FOMC extension.
@@ -205,7 +205,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | [x] | 5.0 | Implement and test shared functions (`vol`, `risk_contrib`, `tracking_error`, `erc`, `risk_budget`, `bl_posterior`, `target_vol`) | 🔴 | Euler, risk budgets, BL and cash scaling verified. Notebook check: 12 ETFs, ERC risk-share error below 2e-11. |
 | [x] | 5.1 | 🏛️ Classic: constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | 96 month-end fits satisfy all caps. Notebook checks against capped GMV using the same estimates. |
 | [x] | 5.2 | ⚖️ Balanced: ERC (log barrier + rescaling) | 🔴 | 96 month-end fits verified. The raw sleeve exceeds the 35% cap on 11 dates. Apply client constraints in 5.6b. |
-| [ ] | 5.3 | 🧠 Connected: BL (`x0` decided in 5.8, μ̃, views, μ̄, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | |
+| [x] | 5.3 | 🧠 Connected: BL (`x0`, implied and posterior means, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | 214 month-end fits match ERC exactly. Synthetic view reaches 3% TE. Real views remain gated by 4.6. |
 | [ ] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | |
 | [ ] | 5.5 | 📈 60/40 benchmark | 🔴 | |
 | [ ] | 5.6a | Apply Tobin scaling toward each risk band's reference volatility (plus leverage rule) | 🔴 | |
