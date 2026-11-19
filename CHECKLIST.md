@@ -203,7 +203,7 @@ and [statistical checks](data/README_data.md#stocktwits-statistical-checks).
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [x] | 5.0 | Implement and test shared functions (`vol`, `risk_contrib`, `tracking_error`, `erc`, `risk_budget`, `bl_posterior`, `target_vol`) | 🔴 | Euler, risk budgets, BL and cash scaling verified. Notebook check: 12 ETFs, ERC risk-share error below 2e-11. |
-| [ ] | 5.1 | 🏛️ Classic: constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | |
+| [x] | 5.1 | 🏛️ Classic: constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | 96 month-end fits satisfy all caps. Notebook checks against capped GMV using the same estimates. |
 | [ ] | 5.2 | ⚖️ Balanced: ERC (log barrier + rescaling) | 🔴 | |
 | [ ] | 5.3 | 🧠 Connected: BL (`x0` decided in 5.8, μ̃, views, μ̄, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | |
 | [ ] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | |

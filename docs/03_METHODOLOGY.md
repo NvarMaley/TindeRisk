@@ -232,7 +232,23 @@ targets are reached. The 10% and 14% targets both result in 8.48% volatility.
 
 ### 8.2 Classical
 
-Tangency portfolio or long-only mean-variance portfolio with bounds, Ledoit-Wolf covariance, and a prudent `mu`. Also present GMV to diagnose sensitivity to `mu`.
+At a completed month-end close, use 756 trailing sessions through that close.
+The existing Step 2.3 shrinkage supplies annual arithmetic excess means.
+Ledoit–Wolf constant-correlation covariance uses simple returns over the
+same window. The risky sleeve is fully invested and long-only with the
+configured 35% per-ETF cap.
+
+For a positive feasible excess mean, minimize variance in rescaled weights
+`y` subject to `mu @ y = 1` and `0 <= y_i <= cap * sum(y)`. Normalizing
+`y` gives the maximum ex-ante Sharpe portfolio under the caps. If even the
+highest feasible excess mean is nonpositive, use capped GMV and record
+`gmv_nonpositive`. A solver failure raises an explicit error.
+
+The Step 5.1 notebook checks 96 month-ends from January 2010 through
+December 2017. All satisfy the caps and use tangency. On 31 December 2015,
+the estimated annual volatility was 6.73% for Classic and 5.75% for capped
+GMV. Their ex-ante Sharpe ratios were 0.975 and 0.717 under the same inputs.
+Realized strategy performance is evaluated in Step 6.
 
 ### 8.3 Balanced
 
