@@ -11,6 +11,11 @@ EXPECTED_SPY = pd.Series(
     index=pd.date_range("2010-01-04", periods=5, name="date"),
     name="lab_expected",
 )
+EXPECTED_AAPL_AR = pd.Series(
+    [0.009547, 0.004477, 0.001316, -0.000163, 0.007783],
+    index=pd.date_range("2011-01-03", periods=5, name="date", tz="UTC"),
+    name="lab_ar",
+)
 YEAR_NS = 365 * 24 * 60 * 60 * 10**9
 
 
@@ -63,6 +68,25 @@ def abnormal_returns(prices):
     panel["market_return"] = panel["date"].map(spy)
     panel["AR"] = _market_residual(panel, "daily_return", "market_return", include_today=True)
     return panel
+
+
+def check_aapl_ar_reference(prices):
+    """Compare the fitted residuals with the five displayed LN7 AAPL values."""
+    estimates = abnormal_returns(prices)
+    apple = estimates.loc[estimates["ticker"].eq("AAPL")].set_index("date")["AR"]
+    result = EXPECTED_AAPL_AR.to_frame().assign(calculated_ar=apple)
+    result["difference_bps"] = (result["calculated_ar"] - result["lab_ar"]) * 10_000
+    result["matches_at_6dp"] = result["calculated_ar"].round(6).eq(result["lab_ar"])
+    return result
+
+
+def ln7_reference_returns(adjusted_closes):
+    """Convert the two public price series to returns on the lab's date range."""
+    if not isinstance(adjusted_closes.index, pd.DatetimeIndex) or not adjusted_closes.index.is_unique:
+        raise ValueError("Adjusted closes require unique datetime dates")
+    closes = adjusted_closes.loc[:, ["AAPL", "SPY"]].sort_index()
+    returns = closes.pct_change(fill_method=None).loc["2010-01-04":"2011-01-07"]
+    return returns.rename_axis(index="date", columns="ticker").stack().rename("daily_return").reset_index()
 
 
 def reconstruct_events(messages):

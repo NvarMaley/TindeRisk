@@ -189,7 +189,7 @@ strategy. See [the diagnostic specification](docs/10_DESCRIPTIVE_STATISTICS.md).
 | [x] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | [Protocol v1](docs/24_SIGNAL_PROTOCOL.md) and [experiment log](docs/06_EXPERIMENT_LOG.md) recorded. Final-test split remains open in 0.11. |
 | [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | Direct-ETF spread reversed in exploratory validation. Company test E014 awaits dated GICS and the fixed split. |
 | [x] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | HMM wins on 21/24 exploratory macro months; average log-score advantage +0.686 nats. |
-| [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | |
+| [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | Public AAPL/SPY cross-check: max error 1.105 bp over five lab rows. Exact reproduction awaits Moodle prices. |
 | [ ] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | |
 | [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | |
 

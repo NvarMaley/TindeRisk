@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.ln7 import abnormal_returns, check_spy_reference, event_paths, reconstruct_events
+from src.ln7 import (
+    abnormal_returns, check_aapl_ar_reference, check_spy_reference, event_paths,
+    ln7_reference_returns, reconstruct_events,
+)
 
 
 def test_spy_reference_uses_the_previous_close_and_reports_missing_dates(tmp_path):
@@ -13,6 +16,20 @@ def test_spy_reference_uses_the_previous_close_and_reports_missing_dates(tmp_pat
     result = check_spy_reference(path)
     assert result["matches"].tolist() == [True, False, False, False, False]
     assert result["reproduced"].iloc[0] == pytest.approx(0.016960)
+
+
+def test_aapl_reference_uses_prior_close_and_reports_incomplete_coverage():
+    closes = pd.DataFrame({
+        "AAPL": [100., 110., 121., 144.], "SPY": [100., 102., 101., 110.],
+    }, index=pd.to_datetime(["2009-12-31", "2010-01-04", "2010-06-01", "2011-01-03"]))
+    returns = ln7_reference_returns(closes)
+    initial_apple = returns.loc[returns["ticker"].eq("AAPL"), "daily_return"].iloc[0]
+    assert initial_apple == pytest.approx(.10)
+    comparison = check_aapl_ar_reference(returns)
+    assert len(comparison) == 5 and comparison["calculated_ar"].count() == 1
+    expected = (comparison["calculated_ar"].iloc[0] - comparison["lab_ar"].iloc[0]) * 10_000
+    assert comparison["difference_bps"].iloc[0] == pytest.approx(expected)
+    assert not comparison["matches_at_6dp"].any()
 
 
 def test_abnormal_return_respects_ticker_and_lab_window():
