@@ -433,6 +433,30 @@ target with energy and gold excluded, a 25% ETF cap and no borrowing,
 Classic achieves 7.19% estimated volatility. Balanced and Connected
 achieve 6.81%. The eligible benchmark has 25% IEF and 75% cash.
 
+### 8.10 Versioned prepared portfolio catalogue
+
+Run `python -m src.portfolio_catalogue` or the independent Step 5.6c
+notebook cell. The builder verifies the source hashes and uses the last NYSE
+month-end with a subsequent session in the prepared extended calendar.
+It writes `results/portfolio_catalogue.parquet` with one row per configured
+risk band and core strategy. The schema version specifies the columns.
+The catalogue version fingerprints the decision date, inputs and row
+contents. Each row includes dated ETF and cash weights, the configured
+comparison period, risk estimates and applied allocation limits.
+
+The standard catalogue uses a 35% final weight cap per ETF, no exclusions
+and no borrowing. It records the shortfall against the reference and
+checks whether estimated volatility falls inside the requested band.
+On 30 October 2026, 7 of 16 entries fall inside their bands and 6 reach
+their reference volatility. The benchmark allocation in the catalogue
+scales its 60/40 sleeve with cash and the standard cap.
+
+The five historical client metrics are null and the backtest status is
+`pending_backtest`. Step 6 fills these metrics from the matching
+common-sample net-of-cost series before the catalogue is used to compare
+performances. The allocation snapshot and the comparison dates are separate
+fields.
+
 ## 9. Backtest
 
 The backtest has two distinct outputs. The scientific output validates the strategy with full diagnostics. The client-facing output is a versioned summary used by the prepared portfolio catalogue. It is historical evidence, not a return forecast.
