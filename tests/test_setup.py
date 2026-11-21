@@ -21,7 +21,7 @@ def test_benchmark_calendar_and_costs():
     ]
     assert all(a < b for a, b in zip(dates, dates[1:]))
     assert date.fromisoformat(config["specified_on"]) < dates[-2]
-    assert set(benchmark["assets"]) <= set(config["market_universe"])
+    assert set(benchmark["assets"]) <= set(config["archived_etf_panel"])
     assert benchmark["reference_fee_bps"] in benchmark["fee_bps"]
 
 

@@ -18,7 +18,7 @@ benchmark:
   retrospective_validation: ["2016-01-01", "2026-10-31"]
   prospective: ["2026-12-01", "2027-11-30"]
   first_signal: final_XNYS_close_of_November_2026
-market_universe: [XLK, XLF, XLE, XLV, XLY, XLP, XLI, XLB, XLU, IEF, TLT, GLD, SPY]
+archived_etf_panel: [XLK, XLF, XLE, XLV, XLY, XLP, XLI, XLB, XLU, IEF, TLT, GLD, SPY]
 seeds:
   profile_example: 42
   covariance_bootstrap: 1776

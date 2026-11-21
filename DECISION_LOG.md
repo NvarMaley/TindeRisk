@@ -63,3 +63,7 @@ The earlier naming pass left scope assumptions in the task descriptions. The sub
 ## README verification against the product decisions
 
 Clarified the three phases, current delivery status, provisional duration, client confirmation, and use of the aversion interval across the constrained net frontier. Historical experiments keep their original scope.
+
+## 2026-11-21 — Rebuild the project checklist and execution notebook
+
+The three product phases now determine the work order. The main notebook exercises a synthetic interview, fee-adjusted feasible set and dated allocation review using shareable inputs. The separate research notebook preserves the executable development experiments. The benchmark panel configuration now names its archived scope explicitly. The personal ranking, empirical forecasts and monitoring interface require the evidence listed in the checklist. Participant testing remains deferred by the owner.

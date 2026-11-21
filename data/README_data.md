@@ -16,7 +16,7 @@ In `alfred/`, 786 compressed snapshots cover CPIAUCSL, INDPRO and UNRATE at each
 
 ## Pilot data audit
 
-Step 1 runs `data_audit.audit_local()`. The checksums identify the inputs, including the optional WRDS panel and manifests. Document a new vintage and rerun the checks after an update. The checksum establishes which version was received. Historical availability requires separate evidence. [Pilot input checksums](pilot_checksums.json)
+Phase 2 data preparation runs `python -m research.data_collection` with authorized local inputs and prepared tables. It calls `data_audit.audit_local()` and writes the collection audit to `data/processed/collection_audit.json`. The checksums identify the inputs, including the optional WRDS panel and manifests. Document a new vintage and rerun the checks after an update. The checksum establishes which version was received. Historical availability requires separate evidence. [Pilot input checksums](pilot_checksums.json)
 
 - **ETFs.** Reconcile both sample endpoints with the XNYS calendar. Check duplicates and finite positive prices. Compare returns recomputed without filling gaps against the prepared Parquet file. The provider adjusts the prices. An independent audit of dated dividends and splits remains open.
 - **FRED and ALFRED.** Verify the eight checksums, reported gaps by series, date order, decompressed contents, observation dates and vintage sizes. Check actual release times for intraday forecasts. Dates in the market provenance file use assumed availability conventions.

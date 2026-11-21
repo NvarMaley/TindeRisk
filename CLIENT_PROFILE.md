@@ -1,6 +1,6 @@
 # RiskMatch client profile
 
-The questionnaire prepares a portfolio comparison for one financial goal. The client can review and correct the estimated risk tolerance, the risk their project can absorb, constraints and monitoring preferences before selecting an allocation. This product phase corresponds to Step 3 in the checklist and notebook.
+The questionnaire prepares a portfolio comparison for one financial goal. The client can review and correct the estimated risk tolerance, the risk their project can absorb, constraints and monitoring preferences before selecting an allocation. This is [Phase 1 of the implementation checklist](CHECKLIST.md#phase-1--understand-the-client).
 
 ## Factual intake
 
