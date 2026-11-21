@@ -55,3 +55,7 @@ The checklist and notebook use the quantitative methods as task names. The READM
 ## 2026-11-21 — Project-wide scope review
 
 Reviewed technical Steps 0–10 against the three product phases. The historical ETF panel and three-asset benchmarks retain their experiment-specific definitions. Candidate universes and feasible risk budgets are study-specific. Revised mandatory catalogue, backtest and UI assumptions, corrected the Expected Shortfall label, and added pitch and release coverage to the notebook. The data collection audit remains in progress.
+
+## Checklist evidence review
+
+The earlier naming pass left scope assumptions in the task descriptions. The subsequent scope pass corrected the asset universe and allocation rules. This review also corrected the unsupported grading legend, the profile correction wording, conditional regime selection and two open LN7 tasks whose results already existed in the course replay. The pending human pilot and independent portfolio validation remain open.

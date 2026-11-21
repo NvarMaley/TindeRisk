@@ -1,12 +1,8 @@
 # RiskMatch — Project Checklist
 
-> Working checklist for the concept review in `RiskMatch`. Phase 1 follows the agreed [client profile specification](CLIENT_PROFILE.md). Unchecked tasks require implementation or verification.
->
-> The [notebook](RiskMatch_pipeline.ipynb) contains the current outline.
-> Check `[x]` when the task is **completed AND verified**. Enter your initials under “Owner.”
-> Legend: 🔴 critical for the grade · 🟡 important · 🟢 bonus
->
-> The order and content below are starting points for the concept review.
+The [README](README.md) defines the three product phases. Use the [profile specification](CLIENT_PROFILE.md) for the swipe and scoring rules, the [research protocol](RESEARCH.md) for H01–H07, and the [setup record](SETUP.md) for the instructor’s documented requirements. This checklist translates those decisions into work items.
+
+**Reading the evidence.** A completed pilot establishes the result for its stated instruments, dates and assumptions. Promotion to the catalogue is a separate decision. The [notebook](RiskMatch_pipeline.ipynb) contains both executed examples and headings for pending work. Record the relevant test, output or decision when checking a task. The colors express team priorities: 🔴 core, 🟡 important, 🟢 optional.
 
 ---
 
@@ -41,7 +37,7 @@ For each run, record the following in the H01–H07 study record or pilot report
 | 2–3 · Estimation and profile | Sensitivity at three forecast origins, jointly feasible allocations and a separate transfer-item bank | Recruit participants, measure agreement, dropout and stability, and calibrate risk bands |
 | 4–5 · Signals and optimization | Correct zero-message polarity, resample date blocks, exclude each stock from its market factor, mask WRDS fields at the actual decision session and verify an admissible CHF entry | Full event replication, net signal tests and exclusions checked against dated holdings |
 | 6–7 · Backtesting and monitoring | Two minimum-trade rules, fees and delay with orders frozen, CHF sleeve and project risk, breach severity and duration, early withdrawal and real funding needs | Observable execution, development recalibration, independent comparison and timestamped feed for online use |
-| 8–10 · Application and delivery | Acceptance criteria and failure scenarios recorded for each step | Working Streamlit journey, user tests, pitch rehearsals and reproduction from a clean installation |
+| 8–10 · Application and delivery | Browser tests cover the adaptive profile and export/import | Integrated comparison and monitoring journeys, user tests, pitch rehearsals and reproduction from a clean installation |
 
 ## First reproducible walkthrough
 
@@ -375,7 +371,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [ ] | 4.1 | Reproduce LN7: market/company polarity, abnormal volume, events, AR/AP/CAR/CAP | 🔴 | |
-| [ ] | 4.1b | Reproduce at least one expected LN7 lab result before making any adaptations | 🔴 | |
+| [x] | 4.1b | Reproduce an LN7 reference result. The course replay matches the three supplied event counts. [Evidence](SETUP.md#shared-environment-and-course-replay) | 🔴 | |
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | |
 | [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | |
@@ -389,7 +385,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | [ ] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | |
 | [ ] | 4.6 | Validate StockTwits out of sample before producing BL views — [distinguish company and direct-ETF signals](#gics-dependency) | 🔴 | |
 | [ ] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | |
-| [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | |
+| [x] | 4.8 | Reproduce LN7 abnormal returns using the rolling market model. All 37,950 supplied residuals matched. [Replay](research/course_labs.py) | 🔴 | |
 | [ ] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | |
 | [ ] | 4.10 | Within each comparison use common dates, currency, costs and risk budgets; report longer histories separately | 🔴 | |
 
@@ -514,7 +510,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 |---|---|---|---|---|
 | [ ] | 8.1 | Connect the profile, portfolio comparison and monitoring journeys in the web app | 🔴 | |
 | [ ] | 8.2 | Implement `st.session_state` (intake, card IDs, answers, route, uncertainty, profile, selection) | 🔴 | |
-| [x] | 8.3a | Build the Profile page (factual intake, shared cards, conditional probes, editable tolerance, project capacity and follow-up) | 🔴 | |
+| [x] | 8.3a | Build the Profile page (factual intake, shared cards, conditional probes, correctable answers and recalculated tolerance, project capacity and follow-up) | 🔴 | |
 | [ ] | 8.3b | Show the net frontier, client zone, target, uncertainty, comparable portfolios, dated metrics and trade-offs | 🔴 | |
 | [ ] | 8.3c | Build the optional Analysis page (weights, RC, Sortino, Calmar, ES, turnover, concentration, technical backtest) | 🔴 | |
 | [ ] | 8.3d | Build the Monitoring page (since-selection value, benchmark, drawdown, drift, risk-band status, alerts, export) | 🟡 | |
@@ -587,7 +583,7 @@ Error measurement and action. Re-execute in a clean environment with authorized 
 
 - [ ] Choose the Black-Litterman reference portfolio (`x0`) and the sensitivity benchmark
 - [ ] Decide whether to permit leverage and set any borrowing spread
-- [ ] Final list of macroeconomic variables and number of regimes
+- [ ] Choose macro variables per hypothesis; select a state count only if the H03 regime extension is pursued
 - [ ] Choose the reference Sharpe ratio for the theoretical Tobin check and identify feasible points on the net frontier for the client’s mandate.
 - [ ] Volatility caps by horizon (capacity rules)
 - [ ] If H03 supports the extension, select regime-specific risk budgets on development data
