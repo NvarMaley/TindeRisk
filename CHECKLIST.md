@@ -256,7 +256,7 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 ### Historical GICS dependency (1.4b)
 
 Review the coverage and dates of historical GICS before validating 1.4b.
-This does not block market-data cleaning, equal-weight/GMV/60-40, Classic, ERC,
+This does not block market-data cleaning, equal-weight/GMV/60-40, constrained tangency, ERC,
 or a no-views BL baseline. Direct-ETF sentiment is a separate provisional input,
 not a replacement for company-sector aggregation.
 
@@ -391,10 +391,10 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [ ] | 5.0 | Implement and test shared functions (`vol`, `risk_contrib`, `tracking_error`, `erc`, `risk_budget`, `bl_posterior`, `target_vol`) | 🔴 | |
-| [ ] | 5.1 | 🏛️ Classic: constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | |
-| [ ] | 5.2 | ⚖️ Balanced: ERC (log barrier + rescaling) | 🔴 | |
-| [ ] | 5.3 | 🧠 Connected: BL (`x0`, implied and posterior means, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | |
-| [ ] | 5.4 | 🌦️ Chameleon: regime budgets weighted by filtered probabilities | 🟢 | |
+| [ ] | 5.1 | Test a constrained long-only tangency portfolio (LW Σ, conservative μ) | 🔴 | |
+| [ ] | 5.2 | Test equal risk contribution (ERC) (log barrier + rescaling) | 🔴 | |
+| [ ] | 5.3 | Test Black–Litterman with and without views (`x0`, implied and posterior means, target TE) — [company-view prerequisite](#gics-dependency) | 🔴 | |
+| [ ] | 5.4 | Optional H03 extension: test regime-dependent risk budgets against fixed budgets using filtered probabilities | 🟢 | |
 | [x] | 5.5 | 📈 60/40 benchmark | 🔴 | |
 | [ ] | 5.6a | Verify the Tobin special case, then solve the full net frontier under client constraints for each feasible risk budget | 🔴 | |
 | [ ] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | |
@@ -567,9 +567,9 @@ Error measurement and action. Re-execute in a clean environment with authorized 
 - [ ] Choose the Black-Litterman reference portfolio (`x0`) and the sensitivity benchmark
 - [ ] Decide whether to permit leverage and set any borrowing spread
 - [ ] Final list of macroeconomic variables and number of regimes
-- [ ] Selecting Sharpe Beach for Tobin’s theoretical control; selecting the client area on the constrained net boundary.
+- [ ] Choose the reference Sharpe ratio for the theoretical Tobin check and identify feasible points on the net frontier for the client’s mandate.
 - [ ] Volatility caps by horizon (capacity rules)
-- [ ] Risk budgets by regime (Chameleon)
+- [ ] If H03 supports the extension, select regime-specific risk budgets on development data
 - [ ] Choose validated FX series and dates before presenting results in CHF
 - [ ] Choose participants and timing for the phase 1 pilot (3.10)
 - [ ] Establish the dates for tests H01-H07 and the common StockTwits period. The three ETF benchmarks have their own separate schedule.

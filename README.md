@@ -6,6 +6,8 @@ RiskMatch maps the portfolios a client can consider for a particular goal. The c
 2. **Research and portfolio choice.** Replicate published studies and course labs, then test adaptations on ETFs and WRDS equities. Compare macroeconomic exposures, historical losses, forecasts and uncertainty across allocations in the same risk band. Out-of-sample evidence, implementation costs and data coverage determine which models enter the catalogue. [Research protocol](RESEARCH.md)
 3. **Monitoring.** After selection, track portfolio value, cash flows, losses and the risk band. Explain the reason for a proposed rebalance and its cost. Start with dated closing prices. Live monitoring depends on the available feed.
 
+Portfolio methods are candidates for the research comparison. Macro scenarios apply across allocations. A strategy that changes risk budgets by market regime is an optional extension. The final catalogue depends on out-of-sample performance after costs and compatibility with the client’s mandate.
+
 ## Team setup
 
 The [Step 0 handoff](SETUP.md) covers the shared Python 3.12 environment, lab reproduction commands, research registry, review rules and outstanding team decisions.

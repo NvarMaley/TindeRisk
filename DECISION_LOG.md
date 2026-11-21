@@ -28,3 +28,7 @@ Reviewed 0.1–0.16 against files, local runs and GitHub. Recovered the November
 One approving review is now required on main, including administrator changes. The setup work is on a separate pull request. The local app and executed research notebook remain in the working copy. The human questionnaire pilot stays deferred. [Setup evidence and open items](SETUP.md) · [GitHub change](https://github.com/NvarMaley/TindeRisk/pull/62)
 
 The owner confirmed the existing GitHub repository and team invitations. Item 0.3 is complete.
+
+## 2026-11-21 — Portfolio method names
+
+The checklist and notebook use the quantitative methods as task names. The README distinguishes macro analysis across portfolios from the optional H03 allocation experiment. Catalogue admission remains a research decision.
