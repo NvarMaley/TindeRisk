@@ -169,4 +169,6 @@ Before client publication, calibrate bands with human participants, check displa
 
 ## Research register
 
+The [experiment register](experiments.csv) contains the initial H01–H07 study designs and the benchmark schedule. Use the outcome and availability checks in the [setup handoff](SETUP.md#study-registration-and-dates) when recording a final split.
+
 For each trial, record ID/version, author/date, source and published result to reproduce, variants, data source/checksum, dates, parameters, results and intervals, costs, any negative finding, output file, reason for the decision and next check. Suggested statuses are **awaiting replication → replicated or discrepancy explained → adapted → tested → descriptive use / forecasting use / admitted to catalogue / rejected**. Each use requires its own evidence. Changes made after inspecting the test produce a new exploratory version. Catalogue size and composition may change. Rejected strategies remain in the register. H01–H07 remain research hypotheses in this plan.

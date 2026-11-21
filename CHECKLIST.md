@@ -182,15 +182,17 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 
 ## Step 0 — Organization & Setup
 
+[Step 0 evidence, lab results and remaining decisions](SETUP.md). Reviewed November 21, 2026. A checked setup task records the verified action. PR #62 still needs an independent approval to deliver its changes to main.
+
 **Possible biases.** Retrospective protocol selection, parameters chosen after inspecting results and changes in the execution environment.
 
 **Measurement and response.** Freeze hypothesis, unit, period, benchmark, minimum meaningful effect and variants before each trial. Archive input and dependency versions. Count subsequent changes and classify the trial as exploratory if its rule changes.
 
 **Procedure**
 
-- [ ] Following the QARM supports and the mandate, create a line for each test in `experiments.csv`: ID, source, responsible party, target, horizon, benchmark, variant, metric, minimal useful effect, assumptions, status. Mark previously reviewed periods as exploratory.
-- [ ] Reporter within `config.yaml`, covering schedules, currencies, universes, windows, costs, seeds, and versions. Following the inventory of dates (step 1), freeze the development/validation/test branches with the configuration commit. A previously examined period requires independent validation.
-- [ ] Re-run an example from the lab in a new environment. Archive the command, versions, inputs, expected result, actual result, and any explanation of discrepancies.
+- [ ] Initial register created for H01–H07 and the ETF benchmark. Before final estimation, append a versioned line for each test in `experiments.csv`: ID, source, responsible party, target, horizon, benchmark, variant, metric, minimal useful effect, assumptions, status. Mark previously reviewed periods as exploratory.
+- [ ] Benchmark configuration recorded in `config.yaml` with dates, currencies, universe, windows, costs, seeds and version. Following the inventory of dates (step 1), freeze the development/validation/test branches with the configuration commit. A previously examined period requires independent validation.
+- [x] Re-run an example from the lab in a new environment. Archive the command, versions, inputs, expected result, actual result, and any explanation of discrepancies.
 
 - Method: Before any estimation, define for each hypothesis the scope, the decision date, the target, the reference point, the minimum useful gain, and the exit rule. Freeze the chronological separation and version changes.
 - Tools: Git for version history, YAML for configuration, and a log of experiences for decision-making.
@@ -198,22 +200,22 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 0.1 | Ask the professor the four questions (2026 requirements, StockTwits data, expected backtest, topic approval) | 🔴 | Raf |
-| [ ] | 0.2 | Record the presentation date and finalize the schedule | 🔴 | |
-| [ ] | 0.3 | Create the GitHub repository and invite all five members | 🔴 | |
-| [ ] | 0.4 | Create the repository structure (see README) | 🔴 | Codex |
-| [ ] | 0.5 | Set up a shared Python environment (initial `requirements.txt`, same Python version) | 🔴 | |
-| [ ] | 0.6 | `config.yaml`: tickers, dates, SEED, assumptions | 🟡 | Codex |
-| [ ] | 0.7 | Complete the six labs (LN1–LN5, LN7) → foundation for the engine | 🔴 | |
-| [ ] | 0.8 | Assign team roles | 🔴 | |
-| [ ] | 0.9 | Freeze the MVP scope and include adaptive profiling in the MVP and classify HMM/FOMC as extensions | 🔴 | Raf |
-| [ ] | 0.10 | Start the decision register and experiment log | 🔴 | Codex |
-| [ ] | 0.11 | Select and freeze the train/validation/test periods before producing final results | 🔴 | |
-| [ ] | 0.12 | Verify licenses and publication rights for data, models, and materials | 🔴 | |
-| [ ] | 0.13 | Enable GitHub CI (`pytest` on Python 3.12) | 🔴 | |
-| [ ] | 0.14 | Protect `main`: pull request plus review by another member | 🟡 | |
-| [ ] | 0.15 | Define “done”: code + test + documentation + reproducible result + review | 🔴 | |
-| [ ] | 0.16 | Select the code license and add `LICENSE` before publication | 🟡 | |
+| [x] | 0.1 | Ask the professor the four questions (2026 requirements, StockTwits data, expected backtest, topic approval) | 🔴 | Raf |
+| [ ] | 0.2 | Record the presentation date and finalize the schedule — Presentation date pending. Milestones are listed in the handoff. | 🔴 | |
+| [ ] | 0.3 | Create the GitHub repository and invite all five members — Four accounts have access and two invitations are pending. Reconcile accounts to the team roster. | 🔴 | |
+| [x] | 0.4 | Create the repository structure (see README) | 🔴 | Codex |
+| [x] | 0.5 | Set up a shared Python environment (initial `requirements.txt`, same Python version) | 🔴 | Codex |
+| [x] | 0.6 | `config.yaml`: tickers, dates, SEED, assumptions | 🟡 | Codex |
+| [x] | 0.7 | Complete the six labs (LN1–LN5, LN7) → foundation for the engine | 🔴 | Codex |
+| [ ] | 0.8 | Assign team roles — Workstreams proposed. Named responsibilities still need team confirmation. | 🔴 | |
+| [x] | 0.9 | Freeze the MVP scope and include adaptive profiling in the MVP and classify HMM/FOMC as extensions | 🔴 | Raf |
+| [x] | 0.10 | Start the decision register and experiment log | 🔴 | Codex |
+| [ ] | 0.11 | Select and freeze the train/validation/test periods before producing final results — ETF benchmark dates recorded in the configuration commit. Final independent H01–H07 windows remain open. | 🔴 | |
+| [ ] | 0.12 | Verify licenses and publication rights for data, models, and materials — Provider terms reviewed. Source-level display permissions and institutional/vendor rights remain open. | 🔴 | |
+| [x] | 0.13 | Enable GitHub CI (`pytest` on Python 3.12) | 🔴 | Codex |
+| [x] | 0.14 | Protect `main`: pull request plus review by another member | 🟡 | Codex |
+| [x] | 0.15 | Define “done”: code + test + documentation + reproducible result + review | 🔴 | Codex |
+| [ ] | 0.16 | Select the code license and add `LICENSE` before publication — Awaiting the rights holders’ choice. | 🟡 | |
 
 ## Step 1 — Data Collection
 
