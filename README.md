@@ -6,6 +6,10 @@ RiskMatch maps the portfolios a client can consider for a particular goal. The c
 2. **Research and portfolio choice.** Replicate published studies and course labs, then test adaptations on ETFs and WRDS equities. Compare macroeconomic exposures, historical losses, forecasts and uncertainty across allocations in the same risk band. Out-of-sample evidence, implementation costs and data coverage determine which models enter the catalogue. [Research protocol](RESEARCH.md)
 3. **Monitoring.** After selection, track portfolio value, cash flows, losses and the risk band. Explain the reason for a proposed rebalance and its cost. Start with dated closing prices. Live monitoring depends on the available feed.
 
+## Team setup
+
+The [Step 0 handoff](SETUP.md) covers the shared Python 3.12 environment, lab reproduction commands, research registry, review rules and outstanding team decisions.
+
 ## Current work
 
 The English card bank is ready for piloting. The notebook contains portfolio checks, a descriptive StockTwits study and a common interest-rate shock applied to five allocations. The human pilot, full out-of-sample comparisons and catalogue validation remain open. [Card bank](questions/bank.json) · [Project checklist](CHECKLIST.md)
@@ -27,4 +31,4 @@ python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreproces
 
 The checklist identifies possible biases, how to measure their effects and what to do when a check fails. The data inventory covers raw inputs, vintages and attrition. The research protocol maps the 34 available numbered chapter guides to project decisions and the checklist covers the seven QARM II notes. [Data inventory](data/README_data.md) · [Research protocol](RESEARCH.md) · [Decision journal](DECISION_LOG.md)
 
-The available QARM brief is dated 2024. It calls for course-based portfolio optimization, GitHub code, a Streamlit application and a 15-minute client pitch. Requirements for the current cohort still need confirmation. Original teaching and data files retain their supplied filenames and contents. [Local course brief](<Theory/Quant_Project/Project_Brief/QARM_2_Slides___Projects.pdf>)
+The available QARM brief is dated 2024. It calls for course-based portfolio optimization, GitHub code, a Streamlit application and a 15-minute client pitch. The archived November 17 instructor reply confirms the 2024 guidelines. Original teaching and data files retain their supplied filenames and contents. [Local course brief](<Theory/Quant_Project/Project_Brief/QARM_2_Slides___Projects.pdf>)

@@ -1,0 +1,4 @@
+-r requirements-app.txt
+-r requirements-pilot.txt
+pytest==9.2.0
+playwright==1.65.2
