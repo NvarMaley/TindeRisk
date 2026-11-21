@@ -1,8 +1,9 @@
 """Pilot questionnaire. Answer indices are independent of the displayed side."""
-from itertools import chain
 from math import inf, isclose, isfinite
 from random import Random
 from statistics import median
+
+from riskmatch.mandate import capacity, required_rate
 
 CORE = "A01 L01 B01 A02 L03 A03 B02 A04 L02 A05 A06 L04 A07 A08".split()
 BANDS = [(0, 2, "Very high"), (2, 5, "High"), (5, 10, "Moderate"), (10, inf, "Low")]
@@ -17,11 +18,14 @@ def experimental_plan(cards, seed):
 
 
 def sides(key, seed):
-    return [1, 0] if Random(f"{seed}-{key}").randrange(2) else [0, 1]
+    reverse = Random(f"{seed // 2}-{key}").randrange(2) ^ (seed % 2)
+    return [1, 0] if reverse else [0, 1]
 
 
 def choice_threshold(stake, certain, outcomes, probabilities):
-    if stake <= 0 or not isclose(sum(probabilities), 1) or min(probabilities) < 0:
+    if (not outcomes or len(outcomes) != len(probabilities) or
+            not all(isfinite(x) for x in (stake, certain, *outcomes, *probabilities)) or
+            stake <= 0 or not isclose(sum(probabilities), 1) or min(probabilities) < 0):
         raise ValueError("Invalid amounts or probabilities")
     returns = [x / stake - 1 for x in outcomes]
     mean = sum(p*r for p,r in zip(probabilities, returns, strict=True))
@@ -64,13 +68,15 @@ def next_card(cards, answers, mandate, plan):
     lo, hi, _ = aversion_range(cards, answers)
     probes = [k for k in answers if k.startswith("A") and not cards[k]["core"]]
     candidates = [k for k,c in cards.items() if k.startswith("A") and not c["core"]
-                  and k not in chain(answers, plan["reserve"])
-                  and (lo > hi or lo < c["phi_threshold"] < hi)]
-    if candidates and len(probes) < 2:
+                  and k not in answers and k not in plan["reserve"]
+                  and lo < c["phi_threshold"] < hi]
+    unresolved_band = any(lo < boundary <= hi for boundary, _, _ in BANDS[1:])
+    open_edge = lo == 0 or not isfinite(hi)
+    if (unresolved_band or open_edge) and candidates and len(probes) < 2:
         center = (lo+hi)/2 if isfinite(hi) else median(cards[k]["phi_threshold"] for k in candidates)
         return min(candidates, key=lambda k: abs(cards[k]["phi_threshold"]-center))
     if loss_pairs({k: answers.get(k) for k in ("L01","L02","L03","L04")}) == 1:
-        # Hold onto a bet close to the starting point. Separate variations with the same starting point by seed.
+        # Match the conditional pair to the stake and rotate equally sized variants.
         capital = mandate["capital"] or 0
         pair = 9 if capital >= 15000 else (5,11)[plan["seed"] % 2] if capital >= 7500 else (7,13)[plan["seed"] % 2]
         for i in (pair, pair+1):
@@ -78,6 +84,11 @@ def next_card(cards, answers, mandate, plan):
             if key not in answers:
                 return key
     a, m = answers, mandate
+    goal_needs_review = False
+    if m["goal"]:
+        available = capacity(m, a)["free"]
+        rate = required_rate(available, m["contribution"], m["horizon"], m["goal"])
+        goal_needs_review = m["wish"] is None or rate is None or rate > m["wish"]/100
     branches = [
         ("B03", a.get("B01")==1), ("B04", a.get("B03")==1), ("B05", a.get("B01")==2),
         ("B06", a.get("B02")==1), ("B07", a.get("B01")==0), ("B08", a.get("B02")==0),
@@ -85,7 +96,7 @@ def next_card(cards, answers, mandate, plan):
         ("F01", m["withdraw"] != 0 or a.get("B03")==0), ("F02", bool(m["withdraw"])),
         ("F03", m["household"]!="Covered elsewhere"), ("F04", m["variable"]),
         ("F05", m["employer"]), ("F06", bool(m["ethics"])), ("F07", m["currency"]!="CHF"),
-        ("F08", bool(m["goal"]) or m["wish"] is None),
+        ("F08", goal_needs_review),
     ]
     for key, condition in branches:
         if condition and key not in a:

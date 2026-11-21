@@ -14,6 +14,23 @@
 
 - [x] **English migration.** Project documentation, notebook, client cards, code and grouping directories use English. The course and market-data originals retain their supplied filenames and contents. The decision log records scope and checks. [Decision log](DECISION_LOG.md)
 
+## Scope by technical step
+
+| Step | Deliverable in the current project |
+| --- | --- |
+| 0 | Record course requirements, scope, decisions and reproducibility settings. |
+| 1 | Inventory candidate instruments, benchmarks and explanatory series separately. Record availability, rights, currency, costs and exclusions per study. |
+| 2 | Measure historical returns, risk, dependence and uncertainty on each eligible sample. |
+| 3 · Product phase 1 | Use the factual intake and adaptive swipes to estimate a range of risk aversion. Keep capacity, required return and preferences separate. |
+| 4 · Product phase 2 | Replicate H01–H07 and test dated forecasts against simple references. Apply macro scenarios across candidate allocations. |
+| 5 | Estimate the feasible net frontier; compare allocations across risk budgets under the client’s constraints. |
+| 6 | Backtest at common dates and comparable risk after fees. Record which methods qualify, fail or remain inconclusive. |
+| 7 · Product phase 3 | Let the client choose among eligible allocations, then track the selected portfolio and confirm any rebalance. |
+| 8 | Deliver those three journeys in the browser with timestamps, intervals, charts and explanations. |
+| 9–10 | Demonstrate the journey, trace claims to results and reproduce the release from a clean checkout. |
+
+**Universe decision.** The existing price panel contains 13 ETF series including SPY. SPY, IEF and GLD form the three-instrument benchmark experiment. For each study, identify the eligible holdings and comparison portfolio separately. WRDS equities are candidates under H05. Rates, inflation and resource prices may enter as explanatory data; exposure in a portfolio requires a tradable instrument, dated prices and costs. Record each inclusion or rejection in the study register before building the client catalogue.
+
 ## Bias checks at each step
 
 For each run, record the following in the H01–H07 study record or pilot report: **step, potential bias, unit and period, counts before and after, benchmark and corrected metrics, difference and uncertainty, client impact, action and residual risk**. Resample dates in blocks for time-series comparisons and whole people for questionnaire comparisons. Differences across assumptions measure sensitivity. A causal interpretation requires an independent reference. Where information is missing, record “not estimable”, identify the data needed and suspend the affected use.
@@ -237,7 +254,7 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 1.1 | Download adjusted prices for the 12 ETFs plus SPY (yfinance, 2005 →) | 🔴 | Raf / Codex |
+| [ ] | 1.1 | Inventory and verify dated prices for each study universe. Reconcile the archived ETF panel for benchmarks and document additional eligible holdings and data gaps (including H05 equities). | 🔴 | Raf / Codex |
 | [ ] | 1.2 | Download DTB3 (FRED) and convert it to a daily rate | 🔴 | Raf / Codex |
 | [ ] | 1.3 | Download FRED macroeconomic series (T10Y2Y, BAA10Y, VIXCLS, CPIAUCSL, UNRATE, INDPRO) | 🟡 | Raf / Codex |
 | [ ] | 1.3b | Apply the publication lag to monthly series | 🟡 | Raf / Codex |
@@ -249,7 +266,7 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 | [ ] | 1.8 | Add `observation_date`, `available_date`, source, and download date | 🔴 | Codex / Vlad |
 | [ ] | 1.9 | Add automated tests for schema, duplicates, gaps, chronology, and coverage (market bundle and provisional direct-ETF sentiment) | 🔴 | Codex |
 | [ ] | 1.10 | Verify total return/adjusted prices, currency, calendar, and units for each source | 🔴 | Codex |
-| [ ] | 1.11 | Build the common sample for all strategies and document the start of each series | 🔴 | Codex |
+| [ ] | 1.11 | Build a common sample for each head-to-head comparison; document coverage, warm-up and exclusions per series | 🔴 | Codex |
 | [ ] | 1.12 | Create a small, publishable demonstration dataset with no restricted data | 🔴 | Codex |
 
 <a id="gics-dependency"></a>
@@ -276,7 +293,7 @@ Return here before completing:
 
 **Procedure**
 
-- [ ] Calculate CAGR (Compound Annual Growth Rate) for individual assets and for the portfolio, as well as volatility, maximum drawdown, recovery rate, historical ES (Expected Standard Deviation), and the number of losses used for the ES calculation. Compare distributions and correlations over different periods; also plot pairs during crises.
+- [ ] Calculate CAGR (Compound Annual Growth Rate) for individual assets and for the portfolio, as well as volatility, maximum drawdown, recovery rate, historical Expected Shortfall (ES), and the number of losses used for the ES calculation. Compare distributions and correlations over different periods; also plot pairs during crises.
 - [ ] For a series in levels use `statsmodels.tsa.stattools.adfuller` (H0: unit root) and `kpss` (H0: stationarity under the chosen specification). Choose intercept/trend from the economic mechanism. If the tests disagree, examine breaks and transformations and retain both diagnostics.
 - [ ] At each month’s last available quote, estimate covariances on the same past window. Check symmetry, eigenvalues, conditioning and units. At fixed weights compare forecast and realized variance before evaluating optimized weight turnover. Save `diagnostics.parquet` and the estimator record.
 
@@ -300,38 +317,42 @@ Return here before completing:
 
 ## Step 3 — Client profile (product phase 1)
 
+Review the [swipe statements and routing tables](questions/CARD_REVIEW.md) by category. The team is reviewing the current bank before scheduling the participant pilot.
+
 **Possible biases.** Framing effects, familiarity with repeated lotteries, selective dropout and false psychometric precision.
 
-**Measurement and response.** Counterbalance sides and sequence. Freeze predictions before independent transfer items. Report coverage, agreement, retest, dropout and elapsed time by participant. Resample whole participants for intervals. Leave the band undetermined if evidence is insufficient.
+**Measurement and response.** Keep right = yes and left = no. Counterbalance the endorsed financial outcome and the sequence. Freeze predictions before independent transfer items. Report coverage, agreement, retest, dropout and elapsed time by participant. Resample whole participants for intervals. Leave the band undetermined if evidence is insufficient.
 
 **Procedure**
 
-- [ ] Version `questions/bank.json` and its transitions. For each financial trade-off, calculate 2(μB−μA)/(σ²B−σ²A) over the same horizon. Handle equal variance, dominance, indifference and failed comprehension. Factual answers carry no score.
-- [ ] Use pytest to traverse common routes, corrections and contradictory branches. Test an imminent withdrawal despite high tolerance, a mandatory exclusion and an indeterminate profile. Changing capacity alone must preserve tolerance.
+- [x] Version `questions/bank.json` and its transitions. For each financial trade-off, calculate 2(μB−μA)/(σ²B−σ²A) over the same horizon. Handle equal variance, dominance, indifference and failed comprehension. Factual answers carry no score.
+- [x] Use pytest to traverse common routes, corrections and contradictory branches. Test an imminent withdrawal despite high tolerance, a mandatory exclusion and an indeterminate profile. Changing capacity alone must preserve tolerance.
 - [ ] Export `profile.json` with version, goal, cash flows, currency, constraints, φ range, uncertainty and reason. In the human pilot, measure comprehension, time, dropout and retest agreement using a band transition matrix. Document recruitment and order effects.
 
 - **Method.** Use four intake screens, then 15 common cards and conditional branches drawn from the 60-card bank. Infer a φ range from understood return–risk choices and their indifference thresholds. Record capacity, exclusions and behavioral observations separately.
 - **Tools.** Versioned JSON bank, Python routing engine, pytest branch checks, pilot questionnaire and one-week retest.
 - **Verification and deliverable.** Verify card counts and reachability, loop-free routing, the effects of corrections, consistent outputs and category stability. Report uncertainty where the boundary is ambiguous.
 
+**Phase 1 implementation reviewed on 2026-11-21.** The English Streamlit web app supports four factual screens, adaptive cards, corrections, confirmation, early exit, resumable JSON and optional blind validation. The automated suite traverses 1,000 seeded profiles, covers all 60 cards, and exercises the mobile and desktop browser flows. Notebook Step 3 replays a fictional CHF mandate and a shortfall scenario. All questionnaire and validation screens now show one swipeable statement. Browser checks cover left/right touch swipes, mouse dragging, keyboard arrows and an accidental short drag. Replay checks cover unconfirmed reasons and resuming mid-clarification. Record gesture count as well as completed scenarios in the pilot. The profile export is implemented. Items 3.3, 3.10 and the human comparison in 3.11 remain open until participants complete the pilot and retest. Item 3.8’s achieved-volatility check belongs to the subsequent allocation phase. The first walkthrough’s choice between two portfolios also remains open.
+
 Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length is an observation target, not a stopping rule.
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 3.0a | Design four factual intake screens outside the card bank | 🔴 | Codex |
-| [ ] | 3.0b | Separate goals, willingness, financial capacity, hard exclusions, preferences and follow-up | 🔴 | Codex |
+| [x] | 3.0a | Design four factual intake screens outside the card bank | 🔴 | Codex |
+| [x] | 3.0b | Separate goals, willingness, financial capacity, hard exclusions, preferences and follow-up | 🔴 | Codex |
 | [x] | 3.1a | Draft 2 comprehension cards (1 common) and 20 financial choices (8 common) | 🔴 | Codex |
 | [x] | 3.1b | Draft 14 loss-sensitivity cards (4 common in two pairs) and 10 drawdown-response cards (2 common) | 🔴 | Codex |
 | [x] | 3.1c | Draft 8 conditional financial-situation cards and 6 follow-up cards; select one closing card | 🔴 | Codex |
 | [x] | 3.1d | Version the bank and validate 60 unique cards, 15 common and 45 conditional | 🔴 | Codex |
-| [ ] | 3.2 | Estimate a range for φ from understood financial choices only; handle indifference, skipped and misunderstood choices | 🔴 | Codex |
+| [x] | 3.2 | Estimate a range for φ from understood financial choices only; handle indifference, skipped and misunderstood choices | 🔴 | Codex |
 | [ ] | 3.3 | Pilot four tolerance bands; allow adjacent bands or insufficient evidence | 🔴 | Codex |
-| [ ] | 3.4 | Encode answer-specific triggers across families, common coverage and correction of earlier answers | 🔴 | Codex |
-| [ ] | 3.5 | Stop when no useful probe remains; retain uncertainty after two inconclusive probes per issue | 🔴 | Codex |
-| [ ] | 3.6 | Require two distinct comparisons and client confirmation for each reported behavioral observation (maximum two) | 🔴 | Codex |
-| [ ] | 3.7 | Assess project capacity from dated withdrawals, reserves and obligations; apply hard constraints separately | 🔴 | Codex |
+| [x] | 3.4 | Encode answer-specific triggers across families, common coverage and correction of earlier answers | 🔴 | Codex |
+| [x] | 3.5 | Stop when no useful probe remains; retain uncertainty after two inconclusive probes per issue | 🔴 | Codex |
+| [x] | 3.6 | Require two distinct comparisons and client confirmation for each reported behavioral observation (maximum two) | 🔴 | Codex |
+| [x] | 3.7 | Assess project capacity from dated withdrawals, reserves and obligations; apply hard constraints separately | 🔴 | Codex |
 | [ ] | 3.8 | Translate tolerance to a portfolio risk band subject to project capacity; preserve the original tolerance and recheck achieved volatility | 🔴 | Codex |
-| [ ] | 3.9 | Test routing, termination, scoring independence, incomplete profiles, export/import and revised answers | 🔴 | Codex |
+| [x] | 3.9 | Test routing, termination, scoring independence, incomplete profiles, export/import and revised answers | 🔴 | Codex |
 | [ ] | 3.10 | Pilot comprehension, observed duration, typical 20–25 cards, value of probes and one-week retest | 🔴 | Codex |
 | [ ] | 3.11 | Record calibration and limitations; compare common-only vs adaptive results before claiming validity | 🔴 | Codex |
 
@@ -358,11 +379,11 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | [ ] | 4.1c | Build a dated and validated company → sector mapping — [requires 1.4b](#gics-dependency) | 🔴 | |
 | [ ] | 4.1d | Test sector aggregation as a distinct hypothesis — [requires mapped companies](#gics-dependency) | 🟡 | |
 | [ ] | 4.1e | Test Mann-Whitney/robust regression and out-of-sample stability | 🔴 | |
-| [ ] | 4.2 | Run offline FOMC classification → tone index per document | 🟢 | |
+| [ ] | 4.2 | Optional text extension: run offline FOMC classification → tone index per document | 🟢 | |
 | [ ] | 4.3a | Define relative sentiment views `P`; include the Fed only if the extension is validated — [GICS dependency for company-derived views](#gics-dependency) | 🔴 | |
 | [ ] | 4.3b | Estimate `Q` on train/validation data only; disable the view if unstable | 🔴 | |
 | [ ] | 4.3c | Base `Omega` on genuinely available confidence, with sensitivity analysis | 🔴 | |
-| [ ] | 4.4a | Fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | |
+| [ ] | 4.4a | Optional regime extension: fit an HMM to standardized macroeconomic variables (select the number of states using BIC) | 🟢 | |
 | [ ] | 4.4b | Use expanding-window estimation and **filtered** probabilities | 🟢 | |
 | [ ] | 4.4c | Name and describe the regimes | 🟢 | |
 | [ ] | 4.5 | Freeze the signal definition before the test period and maintain the experiment log | 🔴 | |
@@ -370,7 +391,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | [ ] | 4.7 | Compare the HMM with a static/GMM baseline; use filtered probabilities only | 🟢 | |
 | [ ] | 4.8 | Reproduce LN7 abnormal returns using a market model; do not replace it with a moving average | 🔴 | |
 | [ ] | 4.9 | Decide how to handle the post-2020 period: historical demonstration or a new validated source | 🔴 | |
-| [ ] | 4.10 | Compare all strategies on a common sample, then report longer histories separately | 🔴 | |
+| [ ] | 4.10 | Within each comparison use common dates, currency, costs and risk budgets; report longer histories separately | 🔴 | |
 
 ## Step 5 — Portfolio Construction
 
@@ -398,7 +419,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | [x] | 5.5 | 📈 60/40 benchmark | 🔴 | |
 | [ ] | 5.6a | Verify the Tobin special case, then solve the full net frontier under client constraints for each feasible risk budget | 🔴 | |
 | [ ] | 5.6b | Re-optimize under client constraints (exclusions, maximum weights) | 🔴 | |
-| [ ] | 5.6c | Build the versioned `risk_band × strategy` prepared portfolio catalogue | 🔴 | |
+| [ ] | 5.6c | Version the frontier and evidence for each eligible allocation, including costs, constraints, uncertainty and exclusion reasons | 🔴 | |
 | [ ] | 5.7 | Produce analytics: weights, RC/RC*, volatility, TE, IR, concentration | 🔴 | |
 | [ ] | 5.8 | Select and document the BL reference portfolio (`x0`) | 🔴 | |
 | [ ] | 5.9 | Analyze BL sensitivity to `x0`, `tau`, and `Omega`, with/without views | 🔴 | |
@@ -429,7 +450,7 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
 | [ ] | 6.1 | Build a monthly backtest engine (weight drift, cash at DTB3) — define cash timing and accrual conventions | 🔴 | |
-| [ ] | 6.2 | Run the four risk-band reference targets × active MVP strategies | 🔴 | |
+| [ ] | 6.2 | Sweep feasible risk budgets and backtest candidate allocations at matched risk; record infeasible mandates and realized risk | 🔴 | |
 | [ ] | 6.3 | Model transaction costs and two-way turnover (0 / 10 / 25 bps) — verify rate units and financing conventions | 🔴 | |
 | [ ] | 6.4 | Compute metrics (including **realized volatility vs. σ\***) and performance by regime | 🔴 | |
 | [ ] | 6.5 | Test robustness to window, frequency, subperiods, and shrinkage | 🟡 | |
@@ -438,10 +459,10 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 | [ ] | 6.8 | Report gross and net results, plus alpha/beta with HAC errors | 🟡 | |
 | [ ] | 6.9 | Preserve a frozen final test; distinguish confirmatory from exploratory analyses | 🔴 | |
 | [x] | 6.10 | Verify the first credited return from actual execution: with a signal after close t and execution at close t+1, old positions earn t→t+1, new positions first earn t+1→t+2 | 🔴 | |
-| [ ] | 6.11 | Compare over a common period; present longer histories separately | 🔴 | |
+| [ ] | 6.11 | Compare each pair on common dates; present longer histories separately | 🔴 | |
 | [ ] | 6.12 | Save weights, trades, costs, diagnostics, and the configuration version for every run | 🔴 | |
 | [ ] | 6.13 | Run the pipeline twice with the same seed and obtain identical results | 🔴 | |
-| [ ] | 6.14 | Export a common-period, net-of-cost summary for every category-strategy pair | 🔴 | |
+| [ ] | 6.14 | Export a common-period, net-of-cost summary for each tested risk budget and eligible allocation | 🔴 | |
 | [ ] | 6.15 | Export the five client metrics: historical net return, realized volatility, net Sharpe, maximum drawdown, annualized cost | 🔴 | |
 | [ ] | 6.16 | Export technical metrics: Sortino, Calmar, ES, turnover, concentration, TE, IR, and risk contributions | 🟡 | |
 | [ ] | 6.17 | Generate prespecified, evidence-backed advantages and limitations; never rank by return alone | 🔴 | |
@@ -491,14 +512,14 @@ Follow the [phase 1 specification](CLIENT_PROFILE.md). The typical pilot length 
 
 | ✓ | ID | Task | Priority | Owner |
 |---|---|---|---|---|
-| [ ] | 8.1 | Build a multipage skeleton (Home + four pages), target deployment date agreed at step 0.2 | 🔴 | |
+| [ ] | 8.1 | Connect the profile, portfolio comparison and monitoring journeys in the web app | 🔴 | |
 | [ ] | 8.2 | Implement `st.session_state` (intake, card IDs, answers, route, uncertainty, profile, selection) | 🔴 | |
-| [ ] | 8.3a | Build the Profile page (factual intake, shared cards, conditional probes, editable tolerance, project capacity and follow-up) | 🔴 | |
+| [x] | 8.3a | Build the Profile page (factual intake, shared cards, conditional probes, editable tolerance, project capacity and follow-up) | 🔴 | |
 | [ ] | 8.3b | Show the net frontier, client zone, target, uncertainty, comparable portfolios, dated metrics and trade-offs | 🔴 | |
 | [ ] | 8.3c | Build the optional Analysis page (weights, RC, Sortino, Calmar, ES, turnover, concentration, technical backtest) | 🔴 | |
 | [ ] | 8.3d | Build the Monitoring page (since-selection value, benchmark, drawdown, drift, risk-band status, alerts, export) | 🟡 | |
 | [ ] | 8.4 | Add caching and perform no heavy computation online | 🔴 | |
-| [ ] | 8.5 | Create the design (palette, characters, “technical details” mode) | 🟡 | |
+| [ ] | 8.5 | Make swipe cards, frontier trade-offs, uncertainty and monitoring charts readable on phone and desktop | 🟡 | |
 | [ ] | 8.6a | Add `pytest` unit tests (Euler, ERC, BL without views, posterior, Tobin) | 🔴 | |
 | [ ] | 8.6b | Run an end-to-end test with 20 simulated profiles and no errors | 🔴 | |
 | [ ] | 8.7 | Deploy to Streamlit Cloud, test on a phone, and provide a public link | 🔴 | |

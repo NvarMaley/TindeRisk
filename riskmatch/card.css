@@ -1,0 +1,24 @@
+.deck { max-width: 33rem; margin: 0 auto; padding: 8px 6px 0; overflow: hidden;
+  color: #193430; font-family: var(--st-font, system-ui), sans-serif; }
+.stack { isolation: isolate; position: relative; margin: 5px 5px 12px; }
+.stack::before { position: absolute; content: ""; inset: 8px 10px -7px; z-index: -1;
+  border: 1px solid #c3d5cd; border-radius: 20px; background: #e3eee7; }
+.card { position: relative; display: flex; flex-direction: column; justify-content: center;
+  min-height: 14rem; padding: clamp(20px,5vw,34px); border: 1px solid #b5cbc1;
+  border-radius: 20px; background: #fff; touch-action: pan-y; user-select: none; cursor: grab;
+  transition: transform 150ms ease-out, opacity 150ms ease-out; }
+.card:focus-visible, button:focus-visible { outline: 2px solid #28746a; outline-offset: 2px; }
+.card.dragging { cursor: grabbing; transition: none; }
+.family { color: #34685a; font-weight: 650; font-size: .82rem; }
+.scenario { color: #486057; font-size: 1rem; line-height: 1.5; margin: 1.15rem 0 .65rem; }
+h2 { font-size: clamp(1.45rem,4vw,2rem); line-height: 1.17; margin: 0; }
+.stamp { position: absolute; top: .7rem; right: 1rem; color: #943e34; background: white;
+  border: 2px solid currentColor; border-radius: 5px; padding: 1px 8px; font-weight: 750; opacity: 0; }
+.stamp.positive { color: #246659; }
+.legend { display: flex; justify-content: space-between; padding: .2rem .5rem; font-weight: 650; }
+#gesture, .skip { color: #496159; font-size: .87rem; }
+#gesture { text-align: center; margin: .55rem 0 .1rem; }
+.skip, .assist button { background: none; border: none; font: inherit; text-decoration: underline; cursor: pointer; }
+.skip { display: block; margin: 0 auto; min-height: 44px; }
+.assist button:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; clip-path: inset(50%); overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }

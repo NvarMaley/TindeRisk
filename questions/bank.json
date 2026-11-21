@@ -1,10 +1,10 @@
 {
-  "version": "1.0-pilot-en",
+  "version": "1.1-swipe-en",
   "language": "en",
   "rules": [
     "Four factual screens precede the card bank. Scenarios use hypothetical CHF amounts with no intermediate cash flows.",
     "Show C1, then C2 if needed. If C2 is still unclear, report the factual profile with risk tolerance undetermined.",
-    "Interleave trade-offs, loss comparisons and common reaction cards. Separate the members of each pair. Record which option appeared on which side.",
+    "Interleave trade-offs, loss comparisons and common reaction cards. Record the statement and swipe direction. Right always means yes. Counterbalance which financial outcome the statement favors.",
     "Only A01–A20 inform φ. Contradictory choices trigger clarification or an uncertain estimate. A misunderstood choice provides no evidence of a preference.",
     "After the common core, select an unseen card only when its trigger applies and it resolves a relevant uncertainty. Allow up to two unsuccessful probes per issue. B09 requires agreement across two separate loss comparisons.",
     "End with one S card. Use the first applicable trigger from S01 to S05, otherwise S06. Allow corrections and skips throughout, then recompute dependent conclusions."
@@ -23,7 +23,17 @@
       ],
       "purpose": "practice",
       "correct": "CHF 9,000",
-      "feedback": "Both amounts are possible. The smaller amount is CHF 9,000."
+      "feedback": "Both amounts are possible. The smaller amount is CHF 9,000.",
+      "swipe": {
+        "context": "In one year, your balance will be either CHF 9,000 or CHF 12,000. Both are equally likely.",
+        "statements": [
+          {
+            "text": "CHF 9,000 is the lowest balance I could end up with.",
+            "agree": 1,
+            "disagree": 0
+          }
+        ]
+      }
     },
     {
       "id": "C2",
@@ -38,7 +48,17 @@
       ],
       "purpose": "practice",
       "correct": "CHF 9,500",
-      "feedback": "Both amounts are possible. The smaller amount is CHF 9,500."
+      "feedback": "Both amounts are possible. The smaller amount is CHF 9,500.",
+      "swipe": {
+        "context": "Try another example. The two possible balances are CHF 9,500 and CHF 11,000. Both are equally likely.",
+        "statements": [
+          {
+            "text": "CHF 11,000 is the lowest balance I could end up with.",
+            "agree": 0,
+            "disagree": 1
+          }
+        ]
+      }
     },
     {
       "id": "A01",
@@ -846,7 +866,24 @@
         "Understand the decline before deciding",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "You invested CHF 10,000 for eight years. A year later it is worth CHF 8,500. Your income is steady.",
+        "statements": [
+          {
+            "text": "I would reduce how much I have at risk now.",
+            "agree": 1
+          },
+          {
+            "text": "I would keep my investments as they are.",
+            "agree": 0
+          },
+          {
+            "text": "I would want to understand the fall before deciding.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B02",
@@ -860,7 +897,24 @@
         "How much I am willing to see fluctuate",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Your investment fell 8% this month. You have an expense due in two years.",
+        "statements": [
+          {
+            "text": "My first priority would be checking how much I can withdraw on time.",
+            "agree": 0
+          },
+          {
+            "text": "I would first look into why the investment fell.",
+            "agree": 1
+          },
+          {
+            "text": "I would first reconsider how much fluctuation I can live with.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B03",
@@ -874,7 +928,24 @@
         "I think the portfolio itself has changed",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "You said you would reduce your exposure after a decline.",
+        "statements": [
+          {
+            "text": "The main reason is that I have an expense coming up.",
+            "agree": 0
+          },
+          {
+            "text": "The main reason is that the loss makes me uncomfortable.",
+            "agree": 1
+          },
+          {
+            "text": "The main reason is that I think the investment itself has changed.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B04",
@@ -887,7 +958,17 @@
         "No",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Your goal and time horizon stay the same. This time the investment falls 5%.",
+        "statements": [
+          {
+            "text": "I would still reduce how much I have at risk.",
+            "agree": 0,
+            "disagree": 1
+          }
+        ]
+      }
     },
     {
       "id": "B05",
@@ -901,7 +982,24 @@
         "I can decide now",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Investments similar to yours have fallen too.",
+        "statements": [
+          {
+            "text": "I want to know what caused my own loss before taking action.",
+            "agree": 0
+          },
+          {
+            "text": "I want to check how much I can withdraw when I need it.",
+            "agree": 1
+          },
+          {
+            "text": "I have enough information to decide now.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B06",
@@ -915,7 +1013,24 @@
         "My cash needs",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "The broader market is flat, but your investment is down.",
+        "statements": [
+          {
+            "text": "I would first check whether too much of my money is in a few holdings.",
+            "agree": 0
+          },
+          {
+            "text": "I would first check whether the investment strategy has changed.",
+            "agree": 1
+          },
+          {
+            "text": "I would first check my cash needs.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B07",
@@ -929,7 +1044,24 @@
         "Nothing for now",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Your investment has been falling for two years. Your goal is unchanged.",
+        "statements": [
+          {
+            "text": "I would review how much money I have at risk.",
+            "agree": 0
+          },
+          {
+            "text": "I would revisit the date of my goal.",
+            "agree": 1
+          },
+          {
+            "text": "I would leave the plan as it is for now.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "B08",
@@ -943,7 +1075,17 @@
         "I would like to compare the options",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Imagine a separate cash reserve already covers your upcoming expense.",
+        "statements": [
+          {
+            "text": "With the expense covered, I would keep my current allocation.",
+            "agree": 0,
+            "disagree": 1
+          }
+        ]
+      }
     },
     {
       "id": "B09",
@@ -957,7 +1099,20 @@
         "No",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Think back to the scenarios where you could finish below your starting amount.",
+        "statements": [
+          {
+            "text": "The possibility of ending with less than I put in changed my choice.",
+            "agree": 0
+          },
+          {
+            "text": "It would matter to me only if I had to withdraw soon.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "B10",
@@ -971,7 +1126,24 @@
         "The situation was unclear to me",
         "Hard to say"
       ],
-      "purpose": "confirm the reason for the choice"
+      "purpose": "confirm the reason for the choice",
+      "swipe": {
+        "context": "Think about the different decisions you made after a decline.",
+        "statements": [
+          {
+            "text": "The withdrawal date explains the difference for me.",
+            "agree": 0
+          },
+          {
+            "text": "The size of the fall explains the difference for me.",
+            "agree": 1
+          },
+          {
+            "text": "I found the situation unclear.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "F01",
@@ -986,7 +1158,24 @@
         "Enter an amount",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Think of the money you are investing today. Count only what you need from it at your first withdrawal.",
+        "statements": [
+          {
+            "text": "I need less than a quarter of my starting investment available then.",
+            "agree": 0
+          },
+          {
+            "text": "I need between a quarter and half of my starting investment available then.",
+            "agree": 1
+          },
+          {
+            "text": "I need more than half of my starting investment available then.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "F02",
@@ -1000,7 +1189,24 @@
         "I could change neither",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Imagine your balance is lower than planned when a withdrawal is due.",
+        "statements": [
+          {
+            "text": "I could postpone the withdrawal.",
+            "agree": 0
+          },
+          {
+            "text": "I could withdraw a smaller amount.",
+            "agree": 1
+          },
+          {
+            "text": "Both the date and the amount are fixed for me.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "F03",
@@ -1014,7 +1220,24 @@
         "With most of my investment",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Imagine your income drops for six months.",
+        "statements": [
+          {
+            "text": "A separate cash reserve would cover my essential expenses.",
+            "agree": 0
+          },
+          {
+            "text": "I would need some of this investment, but could leave most of it invested.",
+            "agree": 1
+          },
+          {
+            "text": "I would need most of this investment for essential expenses.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "F04",
@@ -1028,7 +1251,17 @@
         "I contribute occasionally",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Think about your planned monthly contribution.",
+        "statements": [
+          {
+            "text": "I could pause contributions without taking money out of this investment.",
+            "agree": 0,
+            "disagree": 1
+          }
+        ]
+      }
     },
     {
       "id": "F05",
@@ -1042,7 +1275,24 @@
         "Both",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Imagine your employer runs into financial trouble.",
+        "statements": [
+          {
+            "text": "Both my income and my investments could fall at the same time.",
+            "agree": 2
+          },
+          {
+            "text": "My income is the part I would expect to fall.",
+            "agree": 0
+          },
+          {
+            "text": "My investments are the part I would expect to fall.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "F06",
@@ -1055,7 +1305,20 @@
         "I can treat this as a preference",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "A fund does not disclose whether it invests in an activity you flagged.",
+        "statements": [
+          {
+            "text": "I would need proof that the activity is excluded before accepting this fund.",
+            "agree": 0
+          },
+          {
+            "text": "I could accept the fund and treat this exclusion as a preference.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "F07",
@@ -1070,7 +1333,24 @@
         "Specify another currency",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Think about the currency you will actually spend.",
+        "statements": [
+          {
+            "text": "I expect to pay this expense in Swiss francs.",
+            "agree": 0
+          },
+          {
+            "text": "I expect to pay this expense in euros.",
+            "agree": 1
+          },
+          {
+            "text": "I expect to pay this expense in US dollars.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "F08",
@@ -1085,7 +1365,24 @@
         "I would keep the current assumptions",
         "Hard to say"
       ],
-      "purpose": "clarify the mandate without scoring tolerance"
+      "purpose": "clarify the mandate without scoring tolerance",
+      "swipe": {
+        "context": "Imagine the current plan is unlikely to reach your target.",
+        "statements": [
+          {
+            "text": "I would first reconsider my deadline.",
+            "agree": 0
+          },
+          {
+            "text": "I would first reconsider how much I contribute.",
+            "agree": 1
+          },
+          {
+            "text": "I would first reconsider my target amount.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "S01",
@@ -1098,7 +1395,20 @@
         "The gap to my target",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "At your next review…",
+        "statements": [
+          {
+            "text": "Show me how much I could withdraw on the planned date first.",
+            "agree": 0
+          },
+          {
+            "text": "Show me the gap to my target first.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "S02",
@@ -1111,7 +1421,20 @@
         "An alert at a threshold I choose",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "If my balance falls below what I put in…",
+        "statements": [
+          {
+            "text": "I want an alert when my losses reach a threshold I set.",
+            "agree": 1
+          },
+          {
+            "text": "I would prefer a reminder at my next review.",
+            "agree": 0
+          }
+        ]
+      }
     },
     {
       "id": "S03",
@@ -1125,7 +1448,24 @@
         "What it means for my goal",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "After a decline…",
+        "statements": [
+          {
+            "text": "First, show me what the decline means for my goal.",
+            "agree": 2
+          },
+          {
+            "text": "First, show me which holdings lost value.",
+            "agree": 0
+          },
+          {
+            "text": "First, show me how the wider market performed.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "S04",
@@ -1139,7 +1479,24 @@
         "I would request a review myself",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "When deciding when to review my plan…",
+        "statements": [
+          {
+            "text": "A change in my contributions should trigger a review.",
+            "agree": 0
+          },
+          {
+            "text": "A new expense should trigger a review.",
+            "agree": 1
+          },
+          {
+            "text": "I would prefer to request a review myself.",
+            "agree": 2
+          }
+        ]
+      }
     },
     {
       "id": "S05",
@@ -1152,7 +1509,20 @@
         "At my regular review",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "Think about the activities you want excluded.",
+        "statements": [
+          {
+            "text": "I want to revisit my exclusions when a fund changes its holdings.",
+            "agree": 0
+          },
+          {
+            "text": "I want to check exclusions at my regular review.",
+            "agree": 1
+          }
+        ]
+      }
     },
     {
       "id": "S06",
@@ -1166,7 +1536,24 @@
         "When my circumstances change",
         "Hard to say"
       ],
-      "purpose": "follow-up preference"
+      "purpose": "follow-up preference",
+      "swipe": {
+        "context": "Think about how often you want to revisit your profile.",
+        "statements": [
+          {
+            "text": "A yearly check-in would suit me best.",
+            "agree": 1
+          },
+          {
+            "text": "I would prefer a check-in every three months.",
+            "agree": 0
+          },
+          {
+            "text": "I would prefer to check in when my circumstances change.",
+            "agree": 2
+          }
+        ]
+      }
     }
   ]
 }
