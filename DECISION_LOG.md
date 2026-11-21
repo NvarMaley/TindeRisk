@@ -59,3 +59,7 @@ Reviewed technical Steps 0–10 against the three product phases. The historical
 ## Checklist evidence review
 
 The earlier naming pass left scope assumptions in the task descriptions. The subsequent scope pass corrected the asset universe and allocation rules. This review also corrected the unsupported grading legend, the profile correction wording, conditional regime selection and two open LN7 tasks whose results already existed in the course replay. The pending human pilot and independent portfolio validation remain open.
+
+## README verification against the product decisions
+
+Clarified the three phases, current delivery status, provisional duration, client confirmation, and use of the aversion interval across the constrained net frontier. Historical experiments keep their original scope.
