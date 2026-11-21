@@ -16,7 +16,6 @@ htmlcov/
 data/raw/*
 data/processed/*
 results/*
-/data_plus/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !results/.gitkeep
@@ -27,8 +26,10 @@ results/*
 Icon?
 .vscode/
 
-# Supports de cours locaux : ne pas publier sur GitHub
-/cours  copie/
-/Quant projet /
-/Data for laboratories-*/
+# Local course material and restricted research data
+/Theory/
+/data/additional_data/
+/data/Data for laboratories-*/
 
+# Historical replay derived from local market inputs
+/data/demo/chf_walkthrough.json

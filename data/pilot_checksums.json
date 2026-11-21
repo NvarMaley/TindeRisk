@@ -1,0 +1,15 @@
+{
+  "data/raw/etf_prices_adjusted.csv": "cc43bcec9d1a7278971753877471ee05c86dcb0c030e63e8c543bbb796d0d0e2",
+  "data/Data for laboratories-20261119/sentratio_and_price_st.csv": "2fc7c7bdfe2395057ad701a4864c1c9f6465b669e70afe747e5178c242c75067",
+  "data/raw/public_phase2/DEXSZUS.csv": "922081ee3b0235be899b37b7ac38a1202e359febdb433b034659465fa8051b87",
+  "data/raw/public_phase2/DGS10.csv": "078cf9534a352af6007ae9e93cd7beb94b2616d57bc469e8e895ba19a322ccce",
+  "data/raw/public_phase2/manifest.json": "bff85a82d63a9526ebd5f3d9dec6f2580893a48a3a767e27aac47a0da51f2689",
+  "data/raw/public_phase2/alfred/manifest.csv": "9b745d6d4add8f208d75c7c9c48e05a7b3d13640b4f7ad462cc75e15b15e3cd8",
+  "data/processed/common_sample_manifest.json": "6cc8130e07e7af824fbc8da5af475548b86740ef23b4e0478cb2136b919a75d8",
+  "data/processed/returns.parquet": "5620dd8f8a45a4c17d5c088b61ffb0e37f157a79af1da593d62496ef768714f2",
+  "data/processed/market_observation_provenance.parquet": "18e99420cfb0ee1eb2d54b2efaa23182190c6ed577288de0206349ec4dc99edb",
+  "data/processed/sentiment_observation_provenance.parquet": "33b14d9eddeb6788c96d840ad545bcb53367ff11850472a4d8201ef7909ca7e1",
+  "data/additional_data/clean/monthly_panel.parquet": "6f98a17a90b97220ad5c3910b3c1e9e6bd3a25bd517da866ff134018b845223b",
+  "questions/bank.json": "417e07ac662d3f1a8f635a058a63abb57d72d593f0b332fa1c1cb2a03e2602a9",
+  "questions/transfer_validation.json": "b1cee1223a0d257b8f07ac6718e7ee9cb047d460c75dcde4e89893b3e24c77fc"
+}

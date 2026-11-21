@@ -1,1743 +1,1172 @@
 {
-  "version": "0.1",
-  "status": "draft",
-  "description": "Structure of the 60-question bank. To be completed and validated by the team.",
-  "blocks": {
-    "A": {
-      "name": "financial capacity and circumstances",
-      "target_count": 10,
-      "questions": [
-        {
-          "id": "A01",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "How long can most of this money stay invested?",
-          "options": {
-            "lt_2y": "Under 2 years",
-            "2_to_lt_5y": "2 to under 5 years",
-            "5_to_lt_10y": "5 to under 10 years",
-            "ge_10y": "10 years or more",
-            "unsure": "I am not sure"
-          },
-          "params": {
-            "fixed_question": "F01"
-          },
-          "condition": null
-        },
-        {
-          "id": "A02",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "How much will you need to take out in the next two years?",
-          "options": {
-            "none": "None",
-            "gt_0_to_lt_25pct": "Some, under a quarter",
-            "25_to_lt_50pct": "A quarter to under half",
-            "ge_50pct": "Half or more",
-            "unsure": "I am not sure"
-          },
-          "params": {
-            "fixed_question": "F02"
-          },
-          "condition": null
-        },
-        {
-          "id": "A03",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "If your income stopped, how long could your separate savings cover essentials?",
-          "options": {
-            "lt_1m": "Under 1 month",
-            "1_to_lt_3m": "1 to under 3 months",
-            "3_to_lt_6m": "3 to under 6 months",
-            "ge_6m": "6 months or more",
-            "unsure": "I am not sure"
-          },
-          "params": {
-            "fixed_question": "F03"
-          },
-          "condition": null
-        },
-        {
-          "id": "A04",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "After using separate savings, what investment loss would first make a planned payment hard to cover?",
-          "options": {
-            "lt_5pct": "Under 5%",
-            "5_to_lt_10pct": "5% to under 10%",
-            "10_to_lt_20pct": "10% to under 20%",
-            "ge_20pct": "20% or more",
-            "no_payment": "No payment depends on this money",
-            "unsure": "I am not sure"
-          },
-          "params": {
-            "fixed_question": "F04"
-          },
-          "condition": null
-        },
-        {
-          "id": "A05",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "How much of your accessible savings are you putting into this investment?",
-          "options": {
-            "lt_25pct": "Under a quarter",
-            "25_to_lt_50pct": "A quarter to under half",
-            "ge_50pct": "Half or more",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "A06",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "How predictable is your regular income?",
-          "options": {
-            "steady": "About the same most months",
-            "varies": "Varies from month to month",
-            "none": "I have no regular income",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "A07",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "How much of your monthly income goes to required debt payments?",
-          "options": {
-            "no_debt": "No required debt payments",
-            "gt_0_to_lt_25pct": "Some, under a quarter",
-            "25_to_lt_50pct": "A quarter to under half",
-            "ge_50pct": "Half or more",
-            "no_income": "I have required payments and no regular income",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "A08",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "objectives",
-          "texte": "What do you mainly want this investment to do?",
-          "options": {
-            "preservation": "Preserve my money",
-            "income": "Provide regular income",
-            "growth": "Grow over time",
-            "planned_expense": "Pay for something specific",
-            "other": "Something else",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "A09",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "knowledge",
-          "texte": "Have you ever held funds, ETFs, stocks or bonds?",
-          "options": {
-            "none": "No",
-            "funds_only": "Funds or ETFs only",
-            "individual": "Individual stocks or bonds, with or without funds",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "A10",
-          "bloc": "A",
-          "type": "single",
-          "dimension": "capacity",
-          "texte": "After essentials and required payments, how often do you have money left over?",
-          "options": {
-            "most_months": "Most months",
-            "some_months": "Some months",
-            "rarely": "Rarely or never",
-            "unsure": "I am not sure"
-          },
-          "params": {},
-          "condition": null
-        }
+  "version": "1.0-pilot-en",
+  "language": "en",
+  "rules": [
+    "Four factual screens precede the card bank. Scenarios use hypothetical CHF amounts with no intermediate cash flows.",
+    "Show C1, then C2 if needed. If C2 is still unclear, report the factual profile with risk tolerance undetermined.",
+    "Interleave trade-offs, loss comparisons and common reaction cards. Separate the members of each pair. Record which option appeared on which side.",
+    "Only A01–A20 inform φ. Contradictory choices trigger clarification or an uncertain estimate. A misunderstood choice provides no evidence of a preference.",
+    "After the common core, select an unseen card only when its trigger applies and it resolves a relevant uncertainty. Allow up to two unsuccessful probes per issue. B09 requires agreement across two separate loss comparisons.",
+    "End with one S card. Use the first applicable trigger from S01 to S05, otherwise S06. Allow corrections and skips throughout, then recompute dependent conclusions."
+  ],
+  "cards": [
+    {
+      "id": "C1",
+      "family": "comprehension",
+      "core": true,
+      "trigger": "entry",
+      "question": "Practice scenario. In one year you will receive either CHF 9,000 or CHF 12,000, with equal chances. What is the smallest amount you could receive?",
+      "answers": [
+        "CHF 12,000",
+        "CHF 9,000",
+        "I don’t understand yet"
+      ],
+      "purpose": "practice",
+      "correct": "CHF 9,000",
+      "feedback": "Both amounts are possible. The smaller amount is CHF 9,000."
+    },
+    {
+      "id": "C2",
+      "family": "comprehension",
+      "core": false,
+      "trigger": "C1 incorrect or unclear",
+      "question": "Practice scenario. In one year you will receive either CHF 9,500 or CHF 11,000, with equal chances. What is the smallest amount you could receive?",
+      "answers": [
+        "CHF 11,000",
+        "CHF 9,500",
+        "I don’t understand yet"
+      ],
+      "purpose": "practice",
+      "correct": "CHF 9,500",
+      "feedback": "Both amounts are possible. The smaller amount is CHF 9,500."
+    },
+    {
+      "id": "A01",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,750 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10750,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 1.0
+    },
+    {
+      "id": "A02",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,350 for certain",
+        "A 50% chance of CHF 9,300 and a 50% chance of CHF 12,300",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10350,
+      "outcomes": [
+        9300,
+        12300
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 4.0
+    },
+    {
+      "id": "A03",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 9,394 for certain",
+        "A 50% chance of CHF 8,925 and a 50% chance of CHF 12,675",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 9394,
+      "outcomes": [
+        8925,
+        12675
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 7.998577777777777
+    },
+    {
+      "id": "A04",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,200 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10200,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 12.0
+    },
+    {
+      "id": "A05",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 5,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 5,288 for certain",
+        "A 50% chance of CHF 4,650 and a 50% chance of CHF 6,150",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 5000,
+      "certain": 5288,
+      "outcomes": [
+        4650,
+        6150
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 1.991111111111111
+    },
+    {
+      "id": "A06",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 5,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 4,900 for certain",
+        "A 50% chance of CHF 4,400 and a 50% chance of CHF 6,400",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 5000,
+      "certain": 4900,
+      "outcomes": [
+        4400,
+        6400
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 5.0
+    },
+    {
+      "id": "A07",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 5,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 5,150 for certain",
+        "A 50% chance of CHF 4,900 and a 50% chance of CHF 5,900",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 5000,
+      "certain": 5150,
+      "outcomes": [
+        4900,
+        5900
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 10.0
+    },
+    {
+      "id": "A08",
+      "family": "risk trade-offs",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invest CHF 5,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 5,048 for certain",
+        "A 50% chance of CHF 4,931 and a 50% chance of CHF 5,869",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 5000,
+      "certain": 5048,
+      "outcomes": [
+        4931,
+        5869
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 16.002836866535432
+    },
+    {
+      "id": "A09",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,775 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10775,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 0.5
+    },
+    {
+      "id": "A10",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,725 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10725,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 1.5
+    },
+    {
+      "id": "A11",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,675 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10675,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 2.5
+    },
+    {
+      "id": "A12",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,650 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10650,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 3.0
+    },
+    {
+      "id": "A13",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,575 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10575,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 4.5
+    },
+    {
+      "id": "A14",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,500 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10500,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 6.0
+    },
+    {
+      "id": "A15",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,450 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10450,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 7.0
+    },
+    {
+      "id": "A16",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,350 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10350,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 9.0
+    },
+    {
+      "id": "A17",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,250 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10250,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 11.0
+    },
+    {
+      "id": "A18",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,100 for certain",
+        "A 50% chance of CHF 9,800 and a 50% chance of CHF 11,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10100,
+      "outcomes": [
+        9800,
+        11800
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 14.0
+    },
+    {
+      "id": "A19",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,139 for certain",
+        "A 50% chance of CHF 9,918 and a 50% chance of CHF 11,682",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10139,
+      "outcomes": [
+        9918,
+        11682
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 16.99394799491981
+    },
+    {
+      "id": "A20",
+      "family": "risk trade-offs",
+      "core": false,
+      "trigger": "uncertain boundary: unused threshold closest to the middle of the estimated range",
+      "question": "You invest CHF 10,000 for one year. Which outcome would you prefer?",
+      "answers": [
+        "CHF 10,238 for certain",
+        "A 50% chance of CHF 10,050 and a 50% chance of CHF 11,550",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "estimate φ",
+      "stake": 10000,
+      "certain": 10238,
+      "outcomes": [
+        10050,
+        11550
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ],
+      "phi_threshold": 19.982222222222223
+    },
+    {
+      "id": "L01",
+      "family": "loss sensitivity",
+      "core": true,
+      "trigger": "common core",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 10,600 for certain",
+        "A 50% chance of CHF 10,000 and a 50% chance of CHF 11,600",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 1,
+      "stake": 10000,
+      "certain": 10600,
+      "outcomes": [
+        10000,
+        11600
       ]
     },
-    "B": {
-      "name": "psychometric risk tolerance",
-      "target_count": 20,
-      "questions": [
-        {
-          "id": "B01",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Your investment falls 10% in three months. Your plans are unchanged. What would you do?",
-          "options": {
-            "low": "Move all of it to steadier investments",
-            "medium_low": "Move about half to steadier investments",
-            "medium_high": "Move a small part to steadier investments",
-            "high": "Keep the same mix",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "reaction",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B02",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Which temporary drop could you accept while keeping the same mix?",
-          "options": {
-            "low": "Less than 5%",
-            "medium_low": "5% to under 10%",
-            "medium_high": "10% to under 20%",
-            "high": "20% or more",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "loss_comfort",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B03",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Both can lose value. How much would you put in stocks if the rest went into steadier bonds?",
-          "options": {
-            "low": "None in stocks",
-            "medium_low": "About a quarter in stocks",
-            "medium_high": "About half in stocks",
-            "high": "About three quarters in stocks",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "risk_mix",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B04",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Each card has two equally likely outcomes in a year. Which would you pick for CHF 1,000?",
-          "options": {
-            "low": "Lose CHF 20 or gain CHF 50",
-            "medium_low": "Lose CHF 50 or gain CHF 100",
-            "medium_high": "Lose CHF 90 or gain CHF 160",
-            "high": "Lose CHF 140 or gain CHF 230",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "tradeoff",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B05",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "To seek more growth, how much extra movement in value would you accept over a year?",
-          "options": {
-            "low": "No extra movement",
-            "medium_low": "A little extra movement",
-            "medium_high": "Some extra movement",
-            "high": "A lot of extra movement",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "tradeoff",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B06",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "A broad market drop takes CHF 200 off CHF 2,000. Your plans are unchanged. What would you do?",
-          "options": {
-            "low": "Replace all my stock funds with steadier holdings",
-            "medium_low": "Replace half my stock funds",
-            "medium_high": "Replace a small part of my stock funds",
-            "high": "Keep my stock funds",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "reaction",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B07",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "How large a one-month dip could you accept while keeping the same mix?",
-          "options": {
-            "low": "Less than 2%",
-            "medium_low": "2% to under 5%",
-            "medium_high": "5% to under 10%",
-            "high": "10% or more",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "loss_comfort",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B08",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "When investing spare cash, what share would you put in an option with larger price swings?",
-          "options": {
-            "low": "None",
-            "medium_low": "About a quarter",
-            "medium_high": "About half",
-            "high": "About three quarters",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "risk_mix",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B09",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "For CHF 1,000, each card shows two equally likely changes in one year. Which would you pick?",
-          "options": {
-            "low": "Lose CHF 10 or gain CHF 35",
-            "medium_low": "Lose CHF 35 or gain CHF 75",
-            "medium_high": "Lose CHF 70 or gain CHF 125",
-            "high": "Lose CHF 120 or gain CHF 195",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "tradeoff",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B10",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "One year ends down 5%. You do not need the money soon. How much risk would you dial back?",
-          "options": {
-            "low": "A lot",
-            "medium_low": "Some",
-            "medium_high": "A little",
-            "high": "None",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "reaction",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B11",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Your account peaked at CHF 1,000. How far could it drop before you wanted a steadier mix?",
-          "options": {
-            "low": "A drop of less than CHF 50",
-            "medium_low": "A drop of CHF 50 to under CHF 100",
-            "medium_high": "A drop of CHF 100 to under CHF 200",
-            "high": "A drop of CHF 200 or more",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "loss_comfort",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B12",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "You have two diversified funds for the same goal. How much would you put in the one with bigger swings?",
-          "options": {
-            "low": "None of the investment",
-            "medium_low": "About a quarter",
-            "medium_high": "About half",
-            "high": "Almost all of the investment",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "risk_mix",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B13",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "How much growth potential would you give up if it meant smaller drops?",
-          "options": {
-            "low": "A lot",
-            "medium_low": "Some",
-            "medium_high": "A little",
-            "high": "None",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "tradeoff",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B14",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Prices are swinging more than usual and your cash needs are unchanged. What would you do?",
-          "options": {
-            "low": "Move most of my investment to steadier holdings",
-            "medium_low": "Move about half to steadier holdings",
-            "medium_high": "Move a small part to steadier holdings",
-            "high": "Keep the same mix",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "reaction",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B15",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "A bad quarter costs you CHF 100 on CHF 1,000. How comfortable would you be keeping the same mix?",
-          "options": {
-            "low": "Very uncomfortable",
-            "medium_low": "Somewhat uncomfortable",
-            "medium_high": "Somewhat comfortable",
-            "high": "Very comfortable",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "loss_comfort",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B16",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "You can split a long-term contribution between a steadier fund and one that swings more. How would you split it?",
-          "options": {
-            "low": "All in the steadier fund",
-            "medium_low": "Mostly in the steadier fund",
-            "medium_high": "Half in each fund",
-            "high": "Mostly in the fund that swings more",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "risk_mix",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B17",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Higher growth potential comes with a deeper dip in a bad year. Which bad-year dip could you accept on CHF 1,000?",
-          "options": {
-            "low": "Up to CHF 30",
-            "medium_low": "Up to CHF 60",
-            "medium_high": "Up to CHF 100",
-            "high": "Up to CHF 150",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "tradeoff",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B18",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "Your investment goes down for the second year in a row. Your plans are unchanged. What would you do?",
-          "options": {
-            "low": "Move most of it to steadier investments",
-            "medium_low": "Move about half to steadier investments",
-            "medium_high": "Move a small part to steadier investments",
-            "high": "Keep the same mix",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "reaction",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B19",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "How much do price swings bother you when your long-term plans are on track?",
-          "options": {
-            "low": "A lot",
-            "medium_low": "Quite a bit",
-            "medium_high": "A little",
-            "high": "Very little",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "loss_comfort",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        },
-        {
-          "id": "B20",
-          "bloc": "B",
-          "type": "ordered",
-          "dimension": "tolerance",
-          "texte": "If both options fit your plans, how much of the money would you put in the fund with bigger potential gains and losses?",
-          "options": {
-            "low": "None",
-            "medium_low": "About a quarter",
-            "medium_high": "About half",
-            "high": "Most of the money",
-            "unsure": "Skip this card"
-          },
-          "params": {
-            "theme": "risk_mix",
-            "ordered_option_ids": [
-              "low",
-              "medium_low",
-              "medium_high",
-              "high"
-            ]
-          },
-          "condition": null
-        }
+    {
+      "id": "L02",
+      "family": "loss sensitivity",
+      "core": true,
+      "trigger": "common core",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 10,200 for certain",
+        "A 50% chance of CHF 9,600 and a 50% chance of CHF 11,200",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 1,
+      "stake": 10000,
+      "certain": 10200,
+      "outcomes": [
+        9600,
+        11200
       ]
     },
-    "C": {
-      "name": "portfolio swipe comparisons",
-      "target_count": 24,
-      "questions": [
-        {
-          "id": "C01",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.01,
-              "sigma": 0.05,
-              "outcomes_chf": [
-                -40.0,
-                60.0
-              ]
-            },
-            "B": {
-              "mu": 0.012975,
-              "sigma": 0.12,
-              "outcomes_chf": [
-                -107.02,
-                132.98
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 0.5,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C02",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.012,
-              "sigma": 0.06,
-              "outcomes_chf": [
-                -48.0,
-                72.0
-              ]
-            },
-            "B": {
-              "mu": 0.016695856031,
-              "sigma": 0.14,
-              "outcomes_chf": [
-                -123.3,
-                156.7
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 0.586982003922,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C03",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.014,
-              "sigma": 0.07,
-              "outcomes_chf": [
-                -56.0,
-                84.0
-              ]
-            },
-            "B": {
-              "mu": 0.018134574475,
-              "sigma": 0.13,
-              "outcomes_chf": [
-                -111.87,
-                148.13
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 0.689095745857,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C04",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.016,
-              "sigma": 0.08,
-              "outcomes_chf": [
-                -64.0,
-                96.0
-              ]
-            },
-            "B": {
-              "mu": 0.022512237509,
-              "sigma": 0.15,
-              "outcomes_chf": [
-                -127.49,
-                172.51
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 0.808973603595,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C05",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.01,
-              "sigma": 0.05,
-              "outcomes_chf": [
-                -40.0,
-                60.0
-              ]
-            },
-            "B": {
-              "mu": 0.015650750069,
-              "sigma": 0.12,
-              "outcomes_chf": [
-                -104.35,
-                135.65
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 0.949705893916,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C06",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.012,
-              "sigma": 0.06,
-              "outcomes_chf": [
-                -48.0,
-                72.0
-              ]
-            },
-            "B": {
-              "mu": 0.0209193643,
-              "sigma": 0.14,
-              "outcomes_chf": [
-                -119.08,
-                160.92
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 1.114920537495,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C07",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.014,
-              "sigma": 0.07,
-              "outcomes_chf": [
-                -56.0,
-                84.0
-              ]
-            },
-            "B": {
-              "mu": 0.021853259496,
-              "sigma": 0.13,
-              "outcomes_chf": [
-                -108.15,
-                151.85
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 1.308876582625,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C08",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.016,
-              "sigma": 0.08,
-              "outcomes_chf": [
-                -64.0,
-                96.0
-              ]
-            },
-            "B": {
-              "mu": 0.02836942069,
-              "sigma": 0.15,
-              "outcomes_chf": [
-                -121.63,
-                178.37
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 1.536573998712,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C09",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.01,
-              "sigma": 0.05,
-              "outcomes_chf": [
-                -40.0,
-                60.0
-              ]
-            },
-            "B": {
-              "mu": 0.020733101291,
-              "sigma": 0.12,
-              "outcomes_chf": [
-                -99.27,
-                140.73
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 1.803882569878,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C10",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.012,
-              "sigma": 0.06,
-              "outcomes_chf": [
-                -48.0,
-                72.0
-              ]
-            },
-            "B": {
-              "mu": 0.028941545691,
-              "sigma": 0.14,
-              "outcomes_chf": [
-                -111.06,
-                168.94
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 2.117693211414,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C11",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.014,
-              "sigma": 0.07,
-              "outcomes_chf": [
-                -56.0,
-                84.0
-              ]
-            },
-            "B": {
-              "mu": 0.028916573659,
-              "sigma": 0.13,
-              "outcomes_chf": [
-                -101.08,
-                158.92
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 2.486095609856,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C12",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.016,
-              "sigma": 0.08,
-              "outcomes_chf": [
-                -64.0,
-                96.0
-              ]
-            },
-            "B": {
-              "mu": 0.039494623467,
-              "sigma": 0.15,
-              "outcomes_chf": [
-                -110.51,
-                189.49
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 2.91858676603,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C13",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.01,
-              "sigma": 0.05,
-              "outcomes_chf": [
-                -40.0,
-                60.0
-              ]
-            },
-            "B": {
-              "mu": 0.030386579112,
-              "sigma": 0.12,
-              "outcomes_chf": [
-                -89.61,
-                150.39
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 3.42631581709,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C14",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.012,
-              "sigma": 0.06,
-              "outcomes_chf": [
-                -48.0,
-                72.0
-              ]
-            },
-            "B": {
-              "mu": 0.04417897159,
-              "sigma": 0.14,
-              "outcomes_chf": [
-                -95.82,
-                184.18
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 4.022371448771,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C15",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.012706159268,
-              "sigma": 0.063530796342,
-              "outcomes_chf": [
-                -50.82,
-                76.24
-              ]
-            },
-            "B": {
-              "mu": 0.043078447962,
-              "sigma": 0.13,
-              "outcomes_chf": [
-                -86.92,
-                173.08
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 4.722119307038,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C16",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.010823295419,
-              "sigma": 0.054116477096,
-              "outcomes_chf": [
-                -43.29,
-                64.94
-              ]
-            },
-            "B": {
-              "mu": 0.065071302561,
-              "sigma": 0.15,
-              "outcomes_chf": [
-                -84.93,
-                215.07
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 5.543598107209,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C17",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.009219443992,
-              "sigma": 0.046097219961,
-              "outcomes_chf": [
-                -36.88,
-                55.32
-              ]
-            },
-            "B": {
-              "mu": 0.049162350491,
-              "sigma": 0.12,
-              "outcomes_chf": [
-                -70.84,
-                169.16
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 6.507984651816,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C18",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.007853259496,
-              "sigma": 0.039266297479,
-              "outcomes_chf": [
-                -31.41,
-                47.12
-              ]
-            },
-            "B": {
-              "mu": 0.049246481421,
-              "sigma": 0.111254509523,
-              "outcomes_chf": [
-                -62.01,
-                160.5
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 7.640139744835,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C19",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.006689523225,
-              "sigma": 0.033447616125,
-              "outcomes_chf": [
-                -26.76,
-                40.14
-              ]
-            },
-            "B": {
-              "mu": 0.041948885223,
-              "sigma": 0.094768245687,
-              "outcomes_chf": [
-                -52.82,
-                136.72
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 8.969249075337,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C20",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.005698235363,
-              "sigma": 0.028491176817,
-              "outcomes_chf": [
-                -22.79,
-                34.19
-              ]
-            },
-            "B": {
-              "mu": 0.035732684259,
-              "sigma": 0.080725000983,
-              "outcomes_chf": [
-                -44.99,
-                116.46
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 10.529575591835,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C21",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.004853841622,
-              "sigma": 0.024269208108,
-              "outcomes_chf": [
-                -19.42,
-                29.12
-              ]
-            },
-            "B": {
-              "mu": 0.030437631835,
-              "sigma": 0.068762756306,
-              "outcomes_chf": [
-                -38.33,
-                99.2
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 12.36134276269,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C22",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.004134574475,
-              "sigma": 0.020672872376,
-              "outcomes_chf": [
-                -16.54,
-                24.81
-              ]
-            },
-            "B": {
-              "mu": 0.025927227438,
-              "sigma": 0.058573138398,
-              "outcomes_chf": [
-                -32.65,
-                84.5
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 14.511771492023,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C23",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.003521892024,
-              "sigma": 0.017609460118,
-              "outcomes_chf": [
-                -14.09,
-                21.13
-              ]
-            },
-            "B": {
-              "mu": 0.022085197898,
-              "sigma": 0.049893470333,
-              "outcomes_chf": [
-                -27.81,
-                71.98
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 17.036297421696,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "A",
-              "B"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        },
-        {
-          "id": "C24",
-          "bloc": "C",
-          "type": "swipe",
-          "dimension": "tolerance",
-          "texte": "Which option would you choose for CHF 1,000 over one year?",
-          "options": {
-            "A": {
-              "mu": 0.003,
-              "sigma": 0.015,
-              "outcomes_chf": [
-                -12.0,
-                18.0
-              ]
-            },
-            "B": {
-              "mu": 0.0188125,
-              "sigma": 0.0425,
-              "outcomes_chf": [
-                -23.69,
-                61.31
-              ]
-            }
-          },
-          "params": {
-            "phi_seuil": 20.0,
-            "starting_chf": 1000,
-            "horizon_years": 1,
-            "outcome_probabilities": [
-              0.5,
-              0.5
-            ],
-            "display_order": [
-              "B",
-              "A"
-            ],
-            "skip_label": "Skip this card"
-          },
-          "condition": null
-        }
+    {
+      "id": "L03",
+      "family": "loss sensitivity",
+      "core": true,
+      "trigger": "common core",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,425 for certain",
+        "A 50% chance of CHF 5,000 and a 50% chance of CHF 6,000",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 2,
+      "stake": 5000,
+      "certain": 5425,
+      "outcomes": [
+        5000,
+        6000
       ]
     },
-    "D": {
-      "name": "constraints and preferences",
-      "target_count": 6,
-      "questions": [
-        {
-          "id": "D01",
-          "bloc": "D",
-          "type": "single",
-          "dimension": "constraints",
-          "texte": "Do you want to leave any stock sectors or gold out?",
-          "options": {
-            "yes": "Yes",
-            "no": "No",
-            "unsure": "I have not decided"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "D02",
-          "bloc": "D",
-          "type": "multiple",
-          "dimension": "constraints",
-          "texte": "Which stock sectors do you want to leave out?",
-          "options": {
-            "XLK": "Technology",
-            "XLF": "Financials",
-            "XLE": "Energy",
-            "XLV": "Health care",
-            "XLY": "Non-essential consumer goods and services",
-            "XLP": "Everyday consumer essentials",
-            "XLI": "Industrials",
-            "XLB": "Materials",
-            "XLU": "Utilities",
-            "none": "No stock sector",
-            "unsure": "I have not decided"
-          },
-          "params": {
-            "exclusive_option_ids": [
-              "none",
-              "unsure"
-            ]
-          },
-          "condition": {
-            "question_id": "D01",
-            "equals": "yes"
-          }
-        },
-        {
-          "id": "D03",
-          "bloc": "D",
-          "type": "single",
-          "dimension": "constraints",
-          "texte": "Do you want to leave gold out?",
-          "options": {
-            "yes": "Yes, leave it out",
-            "no": "No, gold is allowed",
-            "unsure": "I have not decided"
-          },
-          "params": {},
-          "condition": {
-            "question_id": "D01",
-            "equals": "yes"
-          }
-        },
-        {
-          "id": "D04",
-          "bloc": "D",
-          "type": "single",
-          "dimension": "constraints",
-          "texte": "Can your portfolio borrow to invest more than you put in?",
-          "options": {
-            "disallow": "No",
-            "allow": "Yes",
-            "unsure": "I have not decided"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "D05",
-          "bloc": "D",
-          "type": "single",
-          "dimension": "constraints",
-          "texte": "How much of your portfolio can go into a single ETF?",
-          "options": {
-            "standard": "Up to the standard 35%",
-            "cap_25pct": "Up to 25%",
-            "cap_20pct": "Up to 20%",
-            "unsure": "I have not decided"
-          },
-          "params": {},
-          "condition": null
-        },
-        {
-          "id": "D06",
-          "bloc": "D",
-          "type": "single",
-          "dimension": "review_preference",
-          "texte": "How often would you like to review your portfolio?",
-          "options": {
-            "monthly": "Every month",
-            "quarterly": "Every three months",
-            "yearly": "Once a year",
-            "unsure": "I have not decided"
-          },
-          "params": {},
-          "condition": null
-        }
+    {
+      "id": "L04",
+      "family": "loss sensitivity",
+      "core": true,
+      "trigger": "common core",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,175 for certain",
+        "A 50% chance of CHF 4,750 and a 50% chance of CHF 5,750",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 2,
+      "stake": 5000,
+      "certain": 5175,
+      "outcomes": [
+        4750,
+        5750
       ]
+    },
+    {
+      "id": "L05",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "first unused conditional pair with a comparable stake when a loss below the stake needs clarification",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 11,100 for certain",
+        "A 50% chance of CHF 10,000 and a 50% chance of CHF 12,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 3,
+      "stake": 10000,
+      "certain": 11100,
+      "outcomes": [
+        10000,
+        12800
+      ]
+    },
+    {
+      "id": "L06",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "after L05 to complete the pair",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 10,400 for certain",
+        "A 50% chance of CHF 9,300 and a 50% chance of CHF 12,100",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 3,
+      "stake": 10000,
+      "certain": 10400,
+      "outcomes": [
+        9300,
+        12100
+      ]
+    },
+    {
+      "id": "L07",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "first unused conditional pair with a comparable stake when a loss below the stake needs clarification",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,350 for certain",
+        "A 50% chance of CHF 5,000 and a 50% chance of CHF 5,800",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 4,
+      "stake": 5000,
+      "certain": 5350,
+      "outcomes": [
+        5000,
+        5800
+      ]
+    },
+    {
+      "id": "L08",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "after L07 to complete the pair",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,150 for certain",
+        "A 50% chance of CHF 4,800 and a 50% chance of CHF 5,600",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 4,
+      "stake": 5000,
+      "certain": 5150,
+      "outcomes": [
+        4800,
+        5600
+      ]
+    },
+    {
+      "id": "L09",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "first unused conditional pair with a comparable stake when a loss below the stake needs clarification",
+      "question": "You have CHF 20,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 21,600 for certain",
+        "A 50% chance of CHF 20,000 and a 50% chance of CHF 24,000",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 5,
+      "stake": 20000,
+      "certain": 21600,
+      "outcomes": [
+        20000,
+        24000
+      ]
+    },
+    {
+      "id": "L10",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "after L09 to complete the pair",
+      "question": "You have CHF 20,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 20,600 for certain",
+        "A 50% chance of CHF 19,000 and a 50% chance of CHF 23,000",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 5,
+      "stake": 20000,
+      "certain": 20600,
+      "outcomes": [
+        19000,
+        23000
+      ]
+    },
+    {
+      "id": "L11",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "first unused conditional pair with a comparable stake when a loss below the stake needs clarification",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 10,500 for certain",
+        "A 50% chance of CHF 10,000 and a 50% chance of CHF 11,200",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 6,
+      "stake": 10000,
+      "certain": 10500,
+      "outcomes": [
+        10000,
+        11200
+      ]
+    },
+    {
+      "id": "L12",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "after L11 to complete the pair",
+      "question": "You have CHF 10,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 10,200 for certain",
+        "A 50% chance of CHF 9,700 and a 50% chance of CHF 10,900",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 6,
+      "stake": 10000,
+      "certain": 10200,
+      "outcomes": [
+        9700,
+        10900
+      ]
+    },
+    {
+      "id": "L13",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "first unused conditional pair with a comparable stake when a loss below the stake needs clarification",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,560 for certain",
+        "A 50% chance of CHF 5,000 and a 50% chance of CHF 6,400",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 7,
+      "stake": 5000,
+      "certain": 5560,
+      "outcomes": [
+        5000,
+        6400
+      ]
+    },
+    {
+      "id": "L14",
+      "family": "loss sensitivity",
+      "core": false,
+      "trigger": "after L13 to complete the pair",
+      "question": "You have CHF 5,000 for one year. Which option would you choose?",
+      "answers": [
+        "CHF 5,210 for certain",
+        "A 50% chance of CHF 4,650 and a 50% chance of CHF 6,050",
+        "Either is equally acceptable",
+        "I don’t understand"
+      ],
+      "purpose": "within-pair comparison only",
+      "pair": 7,
+      "stake": 5000,
+      "certain": 5210,
+      "outcomes": [
+        4650,
+        6050
+      ]
+    },
+    {
+      "id": "B01",
+      "family": "response to a decline",
+      "core": true,
+      "trigger": "common core",
+      "question": "You invested CHF 10,000 for eight years. After one year it is worth CHF 8,500. Your income is stable. What would you like to do?",
+      "answers": [
+        "Keep the current allocation",
+        "Reduce the amount at risk",
+        "Understand the decline before deciding",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B02",
+      "family": "response to a decline",
+      "core": true,
+      "trigger": "common core",
+      "question": "Your investment falls 8% this month. A planned expense is still due in two years. What would you check first?",
+      "answers": [
+        "How much will be available on that date",
+        "Why the investment fell",
+        "How much I am willing to see fluctuate",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B03",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B01: reduce exposure",
+      "question": "What matters most in your decision to reduce your exposure?",
+      "answers": [
+        "An expense is coming up",
+        "The decline makes me uncomfortable",
+        "I think the portfolio itself has changed",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B04",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B03: uncomfortable with the decline",
+      "question": "With the same time horizon, would you still reduce your exposure if the decline were 5% instead of 15%?",
+      "answers": [
+        "Yes",
+        "No",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B05",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B01: understand the decline",
+      "question": "Other comparable portfolios have also fallen. What would you like to know next?",
+      "answers": [
+        "What explains my loss",
+        "How much will be available when I need it",
+        "I can decide now",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B06",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B02: reason for the decline",
+      "question": "If the market stays flat while your investment falls, what would you like to examine?",
+      "answers": [
+        "How concentrated it is",
+        "Whether the strategy has changed",
+        "My cash needs",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B07",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B01: keep the allocation",
+      "question": "If the decline lasted two years and your goal stayed the same, what would you review?",
+      "answers": [
+        "The amount at risk",
+        "The target date",
+        "Nothing for now",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B08",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "B02: amount available",
+      "question": "If a separate reserve already covered the expense, would you keep the same allocation?",
+      "answers": [
+        "Yes",
+        "No",
+        "I would like to compare the options",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B09",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "two concordant loss comparisons",
+      "question": "Your choices suggest that ending up with less than you initially invested matters to you. Does that sound right?",
+      "answers": [
+        "Yes",
+        "Only if I need to withdraw soon",
+        "No",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "B10",
+      "family": "response to a decline",
+      "core": false,
+      "trigger": "different priorities in B01 and B02",
+      "question": "What best explains the difference between your choices?",
+      "answers": [
+        "The withdrawal date",
+        "The size of the decline",
+        "The situation was unclear to me",
+        "Hard to say"
+      ],
+      "purpose": "confirm the reason for the choice"
+    },
+    {
+      "id": "F01",
+      "family": "constraints",
+      "core": false,
+      "trigger": "planned withdrawal or upcoming expense in B03",
+      "question": "What share of your capital must be available at the first deadline?",
+      "answers": [
+        "Less than one quarter",
+        "One quarter to one half",
+        "More than one half",
+        "Enter an amount",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F02",
+      "family": "constraints",
+      "core": false,
+      "trigger": "withdrawal date provided",
+      "question": "If you had less than planned on that date, what could you adjust?",
+      "answers": [
+        "Postpone the withdrawal",
+        "Reduce its amount",
+        "I could change neither",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F03",
+      "family": "constraints",
+      "core": false,
+      "trigger": "small or unknown reserve",
+      "question": "If your income fell for six months, how would you cover essential expenses?",
+      "answers": [
+        "With a separate reserve",
+        "With part of my investment",
+        "With most of my investment",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F04",
+      "family": "constraints",
+      "core": false,
+      "trigger": "variable income",
+      "question": "Could you pause a planned monthly contribution without withdrawing from your investment?",
+      "answers": [
+        "Yes",
+        "No",
+        "I contribute occasionally",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F05",
+      "family": "constraints",
+      "core": false,
+      "trigger": "employer exposure reported",
+      "question": "If your employer ran into difficulties, what might fall at the same time?",
+      "answers": [
+        "My income",
+        "My investments",
+        "Both",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F06",
+      "family": "constraints",
+      "core": false,
+      "trigger": "exclusion specified",
+      "question": "Would you accept a fund if its exposure to the activity you identified were unknown?",
+      "answers": [
+        "I require a verifiable exclusion",
+        "I can treat this as a preference",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F07",
+      "family": "constraints",
+      "core": false,
+      "trigger": "different currencies",
+      "question": "In which currency will you actually pay this expense?",
+      "answers": [
+        "CHF",
+        "EUR",
+        "USD",
+        "Specify another currency",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "F08",
+      "family": "constraints",
+      "core": false,
+      "trigger": "incompatible or uncertain target",
+      "question": "If your target looks difficult to reach, which assumption would you review first?",
+      "answers": [
+        "The date",
+        "The contributions",
+        "The target amount",
+        "I would keep the current assumptions",
+        "Hard to say"
+      ],
+      "purpose": "clarify the mandate without scoring tolerance"
+    },
+    {
+      "id": "S01",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "withdrawal takes priority",
+      "question": "At your next review, what would you like to see first?",
+      "answers": [
+        "The amount available at withdrawal",
+        "The gap to my target",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
+    },
+    {
+      "id": "S02",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "concern about a loss on the initial stake confirmed",
+      "question": "If the value falls below your initial investment, what follow-up would you prefer?",
+      "answers": [
+        "A reminder at the next review",
+        "An alert at a threshold I choose",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
+    },
+    {
+      "id": "S03",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "explanation requested",
+      "question": "After a decline, what would you like explained first?",
+      "answers": [
+        "Which assets fell",
+        "How the market performed",
+        "What it means for my goal",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
+    },
+    {
+      "id": "S04",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "variable income",
+      "question": "What change should trigger a review of your plan?",
+      "answers": [
+        "A change in my contributions",
+        "A new expense",
+        "I would request a review myself",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
+    },
+    {
+      "id": "S05",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "mandatory exclusion",
+      "question": "When would you like to review your exclusions?",
+      "answers": [
+        "When the fund’s holdings change",
+        "At my regular review",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
+    },
+    {
+      "id": "S06",
+      "family": "follow-up",
+      "core": false,
+      "trigger": "default",
+      "question": "How often would you like to revisit your profile?",
+      "answers": [
+        "Quarterly",
+        "Yearly",
+        "When my circumstances change",
+        "Hard to say"
+      ],
+      "purpose": "follow-up preference"
     }
-  }
+  ]
 }
