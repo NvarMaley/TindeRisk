@@ -26,3 +26,5 @@ The English questionnaire uses schema version `1.0-pilot-en` and the separate tr
 Reviewed 0.1–0.16 against files, local runs and GitHub. Recovered the November 17 instructor feedback from the previous prototype and applied the reworked adaptive MVP scope. Created the shared environment, benchmark configuration and H01–H07 experiment register. The independent course replay uses local teaching data. The ETF prospective calendar is specific to the benchmarks. Research margins and final windows still need dated study-level decisions.
 
 One approving review is now required on main, including administrator changes. The setup work is on a separate pull request. The local app and executed research notebook remain in the working copy. The human questionnaire pilot stays deferred. [Setup evidence and open items](SETUP.md) · [GitHub change](https://github.com/NvarMaley/TindeRisk/pull/62)
+
+The owner confirmed the existing GitHub repository and team invitations. Item 0.3 is complete.

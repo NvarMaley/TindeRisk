@@ -202,7 +202,7 @@ The [correspondence by decision](RESEARCH.md#applying-the-34-guides-to-riskmatch
 |---|---|---|---|---|
 | [x] | 0.1 | Ask the professor the four questions (2026 requirements, StockTwits data, expected backtest, topic approval) | 🔴 | Raf |
 | [ ] | 0.2 | Record the presentation date and finalize the schedule — Presentation date pending. Milestones are listed in the handoff. | 🔴 | |
-| [ ] | 0.3 | Create the GitHub repository and invite all five members — Four accounts have access and two invitations are pending. Reconcile accounts to the team roster. | 🔴 | |
+| [x] | 0.3 | Create the GitHub repository and invite the team — Owner confirmed all members were added to NvarMaley/TindeRisk. | 🔴 | Nvar |
 | [x] | 0.4 | Create the repository structure (see README) | 🔴 | Codex |
 | [x] | 0.5 | Set up a shared Python environment (initial `requirements.txt`, same Python version) | 🔴 | Codex |
 | [x] | 0.6 | `config.yaml`: tickers, dates, SEED, assumptions | 🟡 | Codex |
