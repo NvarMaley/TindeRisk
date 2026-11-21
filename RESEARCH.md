@@ -165,7 +165,7 @@ The CHF pilot’s 12% cap applies to the investable CHF sleeve. CHF cash earns z
 
 A fully funded nominal withdrawal checks the accounting. Partially funded scenarios distinguish sleeve cash, the external reserve and sale proceeds after fees. One stress brings the withdrawal forward and makes sales unavailable. A real target illustrates hypothetical 2% inflation. These scenarios produce conditional shortfalls in francs. Estimating a shortfall probability requires calibrated joint paths for returns, FX and cash flows.
 
-Before client publication, calibrate bands with human participants, check display rights and execution, then evaluate frozen rules on a separate period. The notebook includes three sensitivity origins (2011, 2013, 2015), shrinkage of means toward their common mean and jointly feasible weights. Validation at further dates and across the full budget grid remains open. [Step-by-step checks](CHECKLIST.md#step-0--organization--setup)
+Before client publication, calibrate bands with human participants, check display rights and execution, then evaluate frozen rules on a separate period. The [historical replays](RiskMatch_research_replays.ipynb) include three sensitivity origins (2011, 2013, 2015), shrinkage of means toward their common mean and jointly feasible weights. Validation at further dates and across the full budget grid remains open. [Step-by-step checks](CHECKLIST.md#project-setup)
 
 ## Research register
 

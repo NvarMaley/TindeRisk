@@ -1,5 +1,5 @@
 """CHF demonstration rules. Reserves and invested positions are accounted for separately."""
-from math import sqrt
+from math import expm1, log1p, nextafter, sqrt
 
 
 def example():
@@ -16,10 +16,14 @@ def reserve(m, months=None, saving=None):
 
 
 def capacity(m, answers):
-    missing = any(m[k] is None for k in ("capital","withdraw","horizon","external","saving","due","safety","cap"))
+    missing = any(m[k] is None for k in ("capital","withdraw","external","saving","due","safety"))
     reasons = []
     if missing or m["household"] == "Unknown":
-        reasons.append("Specify the amounts, deadline, risk cap and household reserve.")
+        reasons.append("Complete the capital, withdrawal, deadline, funding and household reserve details.")
+    if m["cap"] is None:
+        reasons.append("The sleeve volatility cap is open. Agree on it before comparing portfolios.")
+    if m["horizon"] is None:
+        reasons.append("Confirm the investment horizon before allocation.")
     if m["currency"] != "CHF":
         reasons.append("This catalogue covers CHF goals only.")
     if m["strict"] or answers.get("F06")==0:
@@ -28,16 +32,9 @@ def capacity(m, answers):
         reasons.append("Enter the amount of the investment needed for household expenses.")
     if m["saving"] and answers.get("F04") in (1,2,3,-1):
         reasons.append("Confirm the contributions you can rely on for the withdrawal or set them to zero.")
-    if answers.get("B03")==0 and m["withdraw"] == 0:
-        reasons.append("An expense is coming up. Enter its amount and date.")
-    if not missing and m["withdraw"] > 0 and m["due"] > 12*m["horizon"]:
+    if not missing and m["horizon"] and m["withdraw"] > 0 and m["due"] > 12*m["horizon"]:
         reasons.append("The withdrawal falls after your investment horizon. Check both dates.")
-    if answers.get("F01") in (0,1,2) and m["capital"] and m["withdraw"] is not None:
-        fraction = m["withdraw"]/m["capital"]
-        band = 0 if fraction < .25 else 1 if fraction <= .5 else 2
-        if band != answers["F01"]:
-            reasons.append("The withdrawal share on the card differs from the amount you entered.")
-    if missing:
+    if missing or m["household"] == "Unknown":
         return dict(reasons=reasons, reserve=None, free=None)
     needed = reserve(m)+m["safety"]
     free = m["capital"]-needed
@@ -47,18 +44,19 @@ def capacity(m, answers):
 
 
 def growth_value(initial, monthly, years, rate):
-    factor = (1+rate)**(1/12)
     months = years*12
-    annuity = months if abs(rate)<1e-12 else ((1+rate)**years-1)/(factor-1)
+    annuity = months if rate == 0 else expm1(years*log1p(rate))/expm1(log1p(rate)/12)
     return initial*(1+rate)**years + monthly*annuity
 
 
 def required_rate(initial, monthly, years, target):
     if target is None or target <= 0 or initial is None or (initial<=0 and not monthly) or not years or monthly is None:
         return None
-    low, high = -.99, 1.
-    if not growth_value(initial,monthly,years,low) <= target <= growth_value(initial,monthly,years,high):
+    low, high = nextafter(-1., 0.), 1.
+    if target < growth_value(initial, monthly, years, low):
         return None
+    while growth_value(initial, monthly, years, high) < target:
+        high *= 2
     for _ in range(60):
         mid = (low+high)/2
         if growth_value(initial,monthly,years,mid)<target:
