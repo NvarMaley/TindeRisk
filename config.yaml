@@ -1,0 +1,26 @@
+version: 1
+specified_on: "2026-11-21"
+python: "3.12"
+benchmark:
+  assets: [SPY, IEF, GLD]
+  currency: USD
+  client_demo_currency: CHF
+  calendar: XNYS
+  rebalance: month_end_close
+  execute: next_session_close
+  initial_cash: 100
+  covariance_sessions: 756
+  fee_bps: [0, 10, 25]
+  reference_fee_bps: 10
+  constraints: long_only_fully_invested
+  warmup_start: "2005-01-03"
+  development: ["2010-01-01", "2015-12-31"]
+  retrospective_validation: ["2016-01-01", "2026-10-31"]
+  prospective: ["2026-12-01", "2027-11-30"]
+  first_signal: final_XNYS_close_of_November_2026
+market_universe: [XLK, XLF, XLE, XLV, XLY, XLP, XLI, XLB, XLU, IEF, TLT, GLD, SPY]
+seeds:
+  profile_example: 42
+  covariance_bootstrap: 1776
+  frontier_origins: 116
+  course_resampling: 42
