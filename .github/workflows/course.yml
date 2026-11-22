@@ -32,6 +32,8 @@ jobs:
             /app/
             /src/
             /questions/profile_v1.json
+            /data/demo/monitor_feed.json
+            /research/catalogue/
             /questions/pilot_holdout_v1.json
             /research/questionnaire_pilot.py
             /research/options/results/
@@ -130,3 +132,41 @@ jobs:
       - run: python -m pip install -r requirements-frontier.txt
       - run: python tests/test_frontier.py
       - run: python tests/test_client_options.py
+
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.python-version
+            /requirements-app.txt
+            /requirements-descriptive.txt
+            /requirements-frontier.txt
+            /app/
+            /src/
+            /questions/profile_v1.json
+            /data/demo/monitor_feed.json
+            /data/demo/source_events_v1.json
+            /research/check_source_fixture.py
+            /research/release/
+            /research/catalogue/
+            /research/options/*.py
+            /research/frontier/*.py
+            /research/execution/*.py
+            /tests/test_catalogue_gate.py
+            /tests/test_execution_replay.py
+            /tests/test_monitor*.py
+            /tests/test_release_acceptance.py
+            /research/frontier/results/latest.csv
+            /research/options/results/goal_scenarios.csv
+            /research/options/results/reverse_stress.csv
+            /research/execution/results/cohorts.csv
+      - uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+      - run: python -m pip install -r requirements-frontier.txt -r requirements-app.txt
+      - run: python -m unittest discover -s tests
+      - run: python research/release/verify_package.py
+      - run: python research/release/verify_pitch.py

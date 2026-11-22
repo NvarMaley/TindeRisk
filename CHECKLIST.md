@@ -345,6 +345,8 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 7.1 Replay realistic transactions
 
+**Implementation and evidence.** [Funded execution replay](research/execution/README.md).
+
 **Evidence to retain:** order, fill, cash and cost ledgers. **Course reading:** [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md) · [Guide Ultime Chapitre 06](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_06.md).
 
 - [x] **7.1.1** At every origin save eligible data, forecast, signal and intended order before the execution timestamp. Execute at the first eligible quote under the registered rule. Verify a next-close order earns no return before its fill.

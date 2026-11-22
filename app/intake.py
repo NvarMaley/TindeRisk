@@ -103,7 +103,26 @@ def record():
         )
 
 
+def load_demo_mandate():
+    from riskmatch.demo import mandate
+
+    state.mandate = mandate()
+    state.next_flow = 1
+    state.portable_case = True
+    for key in list(state):
+        if key.startswith(("input_", "day", "amount", "conf")) or key in (
+            "monitor_selection",
+            "demo_profile",
+        ):
+            state.pop(key, None)
+
+    for field in ("goal", "currency", "start", "end", "target", "basis"):
+        state["input_" + field] = state.mandate[field]
+
+
 if page == 0:
+    if not d.get("goal"):
+        st.button("Load fictional course mandate", on_click=load_demo_mandate)
     text("goal", "What are you saving for?")
     select("currency", "Spending currency", ["CHF", "EUR", "USD", "GBP", "Other"])
     if d.get("currency") == "Other":

@@ -80,6 +80,10 @@ def interview(d):
 
 def profile_result(d, answers):
     r = report(answers)
+    if st.session_state.get("portable_case"):
+        st.session_state.demo_profile = r["status"]
+        if st.button("Compare fictional portfolios"):
+            st.switch_page("pages/1_Portfolio_options.py")
     st.subheader("One-year risk tolerance")
     st.caption(
         "In these hypothetical choices, higher φ means giving more weight to avoiding fluctuations."

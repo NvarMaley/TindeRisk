@@ -32,7 +32,7 @@ CASES = [
 
 def intent(units, cash, price, weights):
     wealth = cash + units @ price
-    return wealth * weights / price - units
+    return wealth * np.asarray(weights) / price - units
 
 
 def fill(units, cash, order, quote, rate, fraction=1, capacity=None):

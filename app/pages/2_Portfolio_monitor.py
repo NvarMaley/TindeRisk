@@ -164,8 +164,6 @@ if review and any(e.get("review_id") == review["review_id"] for e in events):
                 st.rerun()
 if st.session_state.get("monitor_receipt"):
     st.write("Last review response · " + st.session_state.monitor_receipt)
-if st.button("Refresh review display"):
-    st.rerun()
 with st.expander("Review decisions and shadow holdings"):
     st.dataframe(
         pd.DataFrame(

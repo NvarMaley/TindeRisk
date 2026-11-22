@@ -10,6 +10,21 @@ st.set_page_config(page_title="RiskMatch · Portfolio options", layout="wide")
 DATA = Path(__file__).resolve().parents[2] / "research/options/results"
 
 
+import os
+import sys
+
+sys.path[:0] = [str(DATA.parents[2] / "src"), str(DATA.parents[2] / "app")]
+if (
+    os.environ.get("RISKMATCH_PUBLIC_DEMO") == "1"
+    or not (DATA / "options.csv").exists()
+    or st.session_state.get("portable_case")
+):
+    from demo_options import show
+
+    show()
+    st.stop()
+
+
 @st.cache_data
 def table(name):
     return pd.read_csv(DATA / (name + ".csv"))

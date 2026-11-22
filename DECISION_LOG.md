@@ -33,5 +33,6 @@
 | 2026-11-23 | 7.2 | Signed demonstration catalogue | The seven annual cohorts supply retrospective paired scores. Only the fictional manual-selection entry is eligible for monitoring. [Evidence](research/catalogue/README.md). |
 | 2026-11-23 | 8.1 | Local fictional portfolio monitor | A consented selection survives restart under a private recovery key. Quotes, revisions and flows explain each dated valuation. The demonstration uses a project-authored feed. [Evidence](research/monitor/README.md). |
 | 2026-11-23 | 8.2 | Confirmed reviews and shadow holdings | Discretionary changes require a material benefit. Funding corrections account for fees and settlement. A repeated confirmation cannot apply a second trade. [Evidence](research/monitor/README.md). |
+| 2026-11-23 | 7.1 | Funded execution replay | Seven annual cohorts compare decision-close orders, next-close execution and protected CHF withdrawals across eleven scenarios. [Evidence](research/execution/README.md). |
 
 For subsequent decisions, record the alternatives, the evidence available at the time, the chosen action and the condition for revisiting it.
