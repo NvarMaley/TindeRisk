@@ -363,15 +363,17 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 7.2 Decide what may reach the application
 
+**Implementation and evidence.** [Signed demonstration catalogue](research/catalogue/README.md).
+
 **Evidence to retain:** study disposition and signed catalogue version. **Course reading:** [Guide Ultime Chapitre 22](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_22.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
 
-- [ ] **7.2.1** Review frozen out-of-sample results against the registered economic threshold and paired uncertainty. Label retrospective results. Record retain, reject or descriptive-only for every study with a reason.
+- [x] **7.2.1** Review frozen out-of-sample results against the registered economic threshold and paired uncertainty. Label retrospective results. Record retain, reject or descriptive-only for every study with a reason.
   - **Procedure.** Compare paired net outcome and its block interval with the predeclared minimum useful gain and admissibility constraints. Distinguish development, retrospective and genuinely prospective evidence.
   - **Verification and failure handling.** Produce one retain/reject/inconclusive record per variant including failures and reasons. Do not reuse the final period after changing a rule.
   - **Bias and control.** Absence-of-evidence error. Compare the interval with the material-gain threshold. Claim practical equivalence only with prespecified equivalence margins and suitable interval/test; wide uncertainty remains inconclusive.
   - **Paired client-value test (guides 01 V18 and 04 §4.15.5).** Register one primary horizon, φ range, economic gain threshold and fallback before outcomes. Archive both frontiers and weights at each common origin. Compare net mean–variance scores on realized returns with the same household wealth base and horizon as φ. Recompute mean and variance per strategy inside each paired date-block draw. Report Δscore and intervals, turnover, costs, risk breaches and uncovered cash at due dates. Label this as mean–variance utility; an exact certainty equivalent requires a specified utility and inversion. Display dated estimated frontiers on common axes and realized comparisons in a separate table. Show sensitivity across prespecified windows, covariance estimators and fee levels. Record inconclusive results and keep the simpler benchmark when evidence is insufficient.
   - **Allocation experiment.** Keep the mandate and permitted information fixed; compare fixed mix, classical and robust frontiers over the same origins. Evaluate paired net utility, shortfall at withdrawal, breaches and turnover. With fictional mandates label results as conditional on those mandates. Retain the admissible baseline if the improvement is too small or inconclusive. Record questionnaire validation separately.
-- [ ] **7.2.2** Independently reproduce admitted catalogue entries, costs and mandate screens. Attach as-of date, uncertainty, fallback and data permissions. Check that a failed study cannot silently enter a recommendation.
+- [x] **7.2.2** Independently reproduce admitted catalogue entries, costs and mandate screens. Attach as-of date, uncertainty, fallback and data permissions. Check that a failed study cannot silently enter a recommendation.
   - **Procedure.** Freeze catalogue rows with study version, eligible mandate class, currency, date, benchmark, fee assumptions, forecast expiry, permissions and fallback. Rebuild from immutable source IDs.
   - **Verification and failure handling.** Have a reviewer rerun a selected row and a rejected row. Only approved, unexpired records pass the app eligibility query.
   - **Bias and control.** Selective promotion. Include rejected and expired entries with reason codes. Verify that changing the candidate cannot inherit a prior candidate's holdout status.
