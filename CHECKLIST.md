@@ -60,18 +60,20 @@ Completed 22 November 2026. Notebook 1.2 records the prospective precision simul
 
 ### 2.1 Build the factual intake
 
+Implemented and tested 22 November 2026. Notebook 2.1 records the four-screen walkthrough and financial checks. The technical criteria of 2.1.1 passed. Its cognitive-interview criterion remains open until the participant pilot.
+
 **Evidence to retain:** mandate and dated cash ladder. **Course reading:** [Portfolio-Management-explications copie](Theory/CFA/Portfolio-Management-explications%20copie.md) · [Guide Ultime Chapitre 34](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_34.md).
 
 - [ ] **2.1.1** Design four screens for goal/currency/horizon, capital and contributions, withdrawals and reserves, then desired return and preferences. Accept ranges and unknowns. Test missing, zero, negative and contradictory values by field.
   - **Procedure.** Use an intake schema with value/range, unit, currency, timing and explicit unknown. Encode ethics as hard exclude versus preference. Use cognitive interviews to check interpretations.
   - **Verification and failure handling.** Retain original answers and corrections. Check that zero, missing and “prefer not to answer” produce distinct states.
   - **Bias and control.** Anchoring and missing-not-at-random amounts. Record range, unknown and refusal separately; check whether the funding outcome changes at plausible endpoints.
-- [ ] **2.1.2** Calculate protected and investable capital using dated withdrawals and confirmed external funding. Reconcile cash sources and uses. Test a fully funded expense, immediate withdrawal and reserve exceeding capital.
+- [x] **2.1.2** Calculate protected and investable capital using dated withdrawals and confirmed external funding. Reconcile cash sources and uses. Test a fully funded expense, immediate withdrawal and reserve exceeding capital.
   - **Procedure.** Construct a dated cash ladder. Reserve the maximum cumulative uncovered outflow plus the separate safety buffer, accounting for earmarked resources only once.
   - **Verification and failure handling.** Reconcile assets to reserve plus investable capital or an explicit shortfall. Vary the endpoints of ranges to expose mandates that switch eligibility.
   - **Bias and control.** Optimistic funding. Stress delayed contributions and simultaneous household cash needs. Report the earliest shortfall date and amount across feasible joint scenarios.
   - **Funding invariant.** Compute the dated cash ladder from liabilities, settlement, safety buffer and confirmed funding. Keep the tolerance band out of that calculation. Change only tolerance and compare the entire ladder; any difference requires correcting the dependency and recomputing affected proposals. Move the withdrawal earlier with tolerance fixed and rerun liquidity even when the amount stays constant.
-- [ ] **2.1.3** Solve the goal-funding return from dated cash flows with an explicit timing convention. Show it beside the desired return. Test a known zero-return case and an underspecified or infeasible mandate.
+- [x] **2.1.3** Solve the goal-funding return from dated cash flows with an explicit timing convention. Show it beside the desired return. Test a known zero-return case and an underspecified or infeasible mandate.
   - **Procedure.** For dated deposits Cᵢ solve target = initial(1+r)^T + Σ Cᵢ(1+r)^(T−tᵢ) using scipy.optimize.brentq on a bracket with opposite signs. Document timing and annual basis.
   - **Verification and failure handling.** Plug the solution back into terminal wealth. Check boundary/non-unique cases for mixed-sign flows. Report unresolved when a justified bracket or unique solution is unavailable.
   - **Bias and control.** Nominal/real mismatch. State whether the target is in today's or future currency and convert consistently under disclosed inflation assumptions. Report sensitivity of required return.
