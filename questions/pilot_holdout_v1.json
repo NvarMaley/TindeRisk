@@ -1,0 +1,13 @@
+{
+  "version": "pilot-1.0",
+  "horizon_years": 1,
+  "currency": "CHF",
+  "prompt": "Which ending balance would you choose for this investment after one year?",
+  "responses": ["sure", "gamble", "unsure"],
+  "items": [
+    {"id":"V01","family":"unequal probabilities","stake":1000,"certain":1020,"outcomes":[800,1120],"probabilities":[0.25,0.75]},
+    {"id":"V02","family":"three possible balances","stake":1000,"certain":1010,"outcomes":[800,1000,1300],"probabilities":[0.25,0.5,0.25]},
+    {"id":"V03","family":"larger stake with downside","stake":10000,"certain":10150,"outcomes":[8500,11500],"probabilities":[0.4,0.6]},
+    {"id":"V04","family":"asymmetric upside","stake":2000,"certain":2040,"outcomes":[1900,2500],"probabilities":[0.75,0.25]}
+  ]
+}

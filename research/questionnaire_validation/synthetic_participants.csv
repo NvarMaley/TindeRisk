@@ -1,0 +1,481 @@
+id,partition,kind,form,route,status,unresolved,stopped,core_predicted,core_verified,core_hits,adaptive_predicted,adaptive_verified,adaptive_hits,common_items
+sim-consistent-0000,evaluation,consistent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B19 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0001,evaluation,consistent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B13 B18 B19,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0002,evaluation,consistent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B17 B19 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0003,evaluation,consistent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B12 B19,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0004,evaluation,consistent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B18 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0005,evaluation,consistent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B12,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0006,evaluation,consistent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B09 B10 B17 B20,bounded,True,False,3,3,3,4,4,4,3
+sim-consistent-0007,development,consistent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B08 B11 B16 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0008,development,consistent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B17,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0009,evaluation,consistent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B15 B07 B09 B10 B16 B18,bounded,True,False,3,3,3,4,4,4,3
+sim-consistent-0010,evaluation,consistent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0011,evaluation,consistent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0012,development,consistent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B17,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0013,development,consistent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0014,development,consistent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B19 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0015,evaluation,consistent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B09 B10 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0016,evaluation,consistent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13 B16,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0017,development,consistent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B12 B16 B19,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0018,evaluation,consistent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B19 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0019,development,consistent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B16 B19 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0020,evaluation,consistent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B20 B24,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0021,evaluation,consistent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B13,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0022,evaluation,consistent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B17,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0023,evaluation,consistent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B09 B10 B13,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0024,evaluation,consistent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B12 B16 B24,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0025,evaluation,consistent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B12 B16 B18 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0026,evaluation,consistent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B11 B12,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0027,evaluation,consistent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 T18 B09 B10 B17,bounded,True,False,3,3,3,3,3,3,3
+sim-consistent-0028,development,consistent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B11 B12,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0029,evaluation,consistent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B12 B16 B17 B19,bounded,True,False,3,3,3,4,4,4,3
+sim-consistent-0030,development,consistent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B16 B18 B19 B20,bounded,True,False,3,3,3,4,4,4,3
+sim-consistent-0031,evaluation,consistent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B17 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0032,development,consistent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B12 B19,one-sided,False,False,3,3,3,3,3,3,3
+sim-consistent-0033,development,consistent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B19 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0034,evaluation,consistent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B09 B10 B13 B24,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0035,development,consistent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B13 B18 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0036,evaluation,consistent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B17 B18 B19,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0037,evaluation,consistent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B12 B16 B18 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0038,development,consistent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B18 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0039,evaluation,consistent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-consistent-0040,evaluation,consistent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B08 B12 B19 B22,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0041,development,consistent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12 B18,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0042,development,consistent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B11 B13 B18,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0043,evaluation,consistent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0044,evaluation,consistent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B13,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0045,evaluation,consistent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B14 B07 B11 B12,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0046,evaluation,consistent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B12 B17 B18 B19,bounded,True,False,3,3,3,3,3,3,3
+sim-consistent-0047,evaluation,consistent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B12 B18,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0048,development,consistent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B09 B10 B12,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0049,evaluation,consistent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B18,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0050,evaluation,consistent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B08 B11 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0051,evaluation,consistent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B08 B09 B10 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0052,evaluation,consistent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0053,evaluation,consistent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B18 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-consistent-0054,evaluation,consistent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B15 B12 B16 B19,bounded,True,False,3,3,3,4,4,4,3
+sim-consistent-0055,development,consistent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B09 B10 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0056,development,consistent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B11 B12 B17 B18,one-sided,False,False,4,4,4,4,4,4,4
+sim-consistent-0057,development,consistent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B19,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0058,evaluation,consistent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B19 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-consistent-0059,evaluation,consistent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B18 B19 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-contradictory-0000,development,contradictory,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0001,development,contradictory,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B11 B13 B16,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0002,evaluation,contradictory,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B11 B13,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0003,development,contradictory,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B16 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0004,development,contradictory,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B16 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0005,evaluation,contradictory,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B13 B16 B17 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0006,development,contradictory,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0007,evaluation,contradictory,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B12 B16 B17,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0008,evaluation,contradictory,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B17 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0009,evaluation,contradictory,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B17 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0010,evaluation,contradictory,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B13 B18 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0011,evaluation,contradictory,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B16 B17 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0012,evaluation,contradictory,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B17 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0013,evaluation,contradictory,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B09 B10,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0014,development,contradictory,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B19 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0015,evaluation,contradictory,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B08 B11 B12 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0016,evaluation,contradictory,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0017,evaluation,contradictory,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B18 B19 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0018,evaluation,contradictory,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B13 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0019,evaluation,contradictory,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B16 B17 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0020,evaluation,contradictory,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0021,development,contradictory,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B09 B10 B12 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0022,evaluation,contradictory,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B09 B10 B12,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0023,development,contradictory,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B16 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0024,evaluation,contradictory,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0025,development,contradictory,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0026,evaluation,contradictory,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B17 B18 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0027,development,contradictory,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B16 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0028,development,contradictory,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B13 B17,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0029,development,contradictory,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B19 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0030,development,contradictory,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B08 B09 B10,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0031,evaluation,contradictory,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0032,evaluation,contradictory,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B08 B09 B10 B17 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0033,evaluation,contradictory,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B11 B17 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0034,evaluation,contradictory,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B13 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0035,evaluation,contradictory,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B13 B17,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0036,development,contradictory,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B14 B15 B07 B08 B11 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0037,evaluation,contradictory,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B13 B17,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0038,evaluation,contradictory,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0039,development,contradictory,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B17 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0040,evaluation,contradictory,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B11 B12 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0041,evaluation,contradictory,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B17 B20 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0042,development,contradictory,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0043,evaluation,contradictory,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B09 B10 B12 B16,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0044,evaluation,contradictory,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0045,development,contradictory,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B13 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0046,evaluation,contradictory,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0047,development,contradictory,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B12 B17 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0048,development,contradictory,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B12 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0049,evaluation,contradictory,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B17 B18 B20 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0050,evaluation,contradictory,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B13 B16 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0051,evaluation,contradictory,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B09 B10 B16 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0052,evaluation,contradictory,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B11 B16 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0053,evaluation,contradictory,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B08 B11 B13,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0054,evaluation,contradictory,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0055,evaluation,contradictory,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B13 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0056,evaluation,contradictory,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B13 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0057,development,contradictory,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B09 B10,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0058,evaluation,contradictory,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B09 B10 B12,conflict,True,False,0,0,0,0,0,0,0
+sim-contradictory-0059,evaluation,contradictory,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B14 B15 B13 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-indifferent-0000,evaluation,indifferent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B16,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0001,development,indifferent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B17 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0002,evaluation,indifferent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B14 B09 B10 B12 B16 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0003,evaluation,indifferent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B17 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0004,evaluation,indifferent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0005,evaluation,indifferent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B11 B18 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0006,evaluation,indifferent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0007,development,indifferent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B12 B21 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0008,evaluation,indifferent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12 B17 B24,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0009,evaluation,indifferent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B08 B11 B12,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0010,development,indifferent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B09 B10 B17 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0011,evaluation,indifferent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B11 B13,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0012,evaluation,indifferent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B16,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0013,evaluation,indifferent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B13 B19 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0014,evaluation,indifferent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B16 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0015,evaluation,indifferent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B09 B10 B13 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0016,development,indifferent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B17 B18 B24,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0017,evaluation,indifferent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B12 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0018,evaluation,indifferent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0019,evaluation,indifferent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0020,evaluation,indifferent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0021,development,indifferent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B13 B16 B19 B21,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0022,evaluation,indifferent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0023,evaluation,indifferent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B16 B18 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0024,development,indifferent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B18,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0025,development,indifferent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B16 B17 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0026,evaluation,indifferent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0027,evaluation,indifferent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B19 B20 B21 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0028,evaluation,indifferent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B12,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0029,development,indifferent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B16 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0030,evaluation,indifferent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B09 B10 B13 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0031,development,indifferent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B19 B20 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0032,evaluation,indifferent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B17 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0033,evaluation,indifferent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B20 B24,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0034,evaluation,indifferent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B14 B12 B17 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0035,evaluation,indifferent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B13 B16 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0036,evaluation,indifferent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B12 B16,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0037,evaluation,indifferent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B16 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0038,evaluation,indifferent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B20 B21 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0039,evaluation,indifferent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B16 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0040,evaluation,indifferent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B14 B07 B09 B10,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0041,development,indifferent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0042,evaluation,indifferent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0043,development,indifferent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B09 B10 B18 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0044,development,indifferent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B12 B18 B22,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0045,development,indifferent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B09 B10 B20 B21,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0046,evaluation,indifferent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B09 B10 B12 B16 B18,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0047,development,indifferent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B09 B10 B13 B17 B18 B24,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0048,development,indifferent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B12 B18 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0049,evaluation,indifferent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B17 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0050,evaluation,indifferent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B14 B07 B12 B17 B18 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0051,development,indifferent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B13 B18,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0052,evaluation,indifferent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B17 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0053,development,indifferent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B16 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0054,evaluation,indifferent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13 B17 B24,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0055,evaluation,indifferent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0056,evaluation,indifferent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B13 B16 B18 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0057,evaluation,indifferent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B16 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0058,evaluation,indifferent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B09 B10 B17 B18 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-indifferent-0059,evaluation,indifferent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0000,evaluation,pass-heavy,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B17 B18 B19 B20,one-sided,True,False,4,0,0,4,0,0,0
+sim-pass-heavy-0001,evaluation,pass-heavy,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0002,evaluation,pass-heavy,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B12 B16 B17 B18 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0003,evaluation,pass-heavy,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0004,development,pass-heavy,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B17 B18 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0005,development,pass-heavy,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0006,evaluation,pass-heavy,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0007,evaluation,pass-heavy,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0008,development,pass-heavy,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0009,evaluation,pass-heavy,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0010,evaluation,pass-heavy,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B16 B17 B18 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0011,evaluation,pass-heavy,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0012,evaluation,pass-heavy,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,4,2,2,4,2,2,2
+sim-pass-heavy-0013,development,pass-heavy,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0014,evaluation,pass-heavy,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,4,2,2,4,2,2,2
+sim-pass-heavy-0015,evaluation,pass-heavy,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T16 T17 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0016,evaluation,pass-heavy,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0017,development,pass-heavy,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0018,development,pass-heavy,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0019,evaluation,pass-heavy,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B16 B17,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0020,evaluation,pass-heavy,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0021,development,pass-heavy,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T02 T03 B17 B18 B19 B20,one-sided,True,False,3,0,0,3,0,0,0
+sim-pass-heavy-0022,evaluation,pass-heavy,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T03 T04 B09 B10 B17 B18 B20,one-sided,True,False,3,1,1,3,1,1,1
+sim-pass-heavy-0023,evaluation,pass-heavy,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0024,evaluation,pass-heavy,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0025,evaluation,pass-heavy,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B17 B18 B19 B20,one-sided,True,False,4,0,0,4,0,0,0
+sim-pass-heavy-0026,evaluation,pass-heavy,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B16 B17 B18 B20,one-sided,True,False,4,1,1,4,1,1,1
+sim-pass-heavy-0027,development,pass-heavy,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T08 T09 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0028,development,pass-heavy,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T15 T16 B16 B17 B18 B19 B20,bounded,True,False,3,2,2,3,2,2,2
+sim-pass-heavy-0029,evaluation,pass-heavy,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T12 T13 B16 B17 B18 B19 B20,bounded,True,False,3,2,2,3,2,2,2
+sim-pass-heavy-0030,development,pass-heavy,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,bounded,True,False,4,1,1,4,1,1,1
+sim-pass-heavy-0031,evaluation,pass-heavy,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,4,2,2,4,2,2,2
+sim-pass-heavy-0032,development,pass-heavy,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 T19 B16 B17 B18 B19 B20,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0033,development,pass-heavy,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0034,evaluation,pass-heavy,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T15 T16 B16 B17 B18 B19 B20,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0035,development,pass-heavy,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0036,evaluation,pass-heavy,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0037,evaluation,pass-heavy,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,4,0,0,4,0,0,0
+sim-pass-heavy-0038,evaluation,pass-heavy,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T19 T20 B09 B10 B16 B17 B18 B20,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0039,evaluation,pass-heavy,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B16 B17 B19,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0040,evaluation,pass-heavy,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B16 B17 B18 B19 B20,bounded,True,False,3,0,0,4,0,0,0
+sim-pass-heavy-0041,evaluation,pass-heavy,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T02 T03 B12 B16 B17 B19,one-sided,True,False,3,0,0,3,0,0,0
+sim-pass-heavy-0042,evaluation,pass-heavy,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 T19 B09 B10 B16 B18 B20,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0043,evaluation,pass-heavy,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T15 T16 B17 B19 B20,bounded,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0044,development,pass-heavy,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T05 T06 B08 B16 B18 B19 B20,one-sided,True,False,3,0,0,3,0,0,0
+sim-pass-heavy-0045,development,pass-heavy,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B17 B19 B20,one-sided,True,False,4,2,2,4,2,2,2
+sim-pass-heavy-0046,evaluation,pass-heavy,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T07 T08 B16 B17 B18 B19 B20,one-sided,True,False,3,1,1,3,1,1,1
+sim-pass-heavy-0047,development,pass-heavy,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,4,0,0,4,0,0,0
+sim-pass-heavy-0048,evaluation,pass-heavy,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T09 T10 B16 B17 B18 B19 B20,bounded,True,False,3,0,0,3,0,0,0
+sim-pass-heavy-0049,development,pass-heavy,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T10 T11 B16 B17 B18 B19 B20,one-sided,True,False,3,0,0,3,0,0,0
+sim-pass-heavy-0050,evaluation,pass-heavy,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T12 T13 B17 B18 B19 B20,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0051,development,pass-heavy,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T12 T13 B17 B18 B19 B20,bounded,True,False,1,1,1,1,1,1,1
+sim-pass-heavy-0052,evaluation,pass-heavy,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T13 T14 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0053,development,pass-heavy,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0054,evaluation,pass-heavy,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T15 T16 B16 B17 B18 B19 B20,one-sided,True,False,3,1,1,3,1,1,1
+sim-pass-heavy-0055,evaluation,pass-heavy,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B16 B17 B18 B19 B20,insufficient,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0056,evaluation,pass-heavy,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T17 T18 B15 B16 B17 B18 B19 B20,one-sided,True,False,3,1,1,4,1,1,1
+sim-pass-heavy-0057,evaluation,pass-heavy,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 T19 B13 B16 B17 B18 B19,one-sided,True,False,0,0,0,0,0,0,0
+sim-pass-heavy-0058,development,pass-heavy,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T19 T01 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-pass-heavy-0059,development,pass-heavy,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B18 B19 B20,one-sided,True,False,1,0,0,1,0,0,0
+sim-always yes-0000,evaluation,always yes,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0001,evaluation,always yes,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0002,evaluation,always yes,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0003,evaluation,always yes,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0004,evaluation,always yes,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0005,evaluation,always yes,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0006,evaluation,always yes,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0007,evaluation,always yes,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0008,evaluation,always yes,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0009,evaluation,always yes,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0010,evaluation,always yes,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0011,evaluation,always yes,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0012,development,always yes,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0013,development,always yes,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0014,evaluation,always yes,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0015,evaluation,always yes,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0016,evaluation,always yes,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0017,evaluation,always yes,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0018,evaluation,always yes,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0019,development,always yes,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0020,development,always yes,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0021,evaluation,always yes,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0022,development,always yes,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0023,development,always yes,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0024,evaluation,always yes,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0025,evaluation,always yes,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0026,evaluation,always yes,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0027,development,always yes,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0028,development,always yes,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0029,evaluation,always yes,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0030,development,always yes,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0031,evaluation,always yes,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0032,development,always yes,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0033,development,always yes,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0034,evaluation,always yes,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0035,evaluation,always yes,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0036,development,always yes,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0037,evaluation,always yes,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0038,evaluation,always yes,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0039,evaluation,always yes,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0040,evaluation,always yes,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0041,evaluation,always yes,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0042,development,always yes,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0043,development,always yes,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0044,evaluation,always yes,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0045,development,always yes,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0046,evaluation,always yes,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0047,evaluation,always yes,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0048,evaluation,always yes,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0049,evaluation,always yes,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0050,evaluation,always yes,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0051,evaluation,always yes,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0052,development,always yes,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0053,evaluation,always yes,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0054,evaluation,always yes,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0055,evaluation,always yes,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0056,evaluation,always yes,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0057,evaluation,always yes,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0058,evaluation,always yes,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-always yes-0059,evaluation,always yes,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B08 B11,bounded,True,False,4,4,2,4,4,2,4
+sim-random-0000,evaluation,random,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B13 B17 B19,one-sided,True,False,1,0,0,1,0,0,0
+sim-random-0001,evaluation,random,1,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0002,evaluation,random,2,C01 P01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B11 B13 B16,bounded,True,False,1,0,0,4,3,1,0
+sim-random-0003,development,random,3,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0004,evaluation,random,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 T19 B08 B11 B12 B16,bounded,True,False,0,0,0,2,1,0,0
+sim-random-0005,evaluation,random,5,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0006,evaluation,random,6,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0007,evaluation,random,7,C01 P01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B13 B16 B17 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0008,evaluation,random,8,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0009,evaluation,random,9,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0010,development,random,10,C01 P01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B16 B18 B20,one-sided,False,False,4,3,2,4,3,2,3
+sim-random-0011,evaluation,random,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B11 B13 B17 B18,one-sided,False,False,4,3,2,4,3,2,3
+sim-random-0012,development,random,12,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0013,evaluation,random,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0014,evaluation,random,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B12 B24,one-sided,False,False,4,2,0,4,2,0,2
+sim-random-0015,evaluation,random,15,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0016,evaluation,random,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B16 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0017,evaluation,random,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B14 B15 B08 B12 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0018,development,random,18,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0019,evaluation,random,19,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0020,evaluation,random,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B13 B17 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0021,evaluation,random,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B17 B20,bounded,True,False,4,4,0,4,4,0,4
+sim-random-0022,development,random,2,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0023,development,random,3,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0024,evaluation,random,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B13 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0025,evaluation,random,5,C01 P01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B19 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0026,development,random,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B17 B18 B20,one-sided,False,False,3,1,1,3,1,1,1
+sim-random-0027,development,random,7,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0028,development,random,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B11 B17 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-random-0029,evaluation,random,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B11 B12 B17,bounded,True,False,4,3,2,4,3,2,3
+sim-random-0030,evaluation,random,10,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0031,development,random,11,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0032,evaluation,random,12,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0033,development,random,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B09 B10 B18,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0034,evaluation,random,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B17 B18 B19 B20,bounded,True,False,4,3,1,4,3,1,3
+sim-random-0035,evaluation,random,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0036,development,random,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B18 B20 B24,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0037,development,random,17,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0038,evaluation,random,18,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0039,development,random,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B13,bounded,False,False,4,2,2,4,2,2,2
+sim-random-0040,evaluation,random,0,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0041,evaluation,random,1,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0042,evaluation,random,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B12 B17 B18 B19,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0043,evaluation,random,3,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0044,development,random,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B09 B10 B16 B18 B20,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0045,development,random,5,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0046,development,random,6,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0047,evaluation,random,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13,one-sided,False,False,4,3,3,4,3,3,3
+sim-random-0048,evaluation,random,8,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0049,evaluation,random,9,C01 P01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B16 B18,one-sided,False,False,4,2,1,4,2,1,2
+sim-random-0050,development,random,10,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0051,evaluation,random,11,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0052,evaluation,random,12,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0053,evaluation,random,13,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0054,evaluation,random,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B13,conflict,True,False,0,0,0,0,0,0,0
+sim-random-0055,development,random,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B12 B16,one-sided,True,False,4,2,0,4,2,0,2
+sim-random-0056,development,random,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T17 B15 B11 B13 B16,bounded,True,False,0,0,0,4,2,1,0
+sim-random-0057,evaluation,random,17,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-random-0058,development,random,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B20,bounded,True,False,4,4,3,4,4,3,4
+sim-random-0059,evaluation,random,19,C01 P01,comprehension unresolved,True,False,0,0,0,0,0,0,0
+sim-stake-dependent-0000,evaluation,stake-dependent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B12 B17,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0001,evaluation,stake-dependent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B13 B16 B19,bounded,True,False,3,3,3,4,4,4,3
+sim-stake-dependent-0002,evaluation,stake-dependent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B17 B18,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0003,development,stake-dependent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B18 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0004,evaluation,stake-dependent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B09 B10 B17 B20,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0005,evaluation,stake-dependent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B07 B12 B18,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0006,development,stake-dependent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B11 B16 B20 B23,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0007,evaluation,stake-dependent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B13 B18 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0008,evaluation,stake-dependent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0009,evaluation,stake-dependent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B13 B19,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0010,development,stake-dependent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0011,evaluation,stake-dependent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B09 B10 B12 B16 B18,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0012,evaluation,stake-dependent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B08 B09 B10 B20 B24,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0013,evaluation,stake-dependent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B09 B10 B13 B17,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0014,evaluation,stake-dependent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B17 B20 B24,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0015,evaluation,stake-dependent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B13 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0016,evaluation,stake-dependent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B08 B11 B18 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0017,evaluation,stake-dependent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B09 B10 B20,one-sided,False,False,3,3,2,3,3,2,3
+sim-stake-dependent-0018,evaluation,stake-dependent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B16 B17 B19 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0019,development,stake-dependent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0020,evaluation,stake-dependent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B09 B10 B12 B17,bounded,True,False,3,3,3,4,4,4,3
+sim-stake-dependent-0021,development,stake-dependent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B16 B17 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0022,development,stake-dependent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B13 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0023,evaluation,stake-dependent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B08 B11 B16 B18 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0024,development,stake-dependent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B16 B18,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0025,evaluation,stake-dependent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B12 B17 B19,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0026,development,stake-dependent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B12 B18 B19 B22,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0027,evaluation,stake-dependent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B11 B13,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0028,evaluation,stake-dependent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B11 B17 B20,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0029,development,stake-dependent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B12 B17 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0030,development,stake-dependent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B14 B19 B20,one-sided,False,False,3,3,2,3,3,2,3
+sim-stake-dependent-0031,evaluation,stake-dependent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B15 B09 B10 B16 B17 B18 B20,bounded,True,False,3,3,3,4,4,4,3
+sim-stake-dependent-0032,development,stake-dependent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B13 B16,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0033,evaluation,stake-dependent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B15 B13 B18 B19,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0034,evaluation,stake-dependent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0035,evaluation,stake-dependent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B09 B10 B16 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0036,development,stake-dependent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B14 B15 B16 B19 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0037,development,stake-dependent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B08 B11 B12,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0038,evaluation,stake-dependent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B11 B16 B20,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0039,development,stake-dependent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B19 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0040,development,stake-dependent,0,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B12,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0041,evaluation,stake-dependent,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B07 B08 B11 B20,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0042,development,stake-dependent,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B09 B10 B12 B16 B18,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0043,evaluation,stake-dependent,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B07 B08 B11 B16 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0044,evaluation,stake-dependent,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B15 B11 B17 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0045,development,stake-dependent,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B17 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0046,evaluation,stake-dependent,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B09 B10 B12 B18,bounded,True,False,2,2,2,2,2,2,2
+sim-stake-dependent-0047,evaluation,stake-dependent,7,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 T18 B13 B16 B17 B19,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0048,development,stake-dependent,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B08 B12 B16 B19,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0049,evaluation,stake-dependent,9,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B09 B10 B13 B24,bounded,True,False,3,3,3,3,3,3,3
+sim-stake-dependent-0050,development,stake-dependent,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 T18 B15 B17 B19 B20,bounded,True,False,3,3,3,4,4,4,3
+sim-stake-dependent-0051,development,stake-dependent,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B11 B12 B16 B18,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0052,development,stake-dependent,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B12 B16 B18,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0053,evaluation,stake-dependent,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B13 B16 B19,one-sided,False,False,3,3,2,3,3,2,3
+sim-stake-dependent-0054,evaluation,stake-dependent,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B12 B16 B18 B19,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0055,evaluation,stake-dependent,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B04 B05 B06 B02 B03 B07 B08 B11 B12,bounded,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0056,evaluation,stake-dependent,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B20,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0057,evaluation,stake-dependent,17,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B11 B13 B16,one-sided,False,False,4,4,4,4,4,4,4
+sim-stake-dependent-0058,evaluation,stake-dependent,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B15 B11 B20,bounded,True,False,4,4,4,4,4,4,4
+sim-stake-dependent-0059,development,stake-dependent,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11 C15 B01 B02 B03 B19 B20,bounded,False,False,4,4,4,4,4,4,4
+sim-early stop-0000,evaluation,early stop,0,C01 C02 C03 C08 C04 C12 C05 C09,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0001,development,early stop,1,C01 C02 C03,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0002,evaluation,early stop,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0003,evaluation,early stop,3,,comprehension unresolved,True,True,0,0,0,0,0,0,0
+sim-early stop-0004,evaluation,early stop,4,,comprehension unresolved,True,True,0,0,0,0,0,0,0
+sim-early stop-0005,evaluation,early stop,5,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0006,evaluation,early stop,6,C01 C02,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0007,evaluation,early stop,7,C01 C02 C03 C08 C04 C12,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0008,evaluation,early stop,8,C01 C02 C03,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0009,evaluation,early stop,9,C01 C02 C03 C08 C04,one-sided,True,True,0,0,0,0,0,0,0
+sim-early stop-0010,evaluation,early stop,10,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,True,True,1,0,0,1,0,0,0
+sim-early stop-0011,evaluation,early stop,11,C01 C02 C03 C08,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0012,evaluation,early stop,12,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0013,evaluation,early stop,13,C01 C02 C03 C08,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0014,evaluation,early stop,14,C01 C02 C03 C08 C04 C12 C05 C09 C06,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0015,evaluation,early stop,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0016,development,early stop,16,C01 C02 C03 C08 C04 C12 C05 C09,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0017,evaluation,early stop,17,C01 C02 C03 C08 C04 C12 C05,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0018,development,early stop,18,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0019,evaluation,early stop,19,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,True,True,1,0,0,1,0,0,0
+sim-early stop-0020,evaluation,early stop,0,C01 C02 C03 C08 C04 C12 C05 C09 C06,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0021,development,early stop,1,C01 C02 C03 C08 C04 C12 C05 C09,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0022,development,early stop,2,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0023,evaluation,early stop,3,,comprehension unresolved,True,True,0,0,0,0,0,0,0
+sim-early stop-0024,evaluation,early stop,4,C01 C02,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0025,evaluation,early stop,5,C01 C02 C03 C08 C04 C12 C05,bounded,True,True,1,0,0,1,0,0,0
+sim-early stop-0026,evaluation,early stop,6,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,bounded,True,True,1,0,0,1,0,0,0
+sim-early stop-0027,development,early stop,7,,comprehension unresolved,True,True,0,0,0,0,0,0,0
+sim-early stop-0028,evaluation,early stop,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0029,evaluation,early stop,9,C01 C02 C03 C08 C04 C12 C05,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0030,evaluation,early stop,10,C01 C02 C03,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0031,evaluation,early stop,11,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,True,True,1,0,0,1,0,0,0
+sim-early stop-0032,evaluation,early stop,12,C01 C02,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0033,evaluation,early stop,13,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0034,development,early stop,14,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0035,evaluation,early stop,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0036,evaluation,early stop,16,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0037,evaluation,early stop,17,C01 C02 C03 C08 C04 C12 C05,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0038,evaluation,early stop,18,C01 C02 C03 C08 C04 C12 C05,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0039,development,early stop,19,C01 C02,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0040,evaluation,early stop,0,C01 C02 C03 C08 C04 C12 C05 C09 C06,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0041,evaluation,early stop,1,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13 C11,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0042,evaluation,early stop,2,C01 C02 C03 C08,one-sided,True,True,0,0,0,0,0,0,0
+sim-early stop-0043,evaluation,early stop,3,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0044,evaluation,early stop,4,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0045,development,early stop,5,,comprehension unresolved,True,True,0,0,0,0,0,0,0
+sim-early stop-0046,evaluation,early stop,6,C01 C02 C03 C08 C04,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0047,evaluation,early stop,7,C01,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0048,evaluation,early stop,8,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10 C07 C13,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0049,evaluation,early stop,9,C01 C02,insufficient,True,True,0,0,0,0,0,0,0
+sim-early stop-0050,evaluation,early stop,10,C01 C02 C03 C08 C04 C12 C05 C09 C06,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0051,evaluation,early stop,11,C01 C02 C03 C08 C04 C12 C05 C09 C06,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0052,evaluation,early stop,12,C01 C02 C03 C08,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0053,evaluation,early stop,13,C01 C02 C03 C08 C04 C12 C05 C09,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0054,development,early stop,14,C01 C02 C03 C08 C04 C12 C05 C09,one-sided,False,True,4,0,0,4,0,0,0
+sim-early stop-0055,evaluation,early stop,15,C01 C02 C03 C08 C04 C12 C05 C09 C06 C14 C10,bounded,False,True,4,0,0,4,0,0,0
+sim-early stop-0056,evaluation,early stop,16,C01 C02 C03 C08 C04 C12 C05,one-sided,True,True,3,0,0,3,0,0,0
+sim-early stop-0057,evaluation,early stop,17,C01 C02 C03 C08 C04,bounded,True,True,4,0,0,4,0,0,0
+sim-early stop-0058,evaluation,early stop,18,C01 C02 C03 C08,one-sided,True,True,4,0,0,4,0,0,0
+sim-early stop-0059,development,early stop,19,C01 C02 C03 C08,one-sided,True,True,4,0,0,4,0,0,0
