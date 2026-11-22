@@ -10,7 +10,7 @@
     "device": "desktop",
     "case": "failed signal and unresolved comparison",
     "expected": "choice remains open",
-    "actual": "No signal has independent approval. The no-view baseline applies. The fictional return estimates have overlapping uncertainty; the choice remains open.",
+    "actual": "No signal has independent approval. The no-view baseline applies. The illustrative 95% range for the annual return difference is -3.8% to 5.6%; the choice remains open.",
     "status": "pass"
   },
   {
@@ -52,7 +52,7 @@
     "device": "mobile",
     "case": "failed signal and unresolved comparison",
     "expected": "choice remains open",
-    "actual": "No signal has independent approval. The no-view baseline applies. The fictional return estimates have overlapping uncertainty; the choice remains open.",
+    "actual": "No signal has independent approval. The no-view baseline applies. The illustrative 95% range for the annual return difference is -3.8% to 5.6%; the choice remains open.",
     "status": "pass"
   },
   {

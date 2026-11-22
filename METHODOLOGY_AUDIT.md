@@ -1,5 +1,9 @@
 # Methodology audit · 22 November 2026
 
+## Release follow-up · 23 November 2026
+
+The historical execution comparison follows seven annual cohorts and keeps unsuccessful variants in the denominator. Paired uncertainty spans zero, so research signals remain outside the fictional account's admission list. Twelve browser observations on two screen sizes exercised funding failure, uncertain answers, expired FX and confirmation. Outstanding evidence includes the rights to redistribute third-party archives in the full public repository, public application hosting and an independent human review of the pitch. Individual-security H05 remains gated on filing dates and point-in-time accounting vintages. [Release audit](research/release/README.md)
+
 ## Finding
 
 The project has a credible sequence from household mandate through dated research, constrained allocation and execution. The main risks found in the design were overly optimistic evaluation on selected participants or dates, reuse of a preferred specification, and a mismatch between the risk measured in a card or a market model and the risk experienced by the household. The 59 design tasks reviewed in this audit have a named bias, a control and a matching evidence slot in the notebook. The 104 local Markdown files match the previously inventoried source versions. The checklist index documents their relevance; focused comparisons below address decisions with a material consequence for the project.

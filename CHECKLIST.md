@@ -8,7 +8,7 @@ Work down the numbered tasks. Each box describes an action, method and observabl
 
 [Methodology audit](METHODOLOGY_AUDIT.md) records the course crosswalk, priority findings and conditional extensions. For each bias check record the exposed population, expected direction (or unknown), control result, sensitivity of the client decision and unresolved limitation. An unchecked task may have a documented design and still lack empirical evidence.
 
-The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. Empirical admission remains open under tasks 6.1.3, 6.1.4, 6.2.2 and 7.2.1.
+The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. The historical comparisons are complete. Section 7.2 records the decision to withhold prospective admission.
 
 ### Course acceptance evidence (brief slides 3–4)
 
@@ -417,9 +417,11 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 9.1 Demonstrate the complete workflow
 
+**Implementation and evidence.** [Course release and client pitch](research/release/README.md).
+
 **Evidence to retain:** release evidence and client pitch trace. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
 
-- [ ] **9.1.1** Run unit, integration and mobile/desktop browser checks. Exercise uncertain profile, infeasible goal, missing private files, stale feeds and the full confirmed journey. Store commands, outcomes and known limitations.
+- [x] **9.1.1** Run unit, integration and mobile/desktop browser checks. Exercise uncertain profile, infeasible goal, missing private files, stale feeds and the full confirmed journey. Store commands, outcomes and known limitations.
   - **Procedure.** Create end-to-end fixtures linking participant events, mandate, as-of market snapshot, order and dashboard. Run pytest plus mobile/desktop browser smoke tests with a documented seed.
   - **Verification and failure handling.** Save expected/actual amounts and screenshots of uncertain, infeasible and stale states. A skipped integration test stays explicitly unverified.
   - **Bias and control.** Happy-path testing. Include failed imports, timeouts and incomplete profiles in test denominators. Allocate independent fixtures to developer tests and acceptance tests.
@@ -428,10 +430,13 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
   - **Procedure.** Create a redistributable input manifest, environment lock, run command and permissions table covering data, course texts and participant records. Test synthetic route in a network-free checkout.
   - **Verification and failure handling.** Compare expected hashes/metrics. Check exports for private fields and verify deletion on a synthetic participant.
   - **Bias and control.** Irreproducible provenance. Compare a fresh-clone input/version manifest to the approved one. Record private components the public reviewer cannot reproduce.
+  - [x] The synthetic-only package was reproduced from a fresh remote checkout. Distribution rights for archives already tracked in the public research repository remain open.
 - [ ] **9.1.3** Prepare the 15-minute client pitch around one mandate, two feasible alternatives or a documented shortfall, and a dated review. Cross-check figures against the notebook, course requirements against 1.1.1 and release decisions against the journal.
   - **Procedure.** Trace each reported number to study ID, sample dates, fee convention and notebook output. Use a client scenario to demonstrate uncertainty and a dated review decision.
   - **Verification and failure handling.** Rehearse to the course time limit. Have a second reader reproduce one slide number and identify where the scenario could fail.
   - **Bias and control.** Presentation cherry-picking. Choose the demo scenario before inspecting its performance and show a failure or infeasible case alongside it. Trace every headline result to its full denominator.
+
+  - [x] The seven-slide pitch, timed script and independent numerical checks are complete. A second human reader and live questions remain unverified.
 
 ## Quantitative tool selection before the course presentation
 
