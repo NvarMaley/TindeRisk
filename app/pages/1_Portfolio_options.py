@@ -210,6 +210,16 @@ else:
     )
 if st.button("Keep this example choice for this session"):
     st.session_state["example_option_choice"] = (names[arm], cap)
+    st.session_state["monitor_selection"] = dict(
+        arm=arm,
+        cap=cap,
+        weights=[float(r[a]) / 35000 for a in ["SPY_chf", "IEF_chf", "GLD_chf"]],
+        profile=profile["status"],
+    )
 if "example_option_choice" in st.session_state:
     title, limit = st.session_state["example_option_choice"]
     st.write(f"Your saved example choice · {title}, {limit:.0%} sleeve risk limit.")
+
+if "monitor_selection" in st.session_state:
+    if st.button("Open the fictional portfolio monitor"):
+        st.switch_page("pages/2_Portfolio_monitor.py")

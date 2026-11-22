@@ -382,13 +382,15 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 8.1 Value the selected allocation
 
+**Implementation and evidence.** [Local fictional portfolio monitor](research/monitor/README.md).
+
 **Evidence to retain:** holdings snapshot and valuation reconciliation. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 26](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_26.md).
 
-- [ ] **8.1.1** Persist confirmed mandate, allocation, units, cash, model version and selection date. Connect an authorized close/FX feed with timestamps, refresh policy and stale-data handling. Test missing, delayed and corrected quotes.
+- [x] **8.1.1** Persist confirmed mandate, allocation, units, cash, model version and selection date. Connect an authorized close/FX feed with timestamps, refresh policy and stale-data handling. Test missing, delayed and corrected quotes.
   - **Procedure.** Use versioned holdings and append-only close/FX observations, provider timestamp, retrieval time, calendar and correction lineage. Store model and consent versions at selection.
   - **Verification and failure handling.** Test missing market day versus holiday, stale FX with fresh asset prices and vendor correction. Display last reliable valuation and withhold actionable proposals on stale inputs.
   - **Bias and control.** Feed survivorship and revision. Preserve as-received and subsequently corrected valuations. Report unavailable valuation days and elapsed quote age.
-- [ ] **8.1.2** Chart total value, flows, net time-weighted performance, drawdown, drift and goal progress. Show last refresh and distinguish projections. Test that a withdrawal reduces value without creating a fictitious investment loss.
+- [x] **8.1.2** Chart total value, flows, net time-weighted performance, drawdown, drift and goal progress. Show last refresh and distinguish projections. Test that a withdrawal reduces value without creating a fictitious investment loss.
   - **Procedure.** For end-period cash flow F compute subperiod return (V_end−F)/V_start−1, chain subperiods for TWR. Split at actual flows when timestamps allow. Document timing assumptions where unavailable.
   - **Verification and failure handling.** Use a zero-market-return withdrawal and a deposit during a price move. Reconcile chart change into market P&L, FX, fees and external flows.
   - **Bias and control.** Cash-flow timing bias. Reconcile a same-day deposit before versus after a price change; disclose when only end-of-day flows permit an approximation.
