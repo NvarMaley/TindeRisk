@@ -35,7 +35,7 @@ The quantitative extension compares a classical frontier with one that penalizes
 
 ## Product decisions carried forward
 
-- Four short factual screens followed by one statement at a time. Right means yes, left means no, and uncertainty is allowed. Plan 60 scenarios including 15 common cards, with adaptive clarification and a typical 5–10 minute target. Participant evaluation is deferred.
+- Four short factual screens followed by one statement at a time. Right means yes, left means no, and uncertainty is allowed. The bank contains 60 hypothetical scenarios including 15 common cards. The route allows up to 25 answers.
 - Report willingness to bear risk separately from the capacity to absorb losses. Protect scheduled withdrawals and household reserves. Record desired return separately from the return required to fund the goal.
 - Study assets by research question and client eligibility. There is no fixed ETF count. Test common macro shocks across candidate allocations. Independent evaluation after costs governs which methods enter the catalogue.
 - Present a range of opportunities along the estimated feasible frontier in the client's spending currency. Keep historical outcomes, conditional forecasts and stress scenarios identifiable.
@@ -44,7 +44,7 @@ The quantitative extension compares a classical frontier with one that penalizes
 
 ## What the team will validate
 
-Measure the interview and the allocation engine independently. In the deferred human pilot, compare core-only and adaptive predictions on held-out choices and record funding corrections and additional time. In the portfolio experiment, freeze a mandate and compare a feasible fixed mix, classical frontier and robust frontier after identical costs. A fictional mandate can support that second experiment today. For a given forecast target, compare a simple reference, standalone models and preregistered combinations at common dates. A forecast improvement reaches the portfolio only after a separate after-cost evaluation. Client reviews distinguish the experimental one-year tolerance band, a short-horizon risk signal and the dated long-term funding scenario. An inconclusive discretionary trade retains the current feasible holding.
+The questionnaire uses hypothetical choices and synthetic routes. Each family has a worked question, alternative explanations and a stated consequence for the profile. See the [behavioral rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report). In the portfolio experiment, freeze a mandate and compare a feasible fixed mix, classical frontier and robust frontier after identical costs. A fictional mandate can support that second experiment today. For a given forecast target, compare a simple reference, standalone models and preregistered combinations at common dates. A forecast improvement reaches the portfolio only after a separate after-cost evaluation. Client reviews distinguish the experimental one-year tolerance band, a short-horizon risk signal and the dated long-term funding scenario. An inconclusive discretionary trade retains the current feasible holding.
 
 ## Directory guide
 

@@ -24,7 +24,7 @@ The report distinguishes willingness to take risk, capacity to withstand losses,
 
 ### Step 2. Use adaptive swipe cards to estimate tolerance (checklist 2.2)
 
-The design calls for 60 scenarios including 15 common items. The typical route aims for roughly 20–25 scenarios in 5–10 minutes. Human testing must establish actual duration. A scenario can take several gestures. Present one statement at a time, with right for yes, left for no, and a way to pass. Retain the same meaning on a keyboard and a phone.
+The design calls for 60 scenarios including 15 common items. The typical route aims for roughly 20–25 scenarios in 5–10 minutes. Actual duration is unmeasured. A scenario can take several gestures. Present one statement at a time, with right for yes, left for no, and a way to pass. Retain the same meaning on a keyboard and a phone.
 
 | Card family | Question the evidence can answer | How the route uses it |
 |---|---|---|
@@ -36,11 +36,11 @@ The design calls for 60 scenarios including 15 common items. The typical route a
 
 For example, agreeing to reduce exposure after a 15% fall has at least two plausible explanations. If the client mentions an upcoming expense, revisit withdrawal funding even when the original intake listed none. If the client reports discomfort, clarify their response to fluctuations. The same gesture can therefore lead to different financial decisions. The client can review and correct the resulting interval, constraints and interpretation.
 
-### Step 3. Validate the interview with people (checklist 2.3)
+### Step 3. Explain what the hypothetical answers could mean (checklist 2.3)
 
-Simulated routes check scoring, termination, corrections and display-side invariance. The deferred human pilot answers a separate question: do the extra cards improve understanding enough to justify their time? Compare the core-only estimate with the adaptive estimate on frozen choices held out from scoring. The design includes four validation choices before the result is revealed.
+Use an actual question, a possible answer and a second plausible explanation. Trace which follow-up would distinguish them and which profile field it can affect. The [behavioral rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report) covers all seven core families. Notebook 2.3.2 replays three explanations for selling after the same decline.
 
-Measure comprehension, agreement, repeatability, interval width, dropout, time and sample size by branch. Evaluate by participant so longer routes do not give an individual greater statistical weight. People receiving different follow-ups already differ in their initial answers. Interpret branch comparisons with that selection in mind and version any revised scoring rules.
+The [synthetic evaluation](research/questionnaire_validation/SIMULATION.md) exercises scoring, termination, corrections, four held-out choices and display-side invariance. The project makes no estimate of investor behavior, completion time or effectiveness in practice.
 
 ## Phase 2. Study the market and compare feasible portfolios
 
@@ -120,7 +120,7 @@ Admit a strategy only after reviewing independent performance, uncertainty, impl
 
 | Decision | Evidence | Correction if evidence fails |
 |---|---|---|
-| Are adaptive cards worth the time? | On the same participants compare core and adaptive predictions on unchanged, held-out choices. Track prediction coverage, time and independently confirmed funding corrections. | Revise or remove low-value probes and retain an unresolved tolerance estimate when necessary. |
+| What can a follow-up clarify? | Replay the same hypothetical sale, changing only the stated reason. | Show when a payment review is warranted and when an answer adds descriptive context. |
 | Does robust optimization help this client? | Freeze the mandate; compare with a feasible fixed mix and the classical frontier using identical reserves, currency, fees and executable dates. | Correct any benchmark mismatch, then rerun. If a material net gain remains unproven, retain the simpler eligible policy. |
 | Can we connect horizons? | Document the one-year hypothetical choice, monthly review signal and dated household cash-flow path. Evaluate each against its own target. | Use explicit long-horizon funding scenarios and disclose uncertainty. A failed or expired return signal sends the allocation back to its registered baseline. |
 | Should this person trade? | Check funding and hard constraints first, then evaluate the paired net benefit against a prespecified practical margin. | For an eligible current holding, hold when evidence is inconclusive. A breached mandate prompts a separate feasibility review and client confirmation. |
@@ -143,6 +143,6 @@ A new withdrawal, changed personal circumstances, allocation drift or a risk bre
 
 For the course, demonstrate one investment strategy end to end: turn a client's dated withdrawal into a reserve, screen eligible assets, sweep risk limits with constrained mean–variance optimization, compare with a simple allocation and show whether weights change under covariance or cost assumptions. Let the client change an input in Streamlit and inspect the result. Link the working app and GitHub code and rehearse a 15-minute client pitch including live questions. Use the CHF 50,000 / CHF 15,000 withdrawal as one reproducible example. H01–H07, extended forecasting and ongoing monitoring remain on the broader product roadmap. Select extensions for the presentation when their measured effect changes the client decision.
 
-The previous iteration reported an implemented profile, simulated routes, local historical experiments and a synthetic portfolio walkthrough. The workspace now includes imported local inputs, a reproducible file and return check, and illustrative notebook calculations. See the [data inventory](data/README_data.md) for the empirical scope. Human calibration is deferred. Historical results, tested features and strategy admissions require evidence attached to the new checklist before being marked complete here.
+The previous iteration reported an implemented profile, simulated routes, local historical experiments and a synthetic portfolio walkthrough. The workspace now includes imported local inputs, a reproducible file and return check, and illustrative notebook calculations. See the [data inventory](data/README_data.md) for the empirical scope. Questionnaire interpretation uses hypothetical cases and synthetic checks. Historical results, tested features and strategy admissions require evidence attached to the new checklist before being marked complete here.
 
 Exercise the full browser journey with a feasible goal, an uncertain profile, an infeasible goal and a stale feed. Reproduce public examples from a fresh checkout and review permissions before sharing. Build the course pitch around one client's mandate, the alternatives, the uncertainty that matters to their choice and the evidence that would justify a future change.

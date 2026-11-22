@@ -82,7 +82,7 @@ def profile_result(d, answers):
     r = report(answers)
     st.subheader("One-year risk tolerance")
     st.caption(
-        "Experimental model. Higher φ gives more weight to avoiding fluctuations."
+        "In these hypothetical choices, higher φ means giving more weight to avoiding fluctuations."
     )
     if r["status"] == "conflict":
         st.warning(
@@ -95,7 +95,7 @@ def profile_result(d, answers):
     else:
         st.write(f"Values compatible with your choices: {band(r['low'], r['high'])}.")
         st.caption(
-            "This range follows from your answers and the one-year model. Individual confidence probabilities require participant calibration."
+            "This range shows which values fit your answers under the one-year model."
         )
     st.subheader("Financial capacity")
     c = evaluate(d)["capacity"]
@@ -125,6 +125,7 @@ def profile_result(d, answers):
         )
     st.write("Hard exclusions", d.get("exclusions") or "Unanswered")
     st.subheader("Choices and review preferences")
+    st.caption("These answers describe what you might do in the scenarios shown.")
     for flag, msg in [
         (
             "discomfort",

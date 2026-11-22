@@ -6,7 +6,7 @@ The project has a credible sequence from household mandate through dated researc
 
 | Area | What the previous protocol covered | What the audit changed and how to verify it |
 |---|---|---|
-| Questionnaire | Common core, passes, comprehension, participant splits and held-out choices | 2.2–2.3 distinguish change of stake, wording and routing exposure from individual preference. Report conditional agreement, coverage and extreme-case missing-outcome bounds. Randomization among equally eligible participants applies if claiming a causal effect of offering a probe. |
+| Questionnaire | Common core, explicit alternatives, passes, held-out choices and simulated routes | Under the revised scope, 2.3.2 documents plausible interpretations, confounding and the permitted profile change. Behavioral prevalence and causal effects are unknown. |
 | Market panel | As-of joins, delistings, FX and common samples | 3.1–3.2 measure entry backfill, non-synchronous closes and linkage by size/sector. Compare eligible, matched and full fallback samples. Check whether rank or mandate suitability changes under alternative coverage. |
 | Conditional forecasts | Chronological splits, GARCH diagnostics, loss and interval scoring | H01 distinguishes integrated variance from cumulative-return variance. H02 keeps failed fits in the deployed policy. H03 refits generated factors when estimating uncertainty. The H04 notebook now emits forecasts for the latest origin before a label exists and evaluates outcomes separately. |
 | Hypothesis testing | HAC, bootstrap and multiplicity registration | 1.2, 5.2 and 7.2 add simulation-based design power, joint date resampling across competing rules, explicit equivalence margins and independent confirmation. Report economic magnitude and sensitivity, including a negative or inconclusive finding. |
@@ -35,11 +35,11 @@ Tasks 6.1.3–6.2.2 and 7.2.1 operationalize dual sensitivity (00), specificatio
 
 ## Corrective actions at the client decision
 
-Tasks 2.1.2 and 9.1.1 test whether preferences and liquidity have distinct effects. Tasks 2.2.5 and 2.3.2 retain uncertainty and measure incremental interview value. Tasks 5.2.3 and 6.2.2 prevent horizon extrapolation and define no-signal or unresolved outcomes. Tasks 6.1.2 and 7.2.1 isolate the allocator's contribution with identical mandates and fair controls. Task 8.2.1 distinguishes an inconclusive discretionary trade from a binding liquidity change. The notebook includes synthetic counterfactuals and hold/fallback decisions; market and participant evidence remain open.
+Tasks 2.1.2 and 9.1.1 test whether preferences and liquidity have distinct effects. Tasks 2.2.5 and 2.3.2 retain uncertainty and illustrate the information supplied by a follow-up. Tasks 5.2.3 and 6.2.2 prevent horizon extrapolation and define no-signal or unresolved outcomes. Tasks 6.1.2 and 7.2.1 isolate the allocator's contribution with identical mandates and fair controls. Task 8.2.1 distinguishes an inconclusive discretionary trade from a binding liquidity change. The notebook includes synthetic counterfactuals and hold/fallback decisions; market evidence remains open. Questionnaire cases are theoretical throughout.
 
 ## Evidence still required
 
-This is a design and code-example audit. The [local import review](data/README_data.md) records which market files have arrived. Quantifying remaining bias needs validated point-in-time inputs, independently observed forecast errors, fill/cost evidence and participant responses. For each study report the size of the exposed sample, estimated direction of bias, change in outcome under the alternative specification, residual uncertainty and the resulting decision. Preserve the simple fallback when the evidence cannot distinguish the candidates.
+This is a design and code-example audit. The [local import review](data/README_data.md) records which market files have arrived. Quantifying remaining bias needs validated point-in-time inputs, independently observed forecast errors and evidence of fills and costs for the market studies. The questionnaire analysis is limited to theory and synthetic routes. For each study report the size of the exposed sample, estimated direction of bias, change in outcome under the alternative specification, residual uncertainty and the resulting decision. Preserve the simple fallback when the evidence cannot distinguish the candidates.
 
 
 ## Final cross-check against the course method inventory
