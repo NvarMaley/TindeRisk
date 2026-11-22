@@ -50,3 +50,7 @@ All 59 task IDs in the methodological review retain a named bias control and a n
 ## Seven-signal research extension · 22 November 2026
 
 The primary specifications were committed before scoring. Publication-delay and instrument-influence checks were recorded after the first replay and are secondary. The French portfolio spreads have a different endpoint from stock rank IC. The Apple filing verifies one dated security and leaves the population-level test open. The frozen Fed download lacks historical vintages. The family correction covers seven comparisons in this extension, and the inspected history supplies zero independent outcome months. [Protocol](research/robustness/PROTOCOL.md) · [Results, research uses and admission decisions](research/robustness/README.md)
+
+## Section 6.1 · 23 November 2026
+
+The same CHF reserve, input cutoff, eligible instruments, initial cash, risk cap, execution dates and modeled costs apply across allocations. Exact cash and infeasible mandate cases are retained. Reported bootstrap counts include all attempted allocations, with a second feasibility screen when estimated weights are assessed under the original covariance. Holding-period outcomes use household wealth before external withdrawals. The prespecified classical and robust objectives measure different things. Use common net mean, risk and funded outcomes to compare them. The archived quotes do not establish executable volume or actual initial spreads. [Protocol](research/frontier/PROTOCOL.md) · [Evidence](research/frontier/README.md)

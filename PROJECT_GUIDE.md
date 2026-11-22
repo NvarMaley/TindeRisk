@@ -96,6 +96,8 @@ Record the forecast origin, horizon, target, units, currency, point or interval 
 
 ### Step 8. Estimate the feasible frontier and connect it to the client (checklist chapter 6)
 
+The [section 6.1 implementation and results](research/frontier/README.md) compare eight allocations at five risk limits. The dated CHF example and uncertainty checks give the inputs for section 6.2.
+
 Protect reserves first, then apply investability, liquidity, currency, concentration and ethical constraints. Compare simple equal-weight and fixed-mix benchmarks with constrained minimum variance, equal risk contribution and research-supported alternatives. Sweep risk budgets, save solver status and binding constraints, remove dominated choices and report infeasible cases. Perturb expected returns, covariances and costs, then examine whether small changes overturn the allocation.
 
 For a portfolio with weights w, use the one-period mean–variance approximation:
