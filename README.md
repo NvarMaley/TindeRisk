@@ -6,7 +6,7 @@ RiskMatch is a planned English-language web app for people investing toward a fi
 
 Read the [detailed project guide](PROJECT_GUIDE.md) for the study setup and eleven subsequent steps, research methods, worked examples and rationale behind each client decision.
 
-For card authors and report writers, the [questionnaire design and research rationale](questions/QUESTIONNAIRE_DESIGN.md) records the core allocation, adaptive branches, scoring assumptions and validation plan.
+For card authors and report writers, the [questionnaire design and research rationale](questions/QUESTIONNAIRE_DESIGN.md) records the core allocation, adaptive branches, scoring assumptions and validation plan. The [card-by-card guide](questions/GUIDE_DES_CARTES.md) lists every English prompt with a French interpretation and its effect on the client profile.
 
 ## Run the factual intake and risk interview
 
