@@ -1,0 +1,86 @@
+[
+  {
+    "device": "desktop",
+    "case": "unresolved tolerance",
+    "expected": "comprehension unresolved",
+    "actual": "Risk interval \u00b7 comprehension unresolved",
+    "status": "pass"
+  },
+  {
+    "device": "desktop",
+    "case": "failed signal and unresolved comparison",
+    "expected": "choice remains open",
+    "actual": "No signal has independent approval. The no-view baseline applies. The illustrative 95% range for the annual return difference is -3.8% to 5.6%; the choice remains open.",
+    "status": "pass"
+  },
+  {
+    "device": "desktop",
+    "case": "funded account",
+    "expected": "15,000.00",
+    "actual": "15,000.00",
+    "status": "pass"
+  },
+  {
+    "device": "desktop",
+    "case": "confirmed trade",
+    "expected": "accept",
+    "actual": "Last review response \u00b7 accept",
+    "status": "pass"
+  },
+  {
+    "device": "desktop",
+    "case": "stale feed",
+    "expected": "proposals suspended",
+    "actual": "stale FX. Last reliable valuation 2026-11-24T22:10:00Z. Trading proposals suspended.",
+    "status": "pass"
+  },
+  {
+    "device": "desktop",
+    "case": "infeasible bill",
+    "expected": "5,000.00 CHF",
+    "actual": "Funding shortfall: 5,000.00 CHF. First affected date: 2027-11-23.",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "unresolved tolerance",
+    "expected": "comprehension unresolved",
+    "actual": "Risk interval \u00b7 comprehension unresolved",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "failed signal and unresolved comparison",
+    "expected": "choice remains open",
+    "actual": "No signal has independent approval. The no-view baseline applies. The illustrative 95% range for the annual return difference is -3.8% to 5.6%; the choice remains open.",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "funded account",
+    "expected": "15,000.00",
+    "actual": "15,000.00",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "confirmed trade",
+    "expected": "accept",
+    "actual": "Last review response \u00b7 accept",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "stale feed",
+    "expected": "proposals suspended",
+    "actual": "stale FX. Last reliable valuation 2026-11-24T22:10:00Z. Trading proposals suspended.",
+    "status": "pass"
+  },
+  {
+    "device": "mobile",
+    "case": "infeasible bill",
+    "expected": "5,000.00 CHF",
+    "actual": "Funding shortfall: 5,000.00 CHF. First affected date: 2027-11-23.",
+    "status": "pass"
+  }
+]

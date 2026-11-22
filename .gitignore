@@ -15,3 +15,6 @@ data/additional_data/clean/daily_returns.parquet
 data/additional_data/clean/monthly_panel.parquet
 data/additional_data/raw/wrds/crsp_msf.csv
 data/additional_data/raw/wrds/crsp_dsf.csv
+research/execution/results/orders.parquet
+research/execution/results/daily.parquet
+.riskmatch-local/

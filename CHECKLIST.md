@@ -8,7 +8,7 @@ Work down the numbered tasks. Each box describes an action, method and observabl
 
 [Methodology audit](METHODOLOGY_AUDIT.md) records the course crosswalk, priority findings and conditional extensions. For each bias check record the exposed population, expected direction (or unknown), control result, sensitivity of the client decision and unresolved limitation. An unchecked task may have a documented design and still lack empirical evidence.
 
-The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. Empirical admission remains open under tasks 6.1.3, 6.1.4, 6.2.2 and 7.2.1.
+The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. The historical comparisons are complete. Section 7.2 records the decision to withhold prospective admission.
 
 ### Course acceptance evidence (brief slides 3–4)
 
@@ -345,33 +345,37 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 7.1 Replay realistic transactions
 
+**Implementation and evidence.** [Funded execution replay](research/execution/README.md).
+
 **Evidence to retain:** order, fill, cash and cost ledgers. **Course reading:** [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md) · [Guide Ultime Chapitre 06](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_06.md).
 
-- [ ] **7.1.1** At every origin save eligible data, forecast, signal and intended order before the execution timestamp. Execute at the first eligible quote under the registered rule. Verify a next-close order earns no return before its fill.
+- [x] **7.1.1** At every origin save eligible data, forecast, signal and intended order before the execution timestamp. Execute at the first eligible quote under the registered rule. Verify a next-close order earns no return before its fill.
   - **Procedure.** Create decision and fill tables with origin, data cutoff, intended weights, quote, executable timestamp, fill status and first holding interval. Store orders before outcome evaluation.
   - **Verification and failure handling.** Move every post-decision observation and verify past orders are invariant. Check a next-close buy manually and a skipped fill with unchanged units.
   - **Bias and control.** Unfillable signals. Simulate a missed or partial fill and an unavailable quote. Report attempted versus filled orders and delay. No profit accrues on unfilled units.
-- [ ] **7.1.2** Maintain shares, cash, FX, reserves, external flows and costs. Charge on amounts traded from drifted weights. Reconcile gross and net wealth against hand examples for initial purchase, no trade, sale and withdrawal.
+- [x] **7.1.2** Maintain shares, cash, FX, reserves, external flows and costs. Charge on amounts traded from drifted weights. Reconcile gross and net wealth against hand examples for initial purchase, no trade, sale and withdrawal.
   - **Procedure.** Ledger identities: wealth=cash+Σunits×price×FX; cash_after=cash_before+external_flow−Σsigned_trade_value−fees. Estimate half-spread on gross traded notional; report one-way turnover convention separately. Use bid/ask fills or spread model once.
   - **Verification and failure handling.** Reconcile each fill to currency rounding tolerance, cash availability and fees. Compare zero-cost, positive-cost, no-trade and restricted-liquidity withdrawal paths.
   - **Bias and control.** Double counting spread, management fees or FX. Compare mid-plus-explicit-cost and bid/ask fill ledgers on a known trade. Record embedded versus additional charges per instrument.
   - **Liquidity and implementation bias.** Compare planned trade notional with observable lagged volume, timestamped spread and settlement. When available, report decision-to-fill implementation shortfall and opportunity cost on unfilled amounts. If only closing prices exist, stress participation limits, slippage and partial fills and label costs modeled. Archive the wealth/withdrawal sensitivity, including unfilled orders.
-- [ ] **7.1.3** Compare buy-and-hold and simple rebalancing over the same dates. Stress costs, calendars, crises, estimation windows and missed trades. Report net wealth, drawdown, turnover, risk breaches and withdrawal shortfalls.
+- [x] **7.1.3** Compare buy-and-hold and simple rebalancing over the same dates. Stress costs, calendars, crises, estimation windows and missed trades. Report net wealth, drawdown, turnover, risk breaches and withdrawal shortfalls.
   - **Procedure.** Run a walk-forward panel of strategies, comparisons and cost levels on matching dates. Stress warm-up, FX, execution lag, spread widening and missed trades with prespecified variants.
   - **Verification and failure handling.** Report paired terminal wealth, annualized return, max drawdown, ES, turnover, cash shortfall and breach duration. A result that reverses under plausible cost or date choices is flagged.
   - **Bias and control.** Path dependence. Keep the same return paths and cash flows across strategies and include an adverse ordering before withdrawal. Report the difference between terminal wealth and cash available on the exact due date.
 
 ### 7.2 Decide what may reach the application
 
+**Implementation and evidence.** [Signed demonstration catalogue](research/catalogue/README.md).
+
 **Evidence to retain:** study disposition and signed catalogue version. **Course reading:** [Guide Ultime Chapitre 22](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_22.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
 
-- [ ] **7.2.1** Review frozen out-of-sample results against the registered economic threshold and paired uncertainty. Label retrospective results. Record retain, reject or descriptive-only for every study with a reason.
+- [x] **7.2.1** Review frozen out-of-sample results against the registered economic threshold and paired uncertainty. Label retrospective results. Record retain, reject or descriptive-only for every study with a reason.
   - **Procedure.** Compare paired net outcome and its block interval with the predeclared minimum useful gain and admissibility constraints. Distinguish development, retrospective and genuinely prospective evidence.
   - **Verification and failure handling.** Produce one retain/reject/inconclusive record per variant including failures and reasons. Do not reuse the final period after changing a rule.
   - **Bias and control.** Absence-of-evidence error. Compare the interval with the material-gain threshold. Claim practical equivalence only with prespecified equivalence margins and suitable interval/test; wide uncertainty remains inconclusive.
   - **Paired client-value test (guides 01 V18 and 04 §4.15.5).** Register one primary horizon, φ range, economic gain threshold and fallback before outcomes. Archive both frontiers and weights at each common origin. Compare net mean–variance scores on realized returns with the same household wealth base and horizon as φ. Recompute mean and variance per strategy inside each paired date-block draw. Report Δscore and intervals, turnover, costs, risk breaches and uncovered cash at due dates. Label this as mean–variance utility; an exact certainty equivalent requires a specified utility and inversion. Display dated estimated frontiers on common axes and realized comparisons in a separate table. Show sensitivity across prespecified windows, covariance estimators and fee levels. Record inconclusive results and keep the simpler benchmark when evidence is insufficient.
   - **Allocation experiment.** Keep the mandate and permitted information fixed; compare fixed mix, classical and robust frontiers over the same origins. Evaluate paired net utility, shortfall at withdrawal, breaches and turnover. With fictional mandates label results as conditional on those mandates. Retain the admissible baseline if the improvement is too small or inconclusive. Record questionnaire validation separately.
-- [ ] **7.2.2** Independently reproduce admitted catalogue entries, costs and mandate screens. Attach as-of date, uncertainty, fallback and data permissions. Check that a failed study cannot silently enter a recommendation.
+- [x] **7.2.2** Independently reproduce admitted catalogue entries, costs and mandate screens. Attach as-of date, uncertainty, fallback and data permissions. Check that a failed study cannot silently enter a recommendation.
   - **Procedure.** Freeze catalogue rows with study version, eligible mandate class, currency, date, benchmark, fee assumptions, forecast expiry, permissions and fallback. Rebuild from immutable source IDs.
   - **Verification and failure handling.** Have a reviewer rerun a selected row and a rejected row. Only approved, unexpired records pass the app eligibility query.
   - **Bias and control.** Selective promotion. Include rejected and expired entries with reason codes. Verify that changing the candidate cannot inherit a prior candidate's holdout status.
@@ -380,27 +384,31 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 8.1 Value the selected allocation
 
+**Implementation and evidence.** [Local fictional portfolio monitor](research/monitor/README.md).
+
 **Evidence to retain:** holdings snapshot and valuation reconciliation. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 26](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_26.md).
 
-- [ ] **8.1.1** Persist confirmed mandate, allocation, units, cash, model version and selection date. Connect an authorized close/FX feed with timestamps, refresh policy and stale-data handling. Test missing, delayed and corrected quotes.
+- [x] **8.1.1** Persist confirmed mandate, allocation, units, cash, model version and selection date. Connect an authorized close/FX feed with timestamps, refresh policy and stale-data handling. Test missing, delayed and corrected quotes.
   - **Procedure.** Use versioned holdings and append-only close/FX observations, provider timestamp, retrieval time, calendar and correction lineage. Store model and consent versions at selection.
   - **Verification and failure handling.** Test missing market day versus holiday, stale FX with fresh asset prices and vendor correction. Display last reliable valuation and withhold actionable proposals on stale inputs.
   - **Bias and control.** Feed survivorship and revision. Preserve as-received and subsequently corrected valuations. Report unavailable valuation days and elapsed quote age.
-- [ ] **8.1.2** Chart total value, flows, net time-weighted performance, drawdown, drift and goal progress. Show last refresh and distinguish projections. Test that a withdrawal reduces value without creating a fictitious investment loss.
+- [x] **8.1.2** Chart total value, flows, net time-weighted performance, drawdown, drift and goal progress. Show last refresh and distinguish projections. Test that a withdrawal reduces value without creating a fictitious investment loss.
   - **Procedure.** For end-period cash flow F compute subperiod return (V_end−F)/V_start−1, chain subperiods for TWR. Split at actual flows when timestamps allow. Document timing assumptions where unavailable.
   - **Verification and failure handling.** Use a zero-market-return withdrawal and a deposit during a price move. Reconcile chart change into market P&L, FX, fees and external flows.
   - **Bias and control.** Cash-flow timing bias. Reconcile a same-day deposit before versus after a price change; disclose when only end-of-day flows permit an approximation.
 
 ### 8.2 Decide whether to rebalance
 
+**Implementation and evidence.** [Confirmed reviews and shadow holdings](research/monitor/README.md).
+
 **Evidence to retain:** hold/trade comparison and confirmation events. **Course reading:** [Guide Ultime Chapitre 21](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_21.md) · [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md).
 
-- [ ] **8.2.1** Trigger review after material drift, changed risk, a due expense or a revised mandate. Compare hold versus trade on identical assumptions. Show turnover, costs, liquidity and expected effect on the goal.
+- [x] **8.2.1** Trigger review after material drift, changed risk, a due expense or a revised mandate. Compare hold versus trade on identical assumptions. Show turnover, costs, liquidity and expected effect on the goal.
   - **Procedure.** Run hold and proposed trade from identical current holdings, timestamps, cash forecasts and costs. Estimate post-trade risk drift and net change in withdrawal coverage.
   - **Verification and failure handling.** Compare accepted, declined and hold outcomes without attributing selection effects to the intervention. Allow hold when benefit is within estimation or cost uncertainty.
   - **Bias and control.** Self-selection into trades. Compute a dated shadow hold path for every eligible proposal with identical flows and executable prices. Describe acceptance-conditioned outcomes separately; attribution to the intervention needs a credible comparison design.
   - **Hold or trade.** Freeze the materiality margin, costs and uncertainty rule before testing. For a discretionary rebalance, keep the current eligible allocation if the paired net benefit is inconclusive. A new hard constraint or withdrawal triggers a funding review even if expected return barely changes; show the least disruptive feasible correction, or the uncovered amount if none exists. Request confirmation.
-- [ ] **8.2.2** Require explicit client confirmation and log declines, holds and accepted changes. Suspend proposals on stale inputs. Test double confirmation, inability to sell, settlement delay and insufficient liquidity.
+- [x] **8.2.2** Require explicit client confirmation and log declines, holds and accepted changes. Suspend proposals on stale inputs. Test double confirmation, inability to sell, settlement delay and insufficient liquidity.
   - **Procedure.** Persist review ID, mandate version and decision before applying one simulated trade. Treat repeated confirmations idempotently and revalue if the quote or mandate changes.
   - **Verification and failure handling.** Test duplicate confirmation, expired proposal, delayed settlement and insufficient available cash. Reconcile the final units to a single confirmed execution.
   - **Bias and control.** Repeated-action bias. Report unique proposals, stale expiries, declines and duplicate confirmations. Trace one decision to one execution or a documented no-trade outcome.
@@ -409,9 +417,11 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 9.1 Demonstrate the complete workflow
 
+**Implementation and evidence.** [Course release and client pitch](research/release/README.md).
+
 **Evidence to retain:** release evidence and client pitch trace. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
 
-- [ ] **9.1.1** Run unit, integration and mobile/desktop browser checks. Exercise uncertain profile, infeasible goal, missing private files, stale feeds and the full confirmed journey. Store commands, outcomes and known limitations.
+- [x] **9.1.1** Run unit, integration and mobile/desktop browser checks. Exercise uncertain profile, infeasible goal, missing private files, stale feeds and the full confirmed journey. Store commands, outcomes and known limitations.
   - **Procedure.** Create end-to-end fixtures linking participant events, mandate, as-of market snapshot, order and dashboard. Run pytest plus mobile/desktop browser smoke tests with a documented seed.
   - **Verification and failure handling.** Save expected/actual amounts and screenshots of uncertain, infeasible and stale states. A skipped integration test stays explicitly unverified.
   - **Bias and control.** Happy-path testing. Include failed imports, timeouts and incomplete profiles in test denominators. Allocate independent fixtures to developer tests and acceptance tests.
@@ -420,10 +430,13 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
   - **Procedure.** Create a redistributable input manifest, environment lock, run command and permissions table covering data, course texts and participant records. Test synthetic route in a network-free checkout.
   - **Verification and failure handling.** Compare expected hashes/metrics. Check exports for private fields and verify deletion on a synthetic participant.
   - **Bias and control.** Irreproducible provenance. Compare a fresh-clone input/version manifest to the approved one. Record private components the public reviewer cannot reproduce.
+  - [x] The synthetic-only package was reproduced from a fresh remote checkout. Distribution rights for archives already tracked in the public research repository remain open.
 - [ ] **9.1.3** Prepare the 15-minute client pitch around one mandate, two feasible alternatives or a documented shortfall, and a dated review. Cross-check figures against the notebook, course requirements against 1.1.1 and release decisions against the journal.
   - **Procedure.** Trace each reported number to study ID, sample dates, fee convention and notebook output. Use a client scenario to demonstrate uncertainty and a dated review decision.
   - **Verification and failure handling.** Rehearse to the course time limit. Have a second reader reproduce one slide number and identify where the scenario could fail.
   - **Bias and control.** Presentation cherry-picking. Choose the demo scenario before inspecting its performance and show a failure or infeasible case alongside it. Trace every headline result to its full denominator.
+
+  - [x] The seven-slide pitch, timed script and independent numerical checks are complete. A second human reader and live questions remain unverified.
 
 ## Quantitative tool selection before the course presentation
 

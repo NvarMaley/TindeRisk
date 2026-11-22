@@ -10,6 +10,21 @@ st.set_page_config(page_title="RiskMatch · Portfolio options", layout="wide")
 DATA = Path(__file__).resolve().parents[2] / "research/options/results"
 
 
+import os
+import sys
+
+sys.path[:0] = [str(DATA.parents[2] / "src"), str(DATA.parents[2] / "app")]
+if (
+    os.environ.get("RISKMATCH_PUBLIC_DEMO") == "1"
+    or not (DATA / "options.csv").exists()
+    or st.session_state.get("portable_case")
+):
+    from demo_options import show
+
+    show()
+    st.stop()
+
+
 @st.cache_data
 def table(name):
     return pd.read_csv(DATA / (name + ".csv"))
@@ -210,6 +225,16 @@ else:
     )
 if st.button("Keep this example choice for this session"):
     st.session_state["example_option_choice"] = (names[arm], cap)
+    st.session_state["monitor_selection"] = dict(
+        arm=arm,
+        cap=cap,
+        weights=[float(r[a]) / 35000 for a in ["SPY_chf", "IEF_chf", "GLD_chf"]],
+        profile=profile["status"],
+    )
 if "example_option_choice" in st.session_state:
     title, limit = st.session_state["example_option_choice"]
     st.write(f"Your saved example choice · {title}, {limit:.0%} sleeve risk limit.")
+
+if "monitor_selection" in st.session_state:
+    if st.button("Open the fictional portfolio monitor"):
+        st.switch_page("pages/2_Portfolio_monitor.py")

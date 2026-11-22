@@ -15,14 +15,15 @@ with sync_playwright() as p:
         def button(label):
             page.get_by_role("button", name=label, exact=True).click()
 
-        for label in [
-            "Continue",
-            "Continue",
-            "Continue",
-            "Review mandate",
-            "Open risk interview",
+        for label, next_title in [
+            ("Continue", "Resources"),
+            ("Continue", "Protected money"),
+            ("Continue", "Expectations and preferences"),
+            ("Review mandate", "Your mandate"),
         ]:
             button(label)
+            expect(page.get_by_role("heading", name=next_title, exact=True)).to_be_visible()
+        button("Open risk interview")
         f = page.frame_locator("iframe").last
         stmt = f.locator("#statement")
         expect(stmt).to_contain_text("CHF 900", timeout=12000)

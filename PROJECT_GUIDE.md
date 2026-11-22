@@ -4,6 +4,10 @@ RiskMatch is an English-language web app built around one person's financial goa
 
 A successful outcome can be two defensible alternatives, a decision to hold, or an explanation that the original goal cannot be funded under the stated constraints. This guide explains how the team reaches those decisions. The [checklist](CHECKLIST.md) gives the numbered implementation tasks, the [notebook](RiskMatch.ipynb) records calculations and the [journal](DECISION_LOG.md) records decisions.
 
+## Course demonstration
+
+Start with the CHF 50,000 case and trace the protected CHF 15,000 payment from intake to review. The historical replay compares 462 execution cases. The signed catalogue admits a manual fictional selection for the monitor. The monitoring walkthrough uses its own market updates. The release contains the portable app, seven-slide pitch, expected and observed browser outcomes and the distribution audit. [Replay](research/execution/README.md) · [Catalogue](research/catalogue/README.md) · [Monitor and review](research/monitor/README.md) · [Course delivery](research/release/README.md)
+
 ## Before the three product phases
 
 ### Step 0. Define what research could change (checklist chapter 1)

@@ -2,7 +2,9 @@
 
 This repository mirrors the local RiskMatch workspace, including research data and excluding `Theory/`. Four large inputs are stored as lossless compressed chunks. After cloning, run `python3 research/restore_large_data.py` before running data checks. See [data restoration](data/archive_parts_README.md).
 
-RiskMatch is a planned English-language web app for people investing toward a financial goal. A short factual intake and adaptive swipe interview establish a mandate. The research engine will estimate which combinations of net return and risk are attainable within it. The client will compare feasible options, select an allocation and review it as markets or personal circumstances change.
+RiskMatch is an English-language course web app for people investing toward a financial goal. A short factual intake and adaptive swipe interview establish a mandate. The research engine estimates which combinations of net return and risk are attainable within it. The client can compare feasible options, select an allocation and review it as markets or personal circumstances change.
+
+**Run the course demonstration.** Download the [standalone fictional CHF app](research/release/RiskMatch-demo.zip), extract it and follow its README. The archive runs independently of the research data. The [client pitch](research/release/RiskMatch-client-pitch.pptx) and [release evidence](research/release/README.md) cover the dated withdrawal, feasibility, costs, review, and open source-rights and human-review items.
 
 Read the [detailed project guide](PROJECT_GUIDE.md) for the study setup and eleven subsequent steps, research methods, worked examples and rationale behind each client decision.
 
@@ -37,7 +39,7 @@ The workspace now includes local market, macro, WRDS and laboratory inputs and p
 
 For the course, demonstrate one investment strategy end to end: turn a client's dated withdrawal into a reserve, screen eligible assets, sweep risk limits with constrained mean–variance optimization, compare with a simple allocation and show whether weights change under covariance or cost assumptions. Let the client change an input in Streamlit and inspect the result. Link the working app and GitHub code and rehearse a 15-minute client pitch including live questions. Use the CHF 50,000 / CHF 15,000 withdrawal as one reproducible example. H01–H07, extended forecasting and ongoing monitoring remain on the broader product roadmap. Select extensions for the presentation when their measured effect changes the client decision.
 
-The quantitative extension compares a classical frontier with one that penalizes uncertainty in expected returns. A shadow-price check verifies the local value of the risk constraint, and a reverse stress identifies the withdrawal funding boundary. Install `python -m pip install -r requirements-frontier.txt` for the optional synthetic solver example and figure. The empirical comparison remains open.
+The quantitative extension compares a classical frontier with one that penalizes uncertainty in expected returns. A shadow-price check verifies the local value of the risk constraint, and a reverse stress identifies the withdrawal funding boundary. Install `python -m pip install -r requirements-frontier.txt` for the optional synthetic solver example and figure. The [paired annual comparison](research/catalogue/client_value.csv) covers seven historical cohorts. Its uncertainty leaves prospective admission open.
 
 ## Product decisions carried forward
 
