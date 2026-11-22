@@ -1,0 +1,4 @@
+dataset,provider,source_url_or_query,downloaded_at_utc,frequency,start_date,end_date,units,rows,sha256,validation_status
+vixcls,"FRED, Federal Reserve Bank of St. Louis",https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS,2026-10-18T11:29:15Z,daily,1990-01-02,2026-10-15,index points,9296,90b0099e6536c38d8ed72ef4347977722f33648bb7458827f6c6e5b17a18332c,parsed
+usrec,"FRED, Federal Reserve Bank of St. Louis",https://fred.stlouisfed.org/graph/fredgraph.csv?id=USREC,2026-10-18T11:29:15Z,monthly,1854-12-01,2026-09-01,1 = recession month,2062,a42a3581fe9c260dd3627febc84a7d563e5ed162cc7085a7518ebde99dc3c3b4,parsed
+gs10,"FRED, Federal Reserve Bank of St. Louis",https://fred.stlouisfed.org/graph/fredgraph.csv?id=GS10,2026-10-18T11:29:15Z,monthly,1953-04-01,2026-09-01,percent,882,40323f225e613a19a4eec7eef20523dec10764de21c70cd1416a7379fb7f13b6,parsed

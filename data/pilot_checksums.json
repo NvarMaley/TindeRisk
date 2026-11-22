@@ -10,6 +10,6 @@
   "data/processed/market_observation_provenance.parquet": "18e99420cfb0ee1eb2d54b2efaa23182190c6ed577288de0206349ec4dc99edb",
   "data/processed/sentiment_observation_provenance.parquet": "33b14d9eddeb6788c96d840ad545bcb53367ff11850472a4d8201ef7909ca7e1",
   "data/additional_data/clean/monthly_panel.parquet": "6f98a17a90b97220ad5c3910b3c1e9e6bd3a25bd517da866ff134018b845223b",
-  "questions/bank.json": "417e07ac662d3f1a8f635a058a63abb57d72d593f0b332fa1c1cb2a03e2602a9",
+  "questions/bank.json": "8e9c5f7a601872f2c16cc98f88b3f0a12671356801c5dff04758a418a5f07731",
   "questions/transfer_validation.json": "b1cee1223a0d257b8f07ac6718e7ee9cb047d460c75dcde4e89893b3e24c77fc"
 }

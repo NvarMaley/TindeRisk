@@ -1,22 +1,17 @@
-# RiskMatch decision log
+# Decision journal
 
-## 2026-11-21 — English as the project language
+| Date | Checklist reference | Decision and reason | Evidence or review trigger |
+|---|---|---|---|
+| 2026-11-22 | Setup | Start in a new Desktop directory with English documentation and a synthetic notebook. Keep prior work outside the new project to make provenance explicit. | No repository initialized. Review the course brief and inputs in chapter 1. |
+| 2026-11-22 | 2–9 | Carry forward the three product phases, adaptive swipe design, study-specific universes and net feasible frontier. Defer the human pilot. | Revisit calibration after participant testing and catalogue membership after out-of-sample evaluation. |
+| 2026-11-22 | 2.2.6 | Preserve response uncertainty, test whether one answer drives a decision and use neutral clarification when it matters. | Review individual repeatability and held-out agreement in the deferred pilot before claiming statistical confidence. |
+| 2026-11-22 | 1–9 | Expanded all 59 tasks with execution procedures, rejection checks, acquisition fields and matching notebook evidence slots. Added the local course crosswalk and synthetic calculation checks. | Re-evaluate with authorized inputs, human pilot and frozen evaluation windows. |
+| 2026-11-22 | 1–9 | Audited the 59 methodological tasks against the local course corpus. Linked each task to a bias control and an evidence field. Corrected the live-origin prediction example and added funding, preference-scale and incomplete-pilot checks. | Empirical calibration, independent validation and catalogue admission remain open. |
+| 2026-11-22 | 2–7 | Added seven targeted controls and a course tool-selection table. Added an executable serial-dependence check to the notebook. | Confirm empirical feasibility from participant counts, forecast origins and executable price/volume history. |
+| 2026-11-22 | 1.1.1, 3.1.4, 9.1 | Mapped the QARM presentation to one constrained strategy and recorded receipt of the local market, macro, WRDS and lab pack. Classified the historical CHF walkthrough separately from the synthetic fixture and replaced the obsolete import command. | Reconcile rights, as-of availability and study samples before publishing or admitting strategies. |
+| 2026-11-22 | 6.1.3–7.2.1 | Selected a classical versus robust frontier comparison with a dual sensitivity check and reverse withdrawal stress for the QARM demonstration. Added runnable synthetic examples. | Freeze the radius, resampling rule, cost model and evaluation sample before any empirical superiority claim. |
+| 2026-11-22 | 2–9 | Separated interview evaluation and fixed-mandate portfolio evaluation. Added reserve invariance, horizon-specific evidence, a feasible comparator, no-signal fallback and client decisions for uncertain rankings. | Test human calibration, independent portfolio outcomes and the corresponding UI once implemented. |
+| 2026-11-22 | 5.2.4 | Added a forecast-combination comparator alongside standalone forecasts and the baseline. | Admit by forward predictive performance and evaluate portfolio impact separately. |
+| 2026-11-22 | 3.1.4, 5.2.4 | Aligned the project overview, notebook and forecast protocol. Scope the legacy pilot checksums to imported data so new card versions can be independently validated. | Recheck data hashes on vintage changes and test the new card bank under its own version. |
 
-The project owner chose English for project files and folder names. This includes client-facing questions, documentation, research terminology, Python identifiers and messages, notebook cells and generated output. Imported course materials and datasets keep their original contents and filenames.
-
-| Change | Current location |
-|---|---|
-| Client profile specification and research protocol | [Client profile](CLIENT_PROFILE.md) and [research](RESEARCH.md) |
-| English card bank and separate transfer items | [60 cards](questions/bank.json) and [4 transfer items](questions/transfer_validation.json) |
-| Data audit and pinned pilot dependencies | [Audit module](data_audit.py) and [requirements](requirements-pilot.txt) |
-| Course groupings | `Theory/CFA/`, `Theory/Course_Notes/`, `Theory/Methodology/` and `Theory/Quant_Project/` |
-| Local research data and input checksums | `data/additional_data/` and [pilot checksums](data/pilot_checksums.json) |
-| In-progress profile, mandate and CHF demonstration | [Profile](riskmatch/profile.py), [mandate](riskmatch/mandate.py) and [catalogue generator](riskmatch/catalogue.py) |
-
-The English questionnaire uses schema version `1.0-pilot-en` and the separate transfer set uses `pilot-1-en`. Field names and labels changed together with their readers. Card IDs, canonical answer order, stakes, outcomes, probabilities and financial thresholds were preserved. The input manifest records the two new questionnaire hashes. Market and course inputs retained their previous content.
-
-**Verification.** Compared the original and English implementations on 1,000 seeded response paths covering all 60 cards. The paths, numerical φ bounds, held-out predictions and allocation choices matched. Verified hashes for 1,110 local course and data files across the directory renames, excluding operating-system metadata. The notebook reproduces the input audit and contains an executable check of the English bank at Step 3.1d.
-
-**Team repository.** The reworked project replaces the previous tree on the default branch. The public source includes the synthetic demo, the English cards and the code for rebuilding the historical walkthrough from authorized local inputs.
-
-**Handoff.** Development of the first product phase paused for this migration. The client specification and card bank are available for review. Human comprehension, timing, category calibration and the one-week retest remain open. Test the English wording in the pilot.
+For subsequent decisions, record the alternatives, the evidence available at the time, the chosen action and the condition for revisiting it.
