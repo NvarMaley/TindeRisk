@@ -123,6 +123,7 @@ The [simulation](research/questionnaire_validation/SIMULATION.md) reached 60/60 
   - **Bias and control.** Simulator confirmation bias. Generate stress routes outside the scoring model: habitual yes, random responses, stake-dependent choices and genuine indifference. Report unresolved rate under each.
 - [x] **2.3.2** Justify each question family using an actual card, a possible response, a competing explanation and its permitted effect on the profile. Ground design decisions in published research where applicable.
   - **Verification.** Notebook 2.3.2 replays a sale driven by liquidity, discomfort or market expectations. All three preserve the same numerical tolerance evidence. The matched loss pairs invite clarification and a pass adds no directional bound.
+  - [x] Document all 60 cards, answer polarity, scoring bounds, conditional follow-ups and worked client possibilities in the [card-by-card guide](questions/GUIDE_DES_CARTES.md). Notebook 2.3.2 checks the inventory and the illustrative rankings.
   - **Scope.** The course deliverable uses fictional responses and deterministic checks. Frequency of behaviors, time taken and prediction of real decisions are unmeasured.
 
 ## 3. Collect and prepare point-in-time data

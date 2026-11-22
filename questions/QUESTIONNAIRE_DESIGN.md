@@ -2,6 +2,8 @@
 
 **Design record · 22 November 2026.** The course project interprets hypothetical financial choices using published research, explicit model assumptions and synthetic routes. The 60 cards are implemented in English. The project collects no participant data. See [checklist chapter 2](../CHECKLIST.md#2-profile-the-client).
 
+The [card-by-card guide](GUIDE_DES_CARTES.md) lists the response meanings, numerical bounds, eligible follow-ups and worked funding scenarios for this version.
+
 ## Research behind the design
 
 | Primary study | Finding or method we draw on | RiskMatch design decision and limit |
