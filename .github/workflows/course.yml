@@ -93,6 +93,8 @@ jobs:
             /requirements-experiments.txt
             /research/experiments/
             /tests/test_experiments.py
+            /research/robustness/
+            /tests/test_signal_robustness.py
             /research/sentiment_followup/
             /research/course_replay.py
             /tests/test_sentiment_followup.py
@@ -102,3 +104,4 @@ jobs:
       - run: python -m pip install -r requirements-experiments.txt
       - run: python tests/test_experiments.py
       - run: python tests/test_sentiment_followup.py
+      - run: python tests/test_signal_robustness.py

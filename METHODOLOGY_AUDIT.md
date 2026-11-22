@@ -45,3 +45,8 @@ This is a design and code-example audit. The [local import review](data/README_d
 ## Final cross-check against the course method inventory
 
 All 59 task IDs in the methodological review retain a named bias control and a notebook evidence slot. Seven tasks gained targeted checks. The review identified material gaps in group-specific interpretation of common cards, back-adjustment of price levels, serial dependence in horizon risk, finite tail-test information, dynamic covariance eligibility, overlapping forecast losses and liquidity at execution. The checklist records the associated outcome, comparator and fallback. Guide 01 (V4), guide 04 (4.4.7) and guide 05 (5.5.12 and 5.5.15) distinguish forecast tests, dynamic dependence and conditional extreme-risk extensions. The tool-selection table shows when these tools can change a client decision. No empirical superiority or individual calibration follows from this review.
+
+
+## Seven-signal research extension · 22 November 2026
+
+The primary specifications were committed before scoring. Publication-delay and instrument-influence checks were recorded after the first replay and are secondary. The French portfolio spreads have a different endpoint from stock rank IC. The Apple filing verifies one dated security and leaves the population-level test open. The frozen Fed download lacks historical vintages. The family correction covers seven comparisons in this extension, and the inspected history supplies zero independent outcome months. [Protocol](research/robustness/PROTOCOL.md) · [Results, research uses and admission decisions](research/robustness/README.md)

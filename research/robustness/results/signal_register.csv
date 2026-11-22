@@ -1,0 +1,8 @@
+study,research_candidate,validation_gain,replay_gain,replay_seven_way_lower,minimum,positive_both,meets_replay_minimum,costed_monthly_utility_gain,independent_months,admitted,active_reference,research_use,next_gate
+H01,rescaled correlation,0.07886597032830446,0.08686262904542229,-0.09727593780145347,0.02,True,True,0.00013903276216749866,0,False,sample covariance,parallel risk forecast,fresh QLIKE gain and funded turnover benefit
+H02,gap-filtered variance,-0.04638563652002573,0.09119638825760559,-0.028680818180837345,0.02,False,True,0.00021325178641046729,0,False,rolling 63,volatility diagnostic,beat rolling and EWMA on fresh paired dates
+H03,forward curve,-0.02310700991354274,0.011367002554698653,-0.1029829904713906,0.01,False,True,1.3686829141825879e-06,0,False,slope OLS,curve scenario,archive actual publication vintages and retest
+H04,restricted payout,0.002919247552601034,-0.0031357314225186365,-0.029963765637308924,0.01,False,False,0.0,0,False,expanding mean,valuation diagnostic,stable improvement over expanding mean on fresh dates
+H05,four published sorts,-0.0006324104166666664,0.0014820193452380948,-0.001113723469387756,,False,,,0,False,withhold four-characteristic sleeve,size and characteristic diagnostics,"dated filing panel, rank IC and net sleeve"
+H06,cross-instrument sentiment,-0.00049526435796133,-0.002844622082056751,-0.011236104926590815,0.0005,False,False,-0.002844622082056751,0,False,no-view anchor,sentiment diagnostic,timestamped message feed and fresh net utility gain
+H07,5pp boundary band,-1.999563687516322e-05,0.0004246921938352077,1.931703094667571e-06,0.0002,False,True,0.0003812463132286862,0,False,monthly rebalance,parallel rebalancing ledger,"fresh costed gain, drift and protected payment checks"

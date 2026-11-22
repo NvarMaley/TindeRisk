@@ -1,5 +1,7 @@
 # Chapter 5 · Historical forecast evaluation
 
+The [seven-signal extension](../robustness/README.md) tests one additional specification per study and records its research use, active reference and decision gate.
+
 ## Implementation choices frozen before the replay
 
 Use the [study register](../study_protocol.md), its dated calendars and the 3.2 arm-level eligibility manifest. The seven registered contrasts, validation tie order, minimum gains, costs and prospective gate take precedence over optional checklist extensions. Keep failed and unscored origins in the release. The historical panels have already been inspected. The earliest independent ETF outcome month is December 2026.

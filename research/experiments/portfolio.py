@@ -60,13 +60,21 @@ def market_months(market, cash):
     return months
 
 
-def allocation_ledger(frozen, targets, months):
+def boundary_weights(drift, width):
+    # Along the line to the target the largest deviation scales proportionally.
+    distance = np.max(np.abs(drift - EW))
+    return EW + (drift - EW) * min(1.0, width / distance) if distance else EW.copy()
+
+
+def allocation_ledger(frozen, targets, months, *, policies_by_study=None):
     output = []
-    for study in ["H01", "H02", "H03", "H04", "H07"]:
+    if policies_by_study is None:
+        policies_by_study = {
+            s: [BASE[s], *CAND[s]] for s in ["H01", "H02", "H03", "H04", "H07"]
+        }
+        policies_by_study["H07"] += ["3pp band", "7pp band"]
+    for study, policies in policies_by_study.items():
         base = frozen[(frozen.study == study) & (frozen.arm == BASE[study])]
-        policies = [BASE[study], *CAND[study]]
-        if study == "H07":
-            policies += ["3pp band", "7pp band"]
         for phase, part in base[base.phase != "warm-up"].groupby("phase", sort=False):
             for arm in policies:
                 for cost in [0, 10, 25, 50, 100] if study == "H07" else [0, 10, 25]:
@@ -103,6 +111,8 @@ def allocation_ledger(frozen, targets, months):
                                     and np.max(np.abs(drift - EW)) > float(arm[0]) / 100
                                 )
                             )
+                            if arm == "5pp boundary band" and invested and due:
+                                target = boundary_weights(drift, 0.05)
                         else:
                             target = targets.get(
                                 (study, arm, mo), targets.get((study, BASE[study], mo))

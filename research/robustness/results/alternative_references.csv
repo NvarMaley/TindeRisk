@@ -1,0 +1,9 @@
+study,phase,alternative,n,gain,unit
+H01,historical replay,Ledoit-Wolf,53,0.11057477899563954,QLIKE gain
+H01,validation,Ledoit-Wolf,28,0.06903752978680447,QLIKE gain
+H02,historical replay,EWMA,53,-0.05289145514935621,QLIKE gain
+H02,validation,EWMA,28,-0.04834243921158023,QLIKE gain
+H07,historical replay,quarterly,80,0.0002961768159802522,net return gain
+H07,validation,quarterly,48,-1.5772878766700155e-05,net return gain
+H07,historical replay,5pp band,80,5.5568816057895155e-05,net return gain
+H07,validation,5pp band,48,8.192041279106906e-05,net return gain
