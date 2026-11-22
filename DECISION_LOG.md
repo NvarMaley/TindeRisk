@@ -13,7 +13,6 @@
 | 2026-11-22 | 2–9 | Separated interview evaluation and fixed-mandate portfolio evaluation. Added reserve invariance, horizon-specific evidence, a feasible comparator, no-signal fallback and client decisions for uncertain rankings. | Test human calibration, independent portfolio outcomes and the corresponding UI once implemented. |
 | 2026-11-22 | 5.2.4 | Added a forecast-combination comparator alongside standalone forecasts and the baseline. | Admit by forward predictive performance and evaluate portfolio impact separately. |
 | 2026-11-22 | 3.1.4, 5.2.4 | Aligned the project overview, notebook and forecast protocol. Scope the legacy pilot checksums to imported data so new card versions can be independently validated. | Recheck data hashes on vintage changes and test the new card bank under its own version. |
-
 | 2026-11-22 | 1.1 | Use slides 3–4 of the 2024 brief and the dated team record of instructor feedback. Waive formal assignments at the owner’s request. Pin Python 3.12.6 and run three synthetic course checks in CI. No additional reuse licence is granted. | Notebook 1.1 records sources, reproduction and limitations. |
 | 2026-11-22 | 1.2.2 | Freeze the CHF ETF chronology using 2005–09 warm-up, 2010–15 development, 2016–19 validation and 2020–Oct 2026 retrospective comparison. Reserve Dec 2026–Nov 2027 for prospective observations. | Register methods before the first decision. Other universes need separate coverage checks. |
 
