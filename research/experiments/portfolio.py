@@ -176,14 +176,15 @@ def allocation_ledger(frozen, targets, months):
     return pd.DataFrame(output)
 
 
-def posterior_weight(cov, direction, uncertainty=1):
+def posterior_weight(cov, direction, uncertainty=1, *, relative_to_prior=False):
     anchor = np.array([0.5, 0.5])
     p = np.array([1.0, -1.0])
     if not direction:
         return anchor, 0.0
     spread = p @ cov @ p
     prior = 4 * cov @ anchor
-    adjustment = (0.01 * direction - p @ prior) / (4 * (1 + uncertainty) * spread)
+    innovation = 0.01 * direction if relative_to_prior else 0.01 * direction - p @ prior
+    adjustment = innovation / (4 * (1 + uncertainty) * spread)
     active = np.clip(
         adjustment,
         -min(0.5, 0.02 / np.sqrt(12 * spread)),
