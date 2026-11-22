@@ -113,9 +113,11 @@ Implemented 22 November 2026. [Versioned bank](questions/profile_v1.json), [engi
 
 ### 2.3 Evaluate the questionnaire (human pilot deferred)
 
+480 seeded synthetic interviews completed, with 60/60 cards reached. The [pilot protocol, data template and simulated participant table](research/questionnaire_validation/PILOT.md) are ready. Human observations under 2.3.2 remain outstanding.
+
 **Evidence to retain:** participant-level validation table. **Course reading:** [Guide Ultime Chapitre 17](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
 
-- [ ] **2.3.1** First simulate complete, uncertain, contradictory and aborted routes with fixed seeds. Verify scoring independence from display side, held-out answers and future answers.
+- [x] **2.3.1** First simulate complete, uncertain, contradictory and aborted routes with fixed seeds. Verify scoring independence from display side, held-out answers and future answers.
   - **Procedure.** Generate seeded coherent, inconsistent, indifferent and pass-heavy participants. Vary presentation order and gesture polarity. Count coverage of every intended branch.
   - **Verification and failure handling.** Separate structural reachability from human prevalence. Fail if held-out choices update the score or a repeat event updates it twice.
   - **Bias and control.** Simulator confirmation bias. Generate stress routes outside the scoring model: habitual yes, random responses, stake-dependent choices and genuine indifference. Report unresolved rate under each.

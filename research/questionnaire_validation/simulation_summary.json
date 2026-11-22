@@ -1,0 +1,368 @@
+{
+  "seed": 2301,
+  "simulations": 480,
+  "missing": [],
+  "coverage": {
+    "C01": {
+      "generated": 475,
+      "witness": 60
+    },
+    "C02": {
+      "generated": 444,
+      "witness": 58
+    },
+    "C03": {
+      "generated": 439,
+      "witness": 57
+    },
+    "C04": {
+      "generated": 430,
+      "witness": 55
+    },
+    "C05": {
+      "generated": 426,
+      "witness": 53
+    },
+    "C06": {
+      "generated": 415,
+      "witness": 51
+    },
+    "C07": {
+      "generated": 398,
+      "witness": 48
+    },
+    "C08": {
+      "generated": 436,
+      "witness": 56
+    },
+    "C09": {
+      "generated": 420,
+      "witness": 52
+    },
+    "C10": {
+      "generated": 404,
+      "witness": 49
+    },
+    "C11": {
+      "generated": 393,
+      "witness": 46
+    },
+    "C12": {
+      "generated": 427,
+      "witness": 54
+    },
+    "C13": {
+      "generated": 395,
+      "witness": 47
+    },
+    "C14": {
+      "generated": 410,
+      "witness": 50
+    },
+    "C15": {
+      "generated": 390,
+      "witness": 45
+    },
+    "P01": {
+      "generated": 35,
+      "witness": 1
+    },
+    "T01": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T02": {
+      "generated": 2,
+      "witness": 1
+    },
+    "T03": {
+      "generated": 3,
+      "witness": 1
+    },
+    "T04": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T05": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T06": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T07": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T08": {
+      "generated": 2,
+      "witness": 1
+    },
+    "T09": {
+      "generated": 2,
+      "witness": 1
+    },
+    "T10": {
+      "generated": 2,
+      "witness": 1
+    },
+    "T11": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T12": {
+      "generated": 3,
+      "witness": 1
+    },
+    "T13": {
+      "generated": 4,
+      "witness": 1
+    },
+    "T14": {
+      "generated": 1,
+      "witness": 1
+    },
+    "T15": {
+      "generated": 4,
+      "witness": 1
+    },
+    "T16": {
+      "generated": 5,
+      "witness": 1
+    },
+    "T17": {
+      "generated": 3,
+      "witness": 1
+    },
+    "T18": {
+      "generated": 24,
+      "witness": 1
+    },
+    "T19": {
+      "generated": 6,
+      "witness": 1
+    },
+    "T20": {
+      "generated": 1,
+      "witness": 1
+    },
+    "B01": {
+      "generated": 218,
+      "witness": 11
+    },
+    "B02": {
+      "generated": 218,
+      "witness": 7
+    },
+    "B03": {
+      "generated": 218,
+      "witness": 6
+    },
+    "B04": {
+      "generated": 106,
+      "witness": 6
+    },
+    "B05": {
+      "generated": 106,
+      "witness": 5
+    },
+    "B06": {
+      "generated": 106,
+      "witness": 4
+    },
+    "B07": {
+      "generated": 111,
+      "witness": 1
+    },
+    "B08": {
+      "generated": 106,
+      "witness": 1
+    },
+    "B09": {
+      "generated": 94,
+      "witness": 3
+    },
+    "B10": {
+      "generated": 94,
+      "witness": 2
+    },
+    "B11": {
+      "generated": 156,
+      "witness": 10
+    },
+    "B12": {
+      "generated": 82,
+      "witness": 9
+    },
+    "B13": {
+      "generated": 85,
+      "witness": 1
+    },
+    "B14": {
+      "generated": 10,
+      "witness": 1
+    },
+    "B15": {
+      "generated": 208,
+      "witness": 17
+    },
+    "B16": {
+      "generated": 137,
+      "witness": 1
+    },
+    "B17": {
+      "generated": 134,
+      "witness": 1
+    },
+    "B18": {
+      "generated": 130,
+      "witness": 1
+    },
+    "B19": {
+      "generated": 139,
+      "witness": 1
+    },
+    "B20": {
+      "generated": 150,
+      "witness": 1
+    },
+    "B21": {
+      "generated": 5,
+      "witness": 1
+    },
+    "B22": {
+      "generated": 8,
+      "witness": 1
+    },
+    "B23": {
+      "generated": 1,
+      "witness": 1
+    },
+    "B24": {
+      "generated": 20,
+      "witness": 1
+    }
+  },
+  "behaviors": {
+    "consistent": {
+      "n": 60,
+      "unresolved": 29,
+      "early_stops": 0,
+      "status": {
+        "one-sided": 15,
+        "bounded": 45
+      }
+    },
+    "contradictory": {
+      "n": 60,
+      "unresolved": 60,
+      "early_stops": 0,
+      "status": {
+        "conflict": 60
+      }
+    },
+    "indifferent": {
+      "n": 60,
+      "unresolved": 60,
+      "early_stops": 0,
+      "status": {
+        "insufficient": 60
+      }
+    },
+    "pass-heavy": {
+      "n": 60,
+      "unresolved": 60,
+      "early_stops": 0,
+      "status": {
+        "one-sided": 30,
+        "insufficient": 23,
+        "bounded": 7
+      }
+    },
+    "always yes": {
+      "n": 60,
+      "unresolved": 60,
+      "early_stops": 0,
+      "status": {
+        "bounded": 60
+      }
+    },
+    "random": {
+      "n": 60,
+      "unresolved": 53,
+      "early_stops": 0,
+      "status": {
+        "one-sided": 8,
+        "comprehension unresolved": 30,
+        "bounded": 9,
+        "conflict": 13
+      }
+    },
+    "stake-dependent": {
+      "n": 60,
+      "unresolved": 30,
+      "early_stops": 0,
+      "status": {
+        "bounded": 41,
+        "one-sided": 19
+      }
+    },
+    "early stop": {
+      "n": 60,
+      "unresolved": 41,
+      "early_stops": 60,
+      "status": {
+        "bounded": 25,
+        "one-sided": 24,
+        "comprehension unresolved": 5,
+        "insufficient": 6
+      }
+    }
+  },
+  "synthetic_evaluation": {
+    "assigned": 333,
+    "core": {
+      "coverage": 0.5045045045045045,
+      "verified_people": 139,
+      "agreement": 0.8093525179856115,
+      "all_assigned_bounds": [
+        0.28378378378378377,
+        0.9241741741741741
+      ]
+    },
+    "adaptive": {
+      "coverage": 0.515015015015015,
+      "verified_people": 141,
+      "agreement": 0.8002364066193853,
+      "all_assigned_bounds": [
+        0.2897897897897898,
+        0.9219219219219219
+      ]
+    },
+    "paired_agreement_gain": {
+      "participants": 139,
+      "mean": 0,
+      "interval": [
+        0,
+        0
+      ]
+    },
+    "coverage_gain": {
+      "participants": 333,
+      "mean": 0.010510510510510511,
+      "interval": [
+        0.0045045045045045045,
+        0.01876876876876877
+      ]
+    },
+    "verified_hits_gain": {
+      "participants": 333,
+      "mean": 0.006006006006006006,
+      "interval": [
+        0.0022522522522522522,
+        0.010510510510510511
+      ]
+    }
+  }
+}
