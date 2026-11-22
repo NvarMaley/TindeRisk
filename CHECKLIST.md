@@ -397,14 +397,16 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 8.2 Decide whether to rebalance
 
+**Implementation and evidence.** [Confirmed reviews and shadow holdings](research/monitor/README.md).
+
 **Evidence to retain:** hold/trade comparison and confirmation events. **Course reading:** [Guide Ultime Chapitre 21](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_21.md) · [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md).
 
-- [ ] **8.2.1** Trigger review after material drift, changed risk, a due expense or a revised mandate. Compare hold versus trade on identical assumptions. Show turnover, costs, liquidity and expected effect on the goal.
+- [x] **8.2.1** Trigger review after material drift, changed risk, a due expense or a revised mandate. Compare hold versus trade on identical assumptions. Show turnover, costs, liquidity and expected effect on the goal.
   - **Procedure.** Run hold and proposed trade from identical current holdings, timestamps, cash forecasts and costs. Estimate post-trade risk drift and net change in withdrawal coverage.
   - **Verification and failure handling.** Compare accepted, declined and hold outcomes without attributing selection effects to the intervention. Allow hold when benefit is within estimation or cost uncertainty.
   - **Bias and control.** Self-selection into trades. Compute a dated shadow hold path for every eligible proposal with identical flows and executable prices. Describe acceptance-conditioned outcomes separately; attribution to the intervention needs a credible comparison design.
   - **Hold or trade.** Freeze the materiality margin, costs and uncertainty rule before testing. For a discretionary rebalance, keep the current eligible allocation if the paired net benefit is inconclusive. A new hard constraint or withdrawal triggers a funding review even if expected return barely changes; show the least disruptive feasible correction, or the uncovered amount if none exists. Request confirmation.
-- [ ] **8.2.2** Require explicit client confirmation and log declines, holds and accepted changes. Suspend proposals on stale inputs. Test double confirmation, inability to sell, settlement delay and insufficient liquidity.
+- [x] **8.2.2** Require explicit client confirmation and log declines, holds and accepted changes. Suspend proposals on stale inputs. Test double confirmation, inability to sell, settlement delay and insufficient liquidity.
   - **Procedure.** Persist review ID, mandate version and decision before applying one simulated trade. Treat repeated confirmations idempotently and revalue if the quote or mandate changes.
   - **Verification and failure handling.** Test duplicate confirmation, expired proposal, delayed settlement and insufficient available cash. Reconcile the final units to a single confirmed execution.
   - **Bias and control.** Repeated-action bias. Report unique proposals, stale expiries, declines and duplicate confirmations. Trace one decision to one execution or a documented no-trade outcome.

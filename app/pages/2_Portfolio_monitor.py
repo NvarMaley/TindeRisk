@@ -99,3 +99,85 @@ with st.expander("Local access and deletion"):
         st.session_state.pop("monitor_key", None)
         st.session_state.pop("new_monitor_key", None)
         st.rerun()
+
+from riskmatch.reviews import prepare, respond, revise, shadows
+from datetime import date
+
+st.subheader("Review the allocation")
+with st.expander("Update the fictional mandate"):
+    with st.form("revision"):
+        due = st.date_input(
+            "Payment due",
+            value=max(date.fromisoformat(s["due"]), date.fromisoformat(q["day"])),
+            min_value=date.fromisoformat(q["day"]),
+        )
+        bill = st.number_input(
+            "Required CHF payment", min_value=0.0, value=float(s["bill"])
+        )
+        limit = st.selectbox(
+            "Revised sleeve volatility limit",
+            [0.04, 0.08],
+            index=int(s["cap"] == 0.08),
+            format_func=lambda v: f"{v:.0%}",
+        )
+        if st.form_submit_button("Confirm mandate revision"):
+            revise(token, s["version"], bill, due.isoformat(), limit)
+            st.rerun()
+sale = st.checkbox("ETF sales available", value=True)
+delay = st.checkbox("Sale proceeds settle next demo session", value=True)
+if st.button("Compare holding and trading", disabled=status != "fresh"):
+    st.session_state["monitor_review"] = prepare(token, sale, delay)
+    st.rerun()
+review = st.session_state.get("monitor_review")
+if review and any(e.get("review_id") == review["review_id"] for e in events):
+    if review["status"] == "suspended":
+        st.warning(
+            "Review suspended. A fresh authorized quote and catalogue entry are required."
+        )
+    else:
+        st.write(
+            f"{review['reason']}. Hold risk {review['risk']:.2%}, proposed risk {review['post_risk']:.2%}. "
+            f"Trade CHF {review['turnover']:,.2f}, modeled fees CHF {review['fee']:,.2f}. "
+            f"Uncovered bill holding CHF {review['hold_shortfall']:,.2f}, after proposal CHF {review['trade_shortfall']:,.2f}."
+        )
+        st.caption(
+            f"Fictional one-year goal wealth estimate: hold CHF {review['hold_goal_wealth']:,.2f}, proposal CHF {review['trade_goal_wealth']:,.2f}."
+        )
+        for label, action in [
+            ("Confirm simulated change", "accept"),
+            ("Decline change", "decline"),
+            ("Record hold", "hold"),
+        ]:
+            disabled = (
+                action == "accept"
+                and (
+                    review["status"] != "proposal"
+                    or review["sale_allowed"] != sale
+                    or review["delayed"] != delay
+                )
+            ) or status != "fresh"
+            if st.button(label, disabled=disabled):
+                st.session_state["monitor_receipt"] = respond(
+                    token, review["review_id"], action
+                )
+                st.session_state.pop("monitor_review", None)
+                st.rerun()
+if st.session_state.get("monitor_receipt"):
+    st.write("Last review response · " + st.session_state.monitor_receipt)
+if st.button("Refresh review display"):
+    st.rerun()
+with st.expander("Review decisions and shadow holdings"):
+    st.dataframe(
+        pd.DataFrame(
+            [
+                {
+                    "event": e["kind"],
+                    "time": e["time"],
+                    "decision": e.get("action", e.get("status")),
+                }
+                for e in events
+                if e["kind"] in ["review", "decision", "mandate"]
+            ]
+        )
+    )
+    st.dataframe(pd.DataFrame(shadows(events)))
