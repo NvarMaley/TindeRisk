@@ -38,18 +38,20 @@ The primary brief mapping is documented in notebook 1.1.1. Independent reading c
 
 ### 1.2 Register what would change a decision
 
+Completed 22 November 2026. Notebook 1.2 records the prospective precision simulation, coverage checks and numerical reproductions, including the LN3 discrepancy.
+
 **Evidence to retain:** dated study register and reproduction log. **Course reading:** [Guide Ultime Chapitre 01](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) · [literature](Theory/Course_Notes/literature.md).
 
-- [ ] **1.2.1** Create one study record per H01–H07 with paper/lab, target, horizon, universe, benchmark, variants, primary loss, useful-gain threshold and rejection rule. Distinguish exact replication from adaptation.
+- [x] **1.2.1** Create one study record per H01–H07 with paper/lab, target, horizon, universe, benchmark, variants, primary loss, useful-gain threshold and rejection rule. Distinguish exact replication from adaptation.
   - **Procedure.** Register estimand, unit of observation, population, H0/H1, timing, gross and net economic effect, benchmark and multiplicity family before fitting. Specify a withdrawal or rejection rule.
   - **Verification and failure handling.** Archive a signed/versioned protocol. A changed primary outcome opens an exploratory variant with a new ID.
   - **Bias and control.** Underpowered discovery. Before the trial simulate null and minimum useful effect with the proposed dependence, sample size and model-selection pipeline. Record false positives, power and interval width. Downgrade a trial with inadequate precision to exploratory.
-- [ ] **1.2.2** Freeze development, inner validation and untouched evaluation dates after coverage audit. Mark inspected periods retrospective. Record amendments and variant counts before inspecting new outcomes.
-  - **ETF calendar.** Notebook 1.2.2 freezes the CHF frontier calendar. Other study calendars remain open.
+- [x] **1.2.2** Freeze development, inner validation and untouched evaluation dates after coverage audit. Mark inspected periods retrospective. Record amendments and variant counts before inspecting new outcomes.
+  - **ETF calendar.** Notebook 1.2.2 freezes the CHF frontier calendar. The [study register and calendars](research/study_protocol.md) cover H01–H07.
   - **Procedure.** Build a date ledger of warm-up, training, inner validation and last untouched block for each target horizon. Mark any published or previously inspected test dates.
   - **Verification and failure handling.** Require maximum training-label end before the next evaluation decision. Where prospective outcomes do not exist, mark prospective evaluation pending.
   - **Bias and control.** Repeated access to a holdout. Record who viewed each period, when and why; a model revised after seeing it requires a new evaluation period.
-- [ ] **1.2.3** Reproduce analytical course examples for mean–variance, risk-free asset, shrinkage, Black–Litterman, risk budgets and event studies. Record expected/actual values, tolerances and discrepancies.
+- [x] **1.2.3** Reproduce analytical course examples for mean–variance, risk-free asset, shrinkage, Black–Litterman, risk budgets and event studies. Record expected/actual values, tolerances and discrepancies.
   - **Procedure.** Run LN1 Markowitz, LN2 beta, LN3 stability, LN4 views, LN5 risk budgets and LN7 events against lab fixtures. For LN6 construct the two-identical-assets example.
   - **Verification and failure handling.** Archive constraints, units, expected and reproduced values, tolerance and explanations. Matching a lab validates the calculation for its fixture only.
   - **Bias and control.** Shared implementation errors. Reconcile with an independently derived analytical solution on a fixture outside the source lab.
