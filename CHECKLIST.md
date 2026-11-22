@@ -18,7 +18,7 @@ The selected quantitative extension pairs classical and robust frontiers, a loca
 | Interactive, complete and technically reliable web app | 8.1.2, 9.1.1–9.1.2 | Open the deployed Streamlit URL in a fresh browser, change a constraint and verify the displayed numbers against the notebook. Record the code URL and release version. |
 | Clear presentation and response to client questions | 9.1.3 | Time a 15-minute rehearsal; have a reviewer ask about risk, costs or an infeasible goal and trace the answer to an observed result. |
 
-The earlier team's dated handoff reports that the instructor confirmed the topic and the 2024 brief. Capture the clarification in the new project's evidence when available. Research extensions remain open workstreams. A written report serves the team's own documentation needs.
+The earlier team's dated handoff reports that the instructor confirmed the topic and the 2024 brief. The [dated feedback](https://github.com/NvarMaley/TindeRisk/blob/c41fd972784a861662d1cd609df013f6d431d0ea/docs/05_DECISIONS.md#professor-feedback--2026-11-17) and slide-to-deliverable mapping are recorded in notebook 1.1.1. Research extensions remain open workstreams. A written report serves the team's own documentation needs.
 
 ## 1. Project controls and research design
 
@@ -30,14 +30,11 @@ The earlier team's dated handoff reports that the instructor confirmed the topic
   - **Procedure.** Read the Project Brief slides and any dated instructor clarification. Make a requirement → slide/page → task → acceptance evidence matrix.
   - **Verification and failure handling.** Have a second reader distinguish compulsory deliverables from example client mandates. Leave any disputed interpretation open.
   - **Bias and control.** Scope anchoring. Trace each supposed course requirement to a page or clarification; mark team preferences separately when unsupported.
-- [ ] **1.1.2** Assign owners for profiling, data, research, portfolio accounting and UI. Record review dates, presentation date and open decisions. Check that each deliverable has a reviewer.
-  - **Procedure.** Assign a builder and an independent reviewer to each data product and study. Record dependencies, due date and access owner.
-  - **Verification and failure handling.** Review the critical path from data rights to release. Missing owners appear as open dependencies.
-  - **Bias and control.** Reviewer confirmation bias. Have the reviewer reproduce one adverse case without the builder's interpretation. Log disagreements.
-- [ ] **1.1.3** When the team selects the new remote, initialize Git, agree licensing, pin Python and dependencies, add CI and reproduce a sample test from a fresh clone. Verify private files are excluded before publishing.
-  - **Procedure.** Record Python version, OS, lockfile hash, seed, test command and input manifest. Test from a fresh checkout using only shareable fixtures.
-  - **Verification and failure handling.** Compare deterministic outputs within declared numeric tolerances. Investigate environment differences before using the run as evidence.
-  - **Bias and control.** Reproducibility selection. Run from a clean environment with no local caches and count failed/skipped checks alongside passes.
+- [x] **1.1.2** Scope decision recorded. Formal responsibility assignments and reviewer scheduling were waived by the project owner on 22 November 2026.
+
+- [x] **1.1.3** Connected the local workspace to GitHub, pinned the baseline interpreter, recorded the licensing position and reproduced the synthetic notebook checks from a fresh checkout. See notebook 1.1.3 and the Course examples workflow. Third-party redistribution rights remain an open release item in 9.1.2.
+
+The primary brief mapping is documented in notebook 1.1.1. Independent reading confirmation is pending.
 
 ### 1.2 Register what would change a decision
 
@@ -48,6 +45,7 @@ The earlier team's dated handoff reports that the instructor confirmed the topic
   - **Verification and failure handling.** Archive a signed/versioned protocol. A changed primary outcome opens an exploratory variant with a new ID.
   - **Bias and control.** Underpowered discovery. Before the trial simulate null and minimum useful effect with the proposed dependence, sample size and model-selection pipeline. Record false positives, power and interval width. Downgrade a trial with inadequate precision to exploratory.
 - [ ] **1.2.2** Freeze development, inner validation and untouched evaluation dates after coverage audit. Mark inspected periods retrospective. Record amendments and variant counts before inspecting new outcomes.
+  - **ETF calendar.** Notebook 1.2.2 freezes the CHF frontier calendar. Other study calendars remain open.
   - **Procedure.** Build a date ledger of warm-up, training, inner validation and last untouched block for each target horizon. Mark any published or previously inspected test dates.
   - **Verification and failure handling.** Require maximum training-label end before the next evaluation decision. Where prospective outcomes do not exist, mark prospective evaluation pending.
   - **Bias and control.** Repeated access to a holdout. Record who viewed each period, when and why; a model revised after seeing it requires a new evaluation period.
