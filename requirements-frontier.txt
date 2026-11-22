@@ -1,5 +1,4 @@
-# Optional synthetic optimization lab in RiskMatch.ipynb, Python 3.12
-numpy==2.2.5
+# Section 6.1 and notebook optimization lab, Python 3.12
+-r requirements-descriptive.txt
 cvxpy==1.8.2
 clarabel==0.11.1
-matplotlib==3.10.1
