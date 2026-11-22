@@ -54,3 +54,7 @@ The primary specifications were committed before scoring. Publication-delay and 
 ## Section 6.1 · 23 November 2026
 
 The same CHF reserve, input cutoff, eligible instruments, initial cash, risk cap, execution dates and modeled costs apply across allocations. Exact cash and infeasible mandate cases are retained. Reported bootstrap counts include all attempted allocations, with a second feasibility screen when estimated weights are assessed under the original covariance. Holding-period outcomes use household wealth before external withdrawals. The prespecified classical and robust objectives measure different things. Use common net mean, risk and funded outcomes to compare them. The archived quotes do not establish executable volume or actual initial spreads. [Protocol](research/frontier/PROTOCOL.md) · [Evidence](research/frontier/README.md)
+
+## Section 6.2 · 23 November 2026
+
+Score a one-year hypothetical preference interval on a consistent wealth base. Publish pairwise endpoint differences, crossovers, historical ranking sensitivity and unresolved cases. The seven-year-cohort comparison was added after the initial release calculation. Goal simulations use the joint monthly ETF and FX paths, segregated CHF reserve, funded rebalance and final sale charges. Scenario frequencies depend on the sampler. The accelerated-payment stress excludes unsettled proceeds. Personal transfer of the interview stake and independent prospective outcomes remain unverified. [Protocol](research/options/PROTOCOL.md) · [Client comparison](research/options/README.md)

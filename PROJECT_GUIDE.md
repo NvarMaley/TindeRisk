@@ -112,6 +112,8 @@ For each eligible option show historical outcomes, a dated forecast range, a str
 
 The dual value answers a different client question: how much extra modeled objective would a very small relaxation of a binding constraint buy? Verify it by solving again near the original limit. For reverse stress, begin with the bill at its due date. A CHF 15,000 withdrawal entirely covered by accessible CHF cash survives any loss confined to the risky sleeve. A larger payment or unavailable proceeds can change the conclusion. Present that boundary alongside the allocation comparison.
 
+The [6.2 client comparison](research/options/README.md) is available under **Portfolio options** in the application. The dated example exposes the cash available for the withdrawal, simulated terminal goal shortfalls and preference-sensitive comparisons.
+
 ### Step 9. Backtest the actual decision before catalogue admission (checklist chapter 7)
 
 Replay information availability, signal, order, execution and first holding period in sequence. A signal formed at today's close and filled at tomorrow's close earns no return between those closes. Maintain shares, cash, FX, reserves, flows and trading costs, and reconcile gross to net wealth. Compare candidates with holding or simple rebalancing on identical dates. Check costs, crises, risk breaches, turnover, missed trades and withdrawals.
