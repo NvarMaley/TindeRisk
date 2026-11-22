@@ -1,4 +1,4 @@
-"""Frozen paired predictions and participant-level metrics for the deferred pilot."""
+"""Frozen paired predictions and per-route metrics for synthetic interviews."""
 
 from hashlib import sha256
 import json

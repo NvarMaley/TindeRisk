@@ -1,6 +1,6 @@
 # Implementation checklist
 
-Use each subsection in order. Capture commands, dataset versions, denominators, units, timestamps, parameters and observed discrepancies under the matching notebook ID. A passing synthetic identity checks the implementation on that case only. Record the remaining bias, likely direction and sensitivity range when possible. Data acquisition, participant calibration and out-of-sample validation remain open until the listed evidence exists.
+Use each subsection in order. Capture commands, dataset versions, denominators, units, timestamps, parameters and observed discrepancies under the matching notebook ID. A passing synthetic identity checks the implementation on that case only. Record the remaining bias, likely direction and sensitivity range when possible. Data acquisition and out-of-sample market validation remain open until the listed evidence exists.
 
 The local [QARM project brief](Theory/Quant_Project/Project_Brief/QARM_2_Slides___Projects.pdf), slides 3–4, asks for a course-based quantitative strategy, a portfolio web app, GitHub code and a 15-minute client pitch. Its strategy examples illustrate possible approaches. The written research record also serves the team's own reporting goal. Verify any later instructor clarification separately.
 
@@ -60,12 +60,12 @@ Completed 22 November 2026. Notebook 1.2 records the prospective precision simul
 
 ### 2.1 Build the factual intake
 
-Implemented and tested 22 November 2026. Notebook 2.1 records the four-screen walkthrough and financial checks. The technical criteria of 2.1.1 passed. Its cognitive-interview criterion remains open until the participant pilot.
+Implemented and tested 22 November 2026. Notebook 2.1 records the four-screen walkthrough and financial checks. The theoretical payment clarification in 2.3.2 completes the revised interpretation criterion.
 
 **Evidence to retain:** mandate and dated cash ladder. **Course reading:** [Portfolio-Management-explications copie](Theory/CFA/Portfolio-Management-explications%20copie.md) · [Guide Ultime Chapitre 34](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_34.md).
 
-- [ ] **2.1.1** Design four screens for goal/currency/horizon, capital and contributions, withdrawals and reserves, then desired return and preferences. Accept ranges and unknowns. Test missing, zero, negative and contradictory values by field.
-  - **Procedure.** Use an intake schema with value/range, unit, currency, timing and explicit unknown. Encode ethics as hard exclude versus preference. Use cognitive interviews to check interpretations.
+- [x] **2.1.1** Design four screens for goal/currency/horizon, capital and contributions, withdrawals and reserves, then desired return and preferences. Accept ranges and unknowns. Test missing, zero, negative and contradictory values by field.
+  - **Procedure.** Use an intake schema with value/range, unit, currency, timing and explicit unknown. Encode ethics as hard exclude versus preference. Use hypothetical payment examples to check how the interpretation affects the reserve.
   - **Verification and failure handling.** Retain original answers and corrections. Check that zero, missing and “prefer not to answer” produce distinct states.
   - **Bias and control.** Anchoring and missing-not-at-random amounts. Record range, unknown and refusal separately; check whether the funding outcome changes at plausible endpoints.
 - [x] **2.1.2** Calculate protected and investable capital using dated withdrawals and confirmed external funding. Reconcile cash sources and uses. Test a fully funded expense, immediate withdrawal and reserve exceeding capital.
@@ -80,18 +80,18 @@ Implemented and tested 22 November 2026. Notebook 2.1 records the four-screen wa
 
 ### 2.2 Build the adaptive swipe interview
 
-Implemented 22 November 2026. [Versioned bank](questions/profile_v1.json), [engine](src/riskmatch/interview.py) and notebook 2.2 record the executable checks. Task 2.2.1 has passed the structural and wording-key checks. Its two independent reviewer mappings remain outstanding.
+The [versioned bank](questions/profile_v1.json), [engine](src/riskmatch/interview.py) and notebook 2.2 record the executable checks. The [behavioral rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report) documents the wording review under the revised theoretical scope.
 
 **Evidence to retain:** versioned card specification and route traces. **Course reading:** [W13 Behavioral Finance Guide FR](Theory/Course_Notes/W13_Behavioral_Finance_Guide_FR.md) · [Guide Ultime Chapitre 14](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_14.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
 
-- [ ] **2.2.1** Draft 60 scenario IDs including 15 common items. For every card record construct, wording, amounts, probabilities, interpretation, trigger and pass behavior. Review the English wording for leading statements and numeracy burden.
+- [x] **2.2.1** Draft 60 scenario IDs including 15 common items. For every card record construct, wording, amounts, probabilities, interpretation, trigger and pass behavior. Review the English wording for leading statements and numeracy burden.
   - **Procedure.** Use questions/QUESTIONNAIRE_DESIGN.md. Freeze a blueprint of 1 comprehension, 1 declared tolerance, 5 trade-offs, 4 matched loss scenarios, 2 decline reactions, 1 flexibility and 1 monitoring card. Record exact amounts, polarity, competing interpretation and authorized score effect.
-  - **Verification and failure handling.** Have two reviewers independently map yes/no/pass to canonical choices. Revise ambiguous mappings before route simulation. Balance affirmative endorsement of risky and certain options.
-  - **Bias and control.** Acquiescence and frame confounding. Counterbalance which option a yes endorses and pilot matched wording across participants. For loss pairs record changes in mean, variance, probabilities and reference point; isolate only what the design identifies.
+  - **Verification and failure handling.** Check the yes/no/pass mapping against the displayed statement and exercise mirrored choices in simulation. Revise ambiguous mappings before route simulation. Balance affirmative endorsement of risky and certain options.
+  - **Bias and control.** Acquiescence and frame confounding. Counterbalance which option a yes endorses and compare equivalent response encodings in software. For loss pairs record changes in mean, variance, probabilities and reference point; isolate only what the design identifies.
 - [x] **2.2.2** Implement one statement per gesture, right=yes and left=no, with pass, keyboard equivalent and an explanation after failed practice. Test on touch and desktop, including short drags and repeated events.
   - **Procedure.** Persist card version, wording, display side, step, answer and correction in an event history. Replay mobile, mouse and keyboard paths against the same canonical choice.
   - **Verification and failure handling.** One gesture yields at most one response. A pass adds no directional evidence. Verify identical scores after replay and after correcting a gesture.
-  - **Bias and control.** Interface measurement error. Compare error/correction and pass rates by device and wording version. Never infer confidence from gesture speed alone.
+  - **Bias and control.** Interface measurement error. Replay passes and corrections through the supported input methods and check their recorded meanings. Never infer confidence from gesture speed alone.
 - [x] **2.2.3** Map each risk choice to a threshold by equating the one-year mean–variance utilities of the alternatives. Validate the implied threshold analytically. Intersect consistent bounds and return unresolved status on contradiction or insufficient evidence.
   - **Procedure.** Compute μ=Σpᵢrᵢ and v=Σpᵢ(rᵢ−μ)² on decimal returns at a common horizon. For sure return c solve φ*=2(μ−c)/v. Test v=0, dominance, negative thresholds and ties before using an item.
   - **Verification and failure handling.** For initial 1,000 and outcomes 900/1,200 equally likely versus sure 1,020, expect φ*=2.6667. Keep lo=max(lower bounds), hi=min(upper bounds). Flag lo>hi.
@@ -99,34 +99,31 @@ Implemented 22 November 2026. [Versioned bank](questions/profile_v1.json), [engi
 - [x] **2.2.4** Implement core routing, threshold probes inside uncertain intervals, paired loss comparisons and conditional follow-ups. Test a planned sale motivated by an upcoming expense versus discomfort after a decline. Check termination and replay after correcting an answer.
   - **Procedure.** Trace the common path then choose a probe with a threshold inside the unresolved interval. After a decline explore liquidity, discomfort and market belief separately. Cap risk probes at two under the initial design.
   - **Verification and failure handling.** Run routes covering a passed practice, no eligible probe, all eligible triggers and an early stop. Compare event log to expected sequence and final branch reason.
-  - **Bias and control.** Adaptive exposure bias. Freeze routing rules and log eligible probes including those skipped. If estimating a causal benefit of a probe, randomize among eligible participants and record assignment probabilities. A deterministic branch has no evidence for an unobserved alternative.
+  - **Bias and control.** Adaptive exposure bias. Freeze routing rules and log eligible probes including those skipped. Describe simulated reachability only. Deterministic routing cannot establish the behavioral effect of receiving a probe.
 - [x] **2.2.5** Show tolerance range, capacity, reserve, conflicts, exclusions and monitoring preference. Keep behavioral observations descriptive. Check that a demographic label or stated return target alone cannot raise the risk limit.
   - **Procedure.** Generate four report sections from distinct fields: model-compatible tolerance, funding capacity, confirmed behavior and strength of evidence. Present desired and required return separately.
   - **Verification and failure handling.** Change age or self-description with all financial facts and choices fixed. Inspect any changed allocation eligibility and remove unjustified dependence.
   - **Bias and control.** Circular validation. Behavioral or demographic annotations can explain a conflict; never train a tolerance label on its own score or count the same response twice.
-  - **Client review.** Label the one-year tolerance range experimental pending human calibration. Offer correction of misunderstood choices or funding facts. When the range is unresolved, show compatible alternatives and explain the missing evidence. Preserve confirmed liquidity constraints throughout.
+  - **Client review.** Label the one-year tolerance range as a theoretical model output. Offer correction of misunderstood choices or funding facts. When the range is unresolved, show compatible alternatives and explain the missing evidence. Preserve confirmed liquidity constraints throughout.
 
 - [x] **2.2.6** Propagate approximate amounts through capacity calculations. Check whether a single uncertain trade-off changes the band or options by omitting it in turn. Test near-indifference, an accidental swipe, conflicting choices and an unanswered probe. Clarify within the route limit when consequential, otherwise retain the range. Verify the interface distinguishes reported ranges, model-compatible bounds and statistically calibrated confidence intervals.
   - **Procedure.** Omit each trade-off once and recompute the interval and feasible options. Distinguish sensitivity to a single card from participant-sampling variability. Test CHF 10–15k uncertain withdrawal on CHF 50k capital.
   - **Verification and failure handling.** Expect CHF 35–40k investable absent other claims. Record whether clarification changes an action. Keep uncertain classification visible if it does.
   - **Bias and control.** Unstable classifications. Report the union of feasible bands from leave-one-answer-out sensitivity and the actual actions that differ. Label this as sensitivity, separate from a sampling interval.
 
-### 2.3 Evaluate the questionnaire (human pilot deferred)
+### 2.3 Justify the questions and test the routes
 
-480 seeded synthetic interviews completed, with 60/60 cards reached. The [pilot protocol, data template and simulated participant table](research/questionnaire_validation/PILOT.md) are ready. Human observations under 2.3.2 remain outstanding.
+The [simulation](research/questionnaire_validation/SIMULATION.md) reached 60/60 cards in 480 synthetic interviews. The [question-by-question rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report) covers the seven core families and their clarifications.
 
-**Evidence to retain:** participant-level validation table. **Course reading:** [Guide Ultime Chapitre 17](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
+**Evidence to retain:** synthetic route table and theoretical interpretation of the card families. **Course reading:** [Guide Ultime Chapitre 17](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
 
 - [x] **2.3.1** First simulate complete, uncertain, contradictory and aborted routes with fixed seeds. Verify scoring independence from display side, held-out answers and future answers.
   - **Procedure.** Generate seeded coherent, inconsistent, indifferent and pass-heavy participants. Vary presentation order and gesture polarity. Count coverage of every intended branch.
   - **Verification and failure handling.** Separate structural reachability from human prevalence. Fail if held-out choices update the score or a repeat event updates it twice.
   - **Bias and control.** Simulator confirmation bias. Generate stress routes outside the scoring model: habitual yes, random responses, stake-dependent choices and genuine indifference. Report unresolved rate under each.
-- [ ] **2.3.2** Before recruiting, freeze held-out choices, scoring and participant-level splits. With consent, compare core versus adaptive predictions, repeatability, time, comprehension, dropouts and branch counts. Report uncertainty by participant. Revisit the 5–10 minute target and band cutoffs after observing results.
-  - **Procedure.** Predefine participant-level holdout agreement, prediction coverage, median duration and core-to-adaptive difference. Include abstentions and dropout denominators. Bootstrap paired participants for intervals. Retest a subset and compare band transitions.
-  - **Verification and failure handling.** Archive wording debriefs, confusion by item, order effects and branch counts. Low-coverage subgroups remain inconclusive. Keep recruitment deferred as agreed.
-  - **Bias and control.** Completion and verification bias. Use all assigned participants as denominator. Report prediction coverage and agreement among scored participants together. Bound all-participant agreement by treating unobserved outcomes as all misses then all hits; report retest attrition and subgroup counts. Reserve items by family to test transfer beyond near-duplicate cards.
-  - **Item interpretation across groups.** On common anchors, compare pass rates, comprehension and held-out agreement by wording version, device and prespecified groups. Where there are enough participants and common support, model binary endorsement conditional on a leave-item-out anchor score, group and interaction; use participant-clustered uncertainty for repeated responses. Flag differential item functioning for wording review. Log small cells as inconclusive. An apparent group difference alone establishes neither bias nor true tolerance.
-  - **Interview experiment.** Freeze a core-only and a core-plus-probes prediction for the same participant and the same held-out items. Compare paired differences in agreement, prediction coverage, confirmed funding corrections and extra minutes. Keep unresolved routes and attrition in the denominator. Shorten or rewrite probes that add time without reaching the prespecified useful gain or clarifying an actionable constraint.
+- [x] **2.3.2** Justify each question family using an actual card, a possible response, a competing explanation and its permitted effect on the profile. Ground design decisions in published research where applicable.
+  - **Verification.** Notebook 2.3.2 replays a sale driven by liquidity, discomfort or market expectations. All three preserve the same numerical tolerance evidence. The matched loss pairs invite clarification and a pass adds no directional bound.
+  - **Scope.** The course deliverable uses fictional responses and deterministic checks. Frequency of behaviors, time taken and prediction of real decisions are unmeasured.
 
 ## 3. Collect and prepare point-in-time data
 
@@ -148,7 +145,7 @@ Use the [local import inventory](data/README_data.md) to separate available file
 | H06 · authorized course StockTwits archive | Message or aggregate grain, timestamp/zone, asset identifier, polarity, count, event definition; market returns and dated company/sector links. | Drop duplicate IDs with an audit trail. Retain neutral and no-message days separately. Estimate pre-event market model, log coverage, avoid labels determined after trade time. |
 | H03 exploratory materials and policy | Gold, oil or copper spot/total-return distinction, real yields and broad dollar; optional FOMC text with release timestamp/version. | Spot series can be predictors. A tradable commodity sleeve needs an investable returns series and documented roll/carry; separate explanation, forecast and execution. |
 | H07 / monitoring · transaction inputs | Instrument/date: bid/ask or spread proxy, commissions, FX fee, settlement, liquidity flags, closing calendar and quote age. | If a spread is modeled, label scenarios and estimate break-even. Keep annual fund charges already embedded in fund returns from being charged twice. |
-| Profile research · consented pilot or synthetic fixtures | Pseudonymous participant, item/wording version, event order, canonical choice, branch, pass, correction, holdout and retest. | Separate identity and consent. Split by participant, report missingness and dropout, and keep holdouts sealed from scoring. |
+| Questionnaire · synthetic fixtures | Generated route, card version, choice, branch, pass, correction and holdout. | Keep held-out answers outside scoring. Interpret counts under the specified generator only. |
 
 
 - [ ] **3.1.1** For each study separate tradable holdings, predictors, cash and benchmarks. Record provider, identifier, currency, frequency, units, adjustments, earliest reliable date, revision policy, access and display rights. Check equity, bond, cash, FX and optional commodity coverage against the mandate.
@@ -423,7 +420,7 @@ Use the [local import inventory](data/README_data.md) to separate available file
 
 | Decision | First comparison | Conditional extension and evidence needed |
 |---|---|---|
-| Elicit a preference · 2.2–2.3 | Common anchors, threshold intervals, pass rates and participant-level bootstrap | Investigate item functioning and retest stability only where samples support the comparison. |
+| Elicit a preference · 2.2–2.3 | Common anchors, threshold intervals, hypothetical responses and simulated routes | Describe competing explanations and check the permitted change to the profile. |
 | Estimate a risk budget · H01/H02 | Historical covariance, shrinkage, EWMA and common-weight realized variance | GARCH-t/GJR and DCC need calibrated forecasts and an improvement after costs. [Guide 04, §4.4.7](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_04.md) |
 | Explain and forecast macro effects · H03/H04 | Dated stress, historical mean, lagged regression and training-only PCA | VAR/VECM, local projections and ridge require suitable time-series properties and independent forecast origins. Compare paired losses under the appropriate hypothesis. [Guide 01, V4](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) |
 | Estimate investable signals · H05/H06 | Dated sorts and factor controls; market-model event study and no-view BL | Elastic net, boosting or a BL view must improve an investable sleeve after costs and survive timing, coverage and multiplicity checks. |
