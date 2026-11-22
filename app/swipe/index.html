@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui;color:#142d34;background:transparent}
+main{border:1px solid #9cb8b8;border-radius:16px;padding:1.25rem;background:#f3f9f7;touch-action:pan-y}
+main:focus-visible,button:focus-visible{outline:3px solid #176c91;outline-offset:2px}
+p{margin:0 0 .7rem}h2{font-size:1.25rem;margin:.4rem 0 1rem}nav{display:flex;gap:.5rem}
+button{background:white;color:#173841;border:1px solid #829da4;border-radius:8px;padding:.65rem .4rem;font:inherit;cursor:pointer;flex:1}
+small{display:block;margin-top:.75rem;color:#405760}
+</style><main tabindex="0" aria-labelledby="statement"><p id="context"></p><h2 id="statement"></h2><nav><button data-a="no">← No</button><button data-a="pass">Unsure</button><button data-a="yes">Yes →</button></nav><small>Swipe or use ← / →. Press U to pass.</small></main>
+<script>
+const main=document.querySelector("main");let args=null,locked=true,start=null;
+const send=(type,data={})=>parent.postMessage({isStreamlitMessage:true,type:"streamlit:"+type,...data},"*");
+function height(){send("setFrameHeight",{height:document.body.scrollHeight+6})}
+function answer(value,method){if(!args||locked)return;locked=true;send("setComponentValue",{dataType:"json",value:{id:args.id,revision:args.revision,answer:value,method}})}
+window.addEventListener("message",e=>{if(e.source!==parent||e.data.type!=="streamlit:render")return;
+const a=e.data.args;if(!args||args.revision!==a.revision||args.id!==a.id){locked=false;start=null}
+args=a;document.querySelector("#context").textContent=a.context;document.querySelector("#statement").textContent=a.statement;height()});
+main.addEventListener("pointerdown",e=>{if(!locked&&e.isPrimary&&e.button===0&&!e.target.closest("button")){start=[e.clientX,e.clientY,e.pointerId];main.setPointerCapture(e.pointerId)}});
+main.addEventListener("pointercancel",()=>start=null);
+main.addEventListener("pointerup",e=>{if(!start||start[2]!==e.pointerId)return;const dx=e.clientX-start[0],dy=e.clientY-start[1];start=null;if(Math.abs(dx)>=55&&Math.abs(dx)>1.5*Math.abs(dy))answer(dx>0?"yes":"no",e.pointerType)});
+document.querySelectorAll("button").forEach(b=>b.onclick=()=>answer(b.dataset.a,"button"));
+main.onkeydown=e=>{const key={ArrowLeft:"no",ArrowRight:"yes",u:"pass",U:"pass"}[e.key];if(key){e.preventDefault();if(!e.repeat)answer(key,"keyboard")}};
+new ResizeObserver(height).observe(main);send("componentReady",{apiVersion:1});height();
+</script></html>
