@@ -1,0 +1,12 @@
+{
+  "design.json": "a70c50fc743906308d13016d63adb76ccb4b7e6d0ce46d72303fb24f9445cba7",
+  "funding_path.csv": "318218eb64d6e930c49df2fb48c7cdcccf3b3cb1e74a2258acb7b0dde163dac7",
+  "goal_adjustments.csv": "ea2065be9b18cb4757ca47933496779b3a5b067432ef3d38e31b3296b16a5199",
+  "goal_scenarios.csv": "bdac582bae9adf45238012cae927aaf91b17804ca66dacd5c1e96817bd5bfdd8",
+  "model_sensitivity.csv": "761df5ae8e3307dc36b83e43a94e492bfe7d2a92f14959361bc13f6fa3d352ee",
+  "options.csv": "167f09cf8cbe2bed06d35cbbeac43e4e9e7a97526319aa670d915c90b7a15fb5",
+  "pairwise.csv": "2cf7ff970b33a69438466f8ea117a872a27a056d09f68d1c5f2182ce7e28ba47",
+  "range_calibration.csv": "68c210a71922dd75adb7c4e2ba0b2d7c7f242fff6929a7ff470ef0062695d579",
+  "ranking_history.csv": "6ba28d7b0e4564da3e5c3fb3bbcfd8f6c8fc1b0963836e7b2d25cb4a31a35654",
+  "reverse_stress.csv": "92e1bda5aaa2f26a1e726ba9b606d53c398b556a7f28738cacfe7c223e4ba1a0"
+}
