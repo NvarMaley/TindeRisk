@@ -1,30 +1,52 @@
 # RiskMatch
 
-RiskMatch maps the portfolios a client can consider for a particular goal. The client states their target return, horizon, withdrawals and constraints. The application is designed to estimate risk tolerance, calculate a return–risk frontier after modeled costs in the client’s currency, and show which allocations fit the mandate. Historical returns, dated forecasts and the return needed to fund the goal are separate outputs.
+This repository mirrors the local RiskMatch workspace, including research data and excluding `Theory/`. Four large inputs are stored as lossless compressed chunks. After cloning, run `python3 research/restore_large_data.py` before running data checks. See [data restoration](data/archive_parts_README.md).
 
-1. **Client profile.** Four short intake screens precede a bank of 60 cards. Fifteen form the common core. Earlier answers determine which follow-up cards appear. The pilot targets roughly 20–25 cards and measures the time people actually take. Financial capacity, estimated risk aversion and monitoring preferences are recorded separately. [Client profile specification](CLIENT_PROFILE.md)
-2. **Research and portfolio choice.** Replicate published studies and course labs, then test adaptations on ETFs and WRDS equities. Compare macroeconomic exposures, historical losses, forecasts and uncertainty across allocations in the same risk band. Out-of-sample evidence, implementation costs and data coverage determine which models enter the catalogue. [Research protocol](RESEARCH.md)
-3. **Monitoring.** After selection, track portfolio value, cash flows, losses and the risk band. Explain the reason for a proposed rebalance and its cost. Start with dated closing prices. Live monitoring depends on the available feed.
+RiskMatch is a planned English-language web app for people investing toward a financial goal. A short factual intake and adaptive swipe interview establish a mandate. The research engine will estimate which combinations of net return and risk are attainable within it. The client will compare feasible options, select an allocation and review it as markets or personal circumstances change.
 
-## Current work
+Read the [detailed project guide](PROJECT_GUIDE.md) for the study setup and eleven subsequent steps, research methods, worked examples and rationale behind each client decision.
 
-The English card bank is ready for piloting. The notebook contains portfolio checks, a descriptive StockTwits study and a common interest-rate shock applied to five allocations. The human pilot, full out-of-sample comparisons and catalogue validation remain open. [Card bank](questions/bank.json) · [Project checklist](CHECKLIST.md)
+For card authors and report writers, the [questionnaire design and research rationale](questions/QUESTIONNAIRE_DESIGN.md) records the core allocation, adaptive branches, scoring assumptions and validation plan.
 
-The three ETF benchmarks have monthly development backtests and a prospective evaluation schedule. The notebook also replays a CHF withdrawal using historical USD/CHF quotes. The first reproducible scenario connects the profile to an equity, bond and gold comparison and a dated withdrawal need. Negative research results belong in the record. [Benchmark schedule](RESEARCH.md#etf-benchmark-schedule) · [First reproducible walkthrough](CHECKLIST.md#first-reproducible-walkthrough)
+## Where to begin
 
-The allocation sensitivity pilot examines three risk-aversion values, two covariance estimators and four review policies. Steps 6 and 7 report weight intervals, simulated fees, volatility-cap breaches and capital left after withdrawal. The illustrative 12% cap applies to the investable sleeve in CHF. Project-level risk includes reserves and removes the effect of external cash flows. [Frontier sensitivity](RESEARCH.md#frontier-sensitivity)
+The workspace now includes local market, macro, WRDS and laboratory inputs and previously prepared tables. See the [data inventory and import checks](data/README_data.md) for coverage, known gaps and the reproducible verification command. The first implementation task is **1.1.1** in the [checklist](CHECKLIST.md). Local course materials are in `Theory/`. The checklist indexes the supplied Markdown sources and gives relevant readings by task. Separate imported findings from results independently reproduced here. The app and new card bank remain to be built. When reusing an input, record its provenance, rights and verification in this workspace. The team will choose the new Git remote later.
 
-## Reproduce the notebook
+1. Read the [checklist](CHECKLIST.md) in chapter order. Each numbered task specifies a method and evidence required for completion. Dependencies and deferred work are called out at chapter boundaries.
+2. Open [RiskMatch.ipynb](RiskMatch.ipynb) with a Python 3.12 Jupyter kernel and run all cells from the project root. The core calculations use the Python standard library and invented inputs. The optional optimization lab uses the dependencies listed below. An optional local cell checks the imported ETF panel when available. The worked calculations are accounting checks. They do not estimate a real client's tolerance or forecast a real asset.
+3. For each completed task, tick its box, record the command, sample and outcome under the matching notebook chapter, and add any material decision to the [journal](DECISION_LOG.md). Keep inconclusive and rejected experiments in the record.
 
-From the repository root, create a Python 3.12 environment, install the pinned dependencies, and run the notebook in cell order with that environment’s kernel. The full financial run requires the local market and course datasets listed in the data inventory. Course links resolve when those original files are present. A fresh clone includes the card bank and synthetic market bundle. Step 3.1d can verify the bank independently. To rebuild the historical CHF walkthrough with the authorized input files, run `python -m riskmatch.catalogue`. [Pilot requirements](requirements-pilot.txt) · [Execution notebook](RiskMatch_pipeline.ipynb)
+### QARM delivery scope
 
-```sh
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-pilot.txt
-python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=300 RiskMatch_pipeline.ipynb
-```
+For the course, demonstrate one investment strategy end to end: turn a client's dated withdrawal into a reserve, screen eligible assets, sweep risk limits with constrained mean–variance optimization, compare with a simple allocation and show whether weights change under covariance or cost assumptions. Let the client change an input in Streamlit and inspect the result. Link the working app and GitHub code and rehearse a 15-minute client pitch including live questions. Use the CHF 50,000 / CHF 15,000 withdrawal as one reproducible example. H01–H07, extended forecasting and ongoing monitoring remain on the broader product roadmap. Select extensions for the presentation when their measured effect changes the client decision.
 
-The checklist identifies possible biases, how to measure their effects and what to do when a check fails. The data inventory covers raw inputs, vintages and attrition. The research protocol maps the 34 available numbered chapter guides to project decisions and the checklist covers the seven QARM II notes. [Data inventory](data/README_data.md) · [Research protocol](RESEARCH.md) · [Decision journal](DECISION_LOG.md)
+The quantitative extension compares a classical frontier with one that penalizes uncertainty in expected returns. A shadow-price check verifies the local value of the risk constraint, and a reverse stress identifies the withdrawal funding boundary. Install `python -m pip install -r requirements-frontier.txt` for the optional synthetic solver example and figure. The empirical comparison remains open.
 
-The available QARM brief is dated 2024. It calls for course-based portfolio optimization, GitHub code, a Streamlit application and a 15-minute client pitch. Requirements for the current cohort still need confirmation. Original teaching and data files retain their supplied filenames and contents. [Local course brief](<Theory/Quant_Project/Project_Brief/QARM_2_Slides___Projects.pdf>)
+## Product decisions carried forward
+
+- Four short factual screens followed by one statement at a time. Right means yes, left means no, and uncertainty is allowed. Plan 60 scenarios including 15 common cards, with adaptive clarification and a typical 5–10 minute target. Participant evaluation is deferred.
+- Report willingness to bear risk separately from the capacity to absorb losses. Protect scheduled withdrawals and household reserves. Record desired return separately from the return required to fund the goal.
+- Study assets by research question and client eligibility. There is no fixed ETF count. Test common macro shocks across candidate allocations. Independent evaluation after costs governs which methods enter the catalogue.
+- Present a range of opportunities along the estimated feasible frontier in the client's spending currency. Keep historical outcomes, conditional forecasts and stress scenarios identifiable.
+- Start monitoring with authorized closing data. Explain hold and rebalance alternatives and obtain confirmation. A stale quote, an infeasible goal or an uncertain profile has an explicit user-facing outcome.
+- Deliver a reproducible GitHub project, Streamlit web app and a 15-minute client presentation. Verify the applicable course brief when setting up the new project.
+
+## What the team will validate
+
+Measure the interview and the allocation engine independently. In the deferred human pilot, compare core-only and adaptive predictions on held-out choices and record funding corrections and additional time. In the portfolio experiment, freeze a mandate and compare a feasible fixed mix, classical frontier and robust frontier after identical costs. A fictional mandate can support that second experiment today. For a given forecast target, compare a simple reference, standalone models and preregistered combinations at common dates. A forecast improvement reaches the portfolio only after a separate after-cost evaluation. Client reviews distinguish the experimental one-year tolerance band, a short-horizon risk signal and the dated long-term funding scenario. An inconclusive discretionary trade retains the current feasible holding.
+
+## Directory guide
+
+The table describes intended contents. Today the runnable research deliverables are the notebook and local import verifier; the app, scoring engine, card bank and browser tests are planned.
+
+| Location | Intended contents |
+|---|---|
+| `app/` | Streamlit screens and browser swipe interaction |
+| `questions/` | Versioned card bank, branch table and separate validation items |
+| `src/riskmatch/` | Interview, data, forecasting, optimization, accounting and monitoring code |
+| `research/` | Study register, protocols, source references and reproducible experiments |
+| `data/raw/`, `data/processed/` | Local authorized inputs and derived tables, excluded from future Git tracking |
+| `data/demo/` | Synthetic market bundle and local historical CHF walkthrough (see data inventory) |
+| `tests/` | Unit, temporal-integrity, portfolio-accounting and browser checks |
+
+Candidate tools include Python, pandas, NumPy, DuckDB, Parquet, statsmodels, arch, scikit-learn, SciPy, CVXPY, Streamlit, pytest and Jupyter. Pin a dependency when adopting it and record its version with the first reproducible result.

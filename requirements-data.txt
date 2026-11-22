@@ -1,0 +1,4 @@
+# Python 3.12 · optional local import verification
+numpy==2.2.5
+pandas==2.2.3
+pyarrow==26.0.1

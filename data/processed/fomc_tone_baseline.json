@@ -1,0 +1,18 @@
+{
+  "classifier": "tfidf_logistic_baseline",
+  "annotated_data_revision": "98646987452b326507479cf641571b33814bb73f",
+  "train_rows": 2014,
+  "test_rows": 462,
+  "test_train_duplicates": 4,
+  "test_accuracy": 0.6277056277056277,
+  "test_macro_f1": 0.5074377405078132,
+  "majority_accuracy": 0.5497835497835498,
+  "annotated_sha256": {
+    "1996-2019-train.xlsx": "ae98e8149089ddc304ce89b17fd7494f7e1b13ae54f865b8399289cd14c2d0ee",
+    "2020-2022-test.xlsx": "445712121f572648c9d9e9cc533c16875dbb33ba9c52967ac2848b37b5fc3866"
+  },
+  "documents": 86,
+  "sentences": 1603,
+  "statements_sha256": "10d7410db8c87910cf70b5c2e3e9429a9f9d2ba8b732557b9f8797d0a8629237",
+  "tone_sha256": "870f65d47a4aa6fdde5e7bdd207cc27ba52bef657804d83981a8d601fc34fa89"
+}

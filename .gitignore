@@ -1,35 +1,17 @@
-# Python
+.venv/
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
 __pycache__/
 *.py[cod]
-.venv/
-venv/
-*.egg-info/
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Jupyter
 .ipynb_checkpoints/
-
-# Local data and secrets
-.env
-data/raw/*
-data/processed/*
-results/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!results/.gitkeep
-!results/README.md
-
-# OS / editor
+.pytest_cache/
 .DS_Store
 Icon?
-.vscode/
-
-# Local course material and restricted research data
-/Theory/
-/data/additional_data/
-/data/Data for laboratories-*/
-
-# Historical replay derived from local market inputs
-/data/demo/chf_walkthrough.json
+Theory/
+# Reconstructed large originals; lossless archives are tracked instead.
+data/additional_data/clean/daily_returns.parquet
+data/additional_data/clean/monthly_panel.parquet
+data/additional_data/raw/wrds/crsp_msf.csv
+data/additional_data/raw/wrds/crsp_dsf.csv

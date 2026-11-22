@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-11-19T08:53:54+00:00",
+  "method": "direct ETF and SPY StockTwits tags only",
+  "anti_look_ahead": "available_date is the strictly next NYSE session after message date, including exchange holidays",
+  "mapped_tickers": {
+    "XLK": "XLK",
+    "XLF": "XLF",
+    "XLE": "XLE",
+    "XLV": "XLV",
+    "XLY": "XLY",
+    "XLP": "XLP",
+    "XLI": "XLI",
+    "XLB": "XLB",
+    "XLU": "XLU",
+    "IEF": "IEF",
+    "TLT": "TLT",
+    "GLD": "GLD",
+    "SPY": "MARKET"
+  },
+  "company_to_gics_status": "pending a dated and reviewed mapping",
+  "source_file": "sentiment_firm_daily.parquet",
+  "source_sha256": "643b0402c5d2fb41998e7481b9968040e4ca69a73151f9b8e910d8cb06294a2d",
+  "files": {
+    "sentiment_asset_daily.parquet": {
+      "sha256": "eb6607b5ce5727fa87a2165db68b0cd3fc7a2b485f39ee15284d99c0a2642dff"
+    },
+    "sentiment_observation_provenance.parquet": {
+      "sha256": "33b14d9eddeb6788c96d840ad545bcb53367ff11850472a4d8201ef7909ca7e1"
+    },
+    "sentiment_asset_coverage.csv": {
+      "sha256": "5efe53290dfc8277dddcfa3b93d01c82911329f67a1a395b676f2b5ad93bf7c8"
+    }
+  },
+  "downloaded_at_utc": null,
+  "download_date": "2026-11-17",
+  "approximate_download_local_time": "12:00",
+  "download_timezone": "Europe/Zurich",
+  "download_month": "2026-11",
+  "download_status": "reported_date"
+}
