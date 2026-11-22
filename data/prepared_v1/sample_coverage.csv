@@ -1,0 +1,73 @@
+study,phase,arm,origins,input_ready,reference_pairs,paired_inputs,complete_outcomes,paired_scoring_inputs
+H01,development,Ledoit-Wolf,72,72,57,72,57,57
+H01,development,sample covariance,72,72,57,72,57,57
+H01,historical replay,Ledoit-Wolf,82,82,65,82,65,65
+H01,historical replay,sample covariance,82,82,65,82,65,65
+H01,validation,Ledoit-Wolf,48,48,36,48,36,36
+H01,validation,sample covariance,48,48,36,48,36,36
+H01,warm-up,Ledoit-Wolf,60,0,0,0,51,0
+H01,warm-up,sample covariance,60,0,0,0,51,0
+H02,development,EWMA,72,58,46,0,57,0
+H02,development,GARCH-t,72,0,0,0,57,0
+H02,development,rolling 63,72,58,46,0,57,0
+H02,historical replay,EWMA,82,66,53,0,65,0
+H02,historical replay,GARCH-t,82,0,0,0,65,0
+H02,historical replay,rolling 63,82,66,53,0,65,0
+H02,validation,EWMA,48,36,28,0,36,0
+H02,validation,GARCH-t,48,0,0,0,36,0
+H02,validation,rolling 63,48,36,28,0,36,0
+H02,warm-up,EWMA,60,0,0,0,51,0
+H02,warm-up,GARCH-t,60,0,0,0,51,0
+H02,warm-up,rolling 63,60,0,0,0,51,0
+H03,development,slope + macro PC,72,72,72,72,72,72
+H03,development,slope OLS,72,72,72,72,72,72
+H03,historical replay,slope + macro PC,82,82,82,82,82,82
+H03,historical replay,slope OLS,82,82,82,82,82,82
+H03,validation,slope + macro PC,48,48,48,48,48,48
+H03,validation,slope OLS,48,48,48,48,48,48
+H03,warm-up,slope + macro PC,60,0,0,0,59,0
+H03,warm-up,slope OLS,60,0,0,0,59,0
+H04,development,OLS,72,72,72,72,72,72
+H04,development,expanding mean,72,72,72,72,72,72
+H04,development,ridge,72,72,72,72,72,72
+H04,historical replay,OLS,82,82,82,82,82,82
+H04,historical replay,expanding mean,82,82,82,82,82,82
+H04,historical replay,ridge,82,82,82,82,82,82
+H04,validation,OLS,48,48,48,48,48,48
+H04,validation,expanding mean,48,48,48,48,48,48
+H04,validation,ridge,48,48,48,48,48,48
+H04,warm-up,OLS,60,0,0,0,59,0
+H04,warm-up,expanding mean,60,0,0,0,59,0
+H04,warm-up,ridge,60,0,0,0,59,0
+H05,development,boosting,132,0,0,0,101,0
+H05,development,elastic net,132,0,0,0,101,0
+H05,development,four-characteristic rank,132,0,0,0,101,0
+H05,historical replay,boosting,84,0,0,0,77,0
+H05,historical replay,elastic net,84,0,0,0,77,0
+H05,historical replay,four-characteristic rank,84,0,0,0,77,0
+H05,validation,boosting,60,0,0,0,54,0
+H05,validation,elastic net,60,0,0,0,54,0
+H05,validation,four-characteristic rank,60,0,0,0,54,0
+H05,warm-up,boosting,60,0,0,0,22,0
+H05,warm-up,elastic net,60,0,0,0,22,0
+H05,warm-up,four-characteristic rank,60,0,0,0,22,0
+H06,development,no-view anchor,60,60,50,60,50,50
+H06,development,signed view or anchor,60,60,50,60,50,50
+H06,historical replay,no-view anchor,26,26,20,26,20,20
+H06,historical replay,signed view or anchor,26,26,20,26,20,20
+H06,validation,no-view anchor,24,24,20,24,20,20
+H06,validation,signed view or anchor,24,24,20,24,20,20
+H06,warm-up,no-view anchor,12,0,0,0,12,0
+H06,warm-up,signed view or anchor,12,0,0,0,12,0
+H07,development,5pp band,72,71,57,71,57,57
+H07,development,monthly,72,71,57,71,57,57
+H07,development,quarterly,72,71,57,71,57,57
+H07,historical replay,5pp band,82,81,65,81,65,65
+H07,historical replay,monthly,82,81,65,81,65,65
+H07,historical replay,quarterly,82,81,65,81,65,65
+H07,validation,5pp band,48,48,36,48,36,36
+H07,validation,monthly,48,48,36,48,36,36
+H07,validation,quarterly,48,48,36,48,36,36
+H07,warm-up,5pp band,60,0,0,0,51,0
+H07,warm-up,monthly,60,0,0,0,51,0
+H07,warm-up,quarterly,60,0,0,0,51,0

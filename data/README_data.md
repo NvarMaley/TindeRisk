@@ -4,6 +4,8 @@ The new workspace contains raw exports, prepared tables and earlier research out
 
 The [3.1 source catalogue and snapshot audit](../research/source_catalogue/README.md) extend this receipt check with study-level eligibility, all raw-file fingerprints and an independent offline fixture.
 
+The [3.2 prepared release](prepared_v1/) and [cleaning record](../research/cleaning/README.md) rebuild study inputs and document availability, delistings, sample attrition and execution assumptions.
+
 ## What the current check establishes
 
 | Local input | Verified here | Decision and remaining work |
