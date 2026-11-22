@@ -43,3 +43,20 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_intake*.py'
       - run: python tests/test_interview.py
       - run: python tests/test_questionnaire_pilot.py
+
+  cleaning:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.python-version
+            /requirements-data.txt
+            /research/cleaning/
+            /tests/test_cleaning.py
+      - uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+      - run: python -m pip install -r requirements-data.txt
+      - run: python tests/test_cleaning.py
