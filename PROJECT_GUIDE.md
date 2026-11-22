@@ -80,6 +80,8 @@ Apply common equity, rate, inflation and FX shocks across candidate allocations.
 | H06 · Sentiment views | Replicate the QARM event study using a pre-event market model, volume peaks, cumulative abnormal returns and polarity. If the signal was available on time, compare Black–Litterman portfolios with and without a view at matched tracking error. Include no-signal dates. |
 | H07 · Reallocation | Replay monthly, quarterly and no-trade-band rules on the same signal and cash flows. Use drifted holdings, fees and half-spreads. Compare net wealth, risk drift, withdrawal coverage and the cost at which the advantage disappears. |
 
+The [seven-signal research register](research/robustness/README.md) connects these studies to the course, external sources and measured outcomes. H01 and H07 have priority for prospective tracking. The register specifies the evidence needed before each candidate can affect a client allocation.
+
 Reference starting points include Ledoit and Wolf for covariance, Moreira and Muir for volatility management, Ludvigson and Ng for macro factors, Goyal and Welch for equity premium forecasts, Gu, Kelly and Xiu for equity characteristics, and Novy-Marx and Velikov for implementation costs. Record the exact reference, original test and proposed adaptation when registering each study.
 
 ### Step 7. Validate the econometrics and forecast ranges (checklist 5.2)

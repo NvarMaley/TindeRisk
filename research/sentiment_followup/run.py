@@ -61,18 +61,18 @@ def load():
     return data, months, old, msg
 
 
-def signals(data, msg):
+def signals(data, msg, *, instrument="AAPL"):
     def wide(col):
         return msg.pivot(index="session", columns="ticker", values=col).reindex(
-            data.index
-        )[TICKERS]
+            index=data.index, columns=[instrument, "SPY"]
+        )
 
     bull, bear, activity = [wide(col) for col in ("Nbullish", "Nbearish", "N")]
     valid = bull.ge(0) & bear.ge(0) & activity.ge(bull + bear)
     up = bull.where(valid).rolling(5).sum()
     down = bear.where(valid).rolling(5).sum()
     polarity = (up - down) / (up + down).where(up + down > 0)
-    relative = polarity.AAPL - polarity.SPY
+    relative = polarity[instrument] - polarity.SPY
 
     def standardize(value, lag, clip):
         previous = value.shift(lag).rolling(63, min_periods=50)
@@ -80,7 +80,7 @@ def signals(data, msg):
         return ((value - previous.mean()) / sd.where(sd > 1e-12)).clip(-clip, clip)
 
     volume = np.log1p(activity.where(activity >= 0))
-    raw = volume.AAPL - volume.SPY
+    raw = volume[instrument] - volume.SPY
     return pd.DataFrame(
         {
             "polarity": standardize(relative, 5, 2).shift(1) / 2,
@@ -90,7 +90,7 @@ def signals(data, msg):
     )
 
 
-def allocation(data, months, signal, old):
+def allocation_path(data, months, signal):
     rows = []
     for phase, sample in months.groupby("phase", sort=False):
         for cost in [0, 10, 25]:
@@ -99,9 +99,10 @@ def allocation(data, months, signal, old):
                 score = signal.get(r.origin)
                 active = r.input_ready and pd.notna(score)
                 hist = data.loc[: r.origin].tail(252).dropna()
-                cov = hist.cov().to_numpy() * 21
                 target, te = (
-                    posterior_weight(cov, score, relative_to_prior=True)
+                    posterior_weight(
+                        hist.cov().to_numpy() * 21, score, relative_to_prior=True
+                    )
                     if active
                     else (ANCHOR, 0.0)
                 )
@@ -133,7 +134,11 @@ def allocation(data, months, signal, old):
                         "utility": net - 2 * net**2,
                     }
                 )
-    table = pd.DataFrame(rows)
+    return pd.DataFrame(rows)
+
+
+def allocation(data, months, signal, old):
+    table = allocation_path(data, months, signal)
     for arm, name in [
         ("no-view anchor", "anchor"),
         ("signed view or anchor", "original"),
