@@ -1,0 +1,1262 @@
+{
+  "version": "2.2.0",
+  "language": "en",
+  "cards": [
+    {
+      "id": "C01",
+      "family": "practice",
+      "core": true,
+      "trigger": "core",
+      "context": "In one year an investment ends at CHF 900 or CHF 1,200. Both are equally likely.",
+      "statement": "The smallest possible balance is CHF 900.",
+      "answers": {
+        "yes": "understood",
+        "no": "retry",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "feedback": "Both balances are possible. The smaller of the two is CHF 900."
+    },
+    {
+      "id": "C02",
+      "family": "self-description",
+      "core": true,
+      "trigger": "core",
+      "context": "Think about money you could leave invested for a year.",
+      "statement": "I feel comfortable taking financial risk.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "C03",
+      "family": "tradeoff",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,020. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1020,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C04",
+      "family": "tradeoff",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,000. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1000,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C05",
+      "family": "tradeoff",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,040. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1040,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C06",
+      "family": "tradeoff",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 980. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 980,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C07",
+      "family": "tradeoff",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,030. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1030,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C08",
+      "family": "loss comparison",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. Choose between CHF 1,080 for certain and equal chances of CHF 1,000 or CHF 1,200.",
+      "statement": "I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "All final balances shift between paired items; framing and wealth effects can both matter.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "pair": "A",
+      "stake": 1000,
+      "certain": 1080,
+      "outcomes": [
+        1000,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C09",
+      "family": "loss comparison",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. Choose between CHF 1,150 for certain and equal chances of CHF 1,000 or CHF 1,400.",
+      "statement": "I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "All final balances shift between paired items; framing and wealth effects can both matter.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "pair": "B",
+      "stake": 1000,
+      "certain": 1150,
+      "outcomes": [
+        1000,
+        1400
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C10",
+      "family": "loss comparison",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. Choose between CHF 980 for certain and equal chances of CHF 900 or CHF 1,100.",
+      "statement": "I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "All final balances shift between paired items; framing and wealth effects can both matter.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "pair": "A",
+      "stake": 1000,
+      "certain": 980,
+      "outcomes": [
+        900,
+        1100
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C11",
+      "family": "loss comparison",
+      "core": true,
+      "trigger": "core",
+      "context": "Start with CHF 1,000 for one year. Choose between CHF 1,000 for certain and equal chances of CHF 850 or CHF 1,250.",
+      "statement": "I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "All final balances shift between paired items; framing and wealth effects can both matter.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "pair": "B",
+      "stake": 1000,
+      "certain": 1000,
+      "outcomes": [
+        850,
+        1250
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "C12",
+      "family": "decline",
+      "core": true,
+      "trigger": "core",
+      "context": "The investment is down 15%. You planned to hold it for eight more years.",
+      "statement": "Today I would sell some of it.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "C13",
+      "family": "decline",
+      "core": true,
+      "trigger": "core",
+      "context": "An investment falls 8% in a month. Your next planned expense is five years away.",
+      "statement": "I would reduce my exposure this month.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "C14",
+      "family": "flexibility",
+      "core": true,
+      "trigger": "core",
+      "context": "Your current savings plan may fall short of your goal.",
+      "statement": "I could move the goal date later.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "C15",
+      "family": "monitoring",
+      "core": true,
+      "trigger": "core",
+      "context": "Your investment has moved away from your chosen allocation.",
+      "statement": "I would like a notification when this happens.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "P01",
+      "family": "practice",
+      "core": false,
+      "trigger": "retry practice",
+      "context": "In one year the possible balances are CHF 800 and CHF 1,100, each with a 50% chance.",
+      "statement": "The smallest possible balance is CHF 1,100.",
+      "answers": {
+        "yes": "unclear",
+        "no": "understood",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed.",
+      "feedback": "The smaller possible balance is CHF 800."
+    },
+    {
+      "id": "T01",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 925. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 925,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T02",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 930. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 930,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T03",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 935. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 935,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T04",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 940. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 940,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T05",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 945. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 945,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T06",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 950. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 950,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T07",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 955. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 955,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T08",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 960. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 960,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T09",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 965. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 965,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T10",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 970. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 970,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T11",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 975. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 975,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T12",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 985. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 985,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T13",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 990. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 990,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T14",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 995. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 995,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T15",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,005. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1005,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T16",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,010. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1010,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T17",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,015. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1015,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T18",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,025. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1025,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T19",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,035. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the uncertain payment.",
+      "answers": {
+        "yes": "gamble",
+        "no": "sure",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1035,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "T20",
+      "family": "tradeoff",
+      "core": false,
+      "trigger": "informative threshold",
+      "context": "Start with CHF 1,000 for one year. The guaranteed investment ends at CHF 1,045. The other investment has an equal chance of ending at CHF 900 or CHF 1,200.",
+      "statement": "Of these two investments, I choose the guaranteed payment.",
+      "answers": {
+        "yes": "sure",
+        "no": "gamble",
+        "pass": "unsure"
+      },
+      "effect": "bound",
+      "ambiguity": "Near indifference can make either endorsement unstable.",
+      "clarification": "Would both alternatives work about equally well for you?",
+      "stake": 1000,
+      "certain": 1045,
+      "outcomes": [
+        900,
+        1200
+      ],
+      "probabilities": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "B01",
+      "family": "liquidity",
+      "core": false,
+      "trigger": "C12:yes|C13:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "Thinking about your decision to sell, I may need this money for a payment within twelve months.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B02",
+      "family": "discomfort",
+      "core": false,
+      "trigger": "C12:yes|C13:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "Even with expenses covered, I would want an investment with smaller fluctuations.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B03",
+      "family": "belief",
+      "core": false,
+      "trigger": "C12:yes|C13:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "My decision to sell reflects an expectation of further losses.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B04",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B01:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "There is a payment missing from the schedule I entered.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B05",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B01:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "A payment I listed might have to be made earlier.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B06",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B01:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "Some money earmarked for the payment might arrive late.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B07",
+      "family": "discomfort",
+      "core": false,
+      "trigger": "B02:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "Seeing a temporary loss would make it difficult for me to follow my plan.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B08",
+      "family": "belief",
+      "core": false,
+      "trigger": "B03:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would reconsider selling if my outlook for this investment changed.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B09",
+      "family": "flexibility",
+      "core": false,
+      "trigger": "C14:no",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I could reduce the amount I plan to spend on my goal.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B10",
+      "family": "flexibility",
+      "core": false,
+      "trigger": "C14:no",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I could increase my future contributions to keep the goal date.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B11",
+      "family": "flexibility",
+      "core": false,
+      "trigger": "C14:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would want to compare a later date with a smaller goal amount.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B12",
+      "family": "monitoring",
+      "core": false,
+      "trigger": "C15:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would want to see the estimated trading cost in an allocation alert.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B13",
+      "family": "monitoring",
+      "core": false,
+      "trigger": "C15:no",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would prefer to review my investments at a scheduled meeting.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B14",
+      "family": "loss confirmation",
+      "core": false,
+      "trigger": "loss pattern",
+      "context": "Think back to the two pairs of one-year choices with different ending balances.",
+      "statement": "In those comparisons, the chance of ending below the starting amount mattered to me.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B15",
+      "family": "clarification",
+      "core": false,
+      "trigger": "sensitive",
+      "context": "Think back to the choices between a guaranteed payment and an uncertain one.",
+      "statement": "For at least one of the one-year choices, both alternatives would work about equally well for me.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B16",
+      "family": "decline",
+      "core": false,
+      "trigger": "C12:pass",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "To answer the 15% decline scenario, I would need to know more about upcoming expenses.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B17",
+      "family": "decline",
+      "core": false,
+      "trigger": "C13:pass",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "To answer the one-month decline scenario, I would need more time to consider the choice.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B18",
+      "family": "self-description",
+      "core": false,
+      "trigger": "C02:pass",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "My comfort with risk depends on which financial goal I have in mind.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B19",
+      "family": "flexibility",
+      "core": false,
+      "trigger": "C14:pass",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would need to check the goal date before deciding whether it can move.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B20",
+      "family": "monitoring",
+      "core": false,
+      "trigger": "C15:pass",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would like to choose notification settings after seeing an example.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B21",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B04:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I want to review the amount of the missing payment.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B22",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B05:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I want to review the earliest possible payment date.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B23",
+      "family": "funding review",
+      "core": false,
+      "trigger": "B06:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I want to review which funding sources are confirmed.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    },
+    {
+      "id": "B24",
+      "family": "flexibility",
+      "core": false,
+      "trigger": "B09:yes",
+      "context": "Thinking back to your earlier answer.",
+      "statement": "I would want to compare two goal amounts before choosing one.",
+      "answers": {
+        "yes": "endorsed",
+        "no": "not endorsed",
+        "pass": "unsure"
+      },
+      "effect": "describe",
+      "ambiguity": "The reason for the choice remains open.",
+      "clarification": "Review the scenario and correct it if needed."
+    }
+  ]
+}

@@ -25,6 +25,7 @@ pages = [
     "Protected money",
     "Expectations and preferences",
     "Your mandate",
+    "Your risk interview",
 ]
 page = state.page
 st.title(pages[page])
@@ -173,6 +174,11 @@ elif page == 3:
         "Investment preferences",
         "Preferences to consider among eligible investments.",
     )
+elif page == 5:
+    from profile_ui import interview
+
+    interview(d)
+    st.stop()
 else:
     result = evaluate(d)
     ccy = (
@@ -259,3 +265,7 @@ if page < 4 and b.button("Review mandate" if page == 3 else "Continue", type="pr
     if not issues:
         state.page += 1
         st.rerun()
+
+if page == 4 and b.button("Open risk interview", type="primary"):
+    state.page = 5
+    st.rerun()
