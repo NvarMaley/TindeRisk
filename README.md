@@ -8,9 +8,20 @@ Read the [detailed project guide](PROJECT_GUIDE.md) for the study setup and elev
 
 For card authors and report writers, the [questionnaire design and research rationale](questions/QUESTIONNAIRE_DESIGN.md) records the core allocation, adaptive branches, scoring assumptions and validation plan.
 
+## Run the factual intake
+
+With Python 3.12 in a dedicated app environment:
+
+```sh
+python -m pip install -r requirements-app.txt
+python -m streamlit run app/intake.py
+```
+
+The four screens lead to a dated cash ladder, available investment capital, and a comparison of desired and required returns. Answers and corrections are held in the current session. Run the intake checks with `python -m unittest discover -s tests -p 'test_intake*.py'`.
+
 ## Where to begin
 
-The workspace now includes local market, macro, WRDS and laboratory inputs and previously prepared tables. See the [data inventory and import checks](data/README_data.md) for coverage, known gaps and the reproducible verification command. Section 1.1 of the [checklist](CHECKLIST.md) records the course scope and reproducible setup. Run `python -I -S tests/check_course_examples.py` with CPython 3.12.6 for the synthetic checks. Local course materials are in `Theory/`. The checklist indexes the supplied Markdown sources and gives relevant readings by task. Separate imported findings from results independently reproduced here. The app and new card bank remain to be built. When reusing an input, record its provenance, rights and verification in this workspace. The project repository is [TindeRisk](https://github.com/NvarMaley/TindeRisk).
+The workspace now includes local market, macro, WRDS and laboratory inputs and previously prepared tables. See the [data inventory and import checks](data/README_data.md) for coverage, known gaps and the reproducible verification command. Section 1.1 of the [checklist](CHECKLIST.md) records the course scope and reproducible setup. Run `python -I -S tests/check_course_examples.py` with CPython 3.12.6 for the synthetic checks. Local course materials are in `Theory/`. The checklist indexes the supplied Markdown sources and gives relevant readings by task. Separate imported findings from results independently reproduced here. The factual intake is available locally. The adaptive card bank remains to be built. When reusing an input, record its provenance, rights and verification in this workspace. The project repository is [TindeRisk](https://github.com/NvarMaley/TindeRisk).
 
 1. Read the [checklist](CHECKLIST.md) in chapter order. Each numbered task specifies a method and evidence required for completion. Dependencies and deferred work are called out at chapter boundaries.
 2. Open [RiskMatch.ipynb](RiskMatch.ipynb) with a Python 3.12 Jupyter kernel and run all cells from the project root. The core calculations use the Python standard library and invented inputs. The optional optimization lab uses the dependencies listed below. An optional local cell checks the imported ETF panel when available. The worked calculations are accounting checks. They do not estimate a real client's tolerance or forecast a real asset.
@@ -37,7 +48,7 @@ Measure the interview and the allocation engine independently. In the deferred h
 
 ## Directory guide
 
-The table describes intended contents. Today the runnable research deliverables are the notebook and local import verifier; the app, scoring engine, card bank and browser tests are planned.
+The table describes intended contents. The factual intake, notebook, research scripts and import verifier can be run locally. Adaptive scoring and the card bank are planned.
 
 | Location | Intended contents |
 |---|---|
