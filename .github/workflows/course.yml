@@ -72,8 +72,11 @@ jobs:
             /requirements-descriptive.txt
             /research/descriptive/*.py
             /tests/test_descriptive.py
+            /research/shocks/
+            /tests/test_shocks.py
       - uses: actions/setup-python@v6
         with:
           python-version-file: .python-version
       - run: python -m pip install -r requirements-descriptive.txt
       - run: python tests/test_descriptive.py
+      - run: python tests/test_shocks.py

@@ -217,13 +217,13 @@ Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), 
 
 ### 4.2 Explain reactions to shocks
 
-**Evidence to retain:** dated exposures and stress attribution. **Course reading:** [W3 Economic Analysis Guide FR](Theory/Course_Notes/W3_Economic_Analysis_Guide_FR.md) · [Guide Ultime Chapitre 12](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_12.md).
+**Completed evidence:** [dated exposures, common shocks and historical episodes](research/shocks/README.md). **Course reading:** [W3 Economic Analysis Guide FR](Theory/Course_Notes/W3_Economic_Analysis_Guide_FR.md) · [Guide Ultime Chapitre 12](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_12.md).
 
-- [ ] **4.2.1** Specify common rate, equity, inflation and FX shocks. Estimate sensitivities using dated exposures with assumptions stated. Apply identical shocks across allocations and reconcile holding contributions to the portfolio effect.
+- [x] **4.2.1** Specify common rate, equity, inflation and FX shocks. Estimate sensitivities using dated exposures with assumptions stated. Apply identical shocks across allocations and reconcile holding contributions to the portfolio effect.
   - **Procedure.** For fixed income use −modified duration × Δyield plus ½ convexity × Δyield² when inputs exist. For other assets estimate dated factor exposures and apply an explicit vector of market, FX or inflation shocks.
   - **Verification and failure handling.** Sum holding-level P&L to portfolio P&L. Test bp-to-decimal conversion and cash sensitivity. Distinguish residual risk from explained shock loss.
   - **Bias and control.** Double-counted macro channels. Separate direct FX repricing from local-asset exposures. Validate combined scenario versus a joint revaluation, and report interaction residuals.
-- [ ] **4.2.2** Compare calm and stressed samples, historical episodes and hypothetical scenarios. Report observation counts, exposure instability and confounding. Label any association requiring separate predictive or causal evidence.
+- [x] **4.2.2** Compare calm and stressed samples, historical episodes and hypothetical scenarios. Report observation counts, exposure instability and confounding. Label any association requiring separate predictive or causal evidence.
   - **Procedure.** Define crisis windows and identification assumptions before comparing outcomes. Estimate rolling exposures with uncertainty. For regime models use filtered probabilities available at t.
   - **Verification and failure handling.** Compare common dates and counts. Run leave-one-crisis-out sensitivity. A shock association alone cannot support a causal or predictive claim.
   - **Bias and control.** Ex-post regime selection. Predefine episodes and run leave-one-episode-out comparisons. For a regime strategy archive filtered probabilities and compare with an unconditional policy.
