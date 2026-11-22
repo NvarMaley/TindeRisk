@@ -2,6 +2,8 @@
 
 The new workspace contains raw exports, prepared tables and earlier research outputs. The [checklist](../CHECKLIST.md) defines study eligibility and the acceptance criteria. Start with the raw input and decision timestamp when adapting an older result. Preserve the import intact and give subsequent transformations a separate version.
 
+The [3.1 source catalogue and snapshot audit](../research/source_catalogue/README.md) extend this receipt check with study-level eligibility, all raw-file fingerprints and an independent offline fixture.
+
 ## What the current check establishes
 
 | Local input | Verified here | Decision and remaining work |

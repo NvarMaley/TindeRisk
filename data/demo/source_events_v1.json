@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "currency": "CHF",
+  "instrument": "Fictional USD share",
+  "opening_units": "2",
+  "opening_cash_chf": "60",
+  "macro_observation": "2026-12",
+  "vintages": [
+    {"available": "2027-01-04", "value": 101},
+    {"available": "2027-01-07", "value": 103}
+  ],
+  "sessions": [
+    {"date": "2027-01-04", "close_usd": "100", "chf_per_usd": "0.90"},
+    {"date": "2027-01-05", "split": "2", "close_usd": "50", "chf_per_usd": "0.90"},
+    {"date": "2027-01-06", "close_usd": null, "chf_per_usd": "0.91", "withdraw_chf": "20"},
+    {"date": "2027-01-07", "close_usd": "55", "chf_per_usd": "0.88"},
+    {"date": "2027-01-08", "delist_cash_usd": "52.50", "chf_per_usd": "0.90"},
+    {"date": "2027-01-11", "withdraw_chf": "10"}
+  ],
+  "expected_columns": ["date", "units", "cash_chf", "wealth_chf", "known_macro"],
+  "expected_rows": [
+    ["2027-01-04", "2", "60.00", "240.00", null],
+    ["2027-01-05", "4", "60.00", "240.00", 101],
+    ["2027-01-06", "4", "40.00", null, 101],
+    ["2027-01-07", "4", "40.00", "233.60", 101],
+    ["2027-01-08", "0", "229.00", "229.00", 103],
+    ["2027-01-11", "0", "219.00", "219.00", 103]
+  ],
+  "rejected_case": {"date": "2027-01-06", "withdraw_chf": "61", "expected_error": "Insufficient settled CHF"}
+}

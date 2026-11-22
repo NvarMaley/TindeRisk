@@ -130,6 +130,8 @@ The [simulation](research/questionnaire_validation/SIMULATION.md) reached 60/60 
 
 ### 3.1 Establish a source catalogue
 
+Completed 22 November 2026. The [source register and study decisions](research/source_catalogue/README.md) link 115 study inputs, comparators and requirements to 843 raw snapshots. The offline fixture checks six manual rows and rejects an unfunded withdrawal. Source-specific research and execution limits remain visible in the register.
+
 **Evidence to retain:** series catalogue and immutable raw manifest. **Course reading:** [Guide Ultime Chapitre 08](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_08.md) · [W6 Financial Statements Analysis](Theory/Course_Notes/W6_Financial_Statements_Analysis.md).
 
 #### Acquisition and reconciliation sheet for 3.1.1–3.2.5
@@ -149,15 +151,15 @@ Use the [local import inventory](data/README_data.md) to separate available file
 | Questionnaire · synthetic fixtures | Generated route, card version, choice, branch, pass, correction and holdout. | Keep held-out answers outside scoring. Interpret counts under the specified generator only. |
 
 
-- [ ] **3.1.1** For each study separate tradable holdings, predictors, cash and benchmarks. Record provider, identifier, currency, frequency, units, adjustments, earliest reliable date, revision policy, access and display rights. Check equity, bond, cash, FX and optional commodity coverage against the mandate.
+- [x] **3.1.1** For each study separate tradable holdings, predictors, cash and benchmarks. Record provider, identifier, currency, frequency, units, adjustments, earliest reliable date, revision policy, access and display rights. Check equity, bond, cash, FX and optional commodity coverage against the mandate.
   - **Procedure.** Write series_catalogue with study_id, provider/table/field, instrument_id, geography, frequency, currency, adjustment, units, start/end, vintage, entitlement and role. Set a tradable comparator and cash series per currency.
   - **Verification and failure handling.** Report required versus actually retrieved fields for each H01–H07. Mark missing prerequisites and the affected conclusion.
   - **Bias and control.** Convenience universe. Record ex-ante eligibility and why each candidate asset/region is missing. Test conclusions on a broader or narrower dated set before generalizing.
-- [ ] **3.1.2** Inventory authorized price/FX series, FRED/ALFRED macro vintages, WRDS security/accounting links, course StockTwits events and prospective spread/fee inputs. Hash raw snapshots and record retrieval times. Verify hashes and row counts on reload.
+- [x] **3.1.2** Inventory authorized price/FX series, FRED/ALFRED macro vintages, WRDS security/accounting links, course StockTwits events and prospective spread/fee inputs. Hash raw snapshots and record retrieval times. Verify hashes and row counts on reload.
   - **Procedure.** Prepare raw manifests with query parameters, source version, retrieval timestamp, hash, rows, date range and missing codes. Partition raw snapshots by provider and vintage. Use the acquisition table below.
   - **Verification and failure handling.** On reload verify hash and range. Quarantine changed snapshots and explain revisions. Never log credentials or assume an academic license permits display.
   - **Bias and control.** Backfill and revision. Record database entry time where available and quantify results with histories before entry removed. Keep original raw and revised extracts.
-- [ ] **3.1.3** Build fictional shareable fixtures alongside restricted local data. Document the rebuild commands and missing sources. Verify a clean public clone never needs restricted data for its smoke test.
+- [x] **3.1.3** Build fictional shareable fixtures alongside restricted local data. Document the rebuild commands and missing sources. Verify a clean public clone never needs restricted data for its smoke test.
   - **Procedure.** Build a deterministic fixture including a split, delisting, macro revision, missing close, currency conversion and withdrawal. Store expected values independently of the pipeline.
   - **Verification and failure handling.** Run without network or private inputs. Compare recomputed tables to manual expected rows. Label synthetic outputs in every notebook figure.
   - **Bias and control.** Toy-data optimism. Include at least one deliberately failing fixture. Mark statistics on synthetic paths as software checks only.

@@ -12,11 +12,14 @@ jobs:
           sparse-checkout: |
             /.python-version
             /RiskMatch.ipynb
+            /research/check_source_fixture.py
+            /data/demo/source_events_v1.json
             /tests/
       - uses: actions/setup-python@v6
         with:
           python-version-file: .python-version
       - run: python -I -S tests/check_course_examples.py
+      - run: python -I -S research/check_source_fixture.py
   intake:
     runs-on: ubuntu-22.04
     steps:
