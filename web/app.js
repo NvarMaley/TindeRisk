@@ -175,7 +175,7 @@ async function nextCard() {
       '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
       '</h1><p class="lede">' +
-      (card.choices ? esc(card.family === "Portfolio trade-off" || card.id === "G00" ? card.help : "Choose the action that best matches what you would do.") : card.id === "G04" ? esc(card.help) : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      (card.choices ? esc(card.id.startsWith("V") || card.id === "G00" ? card.help : "Choose the action that best matches what you would do.") : card.id === "G04" ? esc(card.help) : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
       '</p></div></article></div>' + choices +
       '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
@@ -338,12 +338,12 @@ function profile(animate = false) {
       p.evidence
         .map(
           (c) =>
-            '<div class="listrow"><small>' +
+            '<div class="listrow"><small><span>' +
             esc(c.family) +
-            " · " +
+            "</span> · <span>" +
             esc(c.choices?.find(([id]) => id === c.answer)?.[1] ||
               ({yes:"Like me", no:"Not me", skip:"Unsure"}[c.answer] ?? c.answer)) +
-            "</small><strong>" +
+            "</span></small><strong>" +
             esc(c.text) +
             "</strong><small>" +
             esc(c.help) +
