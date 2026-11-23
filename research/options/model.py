@@ -12,9 +12,9 @@ FEE = 0.001
 TOL = 1e-9
 
 
-def eligible(rows, cap):
+def eligible(rows, cap, weights=WEIGHTS):
     """Admit only financed options with the specified mandate and current risk estimate."""
-    cols = rows[WEIGHTS]
+    cols = rows[weights]
     return rows.loc[
         np.isclose(rows.cap, cap)
         & rows.status.isin(["optimal", "optimal_inaccurate", "reference", "exact cash"])
@@ -79,10 +79,11 @@ def pairs(rows, profile, fraction):
         )
 
 
-def monthly_levels(market):
-    selected = market[market.asset.isin(ASSETS)]
+def monthly_levels(market, assets=ASSETS):
+    assets = list(assets)
+    selected = market[market.asset.isin(assets)]
     usd = selected.pivot(index="session", columns="asset", values="adjusted_usd")[
-        ASSETS
+        assets
     ]
     fx = selected[selected.asset == "SPY"].set_index("session").chf_per_usd
     daily = usd.assign(FX=fx).sort_index()
@@ -99,7 +100,7 @@ def monthly_levels(market):
     monthly = monthly.reindex(
         pd.period_range(monthly.index.min(), monthly.index.max(), freq="M")
     )
-    gross = monthly[ASSETS + ["FX"]] / monthly[ASSETS + ["FX"]].shift()
+    gross = monthly[assets + ["FX"]] / monthly[assets + ["FX"]].shift()
     return daily, monthly, gross
 
 
@@ -113,17 +114,17 @@ def year_blocks(gross, years=10, n=2000, seed=6202):
     picks = np.random.default_rng(seed).choice(starts, (n, years))
     # Holdings are constant within each year, deposits stay in CHF until review.
     # The product is identical to marking every ETF and FX position each month.
-    by_start = np.zeros((len(values), 3))
+    by_start = np.zeros((len(values), values.shape[1] - 1))
     for i in starts:
         year = values[i : i + 12].prod(axis=0)
-        by_start[i] = year[:3] * year[3]
+        by_start[i] = year[:-1] * year[-1]
     return by_start[picks], picks, starts
 
 
 def simulate(gross, w, monthly_saving):
     w = np.asarray(w, float)
     n, years, _ = gross.shape
-    holdings = np.zeros((n, 3))
+    holdings = np.zeros((n, len(w)))
     cash = np.full(n, SLEEVE)
     paths = []
     for y in range(years):
@@ -189,13 +190,13 @@ def reverse(cash, securities, due, saleable=True):
 
 def flat_adjustments(w):
     def ending(years, deposit):
-        return simulate(np.ones((1, years, 3)), w, deposit)[-1]["terminal"][0]
+        return simulate(np.ones((1, years, len(w))), w, deposit)[-1]["terminal"][0]
 
     target = 65000 * 1.02**8
     from scipy.optimize import brentq
 
     needed = brentq(lambda s: ending(8, s) - target, 0, 2000)
-    cashflows = simulate(np.ones((1, 50, 3)), w, 100)
+    cashflows = simulate(np.ones((1, 50, len(w))), w, 100)
     first = next(
         (i for i, p in enumerate(cashflows, 1) if p["terminal"][0] >= 65000 * 1.02**i),
         None,

@@ -19,7 +19,6 @@ from research.options.model import (
     FEE,
     RESERVE,
     SLEEVE,
-    WEIGHTS,
     comparison,
     eligible,
     flat_adjustments,
@@ -57,23 +56,25 @@ def checked(folder, name):
     return path
 
 
-def first_month_range(gross, origin, w, fee):
+def first_month_range(gross, origin, w, fee, assets=ASSETS):
     month = origin.to_period("M")
     sample = gross.loc[month - 36 : month - 1].dropna()
     if len(sample) < 30:
         raise ValueError("Insufficient monthly coverage")
-    chf = sample[ASSETS].mul(sample.FX, axis=0) - 1
+    chf = sample[list(assets)].mul(sample.FX, axis=0) - 1
     estimate = SLEEVE / CAPITAL * (chf.to_numpy() @ w - fee)
     return np.quantile(estimate, [0.1, 0.9]), len(sample)
 
 
-def calibration(frontiers, history, daily, monthly, gross):
+def calibration(frontiers, history, daily, monthly, gross, assets=ASSETS):
+    assets = list(assets)
+    weights = [f"w{i}" for i in range(len(assets))]
     rows = []
     for (origin, cap), g in frontiers.groupby(["origin", "cap"]):
         origin = pd.Timestamp(origin)
         if cap not in CAPS or origin >= ORIGIN:
             continue
-        for _, r in eligible(g, cap).iterrows():
+        for _, r in eligible(g, cap, weights).iterrows():
             h = history[
                 (history.origin == str(origin.date()))
                 & (history.cap == cap)
@@ -81,7 +82,7 @@ def calibration(frontiers, history, daily, monthly, gross):
             ].iloc[0]
             month = origin.to_period("M") + 1
             bounds, n = first_month_range(
-                gross, origin, r[WEIGHTS].to_numpy(float), r.fee
+                gross, origin, r[weights].to_numpy(float), r.fee, assets
             )
             observed = np.nan
             if h.status == "scored" and pd.notna(monthly.loc[month, "mark"]):
@@ -89,10 +90,10 @@ def calibration(frontiers, history, daily, monthly, gross):
                 end = monthly.loc[month]
                 if end.mark >= pd.Timestamp(h.fill):
                     ret = (
-                        end[ASSETS].to_numpy(float) / start[ASSETS].to_numpy(float)
+                        end[assets].to_numpy(float) / start[assets].to_numpy(float)
                     ) * (end.FX / start.FX) - 1
                     observed = (
-                        SLEEVE / CAPITAL * (ret @ r[WEIGHTS].to_numpy(float) - r.fee)
+                        SLEEVE / CAPITAL * (ret @ r[weights].to_numpy(float) - r.fee)
                     )
             rows.append(
                 {
@@ -111,33 +112,43 @@ def calibration(frontiers, history, daily, monthly, gross):
     return pd.DataFrame(rows)
 
 
-def build(out):
-    f = ROOT / "research/frontier/results"
+def build(out, assets=ASSETS, frontier_dir=None):
+    assets = list(assets)
+    weights = [f"w{i}" for i in range(len(assets))]
+    f = frontier_dir or ROOT / "research/frontier/results"
     latest, history, frontiers, variants = [
         pd.read_csv(checked(f, x + ".csv"))
         for x in ("latest", "realized", "frontiers", "scenario_sensitivity")
     ]
     market = pd.read_parquet(checked(ROOT / "data/prepared_v1", "market.parquet"))
-    daily, monthly, long_gross = monthly_levels(market)
+    daily, monthly, long_gross = monthly_levels(market, assets)
     gross = long_gross.loc[ORIGIN.to_period("M") - 240 : ORIGIN.to_period("M") - 1]
     years, picks, starts = year_blocks(gross)
     # Calibration uses the full historical monthly panel, always sliced strictly before its origin.
-    calib = calibration(frontiers, history, daily, monthly, long_gross)
+    calib = calibration(frontiers, history, daily, monthly, long_gross, assets)
     calib.to_csv(out / "range_calibration.csv", index=False)
-    shocks = pd.read_csv(
-        checked(ROOT / "research/shocks/results", "scenario_holdings.csv")
-    )
-    shock = (
-        shocks[
-            (shocks.cutoff == str(ORIGIN.date()))
-            & (shocks.scenario == "Joint shock")
-            & (shocks.mix == "Equal weight")
-        ]
-        .set_index("asset")
-        .loc[ASSETS]
-    )
-    shock_return = (shock.contribution / shock.weight).to_numpy()
-    chf = gross[ASSETS].mul(gross.FX, axis=0) - 1
+    if assets == ASSETS:
+        frozen = pd.read_csv(
+            checked(ROOT / "research/shocks/results", "scenario_holdings.csv")
+        )
+        shock = (
+            frozen[
+                (frozen.cutoff == str(ORIGIN.date()))
+                & (frozen.scenario == "Joint shock")
+                & (frozen.mix == "Equal weight")
+            ]
+            .set_index("asset")
+            .loc[assets]
+        )
+        shock_return = (shock.contribution / shock.weight).to_numpy()
+    else:
+        from research.shocks.analysis import SHOCKS, fit, training_window
+        from research.shocks.build import load_panel
+
+        beta, _, _ = fit(training_window(load_panel(assets), ORIGIN), 200, assets)
+        shock = SHOCKS["Joint shock"]
+        shock_return = (1 + np.array(shock[:3]) @ beta[1:]) * (1 + shock[3]) - 1
+    chf = gross[assets].mul(gross.FX, axis=0) - 1
     cards = []
     pair_rows = []
     goals = []
@@ -145,7 +156,7 @@ def build(out):
     stress = []
     adjust = []
     for cap in CAPS:
-        group = eligible(latest, cap)
+        group = eligible(latest, cap, weights)
         if group.empty:
             raise ValueError("No feasible options")
         for basis, a in [("household", SLEEVE / CAPITAL), ("sleeve", 1.0)]:
@@ -154,13 +165,13 @@ def build(out):
             )
         for _, r in group.iterrows():
             key = {"cap": cap, "arm": r.arm}
-            w = r[WEIGHTS].to_numpy(float)
+            w = r[weights].to_numpy(float)
             history_arm = history[
                 (history.cap == cap)
                 & (history.arm == r.arm)
                 & (history.status == "scored")
             ]
-            bounds, n = first_month_range(gross, ORIGIN, w, r.fee)
+            bounds, n = first_month_range(gross, ORIGIN, w, r.fee, assets)
             empir = (chf @ w).dropna()
             a = SLEEVE / CAPITAL
             hmu, hvol = a * r.net_mean, a * r.vol
@@ -190,7 +201,7 @@ def build(out):
                 available_sleeve_cash=r.sleeve_cash_chf,
                 protected_chf=RESERVE,
                 entry_fee_chf=r.fee_chf,
-                **{name: r[name] for name in ["SPY_chf", "IEF_chf", "GLD_chf"]},
+                **{name: r[name] for name in [a + "_chf" for a in assets]},
             )
             cards.append(card)
             scenario_paths = {
@@ -228,7 +239,7 @@ def build(out):
                         median_review_fee=np.median(p["fee"]),
                     )
                 )
-            flat = simulate(np.ones((1, 1, 3)), w, 100)[0]
+            flat = simulate(np.ones((1, 1, len(assets))), w, 100)[0]
             for name, bill, cash, securities, saleable in [
                 (
                     "reserved",

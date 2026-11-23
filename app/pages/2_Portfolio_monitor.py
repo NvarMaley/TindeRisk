@@ -8,7 +8,16 @@ import pandas as pd
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
-from riskmatch.monitor import UPDATES, advance, create, erase, history, snapshot
+from riskmatch.universe import REFERENCE
+from riskmatch.monitor import (
+    UPDATES,
+    account_quote,
+    advance,
+    create,
+    erase,
+    history,
+    snapshot,
+)
 
 st.set_page_config(page_title="RiskMatch · Portfolio monitor", layout="wide")
 st.title("Portfolio monitor")
@@ -45,7 +54,7 @@ if "monitor_key" not in st.session_state:
     st.stop()
 token = st.session_state.monitor_key
 s, events = history(token)
-q = UPDATES[s["cursor"]]
+q = account_quote(UPDATES[s["cursor"]], len(s["units"]))
 snap = snapshot(s)
 st.write(
     f"{s['arm']} · mandate v{s['version']} · selected {s['selected']}. Model {s['model']}."
@@ -70,7 +79,7 @@ st.write(
 st.table(
     pd.DataFrame(
         {
-            "ETF": ["SPY", "IEF", "GLD"],
+            "ETF": s.get("assets", REFERENCE),
             "Units": s["units"],
             "Current weight": snap["weights"],
             "Selected weight": s["weights"],

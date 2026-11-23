@@ -54,10 +54,12 @@ def fill(units, cash, order, quote, rate, fraction=1, capacity=None):
     return units + size, max(0, after), size, traded
 
 
-def replay(dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case):
+def replay(
+    dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case, assets=ASSETS
+):
     q = usd * fx[:, None]
     ok = np.isfinite(q).all(axis=1) & (q > 0).all(axis=1)
-    units = np.zeros(3)
+    units = np.zeros(len(assets))
     cash = 35000.0
     reserve = 15000.0
     prev = 50000.0
@@ -156,9 +158,10 @@ def replay(dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case):
                 cash=cash,
                 reserve=reserve,
                 flow=flow,
-                units_spy=units[0],
-                units_ief=units[1],
-                units_gld=units[2],
+                **{
+                    f"units_{asset.lower()}": val
+                    for asset, val in zip(assets, units, strict=True)
+                },
                 wealth=wealth,
                 unit_index=index,
                 drawdown=index / peak - 1,
@@ -170,9 +173,11 @@ def replay(dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case):
         )
         month_end = i + 1 < len(dates) and day.month != dates[i + 1].month
         if i == 0 or (month_end and policy == "monthly"):
-            weights_order = intent(units, cash, q[last], w) if ok[i] else np.zeros(3)
+            weights_order = (
+                intent(units, cash, q[last], w) if ok[i] else np.zeros(len(assets))
+            )
             rows = []
-            for j, a in enumerate(ASSETS):
+            for j, a in enumerate(assets):
                 rows.append(
                     dict(
                         origin=day,
@@ -199,7 +204,7 @@ def replay(dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case):
                 pending = dict(i=i, order=weights_order, rows=rows)
     for e in events:
         e["unfilled_cost_to_terminal"] = (e["intended_units"] - e["filled_units"]) * (
-            q[last, list(ASSETS).index(e["asset"])] - e["decision_chf"]
+            q[last, list(assets).index(e["asset"])] - e["decision_chf"]
         )
     ret = np.array(losses)
     return (
@@ -222,21 +227,21 @@ def replay(dates, usd, fx, adv, w, cov, mu, train_end, arm, policy, case):
     )
 
 
-def build(out):
+def build(out, assets=ASSETS, frontier_dir=None):
     out.mkdir(parents=True, exist_ok=True)
-    f = ROOT / "research/frontier/results"
+    f = frontier_dir or ROOT / "research/frontier/results"
     grid = pd.read_csv(checked(f, "frontiers.csv"))
     training = json.loads(checked(f, "training.json").read_text())
     market = pd.read_parquet(checked(ROOT / "data/prepared_v1", "market.parquet"))
 
     def wide(key):
-        return market.pivot(index="session", columns="asset", values=key)[list(ASSETS)]
+        return market.pivot(index="session", columns="asset", values=key)[list(assets)]
 
     usd = wide("adjusted_usd")
     fx = wide("chf_per_usd").iloc[:, 0]
     returns = wide("chf_return")
     adv = {}
-    for a in ASSETS:
+    for a in assets:
         raw = json.loads(
             (ROOT / f"data/raw/price_events/{a}-20261118.json").read_text()
         )
@@ -280,7 +285,9 @@ def build(out):
             targets = g
             if case in ["504 sessions", "half diagonal"]:
                 targets = pd.DataFrame(
-                    Frontier(mu, cov, v, [True] * 3).rows(caps=[cap], arms=ARMS)
+                    Frontier(mu, cov, v, [True] * len(assets)).rows(
+                        caps=[cap], arms=ARMS
+                    )
                 ).set_index("arm")
             rate = fx.shift(1) if case == "lag FX" else fx
             x = rate.loc[ix].to_numpy().copy()
@@ -288,7 +295,9 @@ def build(out):
             if not np.isfinite(x[0]):
                 x[0] = rate.loc[:origin].dropna().iloc[-1]
             for arm in ARMS:
-                w = targets.loc[arm, ["w0", "w1", "w2"]].to_numpy(float)
+                w = targets.loc[arm, [f"w{i}" for i in range(len(assets))]].to_numpy(
+                    float
+                )
                 for policy in ["hold", "monthly"]:
                     keys = dict(cohort=origin, case=case, arm=arm, policy=policy)
                     e, m, s = replay(
@@ -303,6 +312,7 @@ def build(out):
                         arm,
                         policy,
                         case,
+                        assets,
                     )
                     orders.extend(dict(**keys, **r) for r in e)
                     daily.extend(dict(**keys, **r) for r in m)

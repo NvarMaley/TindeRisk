@@ -1,5 +1,7 @@
 # 7.1 · Frais, exécution et retrait
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 Sept cohortes annuelles, trois allocations, deux fréquences de rééquilibrage et onze hypothèses donnent 462 comparaisons. Le montant d'ordre est figé à la clôture de décision. Les changements de cours jusqu'à la prochaine clôture ne rémunèrent que les unités déjà détenues. Les unités sont des unités fractionnaires sur prix ajustés, dividendes incorporés. Les contraintes de participation utilisent le volume en dollars des 20 séances antérieures converti en CHF. La limite extrême de participation sert de test. Les spreads, conversions, fractions exécutées et règlements sont modélisés.
 
 À 10 points de base, le rendement moyen annuel du foyer est de 2,96 % pour le mix fixe conservé un an, 4,36 % pour la classique et 4,17 % pour la robuste. Pour la robuste, la restauration mensuelle des poids donne 4,14 % et porte les frais moyens de 25,28 à 31,73 CHF. Les sept retraits de 15 000 CHF sont financés par la réserve de chaque stratégie. Les résultats diffèrent de 6.1 car les quantités sont fixées avant la clôture d'exécution.

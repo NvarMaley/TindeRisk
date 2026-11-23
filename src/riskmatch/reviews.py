@@ -8,6 +8,7 @@ from scipy.optimize import minimize
 from .catalogue import approved
 from .monitor import (
     COST,
+    account_quote,
     FEED,
     UPDATES,
     db,
@@ -27,6 +28,14 @@ COV = (
     @ np.array([[1, 0.1, 0.15], [0.1, 1, 0.05], [0.15, 0.05, 1]])
     @ np.diag([0.16, 0.065, 0.12])
 )
+
+# Synthetic TLT and sector funds share factors with the original three assets.
+_LOADINGS = np.zeros((13, 3))
+_LOADINGS[:3] = np.eye(3)
+_LOADINGS[3, 1] = 1.5
+_LOADINGS[4:, 0] = [1.2, 1.05, 1.12, 0.7, 1.1, 0.6, 0.95, 0.9, 0.55]
+COV = _LOADINGS @ COV @ _LOADINGS.T + np.diag([0.0] * 3 + [0.025**2] + [0.07**2] * 9)
+MU = _LOADINGS @ MU
 
 
 def revise(token, expected, bill, due, cap, path=None):
@@ -61,13 +70,15 @@ def revise(token, expected, bill, due, cap, path=None):
 
 
 def assess(s, sale_allowed=True, delayed=True):
-    q = UPDATES[s["cursor"]]
+    size = len(s["units"])
+    cov, mu = COV[:size, :size], MU[:size]
+    q = account_quote(UPDATES[s["cursor"]], size)
     snap = snapshot(s)
     p = np.array(price(s["quote"]))
     values = np.array(s["units"]) * p
     prior = np.array(s["weights"])
     wealth = snap["sleeve"]
-    w = values / wealth if wealth else np.zeros(3)
+    w = values / wealth if wealth else np.zeros(size)
     out = dict(
         time=q["asof"],
         cursor=s["cursor"],
@@ -108,7 +119,7 @@ def assess(s, sale_allowed=True, delayed=True):
     locked_by_due = sum(a["amount"] for a in s["settling"] if a["available"] > s["due"])
     hold_resources = s["reserve"] + s["cash"] - locked_by_due
     need = max(0, s["bill"] - s["reserve"])
-    risk = float(np.sqrt(w @ COV @ w))
+    risk = float(np.sqrt(w @ cov @ w))
     drift = float(np.max(abs(w - prior)))
     gap = max(0, s["bill"] - hold_resources)
     hard = (
@@ -134,10 +145,10 @@ def assess(s, sale_allowed=True, delayed=True):
                 x.sum() - sale_need,
                 0.6 * base - remaining,
                 0.9 * base - remaining.sum(),
-                s["cap"] * base - np.sqrt(remaining @ COV @ remaining),
+                s["cap"] * base - np.sqrt(remaining @ cov @ remaining),
             ]
 
-        if sale_allowed and wealth > 0 and min(slacks(np.zeros(3))) < -1e-6:
+        if sale_allowed and wealth > 0 and min(slacks(np.zeros(size))) < -1e-6:
             # Use dimensionless decision variables for stable constraints.
             fit = minimize(
                 lambda f: f.sum(),
@@ -167,12 +178,12 @@ def assess(s, sale_allowed=True, delayed=True):
     lock = net_sell if delayed else 0.0
     transfer = min(need, max(0, newcash - unsettled - lock))
     sleeve = after.sum() + newcash - transfer
-    risk_after = np.sqrt(after @ COV @ after) / sleeve if sleeve > 0 else 0.0
-    benefit = float(delta @ MU - fee)
-    margin = 0.005 * wealth + np.sqrt(delta @ COV @ delta) / np.sqrt(3)
+    risk_after = np.sqrt(after @ cov @ after) / sleeve if sleeve > 0 else 0.0
+    benefit = float(delta @ mu - fee)
+    margin = 0.005 * wealth + np.sqrt(delta @ cov @ delta) / np.sqrt(3)
     if not hard and (reason != "discretionary review" or benefit <= margin):
         after = values
-        delta = np.zeros(3)
+        delta = np.zeros(size)
         fee = benefit = net_sell = lock = 0.0
         risk_after = risk
         newcash = s["cash"]
@@ -184,12 +195,12 @@ def assess(s, sale_allowed=True, delayed=True):
         )
     if lock and not settlement:
         after = values
-        delta = np.zeros(3)
+        delta = np.zeros(size)
         fee = benefit = net_sell = lock = 0.0
         newcash = s["cash"]
         transfer = min(need, available)
         reason = "settlement unverified"
-        risk_after = np.sqrt(after @ COV @ after) / max(1e-12, wealth - transfer)
+        risk_after = np.sqrt(after @ cov @ after) / max(1e-12, wealth - transfer)
     trade_resources = (
         s["reserve"]
         + newcash
@@ -218,8 +229,8 @@ def assess(s, sale_allowed=True, delayed=True):
         reserve_transfer=transfer,
         hold_shortfall=gap,
         trade_shortfall=max(0, s["bill"] - trade_resources),
-        hold_goal_wealth=wealth + float(values @ MU),
-        trade_goal_wealth=sleeve + float(after @ MU),
+        hold_goal_wealth=wealth + float(values @ mu),
+        trade_goal_wealth=sleeve + float(after @ mu),
     )
 
 
@@ -303,7 +314,7 @@ def shadows(events):
             if e["status"] != "fresh":
                 continue
             q = next(x for x in UPDATES if x["id"] == e["feed_id"])
-            p = price(q)
+            p = price(account_quote(q, len(r["units"])))
             hold = r["before_cash"] + np.dot(r["before_units"], p) + flow
             trade = r["cash"] + r["reserve"] + np.dot(r["units"], p) + flow
             rows.append(

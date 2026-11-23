@@ -1,0 +1,57 @@
+{
+  "origin": "2026-10-30",
+  "profiles": [
+    {
+      "case": "bounded",
+      "answers": {
+        "C01": "yes",
+        "C03": "yes",
+        "C04": "yes"
+      },
+      "status": "bounded",
+      "low": 2.666666666667,
+      "high": 4.444444444444,
+      "example_pair": "crossover"
+    },
+    {
+      "case": "one-sided",
+      "answers": {
+        "C01": "yes",
+        "C03": "yes"
+      },
+      "status": "one-sided",
+      "low": 2.666666666667,
+      "high": null,
+      "example_pair": "unresolved"
+    },
+    {
+      "case": "conflicting",
+      "answers": {
+        "C01": "yes",
+        "C04": "no",
+        "C03": "no"
+      },
+      "status": "conflict",
+      "low": 4.444444444444,
+      "high": 2.666666666667,
+      "example_pair": "unresolved"
+    },
+    {
+      "case": "unresolved",
+      "answers": {},
+      "status": "comprehension unresolved",
+      "low": 0.0,
+      "high": null,
+      "example_pair": "unresolved"
+    }
+  ],
+  "transfer": "unverified",
+  "independent_months": 0,
+  "fee": 0.001,
+  "blocks": 229,
+  "months": 240,
+  "first_month": "2006-10",
+  "last_month": "2026-09",
+  "seed": 6202,
+  "paths": 2000
+}

@@ -10,6 +10,10 @@ Work down the numbered tasks. Each box describes an action, method and observabl
 
 The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. The historical comparisons are complete. Section 7.2 records the decision to withhold prospective admission.
 
+### Correction de périmètre du 23 novembre 2026
+
+- [x] Étendre le portefeuille investissable aux 13 ETF du panel et garder le cas à trois comme référence. Vérifier les prévisions, les huit dates, le choc conjoint, les 462 simulations d'exécution, les scénarios client, les exclusions et le suivi. Le notebook contient le comparatif recalculé. [Résultats et limites](research/universe/README.md)
+
 ### Course acceptance evidence (brief slides 3–4)
 
 | Course criterion | Tasks | Reproducible demonstration to prepare |

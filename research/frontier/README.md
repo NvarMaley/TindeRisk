@@ -1,5 +1,7 @@
 # 6.1 · Quels portefeuilles respectent le mandat en CHF ?
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 Sur 50 000 CHF, le mandat illustratif impose un retrait de 15 000 CHF dans un an. Le calcul de liquidité du projet place cette somme en réserve avant tout achat. Les stratégies disposent des mêmes **35 000 CHF**, frais compris. Au 30 octobre 2026, avec une limite de volatilité annuelle de 8 % sur cette poche, le portefeuille robuste garde environ 15 473 CHF de liquidités supplémentaires. Les estimations de rendement favorisent alors les actions et l'or. Un changement d'échantillon modifie fortement les poids. [Protocole](PROTOCOL.md) · [Allocations en CHF](results/latest.csv)
 
 ## Un exemple que l'on peut réconcilier

@@ -1,5 +1,7 @@
 # 7.2 · Catalogue de démonstration
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 Le registre signé couvre les variantes des sept études, les compléments de sentiment et les deux optimisations contre le mix fixe. Les intervalles des études sont ceux des fichiers de comparaison historiques à blocs de trois mois. Les seuils, effectifs et raisons sont conservés même en cas d'échec. Aucune stratégie de recherche ne dispose d'observations prospectives indépendantes. Seule la sélection manuelle d'un portefeuille fictif en CHF peut alimenter le suivi de démonstration. Une version différente, une autorisation manquante ou une date expirée échoue au contrôle.
 
 Pour chaque politique, les deux scores annuels du foyer sont recalculés sur les mêmes blocs de deux ans. Le fichier de comparaison fournit les deux extrêmes d'aversion, les intervalles à 95 %, le seuil de 0,005 et les variantes de coûts, d'exécution et de covariance. Sept années donnent une faible précision. L'admission reste fermée. Les poids et les frontières datées figurent dans la section 6.1. Les coûts, retraits, infractions et échanges réalisés sont enregistrés dans 7.1. [Scores réalisés](client_value.csv) · [Frontières estimées](../frontier/results/frontier.png) · [Décisions par variante](catalogue.json)

@@ -4,6 +4,7 @@ from datetime import date
 import numpy as np
 from .intake import evaluate
 from .reviews import COV, MU
+from .universe import ASSETS
 
 
 def mandate():
@@ -53,13 +54,15 @@ def matches(d):
     )
 
 
-def allocations(cap):
+def allocations(cap, excluded=()):
     data = {}
     for name, shape in [
-        ("Diversified mix", np.array([0.45, 0.3, 0.1])),
-        ("Bond-heavy mix", np.array([0.20, 0.55, 0.1])),
+        ("Diversified mix", np.array([0.18, 0.18, 0.10, 0.12] + [0.03] * 9)),
+        ("Bond-heavy mix", np.array([0.11, 0.35, 0.10, 0.20] + [0.01] * 9)),
     ]:
-        weights = shape * min(1, cap / np.sqrt(shape @ COV @ shape))
+        shape[np.isin(ASSETS, excluded)] = 0
+        vol = np.sqrt(shape @ COV @ shape)
+        weights = shape * (min(1, cap / vol) if vol else 1)
         fee = weights.sum() * 35000 * 0.001
         data[name] = (weights.tolist(), fee, 35000 * (1 - weights.sum()) - fee)
     return data

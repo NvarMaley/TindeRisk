@@ -4,6 +4,10 @@ RiskMatch is an English-language web app built around one person's financial goa
 
 A successful outcome can be two defensible alternatives, a decision to hold, or an explanation that the original goal cannot be funded under the stated constraints. This guide explains how the team reaches those decisions. The [checklist](CHECKLIST.md) gives the numbered implementation tasks, the [notebook](RiskMatch.ipynb) records calculations and the [journal](DECISION_LOG.md) records decisions.
 
+## Univers de construction actuel
+
+Les 13 fonds du panel sont candidats à la construction du portefeuille. La comparaison SPY/IEF/GLD reste disponible pour isoler l'effet de cet élargissement aux mêmes dates. Le cas historique, le calcul appliqué au mandat saisi et le suivi fictif sont identifiés dans l'application. [Calculs et revue des autres simplifications](research/universe/README.md)
+
 ## Course demonstration
 
 Start with the CHF 50,000 case and trace the protected CHF 15,000 payment from intake to review. The historical replay compares 462 execution cases. The signed catalogue admits a manual fictional selection for the monitor. The monitoring walkthrough uses its own market updates. The release contains the portable app, seven-slide pitch, expected and observed browser outcomes and the distribution audit. [Replay](research/execution/README.md) · [Catalogue](research/catalogue/README.md) · [Monitor and review](research/monitor/README.md) · [Course delivery](research/release/README.md)
