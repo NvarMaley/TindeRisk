@@ -2,6 +2,8 @@
   {
     "device": "desktop",
     "answered": 22,
+    "cherry_transitions": 24,
+    "reduced_motion": false,
     "profile": "Moderate",
     "manual_and_suggested_blend": true,
     "confirmed": true,
@@ -11,6 +13,8 @@
   {
     "device": "phone",
     "answered": 22,
+    "cherry_transitions": 24,
+    "reduced_motion": true,
     "profile": "Moderate",
     "manual_and_suggested_blend": true,
     "confirmed": true,

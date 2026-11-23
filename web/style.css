@@ -384,6 +384,45 @@ input[type="range"] {
   transition: transform 0.2s;
   will-change: transform;
 }
+.swipe-cherry {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  --launch: 22px;
+  --lean: 8deg;
+}
+.swipe-cherry[data-direction="left"] {
+  --launch: -22px;
+  --lean: -8deg;
+}
+.swipe-cherry img {
+  width: clamp(90px, 21%, 136px);
+  transform-origin: 50% 84%;
+  filter: drop-shadow(0 8px 10px #46163699);
+  animation: cherry-rebound 460ms 195ms both;
+}
+@keyframes cherry-rebound {
+  0% { opacity: 0; transform: translate(var(--launch), 16px) rotate(var(--lean)) scale(.74); }
+  22% { opacity: 1; transform: translateY(5px) scale(1.08, .88); }
+  53% { transform: translateY(-28px) rotate(var(--lean)) scale(.97, 1.04); }
+  78% { transform: translateY(2px) scale(1.05, .94); }
+  91% { transform: translateY(-5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .swipe-card { animation: swipe-deal 150ms ease-out; }
+  @keyframes swipe-deal {
+    from { opacity: .25; translate: 0 6px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swipe-cherry img { animation-name: cherry-still; animation-delay: 100ms; }
+  @keyframes cherry-still { from, to { opacity: 1; } }
+}
 .swipe-card.drag {
   transition: none;
   cursor: grabbing;

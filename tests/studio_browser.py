@@ -41,7 +41,7 @@ YES = {
 def journey(url, browser, phone, report):
     page = browser.new_page(
         viewport={"width": 393 if phone else 1380, "height": 840},
-        reduced_motion="reduce",
+        reduced_motion="reduce" if phone else "no-preference",
         is_mobile=phone,
         has_touch=phone,
     )
@@ -54,6 +54,25 @@ def journey(url, browser, phone, report):
     assert not page.get_by_label("volatility", exact=False).count()
     page.locator("#brief button[type=submit]").click()
     card = page.locator("[data-card-id]")
+    # Record the animation while its outgoing card is still present, before the route changes.
+    page.evaluate("""() => {
+      window.cherryVotes = [];
+      new MutationObserver(records => {
+        for (const record of records) for (const layer of record.addedNodes) {
+          if (!layer.classList?.contains("swipe-cherry")) continue;
+          const pad = layer.parentElement;
+          const [animation] = layer.firstElementChild.getAnimations();
+          const vote = {
+            cycle: animation?.animationName, direction: layer.dataset.direction,
+            leaving: Boolean(pad.querySelector(".fly-no, .fly-yes")),
+            deck: pad.querySelector(".candidate") ? "portfolio" : "calibration",
+            completed: false
+          };
+          window.cherryVotes.push(vote);
+          if (animation) animation.finished.then(() => { vote.completed = true; });
+        }
+      }).observe(document.querySelector("#studio"),{childList: true, subtree: true});
+    }""")
     answered = []
     while not page.get_by_role("button", name="Calculate my matches").count():
         card.wait_for(timeout=10000)
@@ -61,14 +80,32 @@ def journey(url, browser, phone, report):
         assert key not in answered, key
         answered.append(key)
         approve = key in YES
-        if len(answered) == 1 and not phone:
+        if len(answered) == 1:
             box = card.bounding_box()
             x = box["x"] + box["width"] / 2
             y = box["y"] + box["height"] / 2
-            page.mouse.move(x, y)
-            page.mouse.down()
-            page.mouse.move(x + (180 if approve else -180), y, steps=10)
-            page.mouse.up()
+            offset = 100 if approve else -100
+            if phone:
+                session = page.context.new_cdp_session(page)
+                for step in range(7):
+                    session.send(
+                        "Input.dispatchTouchEvent",
+                        {
+                            "type": "touchStart" if step == 0 else "touchMove",
+                            "touchPoints": [{"x": x + offset * step / 6, "y": y}],
+                        },
+                    )
+                session.send(
+                    "Input.dispatchTouchEvent", {"type": "touchEnd", "touchPoints": []}
+                )
+                session.detach()
+            else:
+                page.mouse.move(x, y)
+                page.mouse.down()
+                page.mouse.move(x + offset, y, steps=10)
+                page.mouse.up()
+        elif len(answered) == 3:
+            card.press("ArrowRight" if approve else "ArrowLeft")
         else:
             page.locator('[data-vote="' + ("yes" if approve else "no") + '"]').click()
         expect(page.locator(f'[data-card-id="{key}"]')).to_have_count(0)
@@ -91,6 +128,16 @@ def journey(url, browser, phone, report):
     expect(page.locator(".remove")).to_have_count(1)
     page.locator('[data-vote="yes"]').click()
     expect(page.locator(".remove")).to_have_count(2)
+    cycles = page.evaluate("window.cherryVotes")
+    assert len(cycles) == len(answered) + 2, cycles
+    assert [c["direction"] for c in cycles[: len(answered)]] == [
+        "right" if k in YES else "left" for k in answered
+    ]
+    assert all(c["leaving"] and c["completed"] for c in cycles), cycles
+    assert all(
+        c["cycle"] == ("cherry-still" if phone else "cherry-rebound") for c in cycles
+    )
+    assert [c["deck"] for c in cycles[-2:]] == ["portfolio", "portfolio"]
     page.locator("#compose").click()
     nums = page.locator(".mixrow input[type=number]")
     nums.nth(0).fill("60")
@@ -124,6 +171,8 @@ def journey(url, browser, phone, report):
     return {
         "device": "phone" if phone else "desktop",
         "answered": len(answered),
+        "cherry_transitions": len(cycles),
+        "reduced_motion": phone,
         "profile": profile,
         "manual_and_suggested_blend": True,
         "confirmed": True,

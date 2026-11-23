@@ -427,6 +427,7 @@
 
 ## 13. Application, portfolio matching and monitoring
 
+- [x] Verify the cherry transition on both card decks, including opposite votes, touch input and reduced motion. [Recorded swipe](reports/studio/cherry-swipe.webp)
 - [x] Verify the full brief is reachable by wheel and touch in standalone and Streamlit, together with title audio, continued background music and persistent mute. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Deliver the client-facing path from the lagoon entrance through the budget and goal brief, adaptive swipes, behavioural score and explanatory profile.
 - [x] Expose the complete research library and calculate whole-unit strategies from the dated eligible universe. Show risk, strengths, weaknesses, measured environmental coverage and separate signal readings.

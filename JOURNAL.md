@@ -243,3 +243,7 @@ The desktop and mobile replays reached a 44/100 Moderate profile after 22 answer
 ### Client studio follow-up · Intake scroll and original soundtrack
 
 Streamlit's fixed-height component disabled document scrolling. The studio now owns the vertical scroll area, and navigation returns it to the top. The entrance adds an original retro-jazz loop, water foley and two synchronised title impacts. The same speaker control follows the client through the application. [Interaction checks](reports/studio/interaction-check.json)
+
+### Client studio follow-up · Cherry swipe
+
+Both decks use the same transition for left and right votes. The outgoing card stays mounted until the cherry finishes its bounce. A still logo serves reduced-motion sessions. The browser replay checks the direction on each behavioural card and the transition on both shortlisted portfolios. [Animated capture](reports/studio/cherry-swipe.webp) · [Browser replay](reports/studio/browser-check.json)
