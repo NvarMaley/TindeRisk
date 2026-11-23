@@ -194,7 +194,7 @@ async function finishProfile() {
       facts: state.facts,
       answers: state.answers,
     });
-    Object.assign(state, result, { plans: [], kept: [], draft: null });
+    Object.assign(state, result, { plans: [], kept: [], draft: null, goalComparison: null });
     profile(true);
   } finally {
     calibrating = false;
@@ -373,7 +373,7 @@ function showSaves(saves, selected = saves.length ? saves[0].id : "new") {
 async function lockSave() {
   await api("lock_save");
   Object.assign(state, {token:"", version:0, profile:null, facts:{}, answers:{}, cards:[],
-    funded:false, plans:[], kept:[], seen:[], index:0, revision:0, day:"", preview:null, draft:null});
+    funded:false, plans:[], goalComparison:null, kept:[], seen:[], index:0, revision:0, day:"", preview:null, draft:null});
   editing = null;
   showSaves(await api("list_saves"));
 }

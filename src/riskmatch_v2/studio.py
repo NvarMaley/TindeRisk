@@ -158,7 +158,7 @@ def dispatch(action, data, directory=None):
         return overview(book, day)
     if data.get("version") != latest["version"]:
         raise ValueError("The mandate changed. Reopen your latest profile.")
-    from .studio_allocation import DAYS, blend, candidates, quotes
+    from .studio_allocation import DAYS, blend, candidates, compare_goal, quotes
 
     if action == "advance":
         new_day = next((d for d in DAYS if d > day), None)
@@ -216,8 +216,10 @@ def dispatch(action, data, directory=None):
         )
     working = policy | {"account": compact, "day": day}
     if action == "candidates":
+        plans = candidates(working)
         return {
-            "plans": [public_plan(x) for x in candidates(working)],
+            "plans": [public_plan(x) for x in plans],
+            "goal_comparison": compare_goal(working, plans),
             "day": day,
             "revision": a["revision"],
         }

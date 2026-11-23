@@ -1107,3 +1107,12 @@ th {
 #save-form .primary {
   justify-self: start;
 }
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
+  gap: 24px;
+}
+.goal-grid h3 { margin: 0 0 8px; }
+.goal-grid .secondary { margin-top: 12px; }
+.goal-grid .budget-line + p { margin-top: 12px; }

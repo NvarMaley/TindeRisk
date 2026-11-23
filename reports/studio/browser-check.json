@@ -11,6 +11,7 @@
     "reserve_projection_and_chf_split": true,
     "confirmed": true,
     "pin_required_after_reload": true,
+    "goal_comparison": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100
   },
@@ -26,6 +27,7 @@
     "reserve_projection_and_chf_split": true,
     "confirmed": true,
     "pin_required_after_reload": true,
+    "goal_comparison": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100
   }

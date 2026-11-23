@@ -10,6 +10,7 @@ export const state = {
   cards: [],
   funded: false,
   plans: [],
+  goalComparison: null,
   kept: [],
   index: 0,
   revision: 0,

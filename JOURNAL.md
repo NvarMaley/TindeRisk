@@ -267,3 +267,7 @@ The lagoon artwork continues behind the studio at desktop and mobile aspect rati
 ### Client studio follow-up · Named test saves
 
 The selector opens after the title sequence. A new save requires a name and matching four-digit PIN entries. Separate saves restore their own brief, completed card answers and portfolios after unlocking. A tester can explicitly lock a save, and the browser requires the PIN after reloading. Left votes remain available by text button or gesture. [Local test workflow](reports/studio/README.md#named-local-saves)
+
+### Client studio follow-up · Goal comparison
+
+The contenders screen now compares the desired return, the required return and the highest historical-model estimate among compatible cards. The separate goal scenario estimates how much volatility and stress loss the goal would require. Its continuous solve is checked after fees and whole-position rounding. It is an illustration only. [Method](reports/studio/ALLOCATION.md#goal-comparison)

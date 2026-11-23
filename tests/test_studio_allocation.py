@@ -7,7 +7,15 @@ from tempfile import TemporaryDirectory
 import numpy as np
 
 from riskmatch_v2.matching.ledger import Ledger
-from riskmatch_v2.studio_allocation import DAYS, FEE, _data, blend, candidates, quotes
+from riskmatch_v2.studio_allocation import (
+    DAYS,
+    FEE,
+    _data,
+    blend,
+    candidates,
+    compare_goal,
+    quotes,
+)
 
 
 class StudioAllocationTests(unittest.TestCase):
@@ -58,6 +66,28 @@ class StudioAllocationTests(unittest.TestCase):
         self.assertGreater(
             self.cards["diversified"]["positions"], self.cards["reference"]["positions"]
         )
+
+    def test_goal_comparison_keeps_the_illustration_out_of_matching(self):
+        policy = self.policy | {
+            "goal_chf": 130000,
+            "low": 0,
+            "high": 0.04,
+            "loss_capacity_chf": 1000,
+        }
+        plans = candidates(policy)
+        result = compare_goal(policy, plans)
+        self.assertEqual(result["desired"], 0.05)
+        self.assertGreater(result["required"], result["desired"])
+        self.assertGreaterEqual(result["scenario"]["goal_value_chf"], 130000)
+        self.assertGreater(result["scenario"]["vol"], policy["high"])
+        self.assertGreater(
+            result["scenario"]["tested_loss_chf"], policy["loss_capacity_chf"]
+        )
+        self.assertLessEqual(result["compatible"]["vol"], policy["high"])
+        self.assertGreater(result["compatible"]["goal_gap_chf"], 0)
+        self.assertIsNone(compare_goal(policy | {"goal_chf": 1e9}, plans)["scenario"])
+        with self.assertRaisesRegex(ValueError, "unavailable"):
+            blend(policy, ["goal_scenario"])
 
     def test_issuer_and_measured_intensity_screens(self):
         strict = candidates(
