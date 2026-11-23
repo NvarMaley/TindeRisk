@@ -43,7 +43,7 @@ function translate(text) {
 
 function update(node) {
   if (node.nodeType === Node.TEXT_NODE) {
-    if (node.parentElement?.closest("script, style, [data-language], #save-form select option:not([value=new])")) return;
+    if (node.parentElement?.closest("script, style, [data-language], [data-untranslated], #save-form select option:not([value=new])")) return;
     let original = textSources.get(node);
     if (!original || node.data !== original.rendered) original = { source: node.data };
     original.rendered = translate(original.source);

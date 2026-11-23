@@ -96,3 +96,7 @@ The browser replay uses Playwright and installed Chrome. Dossiers are isolated u
 ## Studio language
 
 Choose English or French on the opening scene. The header selector applies the preference immediately without rebuilding forms or resetting the questionnaire. The preference is stored in the current browser. Some detailed research diagnostics and server-generated messages retain their source language.
+
+## Behavioural profile
+
+The studio presents five separate scores, the saved questionnaire responses by block, and the sources of the portfolio risk estimate. A restart begins a new questionnaire while retaining the saved brief and any recorded portfolio. [Scoring and questions](ETUDE_QUESTIONNAIRE_FR.md#profil-en-cinq-blocs)

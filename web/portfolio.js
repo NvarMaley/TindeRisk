@@ -281,6 +281,7 @@ export function showMatches() {
       tiles([
         ["Modeled annual return, net", pct(p.net)],
         ["Modeled annual volatility", pct(p.vol)],
+        ...(state.profile.behaviour_blocks ? [["Modeled change in a 2008-style shock", chf(p.loss_2008_chf)]] : []),
         [state.profile.volatility_zone ? "Your estimated zone" : "Your search limit", riskBand()],
       ]) +
       (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +

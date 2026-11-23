@@ -6,6 +6,7 @@ from math import isfinite
 from .interview import CARDS, gamble_bounds, intersection, route, understood
 from .matching.mandate import MARKET_DAY
 from .risk_review import POLICY
+from .studio_behaviour import BLOCK_CARDS, assess_blocks
 
 # A like always endorses the first-person proposition. Orientations retain the bank's
 # original yes/no coding so its conditional branches and gamble bounds still apply.
@@ -147,11 +148,13 @@ def _aversion(active, cash_only):
     }
 
 
-def deck(answers, *, portfolio_check=False, derived=False):
+def deck(answers, *, portfolio_check=False, derived=False, blocks=False):
     available = (*COMPARISON_OUTCOMES, *RETIRED_COMPARISONS)
     if not isinstance(answers, dict) or any(
         v not in COMPARISON_ANSWERS
         if k in available and (portfolio_check or derived)
+        else v not in (*dict(BLOCK_CARDS[k][3]), "skip")
+        if k in BLOCK_CARDS and blocks
         else k not in STATEMENTS
         and k not in RETIRED_CARDS
         or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
@@ -179,6 +182,25 @@ def deck(answers, *, portfolio_check=False, derived=False):
         }
         for k in active
     ]
+    if blocks:
+        rows = [row for row in rows if row["id"] not in ("T01", "T02", "L01", "L02")]
+    if blocks and understood(_binary(answers)):
+        new_rows = {
+            key: {
+                "id": key,
+                "family": family,
+                "text": text,
+                "help": help_text,
+                "choices": list(choices),
+            }
+            for key, (family, text, help_text, choices) in BLOCK_CARDS.items()
+        }
+        start = next(i for i, row in enumerate(rows) if row["id"] == "G11")
+        rows.insert(start, new_rows["P01"])
+        if answers.get("P01") == "narrow":
+            rows.insert(start + 1, new_rows["P02"])
+        start = next(i for i, row in enumerate(rows) if row["id"] == "L00") + 1
+        rows[start:start] = [new_rows["M01"], new_rows["M02"]]
     if (portfolio_check or derived) and understood(_binary(answers)):
         for key, outcomes in COMPARISON_OUTCOMES.items():
             options = [
@@ -202,7 +224,10 @@ def deck(answers, *, portfolio_check=False, derived=False):
                 }
             )
             active.append(key)
-    return rows, {k: answers[k] for k in active if k in answers}
+    if blocks and understood(_binary(answers)):
+        rows.append(new_rows["A01"])
+    active = {row["id"] for row in rows}
+    return rows, {k: v for k, v in answers.items() if k in active}
 
 
 def money(value, label, *, minimum=0, maximum=1_000_000_000):
@@ -353,8 +378,10 @@ def _comparison_policy(active, band, cash_only):
     return {"status": status, "scenario_ceiling": ceiling, "allocation_ceiling": cap}
 
 
-def calibrate(facts, answers, *, portfolio_check=False, derived=False):
-    cards, active = deck(answers, portfolio_check=portfolio_check, derived=derived)
+def calibrate(facts, answers, *, portfolio_check=False, derived=False, blocks=False):
+    cards, active = deck(
+        answers, portfolio_check=portfolio_check, derived=derived, blocks=blocks
+    )
     if any(c["id"] not in active for c in cards):
         raise ValueError("Finish the active calibration cards first.")
     a = _binary(active)
@@ -384,6 +411,10 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
         and len(valid) >= 2
     )
     score = round(sum(valid) / len(valid)) if usable else None
+    block_results = None
+    if blocks:
+        block_results, score = assess_blocks(active, understood=understood(a))
+        usable = score is not None
     band = POLICY["bands"][min(4, score // 20)] if usable else None
     horizon = (
         date.fromisoformat(facts["goal_date"]) - date.fromisoformat(MARKET_DAY)
@@ -439,6 +470,12 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
     aversion = None
     if derived:
         aversion = _aversion(active, cash_only)
+        if (
+            blocks
+            and block_results[0]["score"] != 100
+            and aversion["state"] == "estimated"
+        ):
+            aversion.update(state="needs_confirmation", gamma_low=None, gamma_high=None)
         policy.update(
             low=0,
             high=0,
@@ -527,6 +564,7 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
     ]
     return policy, {
         "portfolio_check": check,
+        "behaviour_blocks": block_results,
         **(
             {
                 "aversion": aversion,
@@ -559,7 +597,9 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
             for c in cards
         ],
         "blocked_reason": blocked,
-        "policy_version": "studio-3"
+        "policy_version": "studio-4"
+        if blocks
+        else "studio-3"
         if derived
         else "studio-2"
         if portfolio_check

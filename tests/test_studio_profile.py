@@ -45,6 +45,68 @@ def answers(yes):
 
 
 class Calibration(unittest.TestCase):
+    def test_five_blocks_score_and_restart_without_discarding_the_mandate(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            save = dispatch(
+                "create_save",
+                {"name": "Camille", "pin": "0427", "confirmation": "0427"},
+                root,
+            )
+            opts = {"derive_volatility": True, "behaviour_blocks": True}
+            selections = {
+                "C01": "yes",
+                "P01": "narrow",
+                "P02": "wide",
+                "G11": "gamble",
+                "G12": "certain",
+                "M01": "refuse",
+                "M02": "accept",
+                "D01": "keep",
+                "V01": "wider",
+                "V02": "lower",
+                "A01": "skip",
+            }
+            raw = {}
+            while True:
+                route = dispatch("route", opts | {"answers": raw}, root)
+                unanswered = next(
+                    (c["id"] for c in route["cards"] if c["id"] not in raw), None
+                )
+                if unanswered is None:
+                    break
+                raw[unanswered] = selections.get(unanswered, "no")
+            self.assertFalse({"T01", "T02", "L01", "L02"} & raw.keys())
+            token = {"token": save["access"]}
+            calibrated = dispatch(
+                "calibrate", token | opts | {"facts": FACTS, "answers": raw}, root
+            )
+            profile = calibrated["profile"]
+            self.assertEqual(
+                [block["score"] for block in profile["behaviour_blocks"]],
+                [100, 50, 50, 100, None],
+            )
+            self.assertEqual(profile["score"], 60)
+            self.assertEqual(profile["policy_version"], "studio-4")
+            self.assertEqual(profile["aversion"]["state"], "estimated")
+            version = token | {"version": calibrated["version"]}
+            dispatch("restart_questionnaire", version, root)
+            restart = dispatch("resume", token, root)
+            self.assertIsNone(restart["profile"])
+            self.assertEqual(restart["answers"], {})
+            self.assertEqual(restart["facts"], FACTS)
+            self.assertEqual(restart["version"], version["version"])
+            again = dispatch(
+                "calibrate", version | opts | {"facts": FACTS, "answers": raw}, root
+            )
+            self.assertEqual(
+                dispatch("resume", token, root)["version"], again["version"]
+            )
+            bad = raw | {"P02": "narrow"}
+            _, undetermined = calibrate(intake(FACTS), bad, derived=True, blocks=True)
+            self.assertIsNone(undetermined["score"])
+            self.assertEqual(undetermined["aversion"]["state"], "needs_confirmation")
+
     def test_direct_examples_replace_permission_and_review_prompts(self):
         retired = {
             "G00": "no",

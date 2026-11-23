@@ -123,6 +123,10 @@ def journey(url, browser, phone, report):
         answered.append(key)
         approve = key in YES
         explicit = {
+            "P01": "wide",
+            "M01": "refuse",
+            "M02": "accept",
+            "A01": "known",
             "G11": "gamble",
             "G12": "certain",
             "D01": "reduce",
@@ -191,14 +195,22 @@ def journey(url, browser, phone, report):
                 Math.abs(rect.top - window.mastBefore.top) < .5;
             }""")
     expect(page.locator("#calculate")).to_be_enabled()
-    profile = page.locator(".reveal h1").inner_text()
-    zone_panel = page.get_by_role(
-        "heading", name="Estimated annual volatility"
-    ).locator("..")
-    expect(zone_panel).to_be_visible()
-    expect(zone_panel).to_contain_text("Derived from your portfolio choices")
-    expect(zone_panel).to_contain_text("Risk aversion · γ")
-    zone = zone_panel.locator(".lede").inner_text()
+    profile = page.locator(".profile-hero h1").inner_text()
+    expect(page.locator(".profile-name")).to_have_text(name)
+    expect(page.locator(".profile-block")).to_have_count(5)
+    expect(page.locator(".profile-block meter")).to_have_count(5)
+    answers_panel = page.locator(".profile-block").first.locator("details")
+    answers_panel.locator("summary").click()
+    expect(answers_panel).to_contain_text("fair coin toss")
+    expect(
+        page.locator(".profile-note").filter(has_text="Risk aversion · γ")
+    ).to_be_visible()
+    zone = (
+        page.get_by_text("Estimated annual volatility", exact=True)
+        .locator("..")
+        .locator("strong")
+        .inner_text()
+    )
     assert "%" in zone and [k for k in answered if k.startswith("V")] == ["V01", "V02"]
     expect(
         page.get_by_text(

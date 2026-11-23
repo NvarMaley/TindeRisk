@@ -1,10 +1,24 @@
 # Étude du questionnaire comportemental de RiskMatch
 
-Le studio contient **20 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles**. **7 cartes forment le tronc commun** (C01, T01, L00, D01, H01, S01 et S03). Les **13 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-3** dérive la tranche indicative à partir des choix de portefeuille et des allocations calculées. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
+Le profil comporte cinq blocs. Le studio présente deux choix de portefeuille, deux exercices où la perte possible reste fixée à 100 CHF, une situation de baisse à 15 % et une question facultative sur l’ambiguïté. Les vérifications de compréhension comportent des relances. Le reste de ce document conserve les variantes précédentes et la grille historique.
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
 Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct. Dès que la compréhension est établie, les exercices G11 et G12 sont présentés à la suite. Les anciens exercices G01–G03, la deuxième paire de cadrage et les relances archivées restent documentés. Les anciennes sauvegardes peuvent les afficher comme réponses passées.
+
+## Profil en cinq blocs
+
+| Bloc | Questions | Calcul et lecture |
+|---|---|---|
+| Compréhension et perception du risque | C01, C02, P01, P02 | Une réponse correcte à la vérification de probabilité et à la comparaison des amplitudes donne 100. Une erreur sur l’amplitude déclenche une reformulation. Le résultat reste à 50 si la probabilité est comprise mais que l’amplitude est mal identifiée. Deux réponses de probabilité incorrectes donnent 0. Si une réponse décisive manque, le bloc peut rester indéterminé. |
+| Arbitrage rendement–risque | V01, V02. Les exercices G11 et G12 fournissent un contexte complémentaire. | Chaque choix en faveur de B ajoute 50 points si les choix sont interprétables. A suivi de B signale des bornes incompatibles dans le modèle. Le choix des liquidités donne 0 lorsqu’il est cohérent avec l’autre réponse. |
+| Sensibilité aux pertes | M01, M02. L00 précise le point de référence. | Pour une perte de 100 CHF équiprobable avec un gain de 150 puis 250 CHF, accepter les deux donne 0, accepter seulement à 250 donne 50 et refuser les deux donne 100. Refuser 250 après avoir accepté 150 ou passer une carte laisse le score indéterminé. Le résultat peut aussi refléter une préférence pour la certitude. |
+| Réaction après une baisse | D01 à D06 selon les réponses | Après une baisse fictive de 15 %, garder donne 100, revoir le plan 50 et réduire 0. Les motifs, notamment le besoin de liquidités, l’inconfort et les perspectives de marché, restent visibles sans modifier les points. |
+| Ambiguïté | A01, facultative | Préférer une probabilité connue donne 0, être indifférent 50 et choisir la probabilité inconnue 100. Le résultat décrit ce choix précis. |
+
+Le score général suit la formule `0,70 × arbitrage + 0,20 × réaction après une baisse + 0,10 × (100 − sensibilité aux pertes)`. Une catégorie exige une compréhension confirmée, deux choix de portefeuille interprétables et au moins un bloc secondaire. Si un bloc secondaire manque, le score répartit les poids des blocs disponibles à hauteur de 100 %. Les seuils sont 20, 40, 60 et 80. Les poids et seuils sont des choix de conception. Les scores restent indicatifs en attendant des essais sur des participants.
+
+L’aversion en moyenne–variance se calcule séparément, selon la formule `γ* = 2(μB − μA) / (σB² − σA²)`. Le choix de A donne une borne minimale pour γ et celui de B une borne maximale. Les portefeuilles évalués à différentes valeurs de γ doivent respecter les contraintes financières du compte. [Tversky et Kahneman, théorie cumulative des perspectives](https://doi.org/10.1007/BF00122574) · [Ellsberg, risque et ambiguïté](https://doi.org/10.2307/1884324)
 
 ## Pourquoi ces questions
 

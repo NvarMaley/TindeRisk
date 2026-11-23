@@ -340,3 +340,7 @@ The studio presents the three fictional comparisons consecutively once comprehen
 ## 24 November 2026 — Reduce repeated comparisons
 
 Two guaranteed-versus-uncertain cards compare CHF 1,030 and CHF 1,070 with the same equally likely CHF 950 or CHF 1,200 outcome. The studio also keeps one pair of framing questions and two portfolio comparisons. Old responses remain visible under their original amounts.
+
+## 24 November 2026 — Five behavioural blocks
+
+The studio presents a profile score, five explained block scores, category definitions, questionnaire evidence and the mean–variance formula. The return–risk trade-off has the largest weight. The ambiguity item is optional. A questionnaire restart preserves the saved brief and portfolio. [Study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#profil-en-cinq-blocs)

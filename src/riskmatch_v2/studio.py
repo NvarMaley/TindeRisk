@@ -105,9 +105,13 @@ def dispatch(action, data, directory=None):
         return facts
     portfolio_check = data.get("portfolio_check") is True
     derived = data.get("derive_volatility") is True
+    blocks = derived and data.get("behaviour_blocks") is True
     if action == "route":
         cards, answers = deck(
-            data["answers"], portfolio_check=portfolio_check, derived=derived
+            data["answers"],
+            portfolio_check=portfolio_check,
+            derived=derived,
+            blocks=blocks,
         )
         if save_id:
             saves.draft(directory, save_id, answers=answers)
@@ -115,7 +119,11 @@ def dispatch(action, data, directory=None):
     if action == "calibrate":
         facts = intake(data["facts"])
         policy, profile = calibrate(
-            facts, data["answers"], portfolio_check=portfolio_check, derived=derived
+            facts,
+            data["answers"],
+            portfolio_check=portfolio_check,
+            derived=derived,
+            blocks=blocks,
         )
         book = Ledger(directory, token) if token else Ledger.create(directory)
         day = book.latest_day() or MARKET_DAY
@@ -173,12 +181,30 @@ def dispatch(action, data, directory=None):
         raise ValueError("Reopen a calibrated studio profile.")
     policy = latest["payload"]
     day = book.latest_day() or MARKET_DAY
+    if action == "restart_questionnaire":
+        if data.get("version") != latest["version"]:
+            raise ValueError("The mandate changed. Reopen your latest profile.")
+        if save_id:
+            saves.draft(
+                directory,
+                save_id,
+                answers={},
+                facts=policy["studio_intake"],
+                questionnaire_version=latest["version"],
+            )
+        return {"answers": {}}
     if action == "resume":
+        saved = saves.draft(directory, save_id) if save_id else {}
+        restarting = saved.get("questionnaire_version") == latest["version"]
         return {
-            "profile": policy["studio_profile"],
+            "profile": None if restarting else policy["studio_profile"],
             "version": latest["version"],
-            "facts": policy["studio_intake"],
-            "answers": policy["studio_answers"],
+            "facts": saved.get("facts", policy["studio_intake"])
+            if restarting
+            else policy["studio_intake"],
+            "answers": saved.get("answers", {})
+            if restarting
+            else policy["studio_answers"],
             "funded": bool(book.account(day)["portfolio_version"]),
         }
     if action == "delete":
