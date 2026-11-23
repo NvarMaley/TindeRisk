@@ -1,5 +1,5 @@
 {
-  "tracked_count": 316,
+  "tracked_count": 321,
   "files": {
     ".gitignore": "software, configuration and environment",
     ".streamlit/config.toml": "software, configuration and environment",
@@ -155,6 +155,7 @@
     "reports/studio/contender.jpg": "research chart, fictional screenshot or project artwork",
     "reports/studio/entrance-mobile.jpg": "research chart, fictional screenshot or project artwork",
     "reports/studio/entrance.jpg": "research chart, fictional screenshot or project artwork",
+    "reports/studio/interaction-check.json": "parameters, metadata and research evidence",
     "reports/studio/library-coverage.json": "parameters, metadata and research evidence",
     "reports/studio/model.json": "parameters, metadata and research evidence",
     "reports/studio/profile.jpg": "research chart, fictional screenshot or project artwork",
@@ -263,6 +264,7 @@
     "tests/match_browser.py": "software, configuration and environment",
     "tests/parcours_navigateur.py": "software, configuration and environment",
     "tests/studio_browser.py": "software, configuration and environment",
+    "tests/studio_interactions.py": "software, configuration and environment",
     "tests/test_catalogue.py": "software, configuration and environment",
     "tests/test_econometrics.py": "software, configuration and environment",
     "tests/test_environment.py": "software, configuration and environment",
@@ -289,8 +291,10 @@
     "web/assets/archivoblack.woff2": "font and bundled licence",
     "web/assets/cherry.png": "research chart, fictional screenshot or project artwork",
     "web/assets/dmsans.woff2": "font and bundled licence",
+    "web/assets/lagoon-cues.m4a": "original studio music and sound effects",
     "web/assets/lagoon-dusk-mobile.webp": "research chart, fictional screenshot or project artwork",
     "web/assets/lagoon-dusk.webp": "research chart, fictional screenshot or project artwork",
+    "web/assets/lagoon-jazz.m4a": "original studio music and sound effects",
     "web/assets/miami.jpg": "research chart, fictional screenshot or project artwork",
     "web/data/library-00.json": "parameters, metadata and research evidence",
     "web/data/library-01.json": "parameters, metadata and research evidence",
@@ -315,6 +319,7 @@
     "web/library.css": "software, configuration and environment",
     "web/library.js": "software, configuration and environment",
     "web/portfolio.js": "software, configuration and environment",
+    "web/sound.js": "software, configuration and environment",
     "web/studio-core.js": "software, configuration and environment",
     "web/style.css": "software, configuration and environment"
   },

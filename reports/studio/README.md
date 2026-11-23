@@ -15,6 +15,12 @@ python -m riskmatch_v2.studio --port 8766
 
 Open [the client studio](http://127.0.0.1:8766/). Streamlit users can run `python -m streamlit run app/questionnaire.py`. The archived section 13 walkthrough is available at `?view=research` on the Streamlit service.
 
+## Sound and navigation
+
+Press to start plays a quiet original 16-bar jazz instrumental at 91 BPM, with electric piano, bass, a reed melody and brushed percussion. A splash accompanies the cherry and two soft impacts land with the title. The music loops through the studio. The speaker button on the intro and in the header remembers the mute setting. Backgrounding the tab pauses playback; reduced motion skips the timed effects.
+
+The brief scrolls inside the studio in both the standalone and Streamlit entry points. [Mouse, touch and sound replay](interaction-check.json)
+
 ## From the first swipe to a match
 
 | Stage | What the client sees | How it works |

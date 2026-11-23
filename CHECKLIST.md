@@ -427,6 +427,7 @@
 
 ## 13. Application, portfolio matching and monitoring
 
+- [x] Verify the full brief is reachable by wheel and touch in standalone and Streamlit, together with title audio, continued background music and persistent mute. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Deliver the client-facing path from the lagoon entrance through the budget and goal brief, adaptive swipes, behavioural score and explanatory profile.
 - [x] Expose the complete research library and calculate whole-unit strategies from the dated eligible universe. Show risk, strengths, weaknesses, measured environmental coverage and separate signal readings.
 - [x] Verify manual and suggested blends, independent confirmation, holdings, a simulated close, a deposit and resume on desktop and phone. [Studio methods, screenshots and test receipt](reports/studio/README.md)

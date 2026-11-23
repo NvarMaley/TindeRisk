@@ -30,6 +30,8 @@ def classification(name):
         raise ValueError(f"Review new tabular data before release: {name}")
     if name.startswith("reports/07-funding/client-") or name.endswith("/cas.json"):
         return "fictional research cases"
+    if name in {"web/assets/lagoon-jazz.m4a", "web/assets/lagoon-cues.m4a"}:
+        return "original studio music and sound effects"
     if p.suffix == ".woff2" or name.endswith("OFL.txt"):
         return "font and bundled licence"
     if p.suffix in {".webp", ".jpg", ".png"}:

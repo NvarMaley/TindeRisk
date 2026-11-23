@@ -239,3 +239,7 @@ The client enters one financial brief, then calibrates willingness by swiping fi
 The browser now exposes 3,902 dated research sheets. Each solve starts from 3,322 eligible securities before household restrictions. A shortlist supports manual and suggested blends, with separate review and confirmation in the fictional ledger. The portfolio chart uses five available simulated closes. Live display requires an operator-authorised feed covering every held position and USD/CHF.
 
 The desktop and mobile replays reached a 44/100 Moderate profile after 22 answers, inspected GLD, compared and mixed two strategies, booked a match, advanced the close, recorded a deposit and resumed the profile. [Client studio and visual evidence](reports/studio/README.md) · [Allocation methodology](reports/studio/ALLOCATION.md)
+
+### Client studio follow-up · Intake scroll and original soundtrack
+
+Streamlit's fixed-height component disabled document scrolling. The studio now owns the vertical scroll area, and navigation returns it to the top. The entrance adds an original retro-jazz loop, water foley and two synchronised title impacts. The same speaker control follows the client through the application. [Interaction checks](reports/studio/interaction-check.json)
