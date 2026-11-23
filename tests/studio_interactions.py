@@ -43,13 +43,47 @@ def exercise(browser, url, embedded, phone):
     sound = view.get_by_role("button", name="Sound", exact=True)
     jazz = view.locator("audio[loop]")
     cues = view.locator("audio:not([loop])")
-    assert jazz.evaluate("a=>a.paused") and cues.evaluate("a=>a.paused")
+    # Same-origin embeds can receive autoplay permission from the host browser.
+    mode = jazz.evaluate("""async a => {
+        const deadline = performance.now() + 5000;
+        while (performance.now() < deadline) {
+          if (!a.paused && a.currentTime > 0) return 'autoplay';
+          if (document.querySelector('.sound-toggle[data-playback="awaiting-interaction"]')) return 'gesture';
+          await new Promise(resolve => setTimeout(resolve, 30));
+        }
+        throw Error('Idle screen neither played music nor offered playback');
+    }""")
+    if mode == "gesture":
+        assert jazz.evaluate("a=>a.paused")
+        expect(sound).to_have_attribute("aria-pressed", "true")
+        # Normal keyboard navigation unlocks playback without starting the title or touching Sound.
+        start.press("Tab")
+    assert not view.get_by_role("button", name="Play music", exact=True).count()
+    if not phone:
+        assert mode == "autoplay"
+    expect(jazz).to_have_js_property("paused", False)
+    expect(jazz).not_to_have_js_property("currentTime", 0)
+    assert jazz.evaluate("a=>!a.muted && a.volume > 0")
+    expect(view.locator('.rm-intro[data-phase="idle"]')).to_be_visible()
+    assert cues.evaluate("a=>a.paused && a.currentTime===0")
     start.click()
     expect(jazz).to_have_js_property("paused", False)
     expect(cues).to_have_js_property("paused", False)
     expect(view.locator("#brief")).to_be_visible(timeout=15000)
     assert jazz.evaluate("a=>a.currentTime>0 && a.duration>40 && !a.paused")
     assert cues.evaluate("a=>a.currentTime>2 && a.paused")
+    # Emulate a visibility event and verify the application keeps the same media clock running.
+    elapsed = jazz.evaluate("""a => {
+      Object.defineProperty(document, 'hidden', {configurable:true, value:true});
+      document.dispatchEvent(new Event('visibilitychange'));
+      return a.currentTime;
+    }""")
+    expect(jazz).to_have_js_property("paused", False)
+    expect(jazz).not_to_have_js_property("currentTime", elapsed)
+    jazz.evaluate("""() => {
+      delete document.hidden;
+      document.dispatchEvent(new Event('visibilitychange'));
+    }""")
     sound.click()
     expect(jazz).to_have_js_property("paused", True)
     sound.click()
@@ -71,9 +105,13 @@ def exercise(browser, url, embedded, phone):
     return {
         "entry": "Streamlit" if embedded else "Standalone",
         "input": "Touch swipe" if phone else "Mouse wheel",
+        "idle_music_start": mode,
         "submit_reached": True,
         "jazz_and_cues_played": True,
+        "music_before_start": True,
+        "title_cues_waited_for_start": True,
         "mute_persisted": True,
+        "continued_on_visibility_change": True,
     }
 
 
@@ -84,13 +122,20 @@ if __name__ == "__main__":
     parser.add_argument("--record", action="store_true")
     args = parser.parse_args()
     with sync_playwright() as p:
-        browser = p.chromium.launch(channel="chrome")
-        result = [
-            exercise(browser, url, embedded, phone)
-            for url, embedded in ((args.standalone, False), (args.streamlit, True))
-            for phone in (False, True)
-        ]
-        browser.close()
+        result = []
+        for phone in (False, True):
+            policy = (
+                "document-user-activation-required"
+                if phone
+                else "no-user-gesture-required"
+            )
+            browser = p.chromium.launch(
+                channel="chrome", args=["--autoplay-policy=" + policy]
+            )
+            for url, embedded in ((args.standalone, False), (args.streamlit, True)):
+                result.append(exercise(browser, url, embedded, phone))
+            browser.close()
+    assert {row["idle_music_start"] for row in result} == {"autoplay", "gesture"}
     if args.record:
         (
             Path(__file__).resolve().parents[1]

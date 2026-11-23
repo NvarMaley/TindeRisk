@@ -1,5 +1,5 @@
 /** Full-screen, keyboard-accessible title sequence. The caller owns the next screen. */
-import { mountSoundControl, startSound, endIntroSound } from './sound.js';
+import { syncMusic, mountSoundControl, startSound, endIntroSound } from './sound.js';
 
 const introSheet = new URL('./intro.css', import.meta.url).href;
 const artwork = name => new URL('./assets/' + name, import.meta.url).href;
@@ -99,6 +99,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
     </div>`;
   root.replaceChildren(scene);
   mountSoundControl(scene);
+  syncMusic();
   const select = selector => scene.querySelector(selector);
   const start = select('.rm-intro__start');
   const loading = select('.rm-intro__loading');

@@ -1,4 +1,4 @@
-import { mountSoundControl } from "./sound.js";
+import { mountSoundControl, playSwipeSound } from "./sound.js";
 
 export const root = document.getElementById("studio");
 export const state = {
@@ -210,6 +210,7 @@ export function swipes(card, fn) {
       return;
     }
     flight = true;
+    playSwipeSound(value);
     const stage = card.closest("#stage");
     const pad = card.closest(".swipepad");
     const cherry = document.createElement("div");

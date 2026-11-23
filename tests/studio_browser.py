@@ -57,6 +57,20 @@ def journey(url, browser, phone, report):
     # Record the animation while its outgoing card is still present, before the route changes.
     page.evaluate("""() => {
       window.cherryVotes = [];
+      window.swipeSounds = [];
+      window.jazzPauses = 0;
+      const jazz = document.querySelector("audio[loop]");
+      jazz.addEventListener("pause",()=>window.jazzPauses++);
+      const originalStart = AudioBufferSourceNode.prototype.start;
+      AudioBufferSourceNode.prototype.start = function(...args) {
+        const result = originalStart.apply(this,args);
+        const pcm = this.buffer.getChannelData(0);
+        window.swipeSounds.push({
+          duration: this.buffer.duration, musicPlaying: !jazz.paused,
+          energy: pcm.reduce((sum,v)=>sum+v*v,0)/pcm.length
+        });
+        return result;
+      };
       new MutationObserver(records => {
         for (const record of records) for (const layer of record.addedNodes) {
           if (!layer.classList?.contains("swipe-cherry")) continue;
@@ -138,6 +152,13 @@ def journey(url, browser, phone, report):
         c["cycle"] == ("cherry-still" if phone else "cherry-rebound") for c in cycles
     )
     assert [c["deck"] for c in cycles[-2:]] == ["portfolio", "portfolio"]
+    sounds = page.evaluate("window.swipeSounds")
+    assert len(sounds) == len(cycles)
+    for sound, cycle in zip(sounds, cycles, strict=True):
+        expected_duration = 0.32 if cycle["direction"] == "right" else 0.13
+        assert abs(sound["duration"] - expected_duration) < 0.001
+        assert sound["energy"] > 0.0001 and sound["musicPlaying"]
+    assert page.evaluate("window.jazzPauses") == 0
     page.locator("#compose").click()
     nums = page.locator(".mixrow input[type=number]")
     nums.nth(0).fill("60")
@@ -172,6 +193,8 @@ def journey(url, browser, phone, report):
         "device": "phone" if phone else "desktop",
         "answered": len(answered),
         "cherry_transitions": len(cycles),
+        "swipe_sounds": len(sounds),
+        "jazz_pauses_during_cards": 0,
         "reduced_motion": phone,
         "profile": profile,
         "manual_and_suggested_blend": True,

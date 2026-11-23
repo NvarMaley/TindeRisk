@@ -247,3 +247,7 @@ Streamlit's fixed-height component disabled document scrolling. The studio now o
 ### Client studio follow-up · Cherry swipe
 
 Both decks use the same transition for left and right votes. The outgoing card stays mounted until the cherry finishes its bounce. A still logo serves reduced-motion sessions. The browser replay checks the direction on each behavioural card and the transition on both shortlisted portfolios. [Animated capture](reports/studio/cherry-swipe.webp) · [Browser replay](reports/studio/browser-check.json)
+
+### Client studio follow-up · Music on arrival
+
+The lagoon now requests audible jazz as it opens. When autoplay is blocked, normal page interaction retries playback. The speaker control retains the user’s mute preference. Start retains the splash and both title cues. Right swipes add an ascending chime and left swipes add a short clap on an independent audio bus. The app keeps the jazz loop running during either effect and across tab visibility changes. [Interaction replay](reports/studio/interaction-check.json)

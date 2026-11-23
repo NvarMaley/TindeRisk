@@ -17,11 +17,11 @@ Open [the client studio](http://127.0.0.1:8766/). Streamlit users can run `pytho
 
 ## Sound and navigation
 
-Press to start plays a quiet original 16-bar jazz instrumental at 91 BPM, with electric piano, bass, a reed melody and brushed percussion. A splash accompanies the cherry and two soft impacts land with the title. The music loops through the studio. The speaker button on the intro and in the header remembers the mute setting. Backgrounding the tab pauses playback; reduced motion skips the timed effects.
+The lagoon starts a quiet original 16-bar jazz instrumental on arrival when the browser permits audible autoplay. When the browser requires a gesture, normal interaction automatically retries playback with sound enabled by default. **Press to start** triggers the title sequence. The score runs at 91 BPM, with electric piano, bass, a reed melody and brushed percussion. A splash accompanies the cherry and two soft impacts land with the title. The music loops through the studio. The speaker button on the intro and in the header remembers the mute setting. The app keeps the loop running across navigation, swipes and tab visibility changes. The browser or operating system can suspend media. Reduced motion skips the timed title effects.
 
 The brief scrolls inside the studio in both the standalone and Streamlit entry points. [Mouse, touch and sound replay](interaction-check.json)
 
-Each left or right vote dismisses the card, bounces the cherry logo and reveals the next card or the result. The reduced-motion setting shows a still cherry. [Watch a recorded swipe](cherry-swipe.webp)
+A right vote plays a two-note chime and a left vote plays a dry clap over the continuing music. Each left or right vote dismisses the card, bounces the cherry logo and reveals the next card or the result. The reduced-motion setting shows a still cherry. [Watch a recorded swipe](cherry-swipe.webp)
 
 ## From the first swipe to a match
 

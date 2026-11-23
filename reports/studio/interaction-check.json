@@ -2,29 +2,45 @@
   {
     "entry": "Standalone",
     "input": "Mouse wheel",
+    "idle_music_start": "autoplay",
     "submit_reached": true,
     "jazz_and_cues_played": true,
-    "mute_persisted": true
-  },
-  {
-    "entry": "Standalone",
-    "input": "Touch swipe",
-    "submit_reached": true,
-    "jazz_and_cues_played": true,
-    "mute_persisted": true
+    "music_before_start": true,
+    "title_cues_waited_for_start": true,
+    "mute_persisted": true,
+    "continued_on_visibility_change": true
   },
   {
     "entry": "Streamlit",
     "input": "Mouse wheel",
+    "idle_music_start": "autoplay",
     "submit_reached": true,
     "jazz_and_cues_played": true,
-    "mute_persisted": true
+    "music_before_start": true,
+    "title_cues_waited_for_start": true,
+    "mute_persisted": true,
+    "continued_on_visibility_change": true
+  },
+  {
+    "entry": "Standalone",
+    "input": "Touch swipe",
+    "idle_music_start": "gesture",
+    "submit_reached": true,
+    "jazz_and_cues_played": true,
+    "music_before_start": true,
+    "title_cues_waited_for_start": true,
+    "mute_persisted": true,
+    "continued_on_visibility_change": true
   },
   {
     "entry": "Streamlit",
     "input": "Touch swipe",
+    "idle_music_start": "autoplay",
     "submit_reached": true,
     "jazz_and_cues_played": true,
-    "mute_persisted": true
+    "music_before_start": true,
+    "title_cues_waited_for_start": true,
+    "mute_persisted": true,
+    "continued_on_visibility_change": true
   }
 ]
