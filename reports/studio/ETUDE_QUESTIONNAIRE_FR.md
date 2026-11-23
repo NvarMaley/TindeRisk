@@ -2,6 +2,8 @@
 
 Le studio contient **26 cartes réparties en 7 catégories**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **18 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Cette étude décrit le studio actuel, version de calcul **studio-1**. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
 
+La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
+
 ## Pourquoi ces questions
 
 - **Vérifier la compréhension avant l’interprétation.** Deux exemples de lancer indépendant permettent de vérifier qu’une mauvaise issue reste possible et que des victoires antérieures ne déterminent pas le prochain résultat. Une réponse incertaine appelle une relance.
