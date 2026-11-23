@@ -1,0 +1,1231 @@
+{
+  "inventory": 3902,
+  "rows": 93648,
+  "by_signal": [
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 3
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 7
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 65,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 65,
+      "with_eight": 15,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 9
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 4
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 3
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 11
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 65,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 65,
+      "with_eight": 15,
+      "any_positive": 3
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 3
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 9
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "curve",
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 5
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "gpr",
+      "inventory": 65,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "liquidity",
+      "inventory": 65,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "momentum",
+      "inventory": 65,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "realized",
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 5
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "tone",
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 5
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "unemployment",
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 5
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "vix",
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 5
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 1
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 2
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 2
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 2
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 6
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 6
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 4
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 1
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 4
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "curve",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "gpr",
+      "inventory": 10,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "liquidity",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "momentum",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 6
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "realized",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 5
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "tone",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "unemployment",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 1
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "vix",
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "curve",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "gpr",
+      "inventory": 1,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "liquidity",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "momentum",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "realized",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "tone",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 0
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "unemployment",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "vix",
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 632
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 3824,
+      "with_eight": 3524,
+      "any_positive": 725
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 3824,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 3824,
+      "with_eight": 3479,
+      "any_positive": 599
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 729
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 605
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 846
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 865
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 48
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 3824,
+      "with_eight": 3520,
+      "any_positive": 123
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 3824,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 3824,
+      "with_eight": 3479,
+      "any_positive": 104
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 585
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 26
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 87
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 46
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "curve",
+      "inventory": 3824,
+      "with_eight": 2384,
+      "any_positive": 997
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "gpr",
+      "inventory": 3824,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "liquidity",
+      "inventory": 3824,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "momentum",
+      "inventory": 3824,
+      "with_eight": 2290,
+      "any_positive": 1087
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "realized",
+      "inventory": 3824,
+      "with_eight": 2375,
+      "any_positive": 1452
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "tone",
+      "inventory": 3824,
+      "with_eight": 2384,
+      "any_positive": 890
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "unemployment",
+      "inventory": 3824,
+      "with_eight": 2384,
+      "any_positive": 1410
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "vix",
+      "inventory": 3824,
+      "with_eight": 2384,
+      "any_positive": 743
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 1
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 2
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "curve",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "gpr",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "liquidity",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "momentum",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "realized",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "tone",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "unemployment",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "signal": "vix",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "curve",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "gpr",
+      "inventory": 2,
+      "with_eight": 0,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "liquidity",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 1
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "momentum",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 1
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "realized",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 1
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "tone",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "unemployment",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 1
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "signal": "vix",
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    }
+  ],
+  "by_class": [
+    {
+      "class": "Direct Treasury",
+      "target": "return",
+      "horizon": 21,
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 17
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 65,
+      "with_eight": 32,
+      "any_positive": 14
+    },
+    {
+      "class": "Direct Treasury",
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 65,
+      "with_eight": 5,
+      "any_positive": 5
+    },
+    {
+      "class": "Equity ETF",
+      "target": "return",
+      "horizon": 21,
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 9
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 5
+    },
+    {
+      "class": "Equity ETF",
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 10,
+      "with_eight": 10,
+      "any_positive": 7
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "return",
+      "horizon": 21,
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Gold (GLD)",
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 1,
+      "with_eight": 1,
+      "any_positive": 1
+    },
+    {
+      "class": "Individual stock",
+      "target": "return",
+      "horizon": 21,
+      "inventory": 3824,
+      "with_eight": 3527,
+      "any_positive": 2175
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 3824,
+      "with_eight": 3523,
+      "any_positive": 878
+    },
+    {
+      "class": "Individual stock",
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 3824,
+      "with_eight": 2384,
+      "any_positive": 2112
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "return",
+      "horizon": 21,
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 2
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 0
+    },
+    {
+      "class": "Treasury ETF",
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 2,
+      "with_eight": 2,
+      "any_positive": 2
+    }
+  ],
+  "by_target": [
+    {
+      "target": "return",
+      "horizon": 21,
+      "inventory": 3902,
+      "with_eight": 3572,
+      "any_positive": 2204
+    },
+    {
+      "target": "variance",
+      "horizon": 21,
+      "inventory": 3902,
+      "with_eight": 3568,
+      "any_positive": 898
+    },
+    {
+      "target": "variance",
+      "horizon": 63,
+      "inventory": 3902,
+      "with_eight": 2402,
+      "any_positive": 2127
+    }
+  ]
+}

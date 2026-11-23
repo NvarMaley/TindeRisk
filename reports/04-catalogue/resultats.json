@@ -1,0 +1,303 @@
+{
+  "version": "4.0-2026-11-23",
+  "decision_utc": "2026-11-23T14:00:00Z",
+  "inventory": {
+    "action": 14136,
+    "autre_CRSP": 13285,
+    "obligation_directe": 65,
+    "fonds_actions": 10,
+    "macro": 3,
+    "fonds_tresor": 2,
+    "vehicule_or": 1,
+    "Spot oil": 1,
+    "U.S. Treasury Rate": 1,
+    "change": 1,
+    "cash": 1,
+    "internal reference": 1
+  },
+  "crsp_rows": 2639046,
+  "stock_months": 2594465,
+  "quarantined": 13520,
+  "stock_sheets": 60684,
+  "stock_ids": 15171,
+  "fund_sheets": 52,
+  "etf_sessions": 71565,
+  "fund_window_summary": [
+    {
+      "years": 1,
+      "sheets": 13,
+      "complete": 13,
+      "compound": 13,
+      "median_observations": 12.0
+    },
+    {
+      "years": 3,
+      "sheets": 13,
+      "complete": 13,
+      "compound": 13,
+      "median_observations": 36.0
+    },
+    {
+      "years": 5,
+      "sheets": 13,
+      "complete": 0,
+      "compound": 13,
+      "median_observations": 58.0
+    },
+    {
+      "years": 10,
+      "sheets": 13,
+      "complete": 0,
+      "compound": 13,
+      "median_observations": 118.0
+    }
+  ],
+  "stock_window_summary": [
+    {
+      "years": 1,
+      "sheets": 15171,
+      "complete": 13105,
+      "compound": 13676,
+      "median_observations": 12.0
+    },
+    {
+      "years": 3,
+      "sheets": 15171,
+      "complete": 8885,
+      "compound": 10208,
+      "median_observations": 36.0
+    },
+    {
+      "years": 5,
+      "sheets": 15171,
+      "complete": 3188,
+      "compound": 7645,
+      "median_observations": 58.0
+    },
+    {
+      "years": 10,
+      "sheets": 15171,
+      "complete": 596,
+      "compound": 4424,
+      "median_observations": 61.0
+    }
+  ],
+  "covariance": {
+    "months": 36,
+    "series": 3404,
+    "excluded": 433
+  },
+  "eligibility": {
+    "example": {
+      "ticker": "AAPL",
+      "recorded_active_2025": true,
+      "known_in_2025": false,
+      "eligible_2026": false,
+      "reasons_2026": [
+        "NEGOCIABILITE",
+        "ACCES_COMPTE",
+        "LOT",
+        "REGLEMENT",
+        "LIQUIDITE_ORDRE",
+        "FRAIS",
+        "PRIX_NON_FRAIS",
+        "FX_NON_FRAIS"
+      ]
+    },
+    "total": 27507,
+    "eligible": 0,
+    "by_class": {
+      "action": {
+        "size": 14136,
+        "sum": 0
+      },
+      "autre_CRSP": {
+        "size": 13285,
+        "sum": 0
+      },
+      "cash": {
+        "size": 1,
+        "sum": 0
+      },
+      "change": {
+        "size": 1,
+        "sum": 0
+      },
+      "fonds_actions": {
+        "size": 10,
+        "sum": 0
+      },
+      "fonds_tresor": {
+        "size": 2,
+        "sum": 0
+      },
+      "macro": {
+        "size": 3,
+        "sum": 0
+      },
+      "obligation_directe": {
+        "size": 65,
+        "sum": 0
+      },
+      "Spot oil": {
+        "size": 1,
+        "sum": 0
+      },
+      "internal reference": {
+        "size": 1,
+        "sum": 0
+      },
+      "U.S. Treasury Rate": {
+        "size": 1,
+        "sum": 0
+      },
+      "vehicule_or": {
+        "size": 1,
+        "sum": 0
+      }
+    },
+    "replay_rows": 3826,
+    "replay_active": 3824,
+    "replay_verified_at_date": 0
+  },
+  "holdings_rows": 1055,
+  "coverage": [
+    {
+      "fund": "GLD",
+      "assigned_net": 0.0,
+      "unknown_gross": 1.0
+    },
+    {
+      "fund": "IEF",
+      "assigned_net": 0.9891,
+      "unknown_gross": 0.01129999999999999
+    },
+    {
+      "fund": "SPY",
+      "assigned_net": 0.9981328300000001,
+      "unknown_gross": 0.0018671699999998801
+    },
+    {
+      "fund": "TLT",
+      "assigned_net": 0.9894000000000002,
+      "unknown_gross": 0.0116000000000002
+    },
+    {
+      "fund": "XLB",
+      "assigned_net": 0.9965896200000001,
+      "unknown_gross": 0.0038663599999999364
+    },
+    {
+      "fund": "XLE",
+      "assigned_net": 0.9942167900000001,
+      "unknown_gross": 0.006478729999999969
+    },
+    {
+      "fund": "XLF",
+      "assigned_net": 0.9984197399999999,
+      "unknown_gross": 0.0017326000000000602
+    },
+    {
+      "fund": "XLI",
+      "assigned_net": 0.9986452700000001,
+      "unknown_gross": 0.001506989999999876
+    },
+    {
+      "fund": "XLK",
+      "assigned_net": 0.99940842,
+      "unknown_gross": 0.0009331399999999918
+    },
+    {
+      "fund": "XLP",
+      "assigned_net": 0.9984603700000002,
+      "unknown_gross": 0.0015396299999998393
+    },
+    {
+      "fund": "XLU",
+      "assigned_net": 0.9962376600000001,
+      "unknown_gross": 0.003762339999999885
+    },
+    {
+      "fund": "XLV",
+      "assigned_net": 0.9976052400000002,
+      "unknown_gross": 0.0023947599999998843
+    },
+    {
+      "fund": "XLY",
+      "assigned_net": 0.99878223,
+      "unknown_gross": 0.0012199899999999584
+    }
+  ],
+  "overlap": {
+    "direct": 0.2,
+    "via_spy": 0.041886089999999994,
+    "via_xlk": 0.05490036,
+    "total": 0.29678645,
+    "unassigned_net": 0.0011110589999999375,
+    "unassigned_gross": 0.0012135269999999376,
+    "hard_exclusion": "excluded"
+  },
+  "comparison": [
+    {
+      "mode": "annual",
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "months": 57,
+      "final_chf": 124.31611337737743,
+      "cagr": 0.04688869562612563,
+      "fees_chf": 0.12518169972523738
+    },
+    {
+      "mode": "hold",
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "months": 57,
+      "final_chf": 128.41476689624005,
+      "cagr": 0.05406236925949526,
+      "fees_chf": 0.09990009990009992
+    },
+    {
+      "mode": "cash",
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "months": 57,
+      "final_chf": 100,
+      "cagr": 0.0,
+      "fees_chf": 0.0
+    }
+  ],
+  "daily_alignment": {
+    "OK": 70161,
+    "FX_ABSENT": 715,
+    "BASE_FX_ABSENTE": 676,
+    "BASE_PRIX_ABSENTE": 13
+  },
+  "stock_alignment": {
+    "OK": 1528388,
+    "BASE_FX_ABSENTE": 8583,
+    "FX_ABSENT": 8543,
+    "RENDEMENT_OU_BASE_INVALIDE": 15776
+  },
+  "events": {
+    "dividends": 1389,
+    "splits": 6
+  },
+  "dividend_audit": {
+    "RAPPROCHE": 1387,
+    "ECART_SUPERIEUR_10_PB": 2
+  },
+  "timing": {
+    "historique": {
+      "CPIAUCSL": 309,
+      "UNRATE": 309,
+      "INDPRO": 308
+    },
+    "decision": {
+      "DGS10": 16928,
+      "DCOILWTICO": 10664,
+      "CPIAUCSL": 321,
+      "INDPRO": 321,
+      "UNRATE": 321
+    }
+  }
+}

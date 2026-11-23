@@ -1,0 +1,427 @@
+{
+  "catalogue_sha256": "f22cf830a235529ba6b75634adf4a2bb4a360b55906b37acc309666a63a95eec",
+  "config_sha256": "9af9384b516ae0362127be934b9314758e7fa091c0f939d3774ed8fda4b4a2dc",
+  "version": "1.4-2026-11-23",
+  "periods": [
+    {
+      "start": "2005-02-28",
+      "end": "2010-11-30",
+      "mode": "annual",
+      "months": 70,
+      "final_chf": 110.69593290964906,
+      "monthly_mean": 0.0020912424303679805,
+      "cagr": 0.01757265610860137,
+      "cumulative": 0.10695932909649053,
+      "volatility": 0.1239605549181118,
+      "traded_chf": 156.41324492155786,
+      "fees_chf": 0.15641324492155786,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2005-02-28",
+      "end": "2010-11-30",
+      "mode": "hold",
+      "months": 70,
+      "final_chf": 104.9347618633979,
+      "monthly_mean": 0.0013166921939770108,
+      "cagr": 0.00829167085186766,
+      "cumulative": 0.04934761863397896,
+      "volatility": 0.12293830716791322,
+      "traded_chf": 99.90009990009992,
+      "fees_chf": 0.09990009990009992,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2005-02-28",
+      "end": "2010-11-30",
+      "mode": "cash",
+      "months": 70,
+      "final_chf": 100,
+      "monthly_mean": 0.0,
+      "cagr": 0.0,
+      "cumulative": 0.0,
+      "volatility": 0.0,
+      "traded_chf": 0.0,
+      "fees_chf": 0.0,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "5% historical illustrative ceiling": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2011-02-28",
+      "end": "2021-11-30",
+      "mode": "annual",
+      "months": 130,
+      "final_chf": 288.9492235177245,
+      "monthly_mean": 0.00856762707799754,
+      "cagr": 0.10290313742673973,
+      "cumulative": 1.889492235177245,
+      "volatility": 0.09513547833949242,
+      "traded_chf": 197.5964604466976,
+      "fees_chf": 0.1975964604466976,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2011-02-28",
+      "end": "2021-11-30",
+      "mode": "hold",
+      "months": 130,
+      "final_chf": 315.32674823615423,
+      "monthly_mean": 0.009344485829963256,
+      "cagr": 0.11183274277513422,
+      "cumulative": 2.1532674823615423,
+      "volatility": 0.1069620212380467,
+      "traded_chf": 99.90009990009992,
+      "fees_chf": 0.09990009990009992,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2011-02-28",
+      "end": "2021-11-30",
+      "mode": "cash",
+      "months": 130,
+      "final_chf": 100,
+      "monthly_mean": 0.0,
+      "cagr": 0.0,
+      "cumulative": 0.0,
+      "volatility": 0.0,
+      "traded_chf": 0.0,
+      "fees_chf": 0.0,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "5% historical illustrative ceiling": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "mode": "annual",
+      "months": 57,
+      "final_chf": 124.31611337737743,
+      "monthly_mean": 0.004280299472662451,
+      "cagr": 0.04688869562612563,
+      "cumulative": 0.24316113377377424,
+      "volatility": 0.10508953348004779,
+      "traded_chf": 125.18169972523738,
+      "fees_chf": 0.12518169972523738,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "mode": "hold",
+      "months": 57,
+      "final_chf": 128.41476689624005,
+      "monthly_mean": 0.004886770173921709,
+      "cagr": 0.05406236925949526,
+      "cumulative": 0.2841476689624005,
+      "volatility": 0.10911210458898045,
+      "traded_chf": 99.90009990009992,
+      "fees_chf": 0.09990009990009992,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "outside mandate",
+          "motifs": [
+            "Excluded: IEF, SPY"
+          ]
+        },
+        "5% historical illustrative ceiling": {
+          "status": "outside mandate",
+          "motifs": [
+            "historical volatility beyond bounds"
+          ]
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    },
+    {
+      "start": "2022-02-28",
+      "end": "2026-10-30",
+      "mode": "cash",
+      "months": 57,
+      "final_chf": 100,
+      "monthly_mean": 0.0,
+      "cagr": 0.0,
+      "cumulative": 0.0,
+      "volatility": 0.0,
+      "traded_chf": 0.0,
+      "fees_chf": 0.0,
+      "mandates": {
+        "Unrestricted sleeve, two funds permitted": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Reserve in CHF only": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "5% historical illustrative ceiling": {
+          "status": "compatible with tested criteria",
+          "motifs": []
+        },
+        "Profile to be confirmed": {
+          "status": "undetermined",
+          "motifs": [
+            "permitted universe unspecified",
+            "mandate to be confirmed"
+          ]
+        }
+      }
+    }
+  ],
+  "sensitivity_bps": {
+    "0": [
+      {
+        "mode": "annual",
+        "start": "2005-02-28",
+        "end": "2010-11-30",
+        "cagr": 0.017843819483762235,
+        "fees_chf": 0.0
+      },
+      {
+        "mode": "hold",
+        "start": "2005-02-28",
+        "end": "2010-11-30",
+        "cagr": 0.00846444928691592,
+        "fees_chf": 0.0
+      },
+      {
+        "mode": "annual",
+        "start": "2011-02-28",
+        "end": "2021-11-30",
+        "cagr": 0.10306467307713385,
+        "fees_chf": 0.0
+      },
+      {
+        "mode": "hold",
+        "start": "2011-02-28",
+        "end": "2021-11-30",
+        "cagr": 0.11193532694089448,
+        "fees_chf": 0.0
+      },
+      {
+        "mode": "annual",
+        "start": "2022-02-28",
+        "end": "2026-10-30",
+        "cagr": 0.0471622826638074,
+        "fees_chf": 0.0
+      },
+      {
+        "mode": "hold",
+        "start": "2022-02-28",
+        "end": "2026-10-30",
+        "cagr": 0.054284189583710285,
+        "fees_chf": 0.0
+      }
+    ],
+    "25": [
+      {
+        "mode": "annual",
+        "start": "2005-02-28",
+        "end": "2010-11-30",
+        "cagr": 0.01716634793202898,
+        "fees_chf": 0.39040639500053675
+      },
+      {
+        "mode": "hold",
+        "start": "2005-02-28",
+        "end": "2010-11-30",
+        "cagr": 0.008032881957200422,
+        "fees_chf": 0.2493765586034913
+      },
+      {
+        "mode": "annual",
+        "start": "2011-02-28",
+        "end": "2021-11-30",
+        "cagr": 0.10266102932193344,
+        "fees_chf": 0.49319605664802985
+      },
+      {
+        "mode": "hold",
+        "start": "2011-02-28",
+        "end": "2021-11-30",
+        "cagr": 0.11167907622944862,
+        "fees_chf": 0.2493765586034913
+      },
+      {
+        "mode": "annual",
+        "start": "2022-02-28",
+        "end": "2026-10-30",
+        "cagr": 0.046478812862370544,
+        "fees_chf": 0.31249694468232875
+      },
+      {
+        "mode": "hold",
+        "start": "2022-02-28",
+        "end": "2026-10-30",
+        "cagr": 0.05373014125530928,
+        "fees_chf": 0.2493765586034913
+      }
+    ]
+  }
+}

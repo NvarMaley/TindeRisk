@@ -1,0 +1,226 @@
+{
+  "market_date": "2026-10-30T23:59:59Z",
+  "review": "2026-11-23T14:00:00Z",
+  "bundle": "e9d9400b2b65a9fd",
+  "assets": 3322,
+  "capital_chf": 35000,
+  "risk_ceiling": 0.12,
+  "measured_sleeve": 0.6,
+  "intensity_cap": 113.02754249663127,
+  "controls": [
+    {
+      "case": "Chevron directly",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 1.0,
+      "unknown_gross": 0.0,
+      "unknown_net": 0.0,
+      "sovereign": 0.0,
+      "covered": 0,
+      "numerator": 0,
+      "intensity": null,
+      "mandatory": "excluded",
+      "soft": "preference not satisfied",
+      "ask": "excluded"
+    },
+    {
+      "case": "XLE before publication",
+      "instant": "2026-10-30T23:59:59Z",
+      "forbidden": 0.0,
+      "unknown_gross": 1.0,
+      "unknown_net": 1.0,
+      "sovereign": 0.0,
+      "covered": 0,
+      "numerator": 0,
+      "intensity": null,
+      "mandatory": "suspended",
+      "soft": "unverified comparison only",
+      "ask": "clarification required"
+    },
+    {
+      "case": "XLE after publication",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 0.18749014,
+      "unknown_gross": 0.006478729999999969,
+      "unknown_net": 0.005783209999999969,
+      "sovereign": 0.0,
+      "covered": 0.19547316,
+      "numerator": 38.650488357222585,
+      "intensity": 197.72785356937283,
+      "mandatory": "excluded",
+      "soft": "preference not satisfied",
+      "ask": "excluded"
+    },
+    {
+      "case": "SPY after publication",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 0.00690078,
+      "unknown_gross": 0.0018671699999998801,
+      "unknown_net": 0.0018671699999998801,
+      "sovereign": 0.0,
+      "covered": 0.10818313,
+      "numerator": 7.934379997257493,
+      "intensity": 73.34211902777719,
+      "mandatory": "excluded",
+      "soft": "preference not satisfied",
+      "ask": "excluded"
+    },
+    {
+      "case": "Half Chevron, half XLE",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 0.59374507,
+      "unknown_gross": 0.0032393649999999845,
+      "unknown_net": 0.0028916049999999846,
+      "sovereign": 0.0,
+      "covered": 0.09773658,
+      "numerator": 19.325244178611293,
+      "intensity": 197.72785356937283,
+      "mandatory": "excluded",
+      "soft": "preference not satisfied",
+      "ask": "excluded"
+    },
+    {
+      "case": "GLD without issuer file",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 0.0,
+      "unknown_gross": 1.0,
+      "unknown_net": 1.0,
+      "sovereign": 0.0,
+      "covered": 0,
+      "numerator": 0,
+      "intensity": null,
+      "mandatory": "suspended",
+      "soft": "unverified comparison only",
+      "ask": "clarification required"
+    },
+    {
+      "case": "Direct US Treasury",
+      "instant": "2026-11-23T14:00:00Z",
+      "forbidden": 0.0,
+      "unknown_gross": 0.0,
+      "unknown_net": 0.0,
+      "sovereign": 1.0,
+      "covered": 0,
+      "numerator": 0,
+      "intensity": null,
+      "mandatory": "verified",
+      "soft": "verified",
+      "ask": "verified"
+    }
+  ],
+  "pairs": [
+    {
+      "criterion": "Chevron exclusion",
+      "eligible": 1461,
+      "reference": {
+        "forbidden": 0.0,
+        "unknown_gross": 0.6222828151111824,
+        "unknown_net": 0.6222828151111824,
+        "sovereign": 0.0,
+        "covered": 0.07615908992201888,
+        "numerator": 2.2928528073903705,
+        "intensity": 30.10609514554438,
+        "unmeasured_invested_net": 0.8238409009850893,
+        "holdings": 148,
+        "invested": 0.8999999909071082,
+        "cash": 0.09910000910198465,
+        "net": 0.43705531932986785,
+        "risk": 0.1199999991149288,
+        "fee_chf": 31.499999681748793
+      },
+      "variant": {
+        "forbidden": 0.0,
+        "unknown_gross": 0.0,
+        "unknown_net": 0.0,
+        "sovereign": 0.0,
+        "covered": 0.1269816753370744,
+        "numerator": 6.958365386947503,
+        "intensity": 54.79818539546306,
+        "unmeasured_invested_net": 0.7730183177021629,
+        "holdings": 49,
+        "invested": 0.8999999930392372,
+        "cash": 0.0991000069677236,
+        "net": 0.3127264133445182,
+        "risk": 0.11999999931187913,
+        "fee_chf": 31.499999756373303
+      },
+      "change": {
+        "net": -0.12432890598534968,
+        "risk": 1.9695033104394355e-10,
+        "fee_chf": 7.462450923867436e-08,
+        "covered": 0.050822585415055535,
+        "forbidden": 0.0,
+        "unknown_gross": -0.6222828151111824
+      },
+      "intensity_comparison": "Partial or unequal coverage",
+      "allocation_distance": 0.631920711663386
+    },
+    {
+      "criterion": "Point-source intensity",
+      "eligible": 55,
+      "reference": {
+        "forbidden": 0.0,
+        "unknown_gross": 0.0,
+        "unknown_net": 0.0,
+        "sovereign": 0.0,
+        "covered": 0.5999999987522763,
+        "numerator": 84.77065669618952,
+        "intensity": 141.28442812078907,
+        "unmeasured_invested_net": 0.0,
+        "holdings": 12,
+        "invested": 0.5999999987522762,
+        "cash": 0.39940000124897157,
+        "net": 0.1809471850225042,
+        "risk": 0.11999999989159124,
+        "fee_chf": 20.999999956329663
+      },
+      "variant": {
+        "forbidden": 0.0,
+        "unknown_gross": 0.0,
+        "unknown_net": 0.0,
+        "sovereign": 0.0,
+        "covered": 0.5999999998876453,
+        "numerator": 67.81652548724168,
+        "intensity": 113.02754249990141,
+        "unmeasured_invested_net": 0.0,
+        "holdings": 10,
+        "invested": 0.5999999998876453,
+        "cash": 0.39940000011246707,
+        "net": 0.18035912434934975,
+        "risk": 0.11999999998966696,
+        "fee_chf": 20.999999996067583
+      },
+      "change": {
+        "net": -0.0005880606731544502,
+        "risk": 9.807571421660555e-11,
+        "fee_chf": 3.973791962152973e-08,
+        "covered": 1.135369021021404e-09,
+        "forbidden": 0.0,
+        "unknown_gross": 0.0
+      },
+      "intensity_comparison": "Lower measured intensity",
+      "allocation_distance": 0.05279782491479262
+    }
+  ],
+  "holdings_date": "2026-11-20",
+  "audit": {
+    "point_facilities": 6470,
+    "ownership_reconciled": 6379,
+    "excluded_facilities": 91,
+    "measured_issuers": 54,
+    "hashes": {
+      "inventory.parquet": "acc8d51333f2b6972e6bb444d95ef877532eac572ac2fede06bb64f03e400e13",
+      "current_fundamentals.parquet": "5c93cec088ec5a55adf003ceaf8ccfafa67142f98d7f7043124f4b6f850110b0",
+      "facts.parquet": "6b9aa7727361e9e71e1a687372257fbdcc9333a9e010fb6633cf03c15b5c1147"
+    },
+    "epa_hashes": {
+      "2023_data_summary_spreadsheets.zip": "895349c8008b7962dba68659c8187cec6b340d68be84ccb3f0e7fb6037bf8345",
+      "ghgp_data_parent_company.xlsb": "5613dd8454b08deb160e3f1dec18c1a9b45464bc0ef8453c97989ea0d4fdbce2"
+    },
+    "model_inputs": {
+      "holdings.parquet": "dbd3f8db1638e0f7b5029348cb58959ca83e37f95048446419976f85b8247300",
+      "models.npz": "ef4b91f172c6b71cdf946088dc7eb88f41da97df3758c1efb1006b23862a57b2",
+      "risk_0.npz": "b1296ea2c2c853277e77a83477d9e182f807dbd9c39b2b4c46de39c4f78041cf",
+      "faisabilite-5.json": "e1f5663c84b598126ca6bbd941d28dd73880ba27791faf5c3ea5a1fb37251b36"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": "12.1",
+  "decision": "2026-10-30",
+  "validation_start": "2015-01-01",
+  "final_start": "2021-01-01",
+  "training": "Expanding, use completed targets ending strictly before the decision. Do not carry a label across the validation/final boundary.",
+  "calendar": "US SPY sessions with an observed CHF exchange rate. Signals use the previous completed session or an earlier publication. Execute at the next decision close.",
+  "targets": {
+    "variance": "Mean future squared CHF SPY return over 21 and 63 common sessions. Loss QLIKE and squared variance error. Primary reference rolling 63-session variance; EWMA .94 is an additional comparator.",
+    "return": "21-session cumulative CHF SPY excess return above zero-interest CHF cash. Loss squared error; reference half the expanding mean of matured targets.",
+    "event": "SPY in CHF loses at least 5% from entry close over the next 21 common sessions, measured at the endpoint. Brier versus expanding frequency; calibration by probability bin.",
+    "interval": "Central 80% interval for the same 21-session CHF excess return using expanding empirical .10 and .90 quantiles. Record coverage, width and block uncertainty.",
+    "overheating": "Monthly end-of-month USD closes on SPY, GLD and IEF. Following an alert, look for a loss of 10% from the alert close within six subsequent month-ends. Keep false alerts and first-hit delay. This proxy does not label a true bubble."
+  },
+  "horizons": [21, 63],
+  "signals": {
+    "vix": "Cboe daily closing VIX, market, prior close",
+    "curve": "US ten-year minus two-year Treasury yield, macro, prior dated observation with an extra two business days of embargo",
+    "unemployment": "Latest unemployment observation in the latest available ALFRED vintage, macro",
+    "momentum": "CHF price momentum over 126 sessions skipping the last 21, quantitative",
+    "liquidity": "Log ratio of trailing five-session and 63-session mean dollar volume, quantitative",
+    "realized": "Log 21-session mean squared return, quantitative",
+    "gpr": "Caldara-Iacoviello monthly geopolitical risk from dated vintages, geopolitical",
+    "tone": "Federal Reserve monetary-policy statement tone, sentiment; published document, simple fixed hawkish-minus-dovish dictionary. A richer text model requires 300 distinct releases before validation."
+  },
+  "models": "Rolling and EWMA, zero-mean GARCH(1,1) fitted to at most 756 prior returns; fixed-alpha Ridge on standardized training features alone and incrementally over the reference. Use log for variance and clip predictions to the past target range. No tuning on the final block.",
+  "ridge_alpha": 10,
+  "min_train": 24,
+  "min_per_block": 8,
+  "bootstrap": {"draws": 2000, "block": 3, "seed": 12026},
+  "gate": "Require matched observations on at least 80% of each block, positive paired improvement with a 95% moving-block lower bound above zero and positive gain in two of three chronological segments in both validation and final. Require after-cost economic improvement on final and validation. Incomplete vintage or historical availability evidence prevents live admission.",
+  "economic": "Same CHF 35,000, maximum 60% SPY, 12% annual volatility budget and 10 bp on actual one-way trades. Buy and hold inside each target block. For variance, size to the forecast and require reductions in breach frequency and average positive excess volatility. For return, buy only on a positive mean estimate and size both rules using the same reference variance; require higher terminal wealth net of trading and liquidation.",
+  "combination": "Freeze candidates using validation only. For the same target/horizon remove pairs with absolute forecast correlation above .85, retaining the larger validation gain. Compare equal and proportional positive validation-gain weights to both the reference and the validation-best single on common final dates. Require both references beaten and the economic gate before use.",
+  "overheating": {"assets":["SPY","GLD","IEF"], "window":60, "minimum":24, "null_draws":999, "family_alpha":0.05, "simple_six_month_return":0.20},
+  "calibration": "Beta-smoothed past event frequency versus logistic regression on realized risk; minimum 10 events and 10 non-events and 30 outcomes in each evaluation block, positive Brier gain with block lower bound >0 and absolute calibration gap <=.10 in each occupied bin with >=5 observations. Interval requires >=30 outcomes, coverage within five points of .80 and a 95% block interval containing .80 in both blocks. Exercise sparse-event and regime-shift controls.",
+  "registry": "Use only approved versions known by the decision, same scope/target/horizon and before expiry. A withdrawal supersedes prior versions. Expire notices after 35 calendar days. Research collection dates and original publication evidence are separate.",
+  "bl": "Conditional absolute 21-session SPY excess-return view against cash, prior is the shrunk reference, P=[1], prior uncertainty based on matured returns, Omega from out-of-sample validation residuals. Test zero-confidence limit. A posterior can influence a proposal only after the view passes the eligibility gate."
+}

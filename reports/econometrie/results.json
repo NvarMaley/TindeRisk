@@ -1,0 +1,137 @@
+{
+  "snapshot": "646553c8f8068d81",
+  "source_snapshot": "e9d9400b2b65a9fd",
+  "end": "2026-10-30",
+  "universe": 3902,
+  "cross": 0.9121490376125727,
+  "fx_fills": 33,
+  "portfolios": [
+    {
+      "option": "Hedge",
+      "positions": 135,
+      "covered": 135,
+      "invested": 0.8999999994732008,
+      "covered_weight": 0.8999999994732008,
+      "covered_wti_plus10_pct": 0.0408815252191963
+    },
+    {
+      "option": "Diversification",
+      "positions": 326,
+      "covered": 326,
+      "invested": 0.899999969504781,
+      "covered_weight": 0.899999969504781,
+      "covered_wti_plus10_pct": 0.11535146412361548
+    },
+    {
+      "option": "Return",
+      "positions": 147,
+      "covered": 147,
+      "invested": 0.8999999932531406,
+      "covered_weight": 0.8999999932531406,
+      "covered_wti_plus10_pct": 0.10478764637874075
+    },
+    {
+      "option": "Robust",
+      "positions": 147,
+      "covered": 147,
+      "invested": 0.8999999943139803,
+      "covered_weight": 0.8999999943139803,
+      "covered_wti_plus10_pct": 0.10597740864289282
+    },
+    {
+      "option": "60/40 benchmark",
+      "positions": 2,
+      "covered": 2,
+      "invested": 1.0,
+      "covered_weight": 1.0,
+      "covered_wti_plus10_pct": 0.004825767844537469
+    }
+  ],
+  "class_coverage": {
+    "Individual stock": {
+      "examined": 3824,
+      "estimated": 3269
+    },
+    "Treasury ETF": {
+      "examined": 2,
+      "estimated": 2
+    },
+    "Equity ETF": {
+      "examined": 10,
+      "estimated": 10
+    },
+    "Gold (GLD)": {
+      "examined": 1,
+      "estimated": 1
+    },
+    "Direct Treasury": {
+      "examined": 65,
+      "estimated": 56
+    }
+  },
+  "windows": {
+    "1": [
+      3357,
+      3357
+    ],
+    "3": [
+      3088,
+      3088
+    ],
+    "5": [
+      0,
+      2844
+    ],
+    "10": [
+      0,
+      1989
+    ]
+  },
+  "exposures": 3338,
+  "stable_oil_sign": 2015,
+  "paired_oil": 3213,
+  "examples_wti_plus10_pct": {
+    "XLE": {
+      "beta": 1.8436812433600305,
+      "low95": 1.141004806021385,
+      "high95": 2.5463576806986756
+    },
+    "XOM": {
+      "beta": 2.140566304837362,
+      "low95": 1.3878167198819982,
+      "high95": 2.8933158897927265
+    },
+    "AAPL": {
+      "beta": -0.47480747629215375,
+      "low95": -0.8797315965728935,
+      "high95": -0.06988335601141406
+    },
+    "IEF": {
+      "beta": 0.008494865398520868,
+      "low95": -0.03341542717351223,
+      "high95": 0.05040515797055396
+    },
+    "GLD": {
+      "beta": 0.3730829267281863,
+      "low95": -0.3093460916158525,
+      "high95": 1.0555119450722252
+    }
+  },
+  "events": {
+    "US Banks, March 2023": 3501,
+    "Covid-19": 2722,
+    "Invasion of Ukraine, first month": 3383
+  },
+  "forecasts": {
+    "21": {
+      "at_least_8": 3860,
+      "ewma_better": 873
+    },
+    "63": {
+      "at_least_8": 3639,
+      "ewma_better": 812
+    }
+  },
+  "momentum_measured": 3265,
+  "momentum_flags": 32
+}

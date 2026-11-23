@@ -1,0 +1,85 @@
+{
+  "version": "6.0-2026-11-23",
+  "market": "2026-10-30",
+  "catalogue": "4.0-2026-11-23",
+  "start": "2017-10-31",
+  "end": "2026-10-30",
+  "stress": [
+    "2008-09-12",
+    "2008-11-20"
+  ],
+  "risk_cap": 0.12,
+  "goal": 0.06,
+  "rf_chf": 0.0,
+  "pocket": 35000,
+  "reserve": 15000,
+  "return_concession": 0.025,
+  "duplicate_half_l1": 0.005,
+  "tie_points": 2.0,
+  "scales": {
+    "goal": [
+      0,
+      0.12
+    ],
+    "history": [
+      -0.03,
+      0.12
+    ],
+    "stress": [
+      0.3,
+      0
+    ],
+    "spread": [
+      1,
+      0.1
+    ],
+    "cost": [
+      0.0025,
+      0
+    ]
+  },
+  "profiles": {
+    "Goal": {
+      "goal": 35,
+      "history": 15,
+      "stress": 15,
+      "spread": 15,
+      "cost": 10,
+      "forecast": 10
+    },
+    "Diversification": {
+      "goal": 15,
+      "history": 10,
+      "stress": 15,
+      "spread": 40,
+      "cost": 10,
+      "forecast": 10
+    }
+  },
+  "scenarios": {
+    "central": {
+      "fee": 0.001
+    },
+    "no fees": {
+      "fee": 0
+    },
+    "25 bp": {
+      "fee": 0.0025
+    },
+    "wider spread": {
+      "fee": 0.005
+    },
+    "one extra session": {
+      "fee": 0.001,
+      "lag": 2
+    },
+    "first basket missed": {
+      "fee": 0.001,
+      "miss": true
+    },
+    "whole units": {
+      "fee": 0.001,
+      "whole": true
+    }
+  }
+}

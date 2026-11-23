@@ -1,0 +1,80 @@
+{
+  "hand_ledger": [
+    {
+      "day": "2026-10-26",
+      "value": 999.4000000000001,
+      "cash": 399.40000000000003,
+      "settled_cash": 399.40000000000003,
+      "portfolio_version": 1,
+      "drift_max": 5.551115123125783e-17,
+      "stale_symbols": [],
+      "flow_chf": 1000.0,
+      "session_return": -0.0005999999999999339,
+      "twr": -0.0005999999999999339,
+      "drawdown": -0.0005999999999999339
+    },
+    {
+      "day": "2026-10-27",
+      "value": 979.4000000000001,
+      "cash": 299.40000000000003,
+      "settled_cash": 299.40000000000003,
+      "portfolio_version": 1,
+      "drift_max": 0.09394241813619925,
+      "stale_symbols": [],
+      "flow_chf": -100.0,
+      "session_return": 0.08894818768067592,
+      "twr": 0.08829481876806766,
+      "drawdown": 0.0
+    },
+    {
+      "day": "2026-10-28",
+      "value": 1139.4,
+      "cash": 499.40000000000003,
+      "settled_cash": 499.40000000000003,
+      "portfolio_version": 1,
+      "drift_max": 0.03866107623148579,
+      "stale_symbols": [],
+      "flow_chf": 200.0,
+      "session_return": -0.03391555027980331,
+      "twr": 0.05138470112288984,
+      "drawdown": -0.03391555027980331
+    }
+  ],
+  "uncorrected_day_two_value_chf": 939.4000000000001,
+  "hand_values_chf": [
+    999.4,
+    979.4,
+    1139.4
+  ],
+  "hand_twr": 0.05138470112288962,
+  "entry_fee_chf": 0.6000000000000001,
+  "release_scan": {
+    "files_checked": 263,
+    "markers_checked": 3,
+    "matches": 0,
+    "tracked_files": 254,
+    "local_logs": 9
+  },
+  "original_parts": {
+    "Balanced": 0.4,
+    "Equities": 0.6
+  },
+  "confirmation_versions": [
+    2,
+    2
+  ],
+  "revision_movements": 2,
+  "controls": {
+    "different_account_rejected": true,
+    "private_marker_detector_positive_control": true,
+    "amended_mandate_rejected": true,
+    "delayed_settlement_rejected": true,
+    "impossible_sale_rejected": true,
+    "stale_mark_rejected": true,
+    "closed_listing_rejected": true,
+    "cancellation_survived_restart": true,
+    "write_interruption_rolled_back": true,
+    "same_receipt_for_two_confirmations": true,
+    "dossier_and_versions_deleted": true
+  }
+}

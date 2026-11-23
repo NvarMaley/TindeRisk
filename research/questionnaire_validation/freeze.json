@@ -1,8 +1,0 @@
-{
-  "questions/profile_v1.json": "1fa64543a81766467105b1fc6d5ecd5c69009e15125944d7ec8a252ae215092d",
-  "src/riskmatch/interview.py": "7808e890c4b347b8a5400d23a9caed350b88ab7f891e4660344d7506ad7cb4e2",
-  "questions/pilot_holdout_v1.json": "6ffe3368b131fcc5f513fcb69d5ddd36c59b649d0e493cdbb6a6c41e520e55d9",
-  "research/questionnaire_pilot.py": "2cca49a7c87f2fdb3483fb3132cd4120ad9165f766bcfe62b6c0a03e689fb06f",
-  "research/simulate_interview.py": "0456fb2ced0a30d94a217588167f288d14037def71ee908f6da3e3f74b9c68cf",
-  "research/questionnaire_validation/SIMULATION.md": "ce553d002bd88cee44940e6c7a5d8d81f8455148bd1f64801df25429513385a3"
-}

@@ -1,168 +1,149 @@
-from collections import Counter
+import json
 from datetime import date
 from pathlib import Path
-import sys
-import unittest
+from unittest import TestCase
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from riskmatch.interview import (
-    CARDS,
-    CORE,
-    current,
-    eligible,
-    report,
-    rewind,
-    submit,
-    threshold,
+from riskmatch_v2.interview import (
+    BANK, CARDS, SKIP, Interview, derive, matches, read_version, route, validated,
 )
-from riskmatch.intake import evaluate
+
+ROOT = Path(__file__).resolve().parents[1]
+CASES = json.loads((ROOT / "reports/02-questionnaire/cas.json").read_text())
+TODAY = date.fromisoformat(CASES["as_of"])
+BASE = CASES["common"]
 
 
-def walk(overrides=None, phi=3, form=0):
-    log = []
-    while pool := eligible(current(log), form):
-        i = pool[0]
-        c = CARDS[i]
-        action = (overrides or {}).get(i)
-        if action is None and c["effect"] == "bound":
-            want = "sure" if phi >= threshold(c) else "gamble"
-            action = next(a for a, v in c["answers"].items() if v == want)
-        if action is None:
-            action = "yes" if i == "C01" else "no"
-        assert submit(log, i, action, "button", len(log), form)
-        assert len(log) <= 25
-    return log
+def replay(supplied):
+    interview = Interview(TODAY)
+    for key in CARDS:
+        if key in route(interview.answers):
+            interview.record(key, supplied.get(key, SKIP))
+    return interview
 
 
-class Interview(unittest.TestCase):
-    def test_blueprint_and_scoring_key(self):
-        self.assertEqual(len(CARDS), 60)
-        self.assertEqual(set(CORE), {i for i, c in CARDS.items() if c["core"]})
-        self.assertEqual(
-            Counter(CARDS[i]["family"] for i in CORE),
-            Counter(
-                {
-                    "practice": 1,
-                    "self-description": 1,
-                    "tradeoff": 5,
-                    "loss comparison": 4,
-                    "decline": 2,
-                    "flexibility": 1,
-                    "monitoring": 1,
-                }
-            ),
-        )
-        for c in CARDS.values():
-            self.assertEqual(c["answers"]["pass"], "unsure")
-            if c["effect"] == "bound":
-                self.assertGreater(threshold(c), 0)
-                self.assertEqual(
-                    c["answers"]["yes"],
-                    "sure" if "guaranteed" in c["statement"] else "gamble",
-                )
-                self.assertEqual(
-                    {c["answers"]["yes"], c["answers"]["no"]}, {"sure", "gamble"}
-                )
+class InterviewTest(TestCase):
+    def test_routes_and_bank(self):
+        self.assertEqual(len(CARDS), len(BANK["cards"]))
+        reachable = set()
+        earlier = set()
+        for key, c in CARDS.items():
+            self.assertTrue(all(c[k] for k in ("text","family","effect","rationale","alternative")))
+            for clause in c["when"]:
+                for condition in clause:
+                    if not condition.startswith("@"):
+                        parent, allowed = condition.split("=")
+                        root, _, child = parent.partition(".")
+                        self.assertIn(root, earlier)
+                        parent_card = CARDS[root]
+                        if child:
+                            spec = next(f for f in parent_card["fields"] if f["id"] == child)
+                            self.assertIn(allowed, spec["options"])
+                        else:
+                            self.assertIn(allowed, [*parent_card["options"], SKIP])
+                    else:
+                        matches(condition,{})
+            earlier.add(key)
+        for case in CASES["cases"]:
+            reachable.update(replay(BASE | case["answers"]).answers)
+        for choice in ("yes","no",SKIP):
+            reachable.update(replay({k:choice for k in CARDS if CARDS[k]["kind"]=="binary"}).answers)
+        self.assertEqual(reachable,set(CARDS))
 
-    def test_bounds_and_boundaries(self):
-        c = CARDS["C03"]
-        self.assertAlmostEqual(threshold(c), 8 / 3)
-        for changes in [
-            dict(outcomes=[1000, 1000]),
-            dict(certain=1200),
-            dict(certain=1060),
-            dict(certain=1050),
-        ]:
-            self.assertIsNone(threshold(dict(c, **changes)))
+    def test_historical_choice_labels_and_free_text(self):
+        original = {"scope": "énergie", "priority": "haute", "strength": "impérative", "missing": "suspendre"}
+        restored = validated(CARDS["P07"], [original])[0]
+        self.assertEqual(restored, {"scope": "énergie", "priority": "high", "strength": "mandatory", "missing": "suspend"})
+        self.assertEqual(original["priority"], "haute")
+
+    def test_published_card_guide_matches_bank(self):
+        guide = (ROOT / "reports/02-questionnaire/CARDS.md").read_text()
+        self.assertIn(BANK["version"], guide)
+        for key, card in CARDS.items():
+            row = next(line for line in guide.splitlines() if line.startswith(f"| {key} · "))
+            for content in (card["text"], card["effect"], *card.get("options", {}).values()):
+                self.assertIn(content, row)
+
+    def test_independent_cases(self):
+        for case in CASES["cases"]:
+            with self.subTest(case=case["name"]):
+                iv = replay(BASE | case["answers"])
+                p = iv.confirm()["portrait"]
+                self.assertEqual(p["aversion"]["state"],case["phi"])
+                self.assertEqual(p["sale_motives"],[case["reason"]] if case["reason"] else [])
+                if case["answers"].get("F03") != SKIP:
+                    self.assertEqual(p["liquidity"]["investable_chf"],dict(low=35000,high=35000))
+                else:
+                    self.assertIsNone(p["liquidity"]["reserve_chf"])
+                for key in case["answers"]:
+                    self.assertIn(key,iv.answers)
+
+    def test_numerical_bounds_and_sensitivity(self):
+        p = derive({"C01":"yes","G00":"yes","G01":"yes","G02":"no","T01":"no","G03":SKIP}, TODAY)["aversion"]
+        self.assertAlmostEqual(p["low"],8/3)
+        self.assertAlmostEqual(p["high"],40/9)
+        self.assertEqual(set(p["without"]),{"G01","G02"})
+        self.assertIsNone(p["without"]["G01"]["low"])
+        self.assertIsNone(p["without"]["G02"]["high"])
+        self.assertEqual(derive({"C01":"yes","G00":"no","G01":"yes"}, TODAY)["aversion"]["state"], "insufficient")
+        hi = derive({"C01":"yes","G00":"yes","G01":"no"},TODAY)["aversion"]
+        self.assertAlmostEqual(hi["high"],8/3)
+        self.assertIsNone(hi["low"])
+        self.assertEqual(derive({"G01":"yes","C01":SKIP},TODAY)["aversion"]["state"],"insufficient")
+        self.assertTrue(derive(BASE | CASES["cases"][4]["answers"],TODAY)["declared_discrepancy"])
+        self.assertTrue(derive(BASE | CASES["cases"][5]["answers"],TODAY)["repeated_framing"])
+
+    def test_cash_timing_and_uncertainty(self):
+        flow = BASE["F03"][0]
+        def budget(*flows):
+            return derive(BASE | {"F03":list(flows)}, TODAY)["liquidity"]
+        inflow = flow | {"direction":"contribution","low":3000,"high":3000}
+        self.assertEqual(budget(flow,inflow)["reserve_chf"]["high"],15000)
+        self.assertEqual(budget(flow,inflow | {"date":"2026-12-01"})["reserve_chf"]["high"],12000)
+        self.assertEqual(budget(flow,inflow | {"date":"2026-12-01","certainty":"uncertain"})["reserve_chf"]["high"],15000)
+        self.assertEqual(budget(flow | {"date":"2028-04-10"})["reserve_chf"]["high"],0)
+        self.assertEqual(budget(flow | {"certainty":"uncertain","high":18000})["investable_chf"],dict(low=32000,high=50000))
+        self.assertEqual(budget(flow | {"low":70000,"high":70000})["shortfall_chf"]["low"],20000)
+        for change in ({"date":None},{"currency":"USD"},{"date":"2025-03-31"}):
+            self.assertIsNone(budget(flow | change)["investable_chf"])
+        self.assertEqual(budget()["reserve_chf"],dict(low=0,high=0))
+
+    def test_version_corrections_and_pruning(self):
+        iv = replay(BASE | CASES["cases"][0]["answers"])
+        old = iv.confirm()
+        self.assertEqual(old, iv.confirm())
+        iv.record("D01","no")
+        self.assertFalse(iv.confirmed)
+        self.assertNotIn("D02",iv.answers)
+        iv.record("D05",SKIP)
+        iv.record("F03",[BASE["F03"][0] | {"low":22000,"high":22000}])
+        new = iv.confirm()
+        self.assertEqual(new["portrait"]["liquidity"]["investable_chf"]["low"],28000)
+        self.assertEqual(read_version(json.dumps(old))["portrait"]["liquidity"]["investable_chf"]["low"],35000)
+        self.assertEqual(new["version"],2)
+        iv.record("P02",BASE["P02"] | {"mode":"minimum","basis":"investment sleeve"})
+        self.assertNotIn("P03",iv.answers)
+        self.assertIsNone(derive(iv.answers,TODAY)["goal"]["risk_bounds_pct"])
+        iv.record("C01","no")
+        self.assertNotIn("G01",iv.answers)
         with self.assertRaises(ValueError):
-            threshold(dict(c, probabilities=[0.5, 0.7]))
-        a = {"C01": "yes", "C03": "yes", "C05": "no"}
-        self.assertEqual(report(a)["status"], "conflict")
-        self.assertEqual(report({"C01": "yes", "C03": "pass"})["used"], 0)
-        self.assertEqual(report({"C01": "yes", "C03": "yes"})["sensitive"], ["C03"])
+            iv.confirm()
+        with self.assertRaises(ValueError):
+            iv.record("D02","yes")
 
-    def test_practice_and_corrections(self):
-        log = []
-        self.assertTrue(submit(log, "C01", "pass", "keyboard", 0))
-        self.assertFalse(submit(log, "C01", "pass", "keyboard", 0))
-        self.assertTrue(submit(log, "P01", "yes", "touch", 1))
-        self.assertEqual(eligible(current(log)), [])
-        self.assertFalse(report(current(log))["understood"])
-        rewind(log, "P01")
-        self.assertTrue(submit(log, "P01", "no", "mouse", 3))
-        self.assertEqual(eligible(current(log)), ["C02"])
-        rewind(log, "C01")
-        self.assertEqual(current(log), {})
-        self.assertFalse(submit(log, "C01", "no", "touch", 0))
-        self.assertEqual(len(log), 5)
+    def test_hard_soft_preferences_and_unknowns(self):
+        hard, soft = [replay(BASE | c["answers"]).confirm()["portrait"] for c in CASES["cases"][1:3]]
+        self.assertEqual(hard["aversion"],soft["aversion"])
+        self.assertEqual(hard["mandatory_checks"],[{"card":"P07","scope":"exclude thermal coal"}])
+        self.assertFalse(soft["mandatory_checks"])
+        self.assertEqual(soft["preferences"]["P08"][0]["strength"],"soft")
+        self.assertEqual(derive({},TODAY)["preferences"]["P08"],None)
+        self.assertEqual(derive(BASE,TODAY)["preferences"]["P08"],[])
 
-    def test_branches_and_risk_cap(self):
-        for form in range(20):
-            log = walk({"C12": "yes", "B01": "yes", "B02": "yes"}, form=form)
-            answers = current(log)
-            r = report(answers)
-            self.assertTrue(r["liquidity"] and r["discomfort"])
-            self.assertLessEqual(sum(i.startswith("T") for i in answers), 2)
-            self.assertTrue(set(CORE) <= answers.keys())
-            self.assertEqual(eligible(answers, form), [])
-            rewind(log, "C12")
-            while pool := eligible(current(log), form):
-                submit(log, pool[0], "pass", "keyboard", len(log), form)
-            self.assertFalse(report(current(log))["liquidity"])
-        # A wide unresolved interval includes the illustrative crossover; a probe can refine it.
-        core = {i: "pass" for i in CORE}
-        core.update(C01="yes", C05="yes")
-        t = [i for i in eligible(core) if i.startswith("T")]
-        self.assertTrue(t)
-        for i in t:
-            self.assertGreater(threshold(CARDS[i]), report(core)["low"])
-        # Once the illustrative ranking is invariant, no extra numerical probe is needed.
-        core["C03"] = "yes"
-        self.assertFalse(any(i.startswith("T") for i in eligible(core)))
-
-    def test_consequential_clarification_and_loss_pairs(self):
-        a = {i: "pass" for i in CORE}
-        a.update(C01="yes", C03="yes", C08="no", C09="no", C10="yes", C11="yes")
-        self.assertTrue({"B14", "B15"} <= set(eligible(a)))
-        a["B15"] = "yes"
-        a["B14"] = "pass"
-        self.assertEqual(report(a)["used"], 1)
-        self.assertFalse(report(a)["confirmed_loss"])
-        a["B14"] = "yes"
-        self.assertTrue(report(a)["confirmed_loss"])
-        for k in ("C02", "C15", "B01"):
-            self.assertEqual(
-                report(dict(a, **{k: "yes"}))["options"], report(a)["options"]
-            )
-
-    def test_report_and_cash_are_independent(self):
-        d = dict(
-            start=date(2027, 1, 1),
-            end=date(2030, 1, 1),
-            currency="CHF",
-            capital="50000",
-            buffer="0",
-            bill_list="Complete",
-            goal_list="Complete",
-            flows=[
-                dict(
-                    kind="withdrawal",
-                    day=date(2029, 1, 1),
-                    amount="10000..15000",
-                    confirmed=True,
-                )
-            ],
-        )
-        capacity = evaluate(d)["capacity"]
-        self.assertEqual([x["investable"] for x in capacity], [40000, 35000])
-        self.assertEqual(
-            evaluate(dict(d, age=70, desired="20", tolerance=8))["capacity"], capacity
-        )
-        for method in ["touch", "mouse", "keyboard"]:
-            log = []
-            submit(log, "C01", "yes", method, 0)
-            self.assertEqual(report(current(log)), report({"C01": "yes"}))
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_invalid_answers(self):
+        for val in ({"low":4,"high":2},{"low":float("nan"),"high":3},{"low":True,"high":1}):
+            with self.assertRaises(ValueError):
+                validated(CARDS["F01"],val)
+        with self.assertRaises(ValueError):
+            validated(CARDS["C01"],"invalid")
+        with self.assertRaises(ValueError):
+            read_version('{"schema": 7}')

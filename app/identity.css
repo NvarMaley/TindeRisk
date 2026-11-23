@@ -1,0 +1,26 @@
+@font-face{font-family:Archivo Black;src:url('/app/static/archivoblack.woff2') format('woff2');font-display:swap}
+@font-face{font-family:DM Sans;src:url('/app/static/dmsans.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--rm-pink:#ff8dc1;--rm-blue:#8cdfff;--rm-night:#120f24}
+.stApp, .stApp [data-testid="stMarkdownContainer"],.stApp button,.stApp label{font-family:'DM Sans',system-ui,sans-serif}
+.stApp{background:radial-gradient(ellipse at 75% 0%,#2a193a,transparent 64rem),var(--rm-night)}
+[data-testid=stMainBlockContainer]{max-width:1180px;padding-top:3.65rem;padding-bottom:3rem}
+.rm-banner{border-radius:22px;isolation:isolate;overflow:hidden;position:relative;display:flex;align-items:center;
+ min-height:196px;background:#191329 url('/app/static/miami.webp') 63% 62%/cover no-repeat;
+ border:1px solid #a16ba0;box-shadow:0 10px 45px #0a081d55}
+.rm-banner::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#160c2bf5 0%,#211333d9 35%,#20113255 65%,#30214e22)}
+.rm-copy{padding:1.25rem 2rem;position:relative;z-index:1;color:#fff6ff}
+.rm-wordmark{font:400 1.02rem/1 'Archivo Black',sans-serif;letter-spacing:-.065em}.rm-wordmark span{color:var(--rm-pink)}
+.rm-copy h1{font:400 clamp(2.3rem,4.5vw,3.85rem)/.98 'Archivo Black',sans-serif!important;letter-spacing:-.055em;margin: .65rem 0 .55rem!important;padding:0!important;color:white}
+.rm-copy em{font-style:normal;color:#ff9ecd}.rm-copy p{font-size:.92rem;margin:0;color:#e6d6ef}
+.rm-cherry{position:absolute;right:7%;height:94%;max-width:38%;object-fit:contain;filter:drop-shadow(0 15px 14px #17082182);transform:rotate(7deg)}
+.stApp button:focus-visible,.stApp a:focus-visible{outline:3px solid var(--rm-blue)!important;outline-offset:3px}
+.stApp [data-testid=stSegmentedControl] button{min-height:40px}
+.stApp [data-testid=stVerticalBlockBorderWrapper]{border-color:#5a476f}
+.stApp [role=progressbar]{border-radius:10px}
+@media(max-width:650px){[data-testid=stMainBlockContainer]{padding:3.1rem .8rem 2rem}.rm-banner{min-height:142px;border-radius:16px}.rm-cherry{right:2%;max-width:36%;height:78%}.rm-copy{padding:1rem}.rm-copy h1{font-size:clamp(1.85rem,7.8vw,2.5rem)!important}.rm-wordmark{font-size:.9rem}.rm-copy p{font-size:.81rem}
+.stApp [data-testid=stSegmentedControl] button{min-height:36px;padding:.18rem .45rem}.stApp [data-testid=stSegmentedControl] button p{font-size:.85rem}}
+@media(prefers-reduced-motion:reduce){.stApp *, .stApp *::before,.stApp *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.stApp button[kind="primary"]:enabled, .stApp [data-testid="stBaseButton-primary"]:enabled {background:#ff9ac9!important;border-color:#ff9ac9!important;color:#301428!important}
+.stApp button[kind="primary"]:enabled p, .stApp [data-testid="stBaseButton-primary"]:enabled p {color:#301428!important;font-weight:700}
+@media(max-width:650px){.stApp [data-testid="stButtonGroup"] button{padding:.18rem .45rem;min-height:36px}.stApp [data-testid="stButtonGroup"] button p{font-size:.83rem}}
