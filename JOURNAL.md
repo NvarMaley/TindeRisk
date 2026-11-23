@@ -312,3 +312,7 @@ Two portfolio choices run after the scored cards. The score remains descriptive.
 ## 23 November 2026 — Volatility estimated from portfolio choices
 
 Studio-3 keeps the willingness score and its components. Two CHF comparisons and a conditional third set bounds on the model's risk aversion parameter. Checked whole-position solutions at representative values produce the volatility zone. The upper estimate guides the match search alongside the existing financial constraints. The studio flags extrapolation beyond the cards and permits a cash option for unresolved choices. The method is reproducible with the dated release and fictional answers. Empirical validation of preferences and market assumptions remains open. [French questionnaire study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille) · [Browser replay](reports/studio/volatility-browser-check.json) · [Notebook](RiskMatch_V2.ipynb)
+
+## 23 November 2026 — Studio language
+
+The opening scene and header offer English and French. The preference follows the browser, and changing it preserves the current screen and form values. Source research text can remain in English. [Studio language](reports/studio/README.md#studio-language)

@@ -1114,3 +1114,24 @@ th {
 .goal-grid h3 { margin: 0 0 8px; }
 .goal-grid .secondary { margin-top: 12px; }
 .goal-grid .budget-line + p { margin-top: 12px; }
+
+[data-language] {
+  width: auto;
+  max-width: 8rem;
+  padding: 6px 9px;
+  border-radius: 8px;
+  border: 1px solid rgba(170, 213, 255, .55);
+  background: #102235;
+  color: #fff;
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.rm-intro > [data-language] {
+  position: absolute;
+  z-index: 8;
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+  min-height: 44px;
+}
