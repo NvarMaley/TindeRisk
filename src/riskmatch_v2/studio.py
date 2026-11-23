@@ -81,14 +81,17 @@ def dispatch(action, data, directory=None):
         if save_id:
             saves.draft(directory, save_id, facts=data["facts"])
         return facts
+    portfolio_check = data.get("portfolio_check") is True
     if action == "route":
-        cards, answers = deck(data["answers"])
+        cards, answers = deck(data["answers"], portfolio_check=portfolio_check)
         if save_id:
             saves.draft(directory, save_id, answers=answers)
         return {"cards": cards, "answers": answers}
     if action == "calibrate":
         facts = intake(data["facts"])
-        policy, profile = calibrate(facts, data["answers"])
+        policy, profile = calibrate(
+            facts, data["answers"], portfolio_check=portfolio_check
+        )
         book = Ledger(directory, token) if token else Ledger.create(directory)
         day = book.latest_day() or MARKET_DAY
         current = book.account(day)
@@ -115,7 +118,7 @@ def dispatch(action, data, directory=None):
         policy.update(
             studio_profile=profile,
             studio_intake=data["facts"],
-            studio_answers=deck(data["answers"])[1],
+            studio_answers=deck(data["answers"], portfolio_check=portfolio_check)[1],
         )
         version = book.save_mandate(policy, expected_version=current["mandate_version"])
         return {

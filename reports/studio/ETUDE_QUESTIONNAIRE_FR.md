@@ -1,6 +1,6 @@
 # Étude du questionnaire comportemental de RiskMatch
 
-Le studio contient **27 cartes réparties en 7 catégories**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **19 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Cette étude décrit le studio actuel, version de calcul **studio-1**. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
+Le studio contient **27 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles conditionnelles**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **19 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-2** ajoute une vérification séparée pour la recherche de portefeuilles. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
@@ -22,6 +22,28 @@ Les 26 cartes d’origine ont été reformulées pour le swipe. Le studio propos
 | **D06** | « Je reverrais le plan surtout pour vérifier si mon objectif reste atteignable. » Cette carte apparaît après le choix de revoir le plan. | Like identifie la vérification de l’objectif comme motif. Pass garde le motif ouvert. Incertain enregistre une absence de position nette. Aucun point de maintien. |
 
 Le choix **Incertain** reste disponible. Les choix explicites sont conservés dans la sauvegarde. Les lignes historiques ci-dessous expliquent aussi le codage des réponses déjà enregistrées.
+
+## Vérification sur des choix de portefeuille
+
+Lorsque la compréhension de base est établie, deux cartes terminent le parcours. Le joueur choisit avant de voir son score et dispose aussi de « Aucun des deux, garder les CHF » et « Incertain ». Chaque option représente deux résultats fictifs en CHF sur un an, chacun à 50 %, à frais et accès aux fonds identiques.
+
+| Carte | Portefeuille A | Portefeuille B |
+|---|---|---|
+| **V01** | −2 % ou +6 % | −5 % ou +11 % |
+| **V02** | −2 % ou +6 % | −12 % ou +20 % |
+
+Les deux comparaisons ne changent **ni le score ni la catégorie**. Le profil distingue la tranche indicative du questionnaire, l’accord ou l’écart avec les scénarios et le plafond retenu pour la recherche. Dans le modèle à deux résultats, l’écart-type vaut la moitié de l’écart entre eux. A correspond à 4 %, B dans V01 à 8 % et B dans V02 à 16 %. Ces nombres servent de bornes prudentes de recherche. Ils ne sont pas des seuils psychométriques ni des estimations de rendements réels.
+
+| Choix | Plafond proposé par les scénarios |
+|---|---|
+| B sur les deux cartes | 16 %. |
+| B dans V01, A ou Incertain dans V02 | 8 %. Le cas incertain est affiché. |
+| A ou Incertain dans V01, A, B ou Incertain dans V02 | 4 %. A suivi de B ou toute réponse incertaine est signalé à confirmer. |
+| Au moins un choix « Garder les CHF », ou capacité de perte à zéro | 0 %. |
+
+Le moteur retient le plus petit plafond entre ce repère et celui issu du score. Il cherche alors entre **0 et ce plafond**, sans imposer une volatilité minimale à quelqu’un parce que le questionnaire le classe « Modéré » ou « Offensif ». La capacité de perte en CHF et les autres contraintes continuent de s’appliquer. Les profils déjà établis restent lisibles. Recalibrer un ancien dossier lui fait suivre la nouvelle vérification.
+
+Ce contrôle améliore la cohérence interne et rend les désaccords visibles. Pour mesurer si le profil prédit des préférences, il reste à comparer les sorties avec des décisions supplémentaires que ni le score ni la règle de plafond n’ont utilisées. [Code de calibration](../../src/riskmatch_v2/studio_profile.py)
 
 ## Grille des 26 cartes d’origine
 

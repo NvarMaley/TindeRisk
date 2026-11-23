@@ -1,8 +1,9 @@
 [
   {
     "device": "desktop",
-    "answered": 22,
-    "explicit_decisions": 4,
+    "answered": 24,
+    "explicit_decisions": 6,
+    "portfolio_cross_check": true,
     "cherry_transitions": 20,
     "swipe_sounds": 20,
     "jazz_pauses_during_cards": 0,
@@ -19,8 +20,9 @@
   },
   {
     "device": "phone",
-    "answered": 22,
-    "explicit_decisions": 4,
+    "answered": 24,
+    "explicit_decisions": 6,
+    "portfolio_cross_check": true,
     "cherry_transitions": 20,
     "swipe_sounds": 20,
     "jazz_pauses_during_cards": 0,

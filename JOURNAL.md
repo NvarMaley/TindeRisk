@@ -303,3 +303,7 @@ The extended bank contains the 18 pilot anchors and 108 conditional prompts. Res
 ### Client studio follow-up · Explicit decision options
 
 The studio uses named options for the guaranteed-versus-risky choices and the 15% decline. A plan review records its own answer and opens a goal-check follow-up, independent of the holding score. The research bank also accepts named portfolio choices, mixed outcomes, and drawdown responses. [Questionnaire study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#choix-explicites-en-service)
+
+### Client studio follow-up · Portfolio cross-check
+
+Two portfolio choices run after the scored cards. The score remains descriptive. New searches use a conservative ceiling and no volatility floor, show divergence or uncertainty, and retain the separate CHF loss constraint. [Method and examples](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille)
