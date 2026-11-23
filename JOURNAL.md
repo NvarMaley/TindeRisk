@@ -332,3 +332,7 @@ Back clears the previous card's response and subsequent responses, then saves th
 ## 24 November 2026 — Retain answered review prompts
 
 An answered review prompt stays in the studio record when revising an earlier answer resolves the difference that triggered it. The score uses the revised answers. Back still clears the answers in the rewound part of the deck.
+
+## 24 November 2026 — Present questions directly
+
+The studio presents the three fictional comparisons consecutively once comprehension is established. It retires G00, G04, T03 and L05 in the active deck while retaining the wording in older profiles. The answers and the instrument risk model remain independent of the retired cards.

@@ -9,20 +9,17 @@ from .risk_review import POLICY
 
 # A like always endorses the first-person proposition. Orientations retain the bank's
 # original yes/no coding so its conditional branches and gamble bounds still apply.
+RETIRED_CARDS = frozenset(("G00", "G04", "T03", "L05"))
 STATEMENTS = {
     "C01": "Even on a fair coin toss, I could lose this round.",
     "C02": "Even after winning three coin tosses in a row, I could lose the next toss.",
     "T01": "With my bills covered, I would accept big swings in my investments.",
     "T02": "Seeing a CHF 10,000 investment temporarily fall to CHF 8,000 would change my answer about accepting large swings.",
-    "G00": "Would you like to try three short investment examples with fictional money?",
-    "G04": "I want to keep my previous choices as they are.",
-    "T03": "I would like to reconsider my answer about big swings.",
     "L00": "When judging a loss, I first think about the amount I paid.",
     "L01": "I would keep CHF 1,000 for sure over an equal chance of CHF 900 or CHF 1,100.",
     "L02": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 100 and a 50% chance of gaining CHF 100.",
     "L03": "I would keep CHF 2,000 for sure over an equal chance of CHF 1,800 or CHF 2,200.",
     "L04": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 200 and a 50% chance of gaining CHF 200.",
-    "L05": "I would like to revisit the same choice expressed in two different ways.",
     "D01": "After a 15% fall, I would consider selling.",
     "D02": "I would reduce my investment after that fall because I need cash to pay a bill.",
     "D03": "Even if I did not need the money, the stress of that fall would make me reduce my investment.",
@@ -83,15 +80,11 @@ def _binary(answers):
     return {
         key: ACTIONS[value][1] if value in ACTIONS else value
         for key, value in answers.items()
-    }
+        if key not in RETIRED_CARDS
+    } | {"G00": "yes"}
 
 
 def _choice_row(key):
-    if key == "G00":
-        return {
-            "help": "Each example starts with a pretend CHF 1,000. You will compare a guaranteed amount with two equally likely outcomes. No real money is needed.",
-            "choices": [("yes", "Try the examples"), ("no", "Skip the examples")],
-        }
     ids = CHOICE_IDS.get(key)
     if not ids:
         return {}
@@ -105,7 +98,12 @@ def _choice_row(key):
             ("certain", f"CHF {g['certain']:,} guaranteed"),
             ("gamble", f"50/50 chance of CHF {g['low']:,} or CHF {g['high']:,}"),
         ]
-    return {"text": text, "choices": options}
+    help_text = (
+        "Choose what you would do after the simulated fall."
+        if key == "D01"
+        else "This example uses fictional money. Each of the two possible outcomes has a 50% chance."
+    )
+    return {"text": text, "choices": options, "help": help_text}
 
 
 def _portfolio_cards(answers, derived):
@@ -156,18 +154,19 @@ def deck(answers, *, portfolio_check=False, derived=False):
         v not in COMPARISON_ANSWERS
         if k in available and (portfolio_check or derived)
         else k not in STATEMENTS
+        and k not in RETIRED_CARDS
         or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
         for k, v in answers.items()
     ):
         raise ValueError("Invalid calibration response.")
 
-    active_ids = set(route(_binary(answers)))
-    # A completed review remains evidence when a revised answer resolves the
-    # conflict that originally triggered it. Rewinding still discards it.
-    for prompt, earlier in {"G04": "G01", "T03": "T01", "L05": "L01"}.items():
-        if prompt in answers and earlier in active_ids:
-            active_ids.add(prompt)
-    active = [k for k in CARDS if k in active_ids and k in STATEMENTS]
+    active = [key for key in route(_binary(answers)) if key in STATEMENTS]
+    # Keep the three examples together as soon as comprehension is established.
+    examples = [key for key in ("G01", "G02", "G03") if key in active]
+    if examples:
+        active = [key for key in active if key not in examples]
+        first = active.index("T01")
+        active[first:first] = examples
     if answers.get("D01") == "review":
         active.insert(active.index("D01") + 1, "D06")
     families = {
@@ -180,13 +179,6 @@ def deck(answers, *, portfolio_check=False, derived=False):
             "family": families[k],
             "help": GIST[families[k]],
             **_choice_row(k),
-            **(
-                {
-                    "help": "Your answers to the guaranteed-versus-uncertain examples were inconsistent in the model. Choose whether to keep them or go back."
-                }
-                if k == "G04"
-                else {}
-            ),
         }
         for k in active
     ]
