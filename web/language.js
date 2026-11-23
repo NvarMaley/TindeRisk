@@ -19,7 +19,7 @@ function translate(text) {
       .replace(/^Portfolio ([AB]) ·/, "Portefeuille $1 ·").replace(/^(Portefeuille [AB] · .*%) or (.*%)$/, "$1 ou $2")
       .replace(/^On a fictional CHF (.+) investment for one year, which outcome would you choose\?$/, "Sur un placement fictif de CHF $1 pendant un an, quelle option choisiriez-vous ?")
       .replace(/^CHF (.+) guaranteed$/, "CHF $1 garantis")
-      .replace(/^50\/50 chance of CHF (.+) or CHF (.+)$/, "Une chance sur deux de recevoir CHF $1 ou CHF $2")
+      .replace(/^50\/50 chance of CHF (.+) or CHF (.+)$/, "CHF $1 ou CHF $2 · 50 % chacun")
       .replace(/^(\d+(?:\.\d+)?) years$/, "$1 ans")
       .replace(/^Match score (.+)$/, "Score de compatibilité $1")
       .replace(/^Goal comparison ·/, "Comparaison avec l’objectif ·")

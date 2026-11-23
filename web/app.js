@@ -175,7 +175,7 @@ async function nextCard() {
       '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
       '</h1><p class="lede">' +
-      (card.choices ? esc(card.family === "Portfolio trade-off" ? card.help : "Choose the action that best matches what you would do.") : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      (card.choices ? esc(card.family === "Portfolio trade-off" || card.id === "G00" ? card.help : "Choose the action that best matches what you would do.") : card.id === "G04" ? esc(card.help) : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
       '</p></div></article></div>' + choices +
       '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );

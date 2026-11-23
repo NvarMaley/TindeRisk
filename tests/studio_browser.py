@@ -127,6 +127,7 @@ def journey(url, browser, phone, report):
         answered.append(key)
         approve = key in YES
         explicit = {
+            "G00": "yes",
             "G01": "certain",
             "G02": "gamble",
             "G03": "certain",

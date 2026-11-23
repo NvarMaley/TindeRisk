@@ -316,3 +316,7 @@ Studio-3 keeps the willingness score and its components. Two CHF comparisons and
 ## 23 November 2026 — Studio language
 
 The opening scene and header offer English and French. The preference follows the browser, and changing it preserves the current screen and form values. Source research text can remain in English. [Studio language](reports/studio/README.md#studio-language)
+
+## 24 November 2026 — Bilingual questionnaire review
+
+G00 asks whether to try fictional examples and explains their CHF 1,000 starting balance. Explicit buttons preserve the original response codes. Other wording updates clarify the previous answer, the no-change alternative, the reasons to reduce exposure, and the horizon of portfolio comparisons. [French study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#relecture-bilingue-du-studio)
