@@ -291,3 +291,7 @@ An 18-card candidate bank includes eight common statements and targeted follow-u
 ### Client studio research · Adaptive deck size
 
 The proposed adaptive questionnaire keeps eight common cards and caps the first pass at 40 cards per person. The candidate bank can grow beyond 100 items. Block-level stopping rules prioritise clarifications that could change profile interpretation. [French specification](reports/studio/CALIBRATION_QUESTIONNAIRE_FR.md#spécification-de-la-prochaine-banque-adaptative)
+
+### Client studio research · Behavioural dimensions
+
+The French calibration study now distinguishes portfolio risk and return choices, sensitivity to prospective losses, reactions after a decline, risk perception and ambiguity. It places framing, financial constraints and monitoring in their respective roles. [Research and proposed blocks](reports/studio/CALIBRATION_QUESTIONNAIRE_FR.md#blocs-recommandés-daprès-la-littérature)
