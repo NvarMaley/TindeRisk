@@ -1,3 +1,4 @@
+import { installLanguage } from "./language.js";
 import { showIntro } from "./intro.js";
 import { renderLibrary } from "./library.js";
 import {
@@ -449,6 +450,7 @@ Object.assign(nav, {
   matches: () => (state.plans.length ? showMatches() : calculate()),
 });
 try { legacyToken = sessionStorage.getItem(storeKey) || ""; } catch {}
+installLanguage(root);
 showIntro(root, {
   prepare: () => api("list_saves"),
   onDone: (list) => showSaves(list, legacyToken ? "new" : undefined),

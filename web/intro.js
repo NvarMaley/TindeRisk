@@ -170,7 +170,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
   function startFromKeyboard(event) {
     if (scene.dataset.phase !== 'idle' || event.repeat || event.altKey || event.metaKey || event.ctrlKey) return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
-    if (event.target.closest?.('.sound-toggle')) return;
+    if (event.target.closest?.('.sound-toggle, [data-language]')) return;
     if (event.target !== document.body && event.target !== document.documentElement && !scene.contains(event.target)) return;
     event.preventDefault();
     enter();

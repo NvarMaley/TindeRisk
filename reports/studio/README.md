@@ -92,3 +92,7 @@ python tests/studio_browser.py
 ```
 
 The browser replay uses Playwright and installed Chrome. Dossiers are isolated under the ignored local account directory. The portable library contains calculated statistics and the model contains fitted parameters. Rebuilding them from original histories requires the local research inputs. [Source register](../14-delivery/DATA.md)
+
+## Studio language
+
+Choose English or French on the opening scene. The header selector applies the preference immediately without rebuilding forms or resetting the questionnaire. The preference is stored in the current browser. Some detailed research diagnostics and server-generated messages retain their source language.
