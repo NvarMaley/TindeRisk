@@ -2,6 +2,22 @@
 
 Je recommande **18 cartes dans la banque pilote**, avec **8 cartes communes** et des relances ciblées. Un parcours où la compréhension est établie contient **14 à 18 cartes**. S’il reste impossible d’établir la compréhension, le parcours contient **9 à 11 cartes** et la tolérance globale reste indéterminée. Le pilote se trouve dans le code de recherche. Le studio continue d’appliquer la version actuelle pendant cette phase de calibration.
 
+## Spécification de la prochaine banque adaptative
+
+Le parcours élargi aura un **tronc commun de 8 cartes** et un **plafond de 40 cartes affichées au total par personne** sur le premier passage, soit jusqu’à 32 cartes hors tronc commun. L’objectif de **14 à 18 cartes sur les parcours clairs** sert de repère à vérifier. La taille de la banque est indépendante de la durée du parcours. Elle pourra dépasser **100 cartes** si les nouvelles propositions couvrent des situations distinctes et apportent une information exploitable.
+
+| Bloc | Quand ouvrir une relance | Ce qui permet de fermer le bloc |
+|---|---|---|
+| Compréhension et tolérance déclarée | Une formulation n’est pas comprise, ou le confort déclaré varie fortement selon l’horizon et la disponibilité de l’argent. | La compréhension est établie et le confort est décrit dans une situation précise. Si elle ne peut être établie, les exercices qui en dépendent restent indéterminés. |
+| Arbitrage entre certitude et risque | Le client alterne entre pari et certitude, hésite ou répond de façon incompatible face au même pari. | Le seuil de changement est suffisamment circonscrit pour le commentaire, ou un désaccord persistant est signalé. |
+| Réaction aux baisses | Les réponses à −10 % et −20 % diffèrent, ou le motif de vente est ambigu. | Un scénario intermédiaire ou une question de motif précise la réaction. Le résultat reste attaché au scénario proposé. |
+| Pertes et cadrage | La réponse dépend de la présentation du même résultat, ou la réponse change alors que seul le gain potentiel augmente. | On a une comparaison interprétable ou un signal explicite à confirmer. |
+| Objectif et suivi | Une clarification peut aider à choisir entre revoir le montant, allonger le délai ou modifier la façon de suivre le portefeuille. | Les préférences utiles à la présentation sont connues. |
+
+Dans chaque bloc, l’algorithme choisit d’abord la relance dont les réponses possibles pourraient résoudre une contradiction, remplir une catégorie insuffisamment documentée ou changer l’explication proposée au client. Il évite les formulations équivalentes déjà vues. Lorsqu’aucune relance encore disponible ne peut changer cette lecture, le bloc se termine. Le plafond de 40 s’applique même si un doute subsiste. Le résultat indique alors les catégories à confirmer et le nombre de réponses exploitables.
+
+Les relances d’un bloc précisent sa lecture et **ne changent pas son poids dans la note globale**. Un seuil de baisse identifié dans un scénario peut aider à présenter les pertes simulées des portefeuilles compatibles. Il ne devient pas une capacité de perte en CHF. Chaque carte ajoutée à la banque devra préciser sa catégorie, son déclencheur, ses réponses possibles, l’information nouvelle qu’elle apporte et l’effet éventuel sur le profil. Le dénombrement en bas de ce document correspond au pilote de 18 cartes.
+
 ## Diagnostic du questionnaire actuel
 
 Les 26 cartes actuelles ont une bonne structure de départ. Elles distinguent délibérément le discours, la décision sous incertitude et la réaction à une baisse. La validation de compréhension, le droit de répondre « incertain » et le contrôle des contradictions sont à conserver. Le problème principal vient de la **quantité d’information par carte**. Certaines relances recueillent une intention de revoir sa réponse sans résoudre le désaccord. D’autres demandent déjà au client comment afficher ou comparer un portefeuille avant de connaître son profil.
