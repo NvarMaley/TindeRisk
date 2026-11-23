@@ -131,6 +131,8 @@ def journey(url, browser, phone, report):
             "G02": "gamble",
             "G03": "certain",
             "D01": "reduce",
+            "V01": "wider",
+            "V02": "wider",
         }
         if key not in explicit:
             swiped.append(key)
@@ -195,6 +197,7 @@ def journey(url, browser, phone, report):
             }""")
     expect(page.locator("#calculate")).to_be_enabled()
     profile = page.locator(".reveal h1").inner_text()
+    expect(page.get_by_role("heading", name="Portfolio cross-check")).to_be_visible()
     expect(
         page.get_by_text(
             "You would reduce the portfolio’s risk after the fall.", exact=True
@@ -289,6 +292,7 @@ def journey(url, browser, phone, report):
         "device": "phone" if phone else "desktop",
         "answered": len(answered),
         "explicit_decisions": len(answered) - len(swiped),
+        "portfolio_cross_check": True,
         "cherry_transitions": len(cycles),
         "swipe_sounds": len(sounds),
         "jazz_pauses_during_cards": 0,

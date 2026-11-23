@@ -56,6 +56,8 @@ The investment budget is allocated at the final match. The blend screen shows sh
 
 [French questionnaire study](ETUDE_QUESTIONNAIRE_FR.md) documents every active proposition. The [separate research pilot](CALIBRATION_QUESTIONNAIRE_FR.md) audits the current deck and tests 18 anchors, with a [French catalogue of 126 research cards](BANQUE_ADAPTATIVE_FR.md) and a separate adaptive router.
 
+The **portfolio cross-check** asks two fictional choices after the behavioural cards, before the score is shown. It leaves the score intact and uses the more cautious ceiling indicated by the choices or the provisional score. The search has no minimum volatility. Financial loss limits are still applied. Existing dossiers use their recorded policy until recalibration. [French method](ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille)
+
 ### Reading a behavioural score
 
 | Willingness | Profile | Model band for annual volatility |

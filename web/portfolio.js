@@ -37,7 +37,9 @@ const section = (label, body) =>
   body +
   "</details>";
 const riskBand = () =>
-  state.profile.high == null
+  state.profile.portfolio_check
+    ? "Up to " + pct(state.profile.portfolio_check.allocation_ceiling)
+    : state.profile.high == null
     ? pct(state.profile.low) + " and above"
     : pct(state.profile.low) + " – " + pct(state.profile.high);
 function evidence(p) {
@@ -275,7 +277,7 @@ export function showMatches() {
       tiles([
         ["Modeled annual return, net", pct(p.net)],
         ["Modeled annual volatility", pct(p.vol)],
-        ["Your inferred band", riskBand()],
+        ["Your search limit", riskBand()],
       ]) +
       (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +
       '<div class="swipe-buttons"><button data-vote="no">Pass</button><button data-vote="yes" class="like" ' +

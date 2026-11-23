@@ -140,7 +140,7 @@ function intake() {
   };
 }
 async function nextCard() {
-  const data = await api("route", { answers: state.answers });
+  const data = await api("route", { answers: state.answers, portfolio_check: true });
   state.cards = data.cards;
   state.answers = data.answers;
   const card =
@@ -173,7 +173,7 @@ async function nextCard() {
       '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
       '</h1><p class="lede">' +
-      (card.choices ? "Choose the action that best matches what you would do." : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      (card.choices ? esc(card.family === "Portfolio cross-check" ? card.help : "Choose the action that best matches what you would do.") : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
       '</p></div></article></div>' + choices +
       '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
@@ -224,6 +224,7 @@ async function finishProfile() {
     const result = await api("calibrate", {
       facts: state.facts,
       answers: state.answers,
+      portfolio_check: true,
     });
     Object.assign(state, result, { plans: [], kept: [], draft: null, goalComparison: null });
     profile(true);
@@ -238,6 +239,10 @@ function profile(animate = false) {
     return;
   }
   const f = p.facts;
+  const check = p.portfolio_check;
+  const allocation = check ? (check.allocation_ceiling === 0
+    ? "The portfolio search will stay in CHF cash."
+    : "The portfolio search uses up to " + pct(check.allocation_ceiling) + " modeled annual volatility, with calmer options included.") : "";
   shell(
     "profile",
     '<div class="reveal ' +
@@ -249,7 +254,7 @@ function profile(animate = false) {
       '</h1><p class="lede">' +
       (p.score == null
         ? "The answers need another look before the model can estimate a risk range."
-        : "Your choices suggest a " +
+        : (check ? "Provisional questionnaire range: " : "Your choices suggest a ") +
           (p.high == null
             ? pct(p.low) + " and above"
             : pct(p.low) + "–" + pct(p.high)) +
@@ -264,6 +269,9 @@ function profile(animate = false) {
         ["Protected cash", "CHF " + fmt(f.reserve_chf)],
         ["Horizon", p.horizon_years + " years"],
       ]) +
+      (check ? '<div class="panel"><h3>Portfolio cross-check</h3><p>' + esc(check.status) +
+        '</p><p class="lede">' + esc(allocation) +
+        '</p><p class="muted">The two fictional choices guide the search and leave your questionnaire score intact.</p></div>' : "") +
       '<div class="actions"><button class="primary" id="calculate" ' +
       (p.blocked_reason ? "disabled" : "") +
       '>Calculate my matches</button><button class="secondary" id="library">Explore the asset library</button><button class="flat" id="edit">Edit my brief</button></div>' +

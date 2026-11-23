@@ -53,6 +53,14 @@ GIST = {
 }
 
 
+# Outcomes are equally likely in each fictional one-year comparison.
+# For two equiprobable outcomes their population standard deviation is half the spread.
+COMPARISON_OUTCOMES = {
+    "V01": ((-2, 6), (-5, 11)),
+    "V02": ((-2, 6), (-12, 20)),
+}
+COMPARISON_ANSWERS = ("lower", "wider", "neither", "skip")
+
 ACTIONS = {
     "keep": ("Keep the portfolio", "no"),
     "reduce": ("Reduce the risk", "yes"),
@@ -90,12 +98,16 @@ def _choice_row(key):
     return {"text": text, "choices": options}
 
 
-def deck(answers):
+def deck(answers, *, portfolio_check=False):
     if not isinstance(answers, dict) or any(
-        k not in STATEMENTS or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
+        v not in COMPARISON_ANSWERS
+        if k in COMPARISON_OUTCOMES and portfolio_check
+        else k not in STATEMENTS
+        or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
         for k, v in answers.items()
     ):
         raise ValueError("Invalid calibration response.")
+
     active = [k for k in route(_binary(answers)) if k in STATEMENTS]
     if answers.get("D01") == "review":
         active.insert(active.index("D01") + 1, "D06")
@@ -112,6 +124,27 @@ def deck(answers):
         }
         for k in active
     ]
+    if portfolio_check and understood(_binary(answers)):
+        for key, outcomes in COMPARISON_OUTCOMES.items():
+            options = [
+                (choice, f"{name} · {loss:+d}% or {gain:+d}%")
+                for choice, name, (loss, gain) in zip(
+                    ("lower", "wider"),
+                    ("Portfolio A", "Portfolio B"),
+                    outcomes,
+                    strict=True,
+                )
+            ]
+            rows.append(
+                {
+                    "id": key,
+                    "text": "Which portfolio would you choose for your investable money?",
+                    "family": "Portfolio cross-check",
+                    "help": "One fictional year in CHF. Each result has a 50/50 chance. Both options have the same fees and access to cash. This choice carries no score points.",
+                    "choices": [*options, ("neither", "Neither · keep cash")],
+                }
+            )
+            active.append(key)
     return rows, {k: answers[k] for k in active if k in answers}
 
 
@@ -237,8 +270,34 @@ def intake(raw):
     }
 
 
-def calibrate(facts, answers):
-    cards, active = deck(answers)
+def _comparison_policy(active, band, cash_only):
+    first, second = (active.get(k) for k in COMPARISON_OUTCOMES)
+    base, medium = (abs(b - a) / 200 for a, b in COMPARISON_OUTCOMES["V01"])
+    wide = (
+        abs(COMPARISON_OUTCOMES["V02"][1][1] - COMPARISON_OUTCOMES["V02"][1][0]) / 200
+    )
+    inconsistent = first == "lower" and second == "wider"
+    if cash_only or "neither" in (first, second):
+        ceiling, status = 0.0, "Cash only"
+    elif inconsistent or "skip" in (first, second):
+        ceiling = medium if first == "wider" else base
+        status = "Needs confirmation"
+    else:
+        ceiling = (
+            wide if first == second == "wider" else medium if first == "wider" else base
+        )
+        status = (
+            "Different from the score"
+            if ceiling < band["low"]
+            or (band["high"] is not None and ceiling > band["high"])
+            else "Consistent with the score"
+        )
+    cap = ceiling if band["high"] is None else min(ceiling, band["high"])
+    return {"status": status, "scenario_ceiling": ceiling, "allocation_ceiling": cap}
+
+
+def calibrate(facts, answers, *, portfolio_check=False):
+    cards, active = deck(answers, portfolio_check=portfolio_check)
     if any(c["id"] not in active for c in cards):
         raise ValueError("Finish the active calibration cards first.")
     a = _binary(active)
@@ -301,11 +360,24 @@ def calibrate(facts, answers):
         if band and high is None
         else ""
     )
+    check = (
+        _comparison_policy(active, band, cash_only)
+        if portfolio_check and band
+        else None
+    )
+    if check:
+        cap_note = (
+            "The portfolio comparisons carry no score points. The search uses the more cautious ceiling "
+            "indicated by the comparisons or the score, with no required minimum volatility. "
+            "Financial loss capacity is checked separately."
+        )
     policy = facts | {
-        "low": 0 if cash_only else low,
-        "high": 0 if cash_only else high,
+        "low": 0 if cash_only or check else low,
+        "high": check["allocation_ceiling"] if check else (0 if cash_only else high),
         "high_exclusive": False,
-        "mode": "minimum" if cash_only else "target_band",
+        "mode": "minimum"
+        if cash_only or (check and check["allocation_ceiling"] == 0)
+        else "target_band",
         "blocked_reason": blocked,
     }
 
@@ -383,6 +455,7 @@ def calibrate(facts, answers):
         },
     ]
     return policy, {
+        "portfolio_check": check,
         "score": score,
         "band": band["label"] if band else "Undetermined",
         "low": low,
@@ -406,6 +479,6 @@ def calibrate(facts, answers):
             for c in cards
         ],
         "blocked_reason": blocked,
-        "policy_version": "studio-1",
+        "policy_version": "studio-2" if portfolio_check else "studio-1",
         "facts": facts,
     }

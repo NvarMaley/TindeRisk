@@ -105,6 +105,48 @@ class Calibration(unittest.TestCase):
             "review",
         )
 
+    def test_comparisons_keep_the_score_and_limit_new_searches(self):
+        baseline = answers(BASE)
+        facts = intake(FACTS)
+        _, old = calibrate(facts, baseline)
+        cards, _ = deck(baseline, portfolio_check=True)
+        self.assertEqual([card["id"] for card in cards[-2:]], ["V01", "V02"])
+        for selections, ceiling, status in (
+            (("wider", "lower"), 0.08, "Consistent with the score"),
+            (("wider", "wider"), 0.12, "Different from the score"),
+            (("lower", "wider"), 0.04, "Needs confirmation"),
+            (("skip", "wider"), 0.04, "Needs confirmation"),
+            (("wider", "skip"), 0.08, "Needs confirmation"),
+            (("lower", "lower"), 0.04, "Different from the score"),
+            (("wider", "neither"), 0, "Cash only"),
+        ):
+            with self.subTest(selections=selections):
+                policy, profile = calibrate(
+                    facts,
+                    baseline | dict(zip(("V01", "V02"), selections, strict=True)),
+                    portfolio_check=True,
+                )
+                self.assertEqual(profile["score"], old["score"])
+                self.assertEqual(profile["domains"], old["domains"])
+                self.assertEqual(profile["portfolio_check"]["status"], status)
+                self.assertEqual((policy["low"], policy["high"]), (0, ceiling))
+                self.assertEqual(
+                    policy["loss_capacity_chf"], facts["loss_capacity_chf"]
+                )
+        cautious, _ = calibrate(
+            facts, baseline | {"V01": "lower", "V02": "lower"}, portfolio_check=True
+        )
+        offers = [plan for plan in candidates(cautious) if plan["valid"]]
+        self.assertTrue(offers)
+        self.assertTrue(all(plan["vol"] <= 0.04 + 1e-8 for plan in offers))
+        policy, profile = calibrate(
+            intake(FACTS | {"loss": 0}),
+            baseline | {"V01": "wider", "V02": "wider"},
+            portfolio_check=True,
+        )
+        self.assertEqual(policy["mode"], "minimum")
+        self.assertEqual(profile["portfolio_check"]["allocation_ceiling"], 0)
+
     def test_insufficient_and_uncovered_evidence(self):
         m, p = calibrate(intake(FACTS), answers(set()))
         self.assertIsNone(p["score"])
