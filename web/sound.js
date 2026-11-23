@@ -1,4 +1,4 @@
-// Both recordings are original. The title cues follow the two landings at 1.36 and 1.78 s.
+// The six original jazz pieces are joined with crossfades in one looping recording. The title cues follow the two landings at 1.36 and 1.78 s.
 function track(asset, loop) {
   const audio = document.createElement("audio");
   audio.src = new URL("./assets/" + asset, import.meta.url).href;
@@ -11,6 +11,48 @@ function track(asset, loop) {
 
 const jazz = track("lagoon-jazz.m4a", true);
 const cues = track("lagoon-cues.m4a", false);
+const normalVolume = 0.66;
+const matchVolume = 0.40;
+let targetVolume = normalVolume;
+let fadeFrame;
+let fallbackContext;
+let musicGain;
+jazz.volume = normalVolume;
+const adjustableVolume = jazz.volume === normalVolume;
+
+function unlockMusicGain() {
+  if (adjustableVolume || musicGain) return;
+  const Audio = window.AudioContext || window.webkitAudioContext;
+  if (!Audio) return;
+  fallbackContext ??= new Audio();
+  fallbackContext.resume().then(() => {
+    if (musicGain || fallbackContext.state !== "running") return;
+    const gain = fallbackContext.createGain();
+    gain.gain.value = targetVolume;
+    fallbackContext.createMediaElementSource(jazz).connect(gain).connect(fallbackContext.destination);
+    musicGain = gain;
+  }).catch(() => {});
+}
+
+export function setMatchMusic(quiet) {
+  const next = quiet ? matchVolume : normalVolume;
+  if (next === targetVolume) return;
+  targetVolume = next;
+  if (musicGain) {
+    musicGain.gain.setTargetAtTime(next, fallbackContext.currentTime, 0.11);
+    return;
+  }
+  if (!adjustableVolume) return;
+  cancelAnimationFrame(fadeFrame);
+  const from = jazz.volume;
+  const start = performance.now();
+  function fade(now) {
+    const progress = Math.min(1, (now - start) / 420);
+    jazz.volume = from + (next - from) * progress;
+    if (progress < 1) fadeFrame = requestAnimationFrame(fade);
+  }
+  fadeFrame = requestAnimationFrame(fade);
+}
 const button = document.createElement("button");
 button.type = "button";
 button.className = "sound-toggle";
@@ -52,10 +94,13 @@ button.onclick = () => {
   try { localStorage.setItem("riskmatch-sound", enabled ? "on" : "off"); } catch {}
   draw();
   syncMusic();
+  if (enabled) unlockMusicGain();
 };
 // Retry within the user's normal gesture when the browser disallows audible autoplay.
 function retryOnInteraction(event) {
-  if (enabled && jazz.paused && event.isTrusted && !button.contains(event.target)) syncMusic();
+  if (!enabled || !event.isTrusted || button.contains(event.target)) return;
+  if (jazz.paused) syncMusic();
+  unlockMusicGain();
 }
 for (const event of ["keydown", "pointerup", "touchend", "click"]) {
   document.addEventListener(event, retryOnInteraction, {capture: true, passive: true});

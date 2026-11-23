@@ -279,3 +279,7 @@ New briefs omit planned spending. Existing briefs with a planned amount can edit
 ### Client studio follow-up · Questionnaire study
 
 The French study documents all 26 behavioural cards, the eight common prompts, the conditional route and the effect of each answer. It traces the three-domain score and volatility bands to the current implementation. [French study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md)
+
+### Client studio follow-up · Jazz suite and stable swipes
+
+The studio plays six original jazz pieces as one looping mix. Match screens and the confirmation animation lower the music before the normal level returns on the portfolio page. The title now holds five seconds longer. The header reuses the opening lettering, and card transitions retain the current header and position. [Studio guide](reports/studio/README.md#sound-and-navigation)
