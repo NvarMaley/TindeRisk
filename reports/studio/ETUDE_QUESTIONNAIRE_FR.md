@@ -47,6 +47,8 @@ La zone est une sensibilité au modèle sur des choix fictifs. Elle peut dépass
 
 Les cartes actives ont été relues avec leurs branchements. G00 demande l’accord pour faire une simulation. Les cartes de cadrage distinguent explicitement « ni gain ni perte » du pari. Après une baisse, les relances reprennent le choix de réduire l’investissement et clarifient ses motifs. Les cartes de portefeuille précisent l’horizon d’un an. Le codage des réponses, les calculs et les seuils sont conservés. [Formulations anglaises du studio](../../src/riskmatch_v2/studio_profile.py) · [Traductions françaises](../../web/translations.js)
 
+Le récapitulatif traduit séparément la catégorie et la réponse, y compris dans les anciens profils. Les motifs d’une réduction du risque et les commentaires sur la tranche s’affichent aussi en français lorsque cette langue est choisie.
+
 ## Grille des 26 cartes d’origine
 
 Les énoncés ci-dessous traduisent les propositions d’origine. Les choix explicites actuels figurent plus haut. Pour les autres reformulations, les liens de la relecture bilingue donnent les libellés en service. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.

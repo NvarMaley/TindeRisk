@@ -28,6 +28,14 @@ function translate(text) {
       .replace(/^My propositions and what they measure · (\d+)$/, "Mes réponses et ce qu’elles mesurent · $1")
       .replace(/^([\d,.]+) holdings$/, "$1 positions")
       .replace(/^Risk aversion ·/, "Aversion au risque ·")
+      .replace(/^(\d+) of (\d+) equivalent pairs agreed\.$/, "Les réponses concordent dans $1 paire(s) sur $2.")
+      .replace(/^Reasons you selected: (.+)\.$/, (_, reasons) => {
+        const labels = { "cash needs": "besoin de liquidités", discomfort: "inconfort", "expecting a further fall": "anticipation d’une nouvelle baisse" };
+        return "Motifs retenus : " + reasons.split(", ").map(reason => labels[reason] || reason).join(", ") + ".";
+      })
+      .replace(/^The upper end exceeds the (.+) volatility covered by your answered comparisons\. Treat this part of the range as an extrapolation from historical model inputs\.$/, "La borne haute dépasse la volatilité de $1 couverte par vos réponses. Cette partie de la tranche est extrapolée à partir des données historiques du modèle.")
+      .replace(/^The portfolio search uses up to (.+) modeled annual volatility, with calmer options included\.$/, "La recherche couvre une volatilité annuelle estimée allant jusqu’à $1. Des options plus prudentes sont proposées.")
+      .replace(/^(Provisional questionnaire range: |Your choices suggest a )(.+) annual volatility range for your investment sleeve\.$/, (_, lead, range) => "Tranche indicative de volatilité annuelle pour le montant investi : " + range.replace(" and above", " et plus") + ".")
       .replace(/^Help with (.+)$/, (_, label) => "Aide · " + (french[label] || label))
       .replace(/^Derived from your portfolio choices and checked against your account constraints on (.+)\. Calmer options are available\.$/, "Calculé à partir de vos choix, avec les contraintes du compte au $1. Des options plus prudentes sont disponibles.");
   return source ? text.replace(source, () => translation) : text;

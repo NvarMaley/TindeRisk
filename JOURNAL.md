@@ -320,3 +320,7 @@ The opening scene and header offer English and French. The preference follows th
 ## 24 November 2026 — Bilingual questionnaire review
 
 G00 asks whether to try fictional examples and explains their CHF 1,000 starting balance. Explicit buttons preserve the original response codes. Other wording updates clarify the previous answer, the no-change alternative, the reasons to reduce exposure, and the horizon of portfolio comparisons. [French study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#relecture-bilingue-du-studio)
+
+## 24 November 2026 — French questionnaire recap
+
+Translate question categories and answers independently in the completed profile. Keep translations for older saved questions and include generated feedback about survey consistency, loss reactions and the volatility range.
