@@ -103,16 +103,20 @@ def exercise(browser, url, embedded, phone):
     expect(view.locator("#help-protected")).to_be_visible()
     reserve_help.click()
     options.locator("summary").first.click()
-    expense = view.locator("#brief-expense")
-    expect(expense).to_be_visible()
-    expect(view.locator("#brief-expense_date")).to_be_hidden()
+    expect(view.locator("#brief-expense, #brief-expense_date")).to_have_count(0)
+    for field, example in [
+        ("reserve_rate", "enter 1 for 1%"),
+        ("target", "enter 5 for 5%"),
+    ]:
+        help_text = view.locator("#help-" + field)
+        view.locator(f".field-help:has(#help-{field}) summary").click()
+        expect(help_text).to_contain_text(example)
+        expect(help_text).to_be_visible()
+        view.locator(f".field-help:has(#help-{field}) summary").click()
     view.locator("#brief-capital").fill("50000")
     view.locator("#brief-protected").fill("15000")
-    expense.fill("18000")
-    expect(view.locator("#brief-expense_date")).to_be_visible()
-    expect(view.locator("#reserve")).to_contain_text("18")
-    expect(view.locator("#sleeve")).to_contain_text("32")
-    expense.fill("")
+    expect(view.locator("#reserve")).to_contain_text("15")
+    expect(view.locator("#sleeve")).to_contain_text("35")
     view.locator("#brief-capital").fill("")
     view.locator("#brief-protected").fill("")
     view.locator("#studio").evaluate("(element) => element.scrollTop = 0")

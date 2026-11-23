@@ -432,7 +432,7 @@
 - [x] Verify multiple named saves with four-digit PIN confirmation, failed-attempt delay, progress recovery and locking. [Save workflow](reports/studio/README.md#named-local-saves)
 - [x] Check the lagoon background and navy glass panels on desktop and mobile. [Desktop](reports/studio/glass-desktop.jpg) · [Mobile](reports/studio/glass-mobile.jpg)
 - [x] Project the CHF reserve at an optional savings rate and show strategy allocations as percentages and CHF before matching. [Method and test](reports/studio/README.md#chf-reserve-and-strategy-split)
-- [x] Show five required fields and short help bubbles on the brief. Group planned spending and preferences under a collapsed disclosure. Keep compatibility with saved mandates. [Interaction replay](reports/studio/interaction-check.json)
+- [x] Show five required fields and short help bubbles on the brief. Group preferences under a collapsed disclosure and preserve planned spending on existing mandates. Keep compatibility with saved mandates. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Verify the full brief is reachable by wheel and touch in standalone and Streamlit, together with pre-start music, automatic retry on normal interaction when autoplay is blocked, synchronised title audio and persistent mute. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Deliver the client-facing path from the lagoon entrance through the budget and goal brief, adaptive swipes, behavioural score and explanatory profile.
 - [x] Expose the complete research library and calculate whole-unit strategies from the dated eligible universe. Show risk, strengths, weaknesses, measured environmental coverage and separate signal readings.

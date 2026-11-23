@@ -271,3 +271,7 @@ The selector opens after the title sequence. A new save requires a name and matc
 ### Client studio follow-up · Goal comparison
 
 The contenders screen now compares the desired return, the required return and the highest historical-model estimate among compatible cards. The separate goal scenario estimates how much volatility and stress loss the goal would require. Its continuous solve is checked after fees and whole-position rounding. It is an illustration only. [Method](reports/studio/ALLOCATION.md#goal-comparison)
+
+### Client studio follow-up · Optional rates
+
+New briefs omit planned spending. Existing briefs with a planned amount can edit or clear it. The help bubbles distinguish savings interest on reserved CHF from the desired yearly return on invested money.

@@ -83,10 +83,10 @@ function intake() {
         <details class="panel brief-options">
           <summary>Optional preferences</summary>
           <div class="fields">
-            ${input("CHF savings rate · %", "reserve_rate", "Enter the annual rate on your CHF savings account to project the reserve. Leave blank for 0%. The simulation assumes the rate stays constant.", 'type="number" min="-10" max="20" step=".01" placeholder="0"')}
-            ${input("Annual return aim · %", "target", "Enter a yearly return you would like to aim for. Leave blank to use your target amount and date. Returns are uncertain.", 'type="number" step=".1" min="-99" max="200" placeholder="e.g. 5"')}
-            ${input("Planned spending · CHF", "expense", "Money you expect to take out for a known expense before or on your target date, such as tuition. It comes out of the cash set aside. If needed, we set aside more to cover it. Leave blank if none.", 'type="number" min="0" step=".01" placeholder="0"')}
-            ${input("Spending date", "expense_date", "When you expect to use that money. Choose a date on or before your target date.", 'type="date" min="2026-10-31"', 'id="expenseWhen" hidden')}
+            ${input("CHF savings rate · %", "reserve_rate", "Annual interest on the CHF cash you set aside. For example, enter 1 for 1% per year. Leave blank to assume 0%.", 'type="number" min="-10" max="20" step=".01" placeholder="0"')}
+            ${input("Annual return aim · %", "target", "The yearly return you would like on the invested money. For example, enter 5 for 5% per year. Leave blank and RiskMatch calculates the rate needed from your target amount and date.", 'type="number" step=".1" min="-99" max="200" placeholder="e.g. 5"')}
+            ${facts.expense > 0 ? input("Planned spending · CHF", "expense", "Money you expect to take out for a known expense before or on your target date, such as tuition. It comes out of the cash set aside. If needed, we set aside more to cover it. Leave blank if none.", 'type="number" min="0" step=".01" placeholder="0"') +
+              input("Spending date", "expense_date", "When you expect to use that money. Choose a date on or before your target date.", 'type="date" min="2026-10-31"', 'id="expenseWhen" hidden') : ""}
             ${select("Environmental preference", "moral", "The model can favour holdings with lower measured emissions where data is available.", moral)}
             ${input("Companies to exclude", "exclusions", "Enter stock symbols separated by commas to exclude those direct holdings. An ETF may still hold them.", 'placeholder="e.g. XOM, AAPL" maxlength="500"')}
             ${facts.universe && facts.universe !== "all" ? select("Saved asset filter", "universe", "Limit what the model can hold, or return to all eligible US instruments.", [["all", "All eligible US instruments"], ["funds", "ETFs only"], ["direct", "Individual stocks and Treasuries only"], ["treasury", "Treasuries and Treasury ETFs only"]]) : ""}
@@ -112,15 +112,18 @@ function intake() {
     const cap = f.capital.valueAsNumber,
       reserve = Math.max(
         f.protected.valueAsNumber || 0,
-        f.expense.valueAsNumber || 0,
+        f.elements.expense?.valueAsNumber || 0,
       );
     root.querySelector("#reserve").textContent = "CHF " + fmt(reserve);
     root.querySelector("#sleeve").textContent = isFinite(cap)
       ? "CHF " + fmt(Math.max(0, cap - reserve))
       : "—";
-    const use = f.expense.valueAsNumber > 0;
-    f.querySelector("#expenseWhen").hidden = !use;
-    f.expense_date.required = use;
+    const spendingDate = f.elements.expense_date;
+    if (spendingDate) {
+      const use = f.elements.expense.valueAsNumber > 0;
+      f.querySelector("#expenseWhen").hidden = !use;
+      spendingDate.required = use;
+    }
   };
   update();
   f.oninput = update;
