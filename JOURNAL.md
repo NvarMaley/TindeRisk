@@ -328,3 +328,7 @@ Translate question categories and answers independently in the completed profile
 ## 24 November 2026 — Rewind questionnaire answers
 
 Back clears the previous card's response and subsequent responses, then saves the shortened route. Decline buttons show a cross.
+
+## 24 November 2026 — Retain answered review prompts
+
+An answered review prompt stays in the studio record when revising an earlier answer resolves the difference that triggered it. The score uses the revised answers. Back still clears the answers in the rewound part of the deck.
