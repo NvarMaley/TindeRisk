@@ -1,0 +1,30 @@
+[
+  {
+    "entry": "Standalone",
+    "input": "Mouse wheel",
+    "submit_reached": true,
+    "jazz_and_cues_played": true,
+    "mute_persisted": true
+  },
+  {
+    "entry": "Standalone",
+    "input": "Touch swipe",
+    "submit_reached": true,
+    "jazz_and_cues_played": true,
+    "mute_persisted": true
+  },
+  {
+    "entry": "Streamlit",
+    "input": "Mouse wheel",
+    "submit_reached": true,
+    "jazz_and_cues_played": true,
+    "mute_persisted": true
+  },
+  {
+    "entry": "Streamlit",
+    "input": "Touch swipe",
+    "submit_reached": true,
+    "jazz_and_cues_played": true,
+    "mute_persisted": true
+  }
+]

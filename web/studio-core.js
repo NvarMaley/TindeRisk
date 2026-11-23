@@ -1,3 +1,5 @@
+import { mountSoundControl } from "./sound.js";
+
 export const root = document.getElementById("studio");
 export const state = {
   token: "",
@@ -153,7 +155,9 @@ export function shell(page, body) {
     '</nav></header><section class="stage" id="stage">' +
     body +
     "</section></div>";
-  window.scrollTo(0, 0);
+  mountSoundControl(root.querySelector(".nav"));
+  root.scrollTop = 0;
+  root.focus({ preventScroll: true });
   root
     .querySelectorAll("[data-go]")
     .forEach((b) => (b.onclick = () => run(b, () => nav[b.dataset.go]())));

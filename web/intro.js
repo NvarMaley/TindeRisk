@@ -1,4 +1,6 @@
 /** Full-screen, keyboard-accessible title sequence. The caller owns the next screen. */
+import { mountSoundControl, startSound, endIntroSound } from './sound.js';
+
 const introSheet = new URL('./intro.css', import.meta.url).href;
 const artwork = name => new URL('./assets/' + name, import.meta.url).href;
 
@@ -96,6 +98,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
       <button class="rm-intro__retry" type="button" hidden>Retry loading</button>
     </div>`;
   root.replaceChildren(scene);
+  mountSoundControl(scene);
   const select = selector => scene.querySelector(selector);
   const start = select('.rm-intro__start');
   const loading = select('.rm-intro__loading');
@@ -113,6 +116,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
     controller?.abort();
     observer.disconnect();
     stopWater();
+    endIntroSound();
     document.removeEventListener('keydown', startFromKeyboard);
   }
   const observer = new MutationObserver(() => {
@@ -124,6 +128,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
     if (busy || disposed) return;
     busy = true;
     const replay = scene.dataset.phase === 'error';
+    startSound(!motion.matches);
     scene.dataset.phase = 'rising';
     start.disabled = true;
     retry.hidden = true;
@@ -164,6 +169,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
   function startFromKeyboard(event) {
     if (scene.dataset.phase !== 'idle' || event.repeat || event.altKey || event.metaKey || event.ctrlKey) return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
+    if (event.target.closest?.('.sound-toggle')) return;
     if (event.target !== document.body && event.target !== document.documentElement && !scene.contains(event.target)) return;
     event.preventDefault();
     enter();
