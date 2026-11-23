@@ -1,0 +1,20 @@
+[
+  {
+    "device": "desktop",
+    "answered": 22,
+    "profile": "Moderate",
+    "manual_and_suggested_blend": true,
+    "confirmed": true,
+    "simulated_closes": 2,
+    "cash_deposit_chf": 100
+  },
+  {
+    "device": "phone",
+    "answered": 22,
+    "profile": "Moderate",
+    "manual_and_suggested_blend": true,
+    "confirmed": true,
+    "simulated_closes": 2,
+    "cash_deposit_chf": 100
+  }
+]

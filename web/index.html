@@ -1,63 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#100c24">
-  <title>RiskMatch — Portfolio Studio</title>
-  <link rel="icon" href="assets/cherry.png">
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" type="module"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120f23"><title>RiskMatch</title>
+<link rel="icon" href="assets/cherry.png"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./library.css">
 </head>
-<body>
-  <header class="topbar">
-    <div class="frame topbar-inner">
-      <a class="brand" href="#explorer" aria-label="RiskMatch, explore"><img src="assets/cherry.png" alt=""><span>Risk<span class="accent">Match</span></span></a>
-      <nav aria-label="Main navigation">
-        <a href="#explorer" data-nav="explorer">Explore</a>
-        <a href="#profil" data-nav="profil">My profile</a>
-        <a href="#suivi" data-nav="suivi">My portfolio</a>
-      </nav>
-      <div class="top-status"><span aria-hidden="true"></span> Demo mode</div>
-    </div>
-  </header>
-  <main class="frame">
-    <section id="explorer" data-view="explorer">
-      <div class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="sparkle" aria-hidden="true">✦</span> PORTFOLIO STUDIO</p>
-          <h1>Your risk.<br><span>Your match.</span></h1>
-          <p class="hero-description">Compare allocations, explore trade-offs and build a portfolio for your goals.</p>
-          <a class="button primary" href="#options">Explore portfolios</a>
-        </div>
-        <img class="hero-cherry" src="assets/cherry.png" alt="">
-        <span class="hero-coordinate">US MARKET <b>·</b> CHF BASE</span>
-      </div>
-      <section id="options" class="portfolio-section" aria-labelledby="portfolio-title">
-        <div class="section-heading">
-          <div><h2 id="portfolio-title">Portfolios</h2><p>Compare portfolios or combine several allocations.</p></div>
-          <button class="button outline" id="compose" type="button">Build an allocation</button>
-        </div>
-        <div class="cards" id="portfolio-cards">
-          <div class="loading-card" role="status"><img src="assets/cherry.png" alt=""><span>Loading portfolios</span></div>
-          <noscript>Enable JavaScript to explore the demo portfolios.</noscript>
-        </div>
-        <p class="demo-note">Illustrative data and calculations. Your selection is simulated.</p>
-      </section>
-    </section>
-    <section id="profil" data-view="profil" hidden>
-      <div class="subhead"><p class="eyebrow">YOUR MANDATE</p><h1>My profile<span>.</span></h1><p>Answer the cards, review your choices and confirm your profile.</p><a class="button primary" href="http://127.0.0.1:8501">Open the local V2 questionnaire</a></div>
-      <h2>Three-card preview</h2><div id="questionnaire" class="panel question-panel"></div>
-    </section>
-    <section id="suivi" data-view="suivi" hidden>
-      <div class="subhead"><p class="eyebrow">TRACKING · DEMO</p><h1>My portfolio<span>.</span></h1></div>
-      <div id="tracking" class="panel"></div>
-    </section>
-  </main>
-  <dialog id="modal" class="modal" aria-labelledby="modal-title">
-    <button class="close" aria-label="Close" type="button">×</button>
-    <div id="modal-content"></div>
-  </dialog>
-  <footer class="frame"><a href="#explorer" class="brand footer-brand"><img src="assets/cherry.png" alt=""><span>Risk<span class="accent">Match</span></span></a><span>US market · CHF</span></footer>
-</body>
+<body><main id="studio" aria-label="RiskMatch"></main><div id="notice" role="status" aria-live="polite"></div><script type="module" src="./app.js"></script></body>
 </html>

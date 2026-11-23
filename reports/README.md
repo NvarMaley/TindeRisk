@@ -2,6 +2,7 @@
 
 | Step | Report and figures | Data |
 |---|---|---|
+| Client studio | [Current application, screenshots and browser evidence](studio/README.md) | 3,902 researched instruments, 3,322 allocation-eligible |
 | 01 · Self-contained base | [Catalogue diagnostics and chart](01-socle/README.md) | Fictitious, January to June 2025 |
 | 1.3 · Market import | [Schedule of months available and checks](01-3-import-marche/README.md) | 13 ETFs in CHF, February 2005 to October 2026 |
 | 1.4 · References in CHF | [Returns, volatility, costs and mandate checks](01-4-references/README.md) | 60/40 and cash, three periods from 2005 to 2026 |

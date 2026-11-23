@@ -272,7 +272,7 @@ class Ledger:
         finally:
             conn.close()
 
-    def save_mandate(self, payload):
+    def save_mandate(self, payload, *, expected_version=None):
         if not isinstance(payload, dict) or not payload:
             raise ValueError("A confirmed mandate is required.")
         encoded = _json(payload)
@@ -280,6 +280,13 @@ class Ledger:
             old = c.execute(
                 "SELECT m.* FROM mandates m JOIN state s ON s.mandate=m.version"
             ).fetchone()
+            if (
+                expected_version is not None
+                and (old["version"] if old else 0) != expected_version
+            ):
+                raise ValueError(
+                    "The profile changed in another session. Reopen it before saving."
+                )
             if old and old["payload"] == encoded:
                 return old["version"]
             version = c.execute(
@@ -406,6 +413,7 @@ class Ledger:
         settlement_day=None,
         expected_revision=None,
         expected_mandate=None,
+        fund_on_confirmation=False,
     ):
         day = _day(day)
         settlement = _day(settlement_day or day)
@@ -447,14 +455,31 @@ class Ledger:
                 raise ValueError(
                     "The account or mandate changed during the calculation. Refresh the comparison."
                 )
-            if acct["value"] <= _CENT_TOL:
-                raise ValueError("Fund the simulated account before matching.")
             mandate = c.execute(
                 "SELECT payload FROM mandates WHERE version=?",
                 (acct["mandate_version"],),
             ).fetchone()
-            if mandate and (reason := json.loads(mandate[0]).get("blocked_reason")):
+            policy = json.loads(mandate[0]) if mandate else {}
+            if reason := policy.get("blocked_reason"):
                 raise ValueError(str(reason))
+            metadata = dict(metadata or {})
+            metadata.pop("pending_opening_chf", None)
+            if fund_on_confirmation:
+                if (
+                    acct["portfolio_version"]
+                    or acct["value"]
+                    or c.execute("SELECT 1 FROM flows LIMIT 1").fetchone()
+                ):
+                    raise ValueError("The simulated account has already been funded.")
+                opening = _number(
+                    policy.get("capital_chf"), "Simulated opening balance"
+                )
+                if opening <= _CENT_TOL:
+                    raise ValueError("A positive opening balance is required.")
+                metadata["pending_opening_chf"] = opening
+                acct.update(cash=opening, settled_cash=opening, value=opening)
+            if acct["value"] <= _CENT_TOL:
+                raise ValueError("Fund the simulated account before matching.")
             _orders(acct, valid, fee_rate, settlement)
             ident = uuid4().hex
             snapshot = {
@@ -519,6 +544,15 @@ class Ledger:
                 raise ValueError(
                     "Proposal is no longer current. Rebuild it from the latest mandate, close and holdings."
                 )
+            opening = json.loads(row["metadata"]).get("pending_opening_chf")
+            if opening is not None:
+                if acct["value"] or acct["portfolio_version"]:
+                    raise ValueError("The simulated opening balance changed.")
+                c.execute(
+                    "INSERT INTO flows VALUES (?,?,?,?)",
+                    ("opening", day, opening, _now()),
+                )
+                acct = _account(c, day)
             targets = json.loads(row["targets"])
             orders = _orders(acct, targets, row["fee_rate"], row["settlement_day"])
             wealth = acct["value"] - sum(o[-1] for o in orders)

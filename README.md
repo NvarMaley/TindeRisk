@@ -33,7 +33,7 @@ The release guide provides the tested CPython 3.12 environment, both client path
 | [Results and graphs](reports/README.md) | Index of figures and reports, available locally and in the GitHub repository of the V2. |
 | [Historical references](reports/01-4-references/README.md) | 60/40 annual, buy and hold and liquidity CHF, with fees and compatibility on theoretical warrants. |
 | [Requirements matrix](reports/01-5-exigences/README.md) | Dependencies and evidence per request, from design to follow-up. |
-| [Portfolio application](app/questionnaire.py) | Five-screen Streamlit simulator with versioned mandates, portfolio matching, closing marks and confirmed revisions. |
+| [Portfolio application](app/questionnaire.py) | Animated client studio, individual research sheets, full-universe matching and simulated account tracking. |
 | [US Shares in 2026](reports/actions-2026/README.md) | 3,129 complete individual history until October 30 and inventory of exceptions. |
 
 ## Closing a step
@@ -62,18 +62,16 @@ To load a previously standardized monthly data file, use `riskmatch-v2 --catalog
 
 ## Open the portfolio application
 
-From the V2 folder, install the application dependencies and launch the local studio.
+With Python 3.12, run the following in the V2 folder.
 
 ```sh
-python -m pip install -e '.[questionnaire,catalogue,faisabilite]'
-python -m streamlit run app/questionnaire.py --server.address 127.0.0.1
+python -m pip install -e '.[catalogue,faisabilite,questionnaire]'
+python -m riskmatch_v2.studio --port 8766
 ```
 
-Complete the cards or select **Try a fictional profile**. The mandate, comparison, monitoring and review screens use the same model and ledger as the notebook. [Application guide](reports/13-application/README.md) · [Card guide](reports/02-questionnaire/CARDS.md)
+Open [RiskMatch locally](http://127.0.0.1:8766/). Start at the lagoon, enter the financial brief, then swipe the behavioural cards. The profile explains the inferred volatility band. Explore individual asset sheets, calculate and compare personalised portfolios, then confirm a single or blended match. Monitoring displays the account and the provenance of its marks. [Studio guide and screenshots](reports/studio/README.md) · [Allocation method](reports/studio/ALLOCATION.md)
 
-## Open Visual Prototype
-
-From the V2 folder, run `python3 -m http.server 8766 --bind 127.0.0.1 --directory web`, then open [the local prototype](http://127.0.0.1:8766/). It presents three fictional allocations, their graphics, a questionnaire of three cards, the manual composition or the search for a Sharpe mixture on a demonstration grid, the animated match and the composition chosen. The answers and demonstration calculations illustrate the prices. From "My profile", open the complete V2 questionnaire in the local Streamlit service. The integrated Streamlit application above implements the full simulated journey.
+Streamlit also serves the studio with `python -m streamlit run app/questionnaire.py`. To reproduce the earlier five-screen study, append `?view=research` to its URL. [Historical application study](reports/13-application/README.md)
 
 ## Optional historical audit of V1
 

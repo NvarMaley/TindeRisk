@@ -1,5 +1,7 @@
 # RiskMatch V2 release verification
 
+This report preserves the dated section 14 release tests. The subsequent client studio runs a fresh optimiser over the full eligible universe. Its browser replay, monitoring scope and screenshots are documented in the [current studio report](../studio/README.md).
+
 The release runs from a standalone GitHub checkout with Python 3.12. It supports a fictional CHF mandate, five dated research portfolios, user-selected blends, closing valuations and a separately confirmed revision. A public installation uses reproducible synthetic fill prices. With the original private first-close tape the same code buys different whole-unit positions. Both modes simulate subsequent closes. [Research notebook](../../RiskMatch_V2.ipynb) · [Application walkthrough and screenshots](../13-application/README.md)
 
 The two isolated installations each passed 105 unit tests without skips. The browser exercised the full card path, correction, 60/40 choice, deposit, oil revision and restored portfolio on desktop and mobile emulation. The release inventories 268 tracked files. [Run evidence](verification.json)
