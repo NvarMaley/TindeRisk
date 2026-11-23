@@ -19,7 +19,7 @@ import {
 } from "./studio-core.js";
 import { calculate, showMatches, showTracking } from "./portfolio.js";
 
-const retiredCards = new Set(["G00", "G04", "T03", "L05"]);
+const retiredCards = new Set(["G00", "G01", "G02", "G03", "G04", "T03", "L03", "L04", "L05", "V03", "V04"]);
 let editing = null,
   calibrating = false;
 const storeKey = "riskmatch-studio-dossier-v1";

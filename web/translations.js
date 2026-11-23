@@ -282,6 +282,8 @@ export const french = Object.freeze({
   "Each example starts with a pretend CHF 1,000. You will compare a guaranteed amount with two equally likely outcomes. No real money is needed.": "Dans chaque exemple, vous partez de 1 000 CHF fictifs. Vous comparez un montant garanti à deux résultats possibles de même probabilité. Vous n’avez besoin d’aucun argent réel.",
   "Choose what you would do after the simulated fall.": "Choisissez ce que vous feriez après cette baisse fictive.",
   "This example uses fictional money. Each of the two possible outcomes has a 50% chance.": "Cet exemple utilise de l’argent fictif. Chacun des deux résultats possibles a 50 % de chances de se produire.",
+  "I would take a certain CHF 1,030 over a 50/50 chance of CHF 950 or CHF 1,200.": "Je choisirais 1 030 CHF garantis plutôt qu’un résultat de 950 CHF ou 1 200 CHF, avec 50 % de chances chacun.",
+  "I would take a certain CHF 1,070 over a 50/50 chance of CHF 950 or CHF 1,200.": "Je choisirais 1 070 CHF garantis plutôt qu’un résultat de 950 CHF ou 1 200 CHF, avec 50 % de chances chacun.",
   "Try the examples": "Faire les exemples",
   "Skip the examples": "Passer les exemples",
   "Your answers to the guaranteed-versus-uncertain examples were inconsistent in the model. Choose whether to keep them or go back.": "Vos réponses aux exemples de montant garanti ou incertain se contredisent selon le modèle. Vous pouvez les garder ou revenir en arrière.",
