@@ -36,6 +36,12 @@ A right vote plays a two-note chime and a left vote plays a dry clap over the co
 | Match | Keep one or more, choose percentages or request a suggested mix, review and confirm. | The suggested mix maximises estimated net return per unit of volatility on a positive 10% grid. The combined holdings and cost are recalculated. [Allocation method](ALLOCATION.md) |
 | Follow-up | Positions, CHF value, flow-neutral return, drawdown, strategy shares, cash flows and a chart of simulated closes. | Opening costs affect the account. A deposit changes its balance and is excluded from investment performance. Later strategies are calculated from existing holdings and available cash. |
 
+### CHF reserve and strategy split
+
+The cash reserve stays outside the investment portfolio. Optional preferences accept an annual CHF savings rate shown on the user's account. A blank rate assumes 0%. The projection compounds that rate from the research close to the goal date and deducts planned spending on its date. It shows nominal CHF and assumes a constant rate. The goal incorporates the projected reserve separately from portfolio returns.
+
+The investment budget is allocated at the final match. The blend screen shows shares and their CHF equivalents before charges and whole-position rounding. It applies the mandate to the combined portfolio before confirmation.
+
 ### Reading a behavioural score
 
 | Willingness | Profile | Model band for annual volatility |

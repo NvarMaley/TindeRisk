@@ -65,6 +65,8 @@ function evidence(p) {
         ["Historical model range", ranges],
         ["Dated goal estimate", chf(p.goal_value_chf)],
         ["Goal shortfall", chf(p.goal_gap_chf)],
+        ["Projected CHF reserve", chf(p.reserve_at_goal_chf)],
+        ["Assumed CHF savings rate", pct(p.reserve_rate)],
         ["One-time cost", chf(p.fee_chf)],
       ]),
     ) +
@@ -286,13 +288,14 @@ function compose() {
   const ids = [...state.kept],
     n = ids.length,
     even = Math.floor(100 / n);
+  const budget = state.plans.find(plan => plan.id === ids[0]).capital_chf;
   shell(
     "matches",
     '<div class="sweep"><p class="kicker">Your shortlist</p><h1>Mix your match.</h1><p class="lede">' +
       (n === 1
         ? "Your selected strategy will be checked once more before booking."
         : "Choose the percentages or let the model search for the highest net return per unit of risk on its 10% grid.") +
-      '</p><div class="panel" id="parts">' +
+      '</p><div class="panel" id="parts"><div class="budget-line"><span>Budget to split</span><b>' + chf(budget) + '</b></div>' +
       ids
         .map(
           (k, i) =>
@@ -300,17 +303,17 @@ function compose() {
             esc(names()[k]) +
             '</span><input type="range" aria-label="' +
             esc(names()[k]) +
-            ' slider" min="0" max="100" value="' +
+            ' slider" min="0" max="100" step=".01" value="' +
             (i === n - 1 ? 100 - even * i : even) +
             '" ' +
             (n === 1 ? "disabled" : "") +
             '><input type="number" aria-label="' +
             esc(names()[k]) +
-            ' percent" min="0" max="100" step="1" value="' +
+            ' percent" min="0" max="100" step="any" value="' +
             (i === n - 1 ? 100 - even * i : even) +
             '" ' +
             (n === 1 ? "readonly" : "") +
-            "><b>%</b></label>",
+            "><b>%</b><output></output></label>",
         )
         .join("") +
       '<div class="budget-line"><span>Total</span><b id="total">100%</b></div></div><div class="actions"><button class="primary" id="manual">' +
@@ -329,14 +332,21 @@ function compose() {
         r.querySelector("[type=number]").valueAsNumber / 100,
       ]),
     );
+  function showAmounts() {
+    controls.forEach(row => {
+      const share = row.querySelector('[type="number"]').valueAsNumber / 100;
+      row.querySelector("output").textContent = chf(share * budget);
+    });
+  }
+  showAmounts();
   let sequence = 0;
   function changed() {
+    showAmounts();
     sequence++;
     root.querySelector("#mixpreview").innerHTML = "";
-    root.querySelector("#total").textContent =
-      Number(
-        (Object.values(weights()).reduce((a, b) => a + b, 0) * 100).toFixed(4),
-      ) + "%";
+    const sum = Object.values(weights()).reduce((a, b) => a + b, 0);
+    root.querySelector("#total").textContent = Number.isFinite(sum)
+      ? Number((sum * 100).toFixed(4)) + "%" : "—";
   }
   controls.forEach((r) => {
     const [a, b] = r.querySelectorAll("input");
@@ -372,6 +382,7 @@ function compose() {
           ),
       );
       root.querySelector("#total").textContent = "100%";
+      showAmounts();
     }
     target.innerHTML =
       '<div class="panel"><h2>' +
@@ -379,7 +390,7 @@ function compose() {
       "</h2>" +
       rows(
         Object.fromEntries(ids.map((k) => [names()[k], p.parts[k] || 0])),
-        pct,
+        (share) => pct(share) + " · " + chf(share * p.capital_chf),
       ) +
       tiles([
         ["Modeled annual return", pct(p.net)],
@@ -411,7 +422,8 @@ function review(d) {
         ["Investable sleeve", chf(d.plan.capital_chf)],
         ["One-time fee", chf(d.plan.fee_chf)],
         ["Positions", fmt(d.plan.positions)],
-        ["Protected outside account", chf(d.plan.reserve_chf)],
+        ["CHF reserve outside investments", chf(d.plan.reserve_chf)],
+        ["Projected reserve at goal", chf(d.plan.reserve_at_goal_chf)],
       ]) +
       tileBar(d.plan.weights) +
       '<div class="actions"><button class="primary" id="confirm">♥ Confirm my match</button><button class="flat" id="cancel">Cancel draft</button></div><div class="error" role="alert"></div></div>',

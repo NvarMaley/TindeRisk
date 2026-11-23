@@ -108,6 +108,22 @@ def intake(raw):
             raise ValueError(
                 "Date the planned withdrawal between the opening close and the goal."
             )
+    reserve_rate = raw.get("reserve_rate")
+    reserve_rate = (
+        0.0
+        if reserve_rate in ("", None)
+        else money(reserve_rate, "CHF savings rate", minimum=-10, maximum=20) / 100
+    )
+    growth = 1 + reserve_rate
+    reserve_at_goal = cash * growth ** ((due - start).days / 365.25)
+    if flow:
+        spending_day = date.fromisoformat(flow_date)
+        remaining_years = (due - spending_day).days / 365.25
+        reserve_at_goal -= flow * growth**remaining_years
+        if reserve_at_goal < -0.005:
+            raise ValueError(
+                "Set aside more cash to cover the planned spending at this savings rate."
+            )
     loss = money(raw.get("loss"), "loss capacity", maximum=capital)
     target = raw.get("target")
     target = (
@@ -156,7 +172,8 @@ def intake(raw):
         "capital_chf": capital - cash,
         "total_chf": capital,
         "reserve_chf": cash,
-        "reserve_at_goal_chf": cash - flow,
+        "reserve_at_goal_chf": max(0.0, reserve_at_goal),
+        "reserve_rate": reserve_rate,
         "goal_chf": goal,
         "goal_date": due.isoformat(),
         "loss_capacity_chf": loss,

@@ -949,6 +949,12 @@ th {
   gap: 12px;
   padding: 12px 0;
 }
+.mixrow output {
+  grid-column: 1 / -1;
+  justify-self: end;
+  color: var(--ice);
+  font-size: .88rem;
+}
 .pulse-heart,
 .matchheart {
   font-size: clamp(65px, 15vw, 150px);

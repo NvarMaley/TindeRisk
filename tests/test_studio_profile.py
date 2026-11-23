@@ -3,12 +3,14 @@
 import json
 import os
 import unittest
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
+from riskmatch_v2.matching.mandate import MARKET_DAY
 from riskmatch_v2.studio import dispatch
+from riskmatch_v2.studio_allocation import candidates
 from riskmatch_v2.studio_live import live_value
 from riskmatch_v2.studio_profile import calibrate, deck, intake
 
@@ -57,6 +59,28 @@ class Calibration(unittest.TestCase):
         self.assertEqual((p["score"], m["mode"], m["high"]), (44, "minimum", 0))
         m, p = calibrate(intake(FACTS), answers({"C01", "G00", "T01"}))
         self.assertEqual((p["score"], m["low"], m["high"]), (100, 0.2, None))
+
+    def test_reserve_interest_is_separate_from_investable_cash(self):
+        old = FACTS | {"loss": 0, "expense": 5000, "expense_date": "2028-10-30"}
+        base = intake(old)
+        facts = intake(old | {"reserve_rate": 1})
+        due = date.fromisoformat(old["due"])
+        years = (due - date.fromisoformat(MARKET_DAY)).days / 365.25
+        after_spending = (due - date.fromisoformat(old["expense_date"])).days / 365.25
+        self.assertAlmostEqual(
+            facts["reserve_at_goal_chf"],
+            15000 * 1.01**years - 5000 * 1.01**after_spending,
+        )
+        self.assertEqual(facts["capital_chf"], 35000)
+        self.assertEqual(base["reserve_at_goal_chf"], 10000)
+        policy, _ = calibrate(facts, answers(BASE))
+        plan = next(p for p in candidates(policy) if p["valid"])
+        self.assertAlmostEqual(
+            plan["goal_value_chf"], 35000 + facts["reserve_at_goal_chf"]
+        )
+        self.assertEqual(plan["reserve_rate"], 0.01)
+        with self.assertRaisesRegex(ValueError, "Set aside more cash"):
+            intake(old | {"expense": 15000, "reserve_rate": -1})
 
     def test_insufficient_and_uncovered_evidence(self):
         m, p = calibrate(intake(FACTS), answers(set()))
