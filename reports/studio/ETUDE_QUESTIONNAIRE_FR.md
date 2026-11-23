@@ -4,7 +4,7 @@ Le studio contient **27 cartes de calibration réparties en 7 catégories**, pui
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
-Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct.
+Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct. Une relance « J’aimerais revoir » ouvre la carte ciblée sans effacer les autres réponses. Une fois traitée, la relance reste dans le récapitulatif même si la correction résout le décalage qui l’a déclenchée.
 
 ## Pourquoi ces questions
 

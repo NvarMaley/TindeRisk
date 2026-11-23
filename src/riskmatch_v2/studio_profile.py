@@ -161,7 +161,13 @@ def deck(answers, *, portfolio_check=False, derived=False):
     ):
         raise ValueError("Invalid calibration response.")
 
-    active = [k for k in route(_binary(answers)) if k in STATEMENTS]
+    active_ids = set(route(_binary(answers)))
+    # A completed review remains evidence when a revised answer resolves the
+    # conflict that originally triggered it. Rewinding still discards it.
+    for prompt, earlier in {"G04": "G01", "T03": "T01", "L05": "L01"}.items():
+        if prompt in answers and earlier in active_ids:
+            active_ids.add(prompt)
+    active = [k for k in CARDS if k in active_ids and k in STATEMENTS]
     if answers.get("D01") == "review":
         active.insert(active.index("D01") + 1, "D06")
     families = {

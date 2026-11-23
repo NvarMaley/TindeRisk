@@ -49,6 +49,32 @@ def answers(yes):
 
 
 class Calibration(unittest.TestCase):
+    def test_answered_review_prompts_survive_a_resolved_difference(self):
+        baseline = answers(BASE)
+        cases = (
+            ("T03", "yes", baseline, {"T01": "no"}),
+            (
+                "G04",
+                "no",
+                baseline | {"G01": "gamble", "G02": "certain"},
+                {"G01": "certain"},
+            ),
+            ("L05", "yes", baseline | {"L02": "no", "L04": "no"}, {"L01": "no"}),
+        )
+        for prompt, answer, original, revision in cases:
+            with self.subTest(prompt=prompt):
+                unanswered = {
+                    key: value for key, value in original.items() if key != prompt
+                }
+                self.assertIn(prompt, {card["id"] for card in deck(unanswered)[0]})
+                revised = unanswered | revision
+                self.assertNotIn(prompt, {card["id"] for card in deck(revised)[0]})
+                active, kept = deck(revised | {prompt: answer})
+                self.assertIn(prompt, {card["id"] for card in active})
+                self.assertEqual(kept[prompt], answer)
+                for key in revision:
+                    self.assertEqual(kept[key], revision[key])
+
     def test_behavior_and_capacity_are_distinct(self):
         m, p = calibrate(intake(FACTS), answers(BASE))
         self.assertEqual(
