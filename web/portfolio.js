@@ -136,6 +136,7 @@ export async function calculate() {
   if (request !== calculation || !surface.isConnected) return;
   Object.assign(state, {
     plans: result.plans,
+    goalComparison: result.goal_comparison,
     day: result.day,
     revision: result.revision,
     kept: [],
@@ -183,6 +184,46 @@ function shortlistControls() {
       }),
   );
 }
+function goalComparison() {
+  const comparison = state.goalComparison;
+  if (!comparison) return "";
+  const {scenario, compatible} = comparison;
+  const estimates = (p) => rows({
+    "Estimated net return": p.net,
+    "Estimated annual volatility": p.vol,
+  }, pct) + rows({
+    "Largest modeled loss incl. fees": p.tested_loss_chf,
+    "Projected amount at target date": p.goal_value_chf,
+  }, chf);
+  const gap = compatible?.goal_gap_chf;
+  const alternatives = gap >= .005
+    ? `<p>Your highest-return compatible match projects a shortfall of ${chf(gap)}. Try ${state.funded ? "adding money to the portfolio" : "a higher investment budget"}, a later date or a target closer to ${chf(compatible.goal_value_chf)}.</p>
+       <button class="secondary" id="goal-edit">Edit my brief</button>`
+    : "";
+  return `<details class="info" id="goal-comparison">
+    <summary>Goal comparison · ${esc(pct(comparison.required))} needed · ${compatible ? esc(pct(compatible.net)) + " highest compatible estimate" : "no compatible match"}</summary>
+    <p class="lede">Target ${chf(comparison.target_chf)} by ${esc(comparison.date)}. The required return accounts for your CHF reserve and dated cash flows.</p>
+    <p class="muted">The estimates use historical inputs and can overstate future returns.</p>
+    ${tiles([["Desired annual return", comparison.desired == null ? "Not specified" : pct(comparison.desired)], ["Required annual return", pct(comparison.required)]])}
+    <div class="goal-grid">
+      <div>
+        <h3>What the goal would take</h3>
+        <p class="muted">Illustrative scenario. We minimise model volatility before rounding and set aside personal risk limits for this calculation.</p>
+        ${scenario ? estimates(scenario) +
+          rows({"Change in 2008 stress replay": scenario.loss_2008_chf}, chf) +
+          section("Scenario allocation", tileBar(scenario.weights))
+          : `<p>${esc(comparison.scenario_note)}</p>`}
+      </div>
+      <div>
+        <h3>What fits your profile</h3>
+        ${compatible ? `<p class="muted">${esc(compatible.name)} has the highest estimated net return among the compatible cards.</p>${estimates(compatible)}`
+          : "<p>No generated portfolio fits all your constraints.</p>"}
+        ${alternatives}
+      </div>
+    </div>
+  </details>`;
+}
+
 export function showMatches() {
   const plans = state.plans;
   const i = state.index,
@@ -251,6 +292,7 @@ export function showMatches() {
   shell(
     "matches",
     '<p class="kicker">Portfolio studio</p><h2>Your contenders.</h2>' +
+      goalComparison() +
       tabs +
       '<div class="match-grid"><div>' +
       card +
@@ -259,6 +301,7 @@ export function showMatches() {
       "</div>",
   );
   shortlistControls();
+  bind("#goal-edit", nav.intake);
   root.querySelectorAll("[data-card]").forEach(
     (b) =>
       (b.onclick = () => {

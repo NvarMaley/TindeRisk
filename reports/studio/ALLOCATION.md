@@ -26,6 +26,12 @@ The solver uses the complete eligible vector, long-only positions, a 60% per-lin
 
 Direct ticker exclusions remove those instruments. The strict Chevron screen also excludes unknown and indirect issuer exposure under the environmental study's look-through rules. The measured emissions metric covers the published subset of portfolio value. It is an operational point-source intensity with limited coverage. It cannot establish an all-sector footprint, fund-wide sustainability rating or full Scope 1–3 inventory. Environmental evidence was reviewed **23 November 2026**, including holdings disclosures after the market snapshot. The combined exercise is a retrospective demonstration.
 
+## Goal comparison
+
+The comparison shows the optional desired rate, the net annual return needed to reach the dated CHF goal and the highest estimated net return among valid cards. The required rate incorporates the projected reserve and dated flows. To estimate the risk needed for the goal, a separate continuous problem minimises modeled volatility subject to the required net return, the available budget and existing asset restrictions. It relaxes both personal volatility bounds and the loss-capacity constraint.
+
+Whole-position rounding and fees can change the estimated terminal value. The studio verifies it after rounding and retries with a small return cushion if needed. It reports when this search fails to find a checked allocation. The scenario includes a modeled stress loss and remains outside the shortlist and booking workflow. Estimates use historical inputs. The comparison exposes any goal shortfall and links back to the brief so the user can revise their target or horizon.
+
 ## Stress, score and signals
 
 The 2008 test applies observed CHF returns where a complete series exists. For other names it uses a factor projection. The five additional conditional scenarios cover oil up, oil down, USD/CHF appreciation, a USD interest rate increase and the joint market/rates/oil/FX shock. The interest rate move shifts the ten-year rate by 50 bp and the 10y–2y slope by 25 bp. Direct Treasuries use full cash-flow repricing for this move. Scenario profits and losses are denominated in CHF. The largest tested loss, including transition cost, is compared with the household's loss capacity. No scenario assigns an event probability or bounds the true maximum loss.

@@ -157,6 +157,11 @@ def journey(url, browser, phone, report):
     page.locator('[data-go="profile"]').last.click()
     page.locator("#calculate").click()
     expect(page.locator(".candidate")).to_be_visible(timeout=30000)
+    page.locator("#goal-comparison > summary").click()
+    expect(page.get_by_role("heading", name="What the goal would take")).to_be_visible()
+    expect(page.get_by_role("heading", name="What fits your profile")).to_be_visible()
+    expect(page.get_by_text("Change in 2008 stress replay")).to_be_visible()
+    page.locator("#goal-comparison > summary").click()
     if report and not phone:
         page.screenshot(path=report / "contender.jpg", quality=82)
     page.locator('[data-vote="yes"]').click()
@@ -235,6 +240,7 @@ def journey(url, browser, phone, report):
         "reserve_projection_and_chf_split": True,
         "confirmed": True,
         "pin_required_after_reload": True,
+        "goal_comparison": True,
         "simulated_closes": 2,
         "cash_deposit_chf": 100,
     }

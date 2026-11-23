@@ -428,6 +428,7 @@
 ## 13. Application, portfolio matching and monitoring
 
 - [x] Verify the cherry transition on both card decks, including the like chime, the pass clap, uninterrupted jazz, touch input and reduced motion. [Recorded swipe](reports/studio/cherry-swipe.webp)
+- [x] Compare the desired and required return with the goal scenario and the eligible matches. Exclude the illustrative allocation from booking. [Goal comparison method](reports/studio/ALLOCATION.md#goal-comparison)
 - [x] Verify multiple named saves with four-digit PIN confirmation, failed-attempt delay, progress recovery and locking. [Save workflow](reports/studio/README.md#named-local-saves)
 - [x] Check the lagoon background and navy glass panels on desktop and mobile. [Desktop](reports/studio/glass-desktop.jpg) · [Mobile](reports/studio/glass-mobile.jpg)
 - [x] Project the CHF reserve at an optional savings rate and show strategy allocations as percentages and CHF before matching. [Method and test](reports/studio/README.md#chf-reserve-and-strategy-split)

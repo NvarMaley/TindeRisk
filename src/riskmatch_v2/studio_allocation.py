@@ -41,6 +41,10 @@ TITLES = {
         "A 60/40 equity–Treasury ETF reference scaled within the sleeve",
     ),
     "cash": ("Cash reserve", "Retain the investable sleeve in CHF"),
+    "goal_scenario": (
+        "Goal scenario",
+        "Estimated risk needed to pursue the dated goal",
+    ),
     "blend": (
         "Your mix",
         "Combined holdings, rounded and checked as a single portfolio",
@@ -185,7 +189,7 @@ class _Session:
         s = self.d["specific_risk"][variant]
         return float(np.sqrt(np.sum((weights @ f) ** 2) + np.sum((weights * s) ** 2)))
 
-    def solve(self, key):
+    def solve(self, key, *, required_net=None):
         allow = self.allowed.copy()
         if key == "carbon":
             allow &= self.d["carbon"][:, 2] >= 0.99999
@@ -215,14 +219,15 @@ class _Session:
             cp.sum(w) <= 0.898,
             cp.sum(w) + fee <= 1 - (self.cash - self.settled) / self.budget,
         ]
+
+        def volatility(variant):
+            root = self.d["factor_roots"][variant, ix]
+            specific = self.d["specific_risk"][variant, ix]
+            return cp.norm(cp.hstack([root.T @ w, cp.multiply(specific, w)]))
+
         if high is not None:
             for variant in (0, 1) if key == "robust" else (0,):
-                root = self.d["factor_roots"][variant, ix]
-                specific = self.d["specific_risk"][variant, ix]
-                limits.append(
-                    cp.norm(cp.hstack([root.T @ w, cp.multiply(specific, w)]))
-                    <= high * 0.992
-                )
+                limits.append(volatility(variant) <= high * 0.992)
         stress = self.d["stress_2008"][ix]
         shocks = self.d["shocks"][ix]
         if self.capacity is not None:
@@ -230,7 +235,10 @@ class _Session:
             limits.extend([-stress @ w + fee <= cap, -shocks.T @ w + fee <= cap])
         net = mu[:, 0] @ w - fee / self.years
         objective = net
-        if key == "robust":
+        if required_net is not None:
+            limits.append(net >= required_net)
+            objective = -volatility(0)
+        elif key == "robust":
             worst = cp.Variable()
             limits.append(worst <= mu.T @ w - fee / self.years)
             objective = worst
@@ -654,6 +662,61 @@ def candidates(mandate):
             )
         cards.append(card)
     return cards
+
+
+def compare_goal(mandate, plans):
+    """Compare a minimum-volatility goal scenario with the valid personal matches."""
+    session = _Session(mandate | {"low": 0, "high": None, "loss_capacity_chf": None})
+    required = session.required
+    best = max((p for p in plans if p["valid"]), key=lambda p: p["net"], default=None)
+    summary = {
+        "date": mandate["goal_date"],
+        "target_chf": mandate["goal_chf"],
+        "desired": mandate.get("target_return"),
+        "required": required,
+        "scenario": None,
+        "compatible": best
+        and {
+            k: best[k]
+            for k in (
+                "name",
+                "net",
+                "vol",
+                "tested_loss_chf",
+                "goal_value_chf",
+                "goal_gap_chf",
+            )
+        },
+        "scenario_note": "A unique required return could not be calculated for this goal.",
+    }
+    if required is None:
+        return summary
+    summary["scenario_note"] = (
+        "No checked whole-position allocation reached the goal in this search."
+    )
+    # Solve a continuous risk minimum, then verify the dated value after fees and
+    # integer rounding. Small return cushions can recover an undershoot from rounding.
+    for cushion in (0.0, 0.0005, 0.002, 0.005, 0.01):
+        weights = session.solve("goal_scenario", required_net=required + cushion)
+        if weights is None:
+            break
+        card = session.evaluate(session.rounded(weights), "goal_scenario", {})
+        if card["valid"] and card["goal_gap_chf"] < 0.005:
+            summary["scenario"] = {
+                k: card[k]
+                for k in (
+                    "net",
+                    "vol",
+                    "tested_loss_chf",
+                    "loss_2008_chf",
+                    "goal_value_chf",
+                    "positions",
+                    "weights",
+                )
+            }
+            summary["scenario_note"] = ""
+            break
+    return summary
 
 
 def blend(mandate, selected_ids, weights=None):
