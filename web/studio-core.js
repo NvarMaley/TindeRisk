@@ -1,4 +1,4 @@
-import { mountSoundControl, playSwipeSound } from "./sound.js";
+import { mountSoundControl, playSwipeSound, setMatchMusic } from "./sound.js";
 
 export const root = document.getElementById("studio");
 export const state = {
@@ -128,7 +128,17 @@ export function api(action, data = {}) {
   return job;
 }
 export const nav = {};
-export function shell(page, body) {
+export function shell(page, body, { quietMusic = page === "matches" } = {}) {
+  setMatchMusic(quietMusic);
+  const stage = root.querySelector("#stage");
+  if (root.firstElementChild?.dataset.page === page && stage?.inert) {
+    const scroll = root.scrollTop;
+    stage.innerHTML = body;
+    stage.inert = false;
+    root.scrollTop = scroll;
+    bindNavigation(stage);
+    return;
+  }
   const links = state.profile
     ? [
         ["Profile", "profile"],
@@ -139,9 +149,9 @@ export function shell(page, body) {
     : [];
   if (state.token) links.push(["Lock save", "lock"]);
   root.innerHTML =
-    '<div class="studio-shell"><header class="mast"><button class="word" data-go="' +
+    '<div class="studio-shell" data-page="' + page + '"><header class="mast"><button class="word" data-go="' +
     (state.profile ? "profile" : state.token ? "intake" : "saves") +
-    '" aria-label="RiskMatch home"><img src="./assets/cherry.png" alt=""><span>Risk<i>Match</i></span></button><nav class="nav" aria-label="Studio">' +
+    '" aria-label="RiskMatch home"><b data-word="Risk">Risk</b><b class="brand-match" data-word="Match">Match</b></button><nav class="nav" aria-label="Studio">' +
     links
       .map(
         ([label, id]) =>
@@ -160,7 +170,10 @@ export function shell(page, body) {
   mountSoundControl(root.querySelector(".nav"));
   root.scrollTop = 0;
   root.focus({ preventScroll: true });
-  root
+  bindNavigation(root);
+}
+function bindNavigation(container) {
+  container
     .querySelectorAll("[data-go]")
     .forEach((b) => (b.onclick = () => run(b, () => nav[b.dataset.go]())));
 }

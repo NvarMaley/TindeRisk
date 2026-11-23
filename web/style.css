@@ -120,6 +120,8 @@ small,
   height: 100vh;
   height: 100dvh;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 .studio-shell {
   --lagoon: url(assets/lagoon-dusk.webp);
@@ -161,20 +163,15 @@ small,
   align-items: center;
   background: none;
   border: 0;
-  font-size: 1.35rem;
-  padding: 0;
-  gap: 6px;
+  font-size: clamp(1.2rem, 2.3vw, 1.55rem);
+  padding: 4px;
+  gap: .18em;
+  text-transform: uppercase;
+  letter-spacing: -.085em;
+  white-space: nowrap;
   line-height: 1;
 }
-.word img {
-  width: 42px;
-  height: 40px;
-  object-fit: contain;
-}
-.word i {
-  color: var(--pink);
-  font-style: normal;
-}
+
 .nav {
   display: flex;
   gap: 4px;
@@ -861,9 +858,6 @@ th {
   .poster {
     gap: 14px;
   }
-  .word img {
-    width: 32px;
-  }
   .tiles {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
@@ -880,9 +874,6 @@ th {
   }
   .word {
     font-size: 1.11rem;
-  }
-  .word img {
-    width: 26px;
   }
   .nav {
     gap: 0;

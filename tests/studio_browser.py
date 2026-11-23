@@ -6,6 +6,7 @@ import threading
 from functools import partial
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from time import monotonic
 
 from playwright.sync_api import expect, sync_playwright
 
@@ -66,6 +67,15 @@ def journey(url, browser, phone, report):
     page.on("pageerror", lambda e: errors.append(str(e)))
     page.goto(url)
     page.get_by_role("button", name="Press to start").click()
+    intro_started = monotonic()
+    expect(page.locator("#save-form")).to_be_visible(timeout=15000)
+    assert monotonic() - intro_started >= (5.0 if phone else 8.0)
+    jazz = page.locator("audio[loop]")
+    expect(jazz).to_have_js_property("volume", 0.66)
+    assert jazz.evaluate("audio => audio.duration > 250 && !audio.paused")
+    expect(
+        page.get_by_role("button", name="RiskMatch home").locator("b")
+    ).to_have_count(2)
     name = "Phone replay" if phone else "Desktop replay"
     create_named_save(page, name)
     for k, v in FACTS.items():
@@ -116,6 +126,21 @@ def journey(url, browser, phone, report):
         answered.append(key)
         approve = key in YES
         if len(answered) == 1:
+            page.evaluate("""() => {
+              window.mastAtSwipe = document.querySelector('.mast');
+              window.mastBefore = window.mastAtSwipe.getBoundingClientRect().toJSON();
+              window.horizontalSwipeShift = false;
+              window.measureSwipe = true;
+              function measure() {
+                const studio = document.querySelector('#studio');
+                const mast = document.querySelector('.mast');
+                if (studio.scrollLeft || Math.abs(mast.getBoundingClientRect().left-window.mastBefore.left) > .5) {
+                  window.horizontalSwipeShift = true;
+                }
+                if (window.measureSwipe) requestAnimationFrame(measure);
+              }
+              requestAnimationFrame(measure);
+            }""")
             box = card.bounding_box()
             x = box["x"] + box["width"] / 2
             y = box["y"] + box["height"] / 2
@@ -144,6 +169,14 @@ def journey(url, browser, phone, report):
         else:
             page.locator('[data-vote="' + ("yes" if approve else "no") + '"]').click()
         expect(page.locator(f'[data-card-id="{key}"]')).to_have_count(0)
+        if len(answered) == 1:
+            assert page.evaluate("""() => {
+              window.measureSwipe = false;
+              const mast = document.querySelector('.mast');
+              const rect = mast.getBoundingClientRect();
+              return mast === window.mastAtSwipe && !window.horizontalSwipeShift &&
+                Math.abs(rect.top - window.mastBefore.top) < .5;
+            }""")
     expect(page.locator("#calculate")).to_be_enabled()
     profile = page.locator(".reveal h1").inner_text()
     if report and not phone:
@@ -157,6 +190,7 @@ def journey(url, browser, phone, report):
     page.locator('[data-go="profile"]').last.click()
     page.locator("#calculate").click()
     expect(page.locator(".candidate")).to_be_visible(timeout=30000)
+    expect(jazz).to_have_js_property("volume", 0.40)
     page.locator("#goal-comparison > summary").click()
     expect(page.get_by_role("heading", name="What the goal would take")).to_be_visible()
     expect(page.get_by_role("heading", name="What fits your profile")).to_be_visible()
@@ -206,7 +240,9 @@ def journey(url, browser, phone, report):
     page.locator("#draft").click()
     expect(page.locator("#confirm")).to_be_visible()
     page.locator("#confirm").click()
+    expect(jazz).to_have_js_property("volume", 0.40)
     page.locator("#openbook").click()
+    expect(jazz).to_have_js_property("volume", 0.66)
     expect(page.locator("#live")).to_contain_text("feed")
     expect(page.locator("#chart circle")).to_have_count(1)
     page.locator("#advance").click()
@@ -222,7 +258,7 @@ def journey(url, browser, phone, report):
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth+1")
     page.reload()
     page.get_by_role("button", name="Press to start").click()
-    expect(page.locator("#save-form")).to_be_visible()
+    expect(page.locator("#save-form")).to_be_visible(timeout=15000)
     expect(page.locator('[data-go="tracking"]')).to_have_count(0)
     unlock_named_save(page, name)
     expect(page.locator('[data-go="tracking"]')).to_be_visible()
@@ -241,6 +277,7 @@ def journey(url, browser, phone, report):
         "confirmed": True,
         "pin_required_after_reload": True,
         "goal_comparison": True,
+        "soundtrack_and_stable_swipes": True,
         "simulated_closes": 2,
         "cash_deposit_chf": 100,
     }

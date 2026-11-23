@@ -489,6 +489,7 @@ function review(d) {
         " positions · " +
         chf(result.tracking.value) +
         '</p><button id="openbook" class="primary">View my portfolio</button></div>',
+      { quietMusic: true },
     );
     bind("#openbook", () => tracking(result.tracking));
   });

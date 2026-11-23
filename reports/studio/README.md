@@ -25,7 +25,9 @@ The local save registry stores salted PIN hashes and applies a five-minute delay
 
 ## Sound and navigation
 
-The lagoon starts a quiet original 16-bar jazz instrumental on arrival when the browser permits audible autoplay. When the browser requires a gesture, normal interaction automatically retries playback with sound enabled by default. **Press to start** triggers the title sequence. The score runs at 91 BPM, with electric piano, bass, a reed melody and brushed percussion. A splash accompanies the cherry and two soft impacts land with the title. The music loops through the studio. The speaker button on the intro and in the header remembers the mute setting. The app keeps the loop running across navigation, swipes and tab visibility changes. The browser or operating system can suspend media. Reduced motion skips the timed title effects.
+The lagoon starts the original retro-jazz suite on arrival when the browser permits audible autoplay. When a gesture is required, normal interaction automatically retries playback. Six pieces run in a continuous loop of 4 minutes 21 seconds, from the opening theme through Ocean Drive, Blue Hour, Palm Avenue, Pink Neon and Last Light. Their tempos, chord progressions and leads vary. Crossfades join the recordings and the app retains a single playback clock across every screen. The match workflow and confirmation animation lower the music smoothly. The speaker control remembers the mute preference.
+
+The title splash and its two impacts remain timed to the animation. The first intro holds on the loading screen for five additional seconds. The header reuses the intro lettering for the two brand words. Swiping within a deck retains the same header and scroll position.
 
 The brief scrolls inside the studio in both the standalone and Streamlit entry points. [Mouse, touch and sound replay](interaction-check.json)
 

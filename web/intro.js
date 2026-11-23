@@ -144,7 +144,7 @@ export function showIntro(root, { prepare = () => undefined, onDone } = {}) {
       const deadline = new Promise((_, reject) => {
         timeout = setTimeout(() => { controller.abort(); reject(new Error('Preparation timed out')); }, 20000);
       });
-      const hold = motion.matches ? 260 : replay ? 450 : 3350;
+      const hold = replay ? (motion.matches ? 260 : 450) : (motion.matches ? 260 : 3350) + 5000;
       const [result] = await Promise.all([
         Promise.race([prepared, deadline]),
         new Promise(resolve => setTimeout(resolve, hold)),
