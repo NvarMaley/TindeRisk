@@ -293,6 +293,40 @@ details.info {
   font-weight: 650;
   min-width: 0;
 }
+#brief .field {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+}
+#brief .field[hidden] { display: none; }
+#brief .field > :is(input, select) { grid-column: 1 / -1; }
+#brief details.field-help { margin: 0; position: relative; }
+.field-help summary {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  min-height: 26px;
+  border: 1px solid #a880a0;
+  border-radius: 50%;
+  color: var(--ice);
+}
+.field-help summary::-webkit-details-marker { display: none; }
+.field-help p {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 5px);
+  right: 0;
+  width: min(215px, 58vw);
+  padding: .7rem;
+  border: 1px solid #a880a0;
+  border-radius: 12px;
+  background: #2b2037;
+  color: var(--pearl);
+  box-shadow: 0 6px 18px #09061190;
+  font-weight: 400;
+}
+.brief-options .fields { margin-top: 16px; }
 .field.wide {
   grid-column: 1/-1;
 }

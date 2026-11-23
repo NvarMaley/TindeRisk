@@ -88,6 +88,28 @@ def exercise(browser, url, embedded, phone):
     expect(jazz).to_have_js_property("paused", True)
     sound.click()
     expect(jazz).to_have_js_property("paused", False)
+    options = view.locator(".brief-options")
+    assert options.evaluate("a => !a.open")
+    expect(view.locator("#brief :required")).to_have_count(5)
+    assert not view.locator('#brief option[value="exclude_chevron"]').count()
+    reserve_help = view.locator('summary[aria-label="Help with Cash to set aside · CHF"]')
+    reserve_help.click()
+    expect(view.locator("#help-protected")).to_be_visible()
+    reserve_help.click()
+    options.locator("summary").first.click()
+    expense = view.locator("#brief-expense")
+    expect(expense).to_be_visible()
+    expect(view.locator("#brief-expense_date")).to_be_hidden()
+    view.locator("#brief-capital").fill("50000")
+    view.locator("#brief-protected").fill("15000")
+    expense.fill("18000")
+    expect(view.locator("#brief-expense_date")).to_be_visible()
+    expect(view.locator("#reserve")).to_contain_text("18")
+    expect(view.locator("#sleeve")).to_contain_text("32")
+    expense.fill("")
+    view.locator("#brief-capital").fill("")
+    view.locator("#brief-protected").fill("")
+    view.locator("#studio").evaluate("(element) => element.scrollTop = 0")
     submit = view.locator("#brief button[type=submit]")
     expect(submit).not_to_be_in_viewport()
     scroll_down(page, phone)
@@ -107,6 +129,7 @@ def exercise(browser, url, embedded, phone):
         "input": "Touch swipe" if phone else "Mouse wheel",
         "idle_music_start": mode,
         "submit_reached": True,
+        "simple_brief_and_help": True,
         "jazz_and_cues_played": True,
         "music_before_start": True,
         "title_cues_waited_for_start": True,
