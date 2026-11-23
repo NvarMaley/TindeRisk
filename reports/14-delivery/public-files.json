@@ -1,5 +1,5 @@
 {
-  "tracked_count": 330,
+  "tracked_count": 333,
   "files": {
     ".gitignore": "software, configuration and environment",
     ".streamlit/config.toml": "software, configuration and environment",
@@ -148,6 +148,7 @@
     "reports/econometrie/analyse.png": "research chart, fictional screenshot or project artwork",
     "reports/econometrie/results.json": "parameters, metadata and research evidence",
     "reports/studio/ALLOCATION.md": "documentation and notebooks",
+    "reports/studio/BANQUE_ADAPTATIVE_FR.md": "documentation and notebooks",
     "reports/studio/CALIBRATION_QUESTIONNAIRE_FR.md": "documentation and notebooks",
     "reports/studio/ETUDE_QUESTIONNAIRE_FR.md": "documentation and notebooks",
     "reports/studio/README.md": "documentation and notebooks",
@@ -232,6 +233,7 @@
     "src/riskmatch_v2/options/study.py": "software, configuration and environment",
     "src/riskmatch_v2/questionnaire/banque.json": "parameters, metadata and research evidence",
     "src/riskmatch_v2/questionnaire/risque.json": "parameters, metadata and research evidence",
+    "src/riskmatch_v2/questionnaire_bank.py": "software, configuration and environment",
     "src/riskmatch_v2/questionnaire_pilot.py": "software, configuration and environment",
     "src/riskmatch_v2/reference.py": "software, configuration and environment",
     "src/riskmatch_v2/risk_review.py": "software, configuration and environment",
@@ -286,6 +288,7 @@
     "tests/test_match_ledger.py": "software, configuration and environment",
     "tests/test_match_mandate.py": "software, configuration and environment",
     "tests/test_options.py": "software, configuration and environment",
+    "tests/test_questionnaire_bank.py": "software, configuration and environment",
     "tests/test_questionnaire_pilot.py": "software, configuration and environment",
     "tests/test_reference.py": "software, configuration and environment",
     "tests/test_risk_review.py": "software, configuration and environment",

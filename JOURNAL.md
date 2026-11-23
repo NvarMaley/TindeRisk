@@ -295,3 +295,7 @@ The proposed adaptive questionnaire keeps eight common cards and caps the first 
 ### Client studio research · Behavioural dimensions
 
 The French calibration study now distinguishes portfolio risk and return choices, sensitivity to prospective losses, reactions after a decline, risk perception and ambiguity. It places framing, financial constraints and monitoring in their respective roles. [Research and proposed blocks](reports/studio/CALIBRATION_QUESTIONNAIRE_FR.md#blocs-recommandés-daprès-la-littérature)
+
+### Client studio research · Extended French card bank
+
+The extended bank contains the 18 pilot anchors and 108 conditional prompts. Research routing chooses portfolio, drawdown and mixed-outcome thresholds within their blocks. A synthetic replay covers all 126 prompts across 1,800 histories. The router keeps anchor scores and records added observations separately. [French catalogue](reports/studio/BANQUE_ADAPTATIVE_FR.md)
