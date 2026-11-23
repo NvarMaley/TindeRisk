@@ -85,6 +85,7 @@ def run(out, url):
                     page.get_by_text("No signal has independent approval"),
                     "choice remains open",
                 )
+                expect(page.get_by_text("XLU", exact=True).first).to_be_visible()
                 shot("options")
                 button("Save example selection")
                 page.get_by_text(

@@ -11,6 +11,7 @@ import secrets
 import sqlite3
 
 from .catalogue import approved
+from .universe import ASSETS, REFERENCE
 
 ROOT = Path(__file__).resolve().parents[2]
 FEED = json.loads((ROOT / "data/demo/monitor_feed.json").read_text())
@@ -18,12 +19,26 @@ UPDATES = FEED["updates"]
 COST = 0.001
 
 
+if tuple(FEED["assets"]) != ASSETS:
+    raise ValueError("Unexpected feed asset order")
+
+
+def account_quote(update, size):
+    if size == len(ASSETS):
+        return update
+    if size != len(REFERENCE):
+        raise ValueError("Unknown account universe")
+    if update.get("close"):
+        return dict(update, close=update["close"][:size])
+    return update
+
+
 def quote_status(update):
     if update["day"] not in FEED["sessions"]:
         return "market closed"
     if (
         not update.get("close")
-        or len(update["close"]) != 3
+        or len(update["close"]) not in (len(ASSETS), len(REFERENCE))
         or not all(math.isfinite(v) and v > 0 for v in update["close"])
     ):
         return "missing close"
@@ -117,7 +132,7 @@ def create(weights, cap, arm, consent, path=None, profile="unresolved", token=No
     if not consent:
         raise ValueError("Explicit local storage consent required")
     if (
-        len(weights) != 3
+        len(weights) not in (len(ASSETS), len(REFERENCE))
         or not all(math.isfinite(x) and 0 <= x <= 0.600001 for x in weights)
         or sum(weights) > 0.900001
     ):
@@ -133,7 +148,8 @@ def create(weights, cap, arm, consent, path=None, profile="unresolved", token=No
     ):
         raise ValueError("Catalogue entry unavailable")
     token = token or secrets.token_urlsafe(32)
-    units = [35000 * w / p for w, p in zip(weights, price(UPDATES[0]), strict=True)]
+    opening = account_quote(UPDATES[0], len(weights))
+    units = [35000 * w / p for w, p in zip(weights, price(opening), strict=True)]
     traded = 35000 * sum(weights)
     fee = traded * COST
     s = dict(
@@ -154,7 +170,8 @@ def create(weights, cap, arm, consent, path=None, profile="unresolved", token=No
         selected=UPDATES[0]["asof"],
         profile=profile,
         feed=FEED["id"],
-        quote=UPDATES[0],
+        assets=list(ASSETS[: len(weights)]),
+        quote=opening,
         cursor=0,
         seq=0,
         index=(50000 - fee) / 50000,
@@ -213,7 +230,7 @@ def advance(token, expected, path=None):
         old = snapshot(s)
         prev = s["quote"]
         s["cursor"] += 1
-        q = UPDATES[s["cursor"]]
+        q = account_quote(UPDATES[s["cursor"]], len(s["units"]))
         status = quote_status(q)
         pnl = fxp = 0.0
         if status == "fresh":

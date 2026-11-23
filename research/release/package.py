@@ -23,6 +23,7 @@ FILES = [
     "src/riskmatch/monitor.py",
     "src/riskmatch/reviews.py",
     "src/riskmatch/demo.py",
+    "src/riskmatch/universe.py",
     "data/demo/monitor_feed.json",
     "data/demo/source_events_v1.json",
     "questions/profile_v1.json",

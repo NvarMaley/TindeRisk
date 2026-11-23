@@ -2,19 +2,19 @@
 
 [Télécharger l'application fictive](RiskMatch-demo.zip) · [Pitch PowerPoint en anglais](RiskMatch-client-pitch.pptx) · [Déroulé de 15 minutes et questions client](PITCH.md)
 
-Décompresser l'archive et suivre le README inclus. La démonstration protège un retrait de 15 000 CHF sur un capital de 50 000 CHF. Le client peut arrêter l'entretien avec une tolérance incertaine, comparer deux allocations fictives, autoriser le stockage local, puis revoir son choix après une nouvelle échéance. Les tableaux historiques des diapositives proviennent des sections 6 et 7. Les deux allocations du logiciel portable et ses observations de marché sont générées pour le cours.
+Décompresser l'archive et suivre le README inclus. La démonstration protège un retrait de 15 000 CHF sur un capital de 50 000 CHF. Le client peut arrêter l'entretien avec une tolérance incertaine, comparer deux allocations fictives, autoriser le stockage local, puis revoir son choix après une nouvelle échéance. Les tableaux historiques des diapositives proviennent des sections 6 et 7. Le pitch utilise les portefeuilles historiques à 13 ETF. Les deux allocations à 13 ETF du logiciel portable et ses observations de marché sont générées pour le cours.
 
 ## Résultats d'acceptation du 23 novembre 2026
 
 | Contrôle | Résultat |
 |---|---|
-| Suite Python complète | 69 tests réussis avec CPython 3.12.6. Quatorze avertissements de dépendances. |
+| Suite Python complète | 72 tests réussis avec CPython 3.12.6. Quatorze avertissements de dépendances. |
 | Chromium, fenêtre de 1 200 × 850 et téléphone émulé de 390 × 850 | Six observations attendues sur chaque écran. Tolérance indéterminée, signal refusé et choix ouvert, paiement couvert, confirmation unique, change périmé et manque de 5 000 CHF. Les douze valeurs attendues et observées figurent dans le relevé. |
 | Gestes et corrections | Les deux parcours supplémentaires ont réussi avec souris/clavier et écran tactile émulé. Glissement court ignoré, réponse, incertitude, arrêt, reprise et correction. |
 | Deux contrefactuels séparés | Modifier la tolérance laisse les 15 000 CHF protégés. Avancer seulement la date d'une facture révisée déclenche une nouvelle comparaison et augmente le manque avant règlement. |
-| Copie GitHub neuve et sélective, version 4b89e68 | Les exemples Python isolés, la signature du catalogue et la reconstruction de l'archive ont réussi. Le navigateur a parcouru l'export sans fichiers de recherche privés et avec les requêtes HTTP externes bloquées. |
-| Données et secrets de l'export | 24 fichiers vérifiés par SHA-256, deux jeux de données fictifs, un catalogue de démonstration signé. Contrôle de noms et de motifs de clés privées, de jetons GitHub et de clés AWS. Identifiant d'accès généré uniquement à l'ouverture d'un compte. Suppression des écritures dépendantes testée. |
-| Présentation | Sept diapositives, frais et financement recalculés depuis les tableaux d'origine. Narration synthétique mesurée à 5 min 28 s. Le déroulé réserve le reste des 15 minutes à la manipulation et aux questions. Relecture indépendante par une personne en attente. |
+| Copie GitHub neuve et sélective de la première version 4b89e68 | Les exemples Python isolés, la signature du catalogue et la reconstruction de l'archive ont réussi. Le navigateur a parcouru l'export sans fichiers de recherche privés et avec les requêtes HTTP externes bloquées. |
+| Données et secrets de l'export | 25 fichiers vérifiés par SHA-256, deux jeux de données fictifs, un catalogue de démonstration signé. Contrôle de noms et de motifs de clés privées, de jetons GitHub et de clés AWS. Identifiant d'accès généré uniquement à l'ouverture d'un compte. Suppression des écritures dépendantes testée. |
+| Présentation | Sept diapositives, frais et financement recalculés depuis les tableaux d'origine. Le minutage de la première version et le script révisé sont enregistrés dans PITCH.md. Le déroulé réserve le reste des 15 minutes à la manipulation et aux questions. Relecture indépendante par une personne en attente. |
 
 [Relevé des parcours](evidence/checks.json) · [Captures et temps mesurés](evidence/) · [Vérification des diapositives](verify_pitch.py) · [Tests indépendants de mandat](../../tests/test_release_acceptance.py)
 
@@ -51,4 +51,4 @@ python research/release/browser.py --url http://127.0.0.1:8501 --output /tmp/ris
 RISK_MATCH_URL=http://127.0.0.1:8501 python tests/browser_interview.py
 ```
 
-L'empreinte SHA-256 de RiskMatch-demo.zip est `9b2cf74dd32c4bb41a93f8057ec2c185f8f1a3c070b3c713ac90b91cb9dc2f43`. La reconstruction compare chaque entrée à son empreinte et vérifie l'identité complète du ZIP. [Manifeste](public_manifest.json) · [Instructions incluses](DEMO.md) · [Dépendances macOS vérifiées](demo-requirements.lock)
+L'empreinte SHA-256 de RiskMatch-demo.zip est `37cc8dab3c0b7fe3cdae6bf1322d5beae6fa94a4bf8e3e05506ba9c5fc0f78f2`. La reconstruction compare chaque entrée à son empreinte et vérifie l'identité complète du ZIP. [Manifeste](public_manifest.json) · [Instructions incluses](DEMO.md) · [Dépendances macOS vérifiées](demo-requirements.lock)

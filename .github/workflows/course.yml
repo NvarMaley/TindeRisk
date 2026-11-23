@@ -36,6 +36,7 @@ jobs:
             /research/catalogue/
             /questions/pilot_holdout_v1.json
             /research/questionnaire_pilot.py
+            /research/universe/results/options/
             /research/options/results/
             /research/simulate_interview.py
             /tests/
@@ -158,7 +159,15 @@ jobs:
             /tests/test_catalogue_gate.py
             /tests/test_execution_replay.py
             /tests/test_monitor*.py
+            /tests/test_universe.py
+            /research/universe/comparison.py
+            /research/universe/results/client_value.csv
+            /research/universe/results/frontier/eligibility.csv
+            /research/universe/results/frontier/training.json
             /tests/test_release_acceptance.py
+            /research/universe/results/frontier/latest.csv
+            /research/universe/results/options/
+            /research/universe/results/execution/cohorts.csv
             /research/frontier/results/latest.csv
             /research/options/results/goal_scenarios.csv
             /research/options/results/reverse_stress.csv

@@ -18,3 +18,5 @@ data/additional_data/raw/wrds/crsp_dsf.csv
 research/execution/results/orders.parquet
 research/execution/results/daily.parquet
 .riskmatch-local/
+research/universe/results/execution/orders.parquet
+research/universe/results/execution/daily.parquet

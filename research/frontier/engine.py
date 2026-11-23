@@ -142,8 +142,11 @@ class Frontier:
             if exposure > 0
             else np.zeros_like(self.mean)
         )
-        if len(mean) == 3:
-            self.mixes["60/40"] = np.array([0.6, 0.4, 0]) * self.eligible
+        if len(mean) >= 3:
+            # Research universes begin with SPY and IEF in that order.
+            fixed = np.zeros_like(self.mean)
+            fixed[:2] = (0.6, 0.4)
+            self.mixes["60/40"] = fixed * self.eligible
 
     def record(self, w, cap, radius, status, dual=np.nan):
         w = np.asarray(w, float)

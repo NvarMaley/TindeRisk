@@ -1,5 +1,7 @@
 # How the portfolios respond to market shocks
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 ## Measurement protocol for section 4.2
 
 The historical evaluation covers January 2020 through October 2026. Use the three USD funds and the CHF investor convention from 4.1. Compare the daily equal-weight SPY/IEF/GLD benchmark with an illustrative 60% SPY, 40% IEF mix on identical dates. Include CHF cash at par as a reference for instantaneous scenarios. Both invested mixes are unhedged, gross of trading and FX charges.

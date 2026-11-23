@@ -45,7 +45,7 @@ def reserve(origin, due, capital=50000, payment=15000):
 def screen(prices, origin, excluded=(), unresolved=(), allowed_currency=True):
     recent = prices.loc[:origin].tail(63)
     records = []
-    for asset in ASSETS:
+    for asset in prices.columns:
         x = recent[asset]
         reasons = []
         if asset in excluded:
@@ -80,7 +80,7 @@ def paired_fill(prices, origin, end):
 
 
 def funding(row, budget, price_return):
-    w = row[WEIGHTS].to_numpy(dtype=float)
+    w = row[[f"w{i}" for i in range(len(price_return))]].to_numpy(dtype=float)
     sleeve = budget["investable"]
     initial = budget["protected"] + sleeve
     final = sleeve * (row.cash + w @ (1 + price_return))
@@ -124,12 +124,13 @@ def rank(g):
 
 
 def sensitivity(out, data, estimates, elig, cutoff):
+    weight_cols = [f"w{i}" for i in range(len(elig))]
     mu, cov, unc = estimates
     choices = ("60/40", "classical", "robust")
     rows = []
     for name, newmu, newcov, l in [
         ("base", mu, cov, Limits()),
-        ("SPY mean -2pp", mu + [-0.02, 0, 0], cov, Limits()),
+        ("SPY mean -2pp", mu - 0.02 * (np.arange(len(mu)) == 0), cov, Limits()),
         ("half diagonal covariance", mu, (cov + np.diag(np.diag(cov))) / 2, Limits()),
         ("zero fee", mu, cov, Limits(fee=0)),
         ("25bp fee", mu, cov, Limits(fee=0.0025)),
@@ -145,7 +146,9 @@ def sensitivity(out, data, estimates, elig, cutoff):
     def evaluate_weights(g):
         feasible = {}
         for r in g[g.status.isin(OK)].itertuples():
-            result = base.record(np.array([r.w0, r.w1, r.w2]), r.cap, 1, "reference")
+            result = base.record(
+                np.array([getattr(r, k) for k in weight_cols]), r.cap, 1, "reference"
+            )
             if result["residual"] <= TOL:
                 feasible[r.arm] = result["objective"]
         if not feasible:
@@ -191,11 +194,12 @@ def sensitivity(out, data, estimates, elig, cutoff):
             rows.append(dict(draw=draw, **r))
     draws = pd.DataFrame(rows)
     reference = deterministic[deterministic.scenario == "base"][
-        ["cap", "arm", *WEIGHTS]
+        ["cap", "arm", *weight_cols]
     ]
     draws = draws.merge(reference, on=["cap", "arm"], suffixes=("", "_base"))
     draws["allocation_distance"] = np.abs(
-        draws[WEIGHTS].to_numpy() - draws[[k + "_base" for k in WEIGHTS]].to_numpy()
+        draws[weight_cols].to_numpy()
+        - draws[[k + "_base" for k in weight_cols]].to_numpy()
     ).sum(axis=1)
     draws.to_parquet(out / "bootstrap.parquet", index=False)
     winners_draw = winners(draws, "draw").merge(
@@ -215,7 +219,7 @@ def sensitivity(out, data, estimates, elig, cutoff):
             "violations": (g.residual > TOL).sum(),
         }
         for key in [
-            *WEIGHTS,
+            *weight_cols,
             "vol",
             "net_mean",
             "objective",
@@ -229,11 +233,12 @@ def sensitivity(out, data, estimates, elig, cutoff):
 
 
 def benchmark_risk(frame, cov):
+    weight_cols = [f"w{i}" for i in range(len(cov))]
     for cap, group in frame.groupby("cap"):
-        b = group.loc[group.arm == "60/40", WEIGHTS].iloc[0].to_numpy(dtype=float)
+        b = group.loc[group.arm == "60/40", weight_cols].iloc[0].to_numpy(dtype=float)
         market_variance = b @ cov @ b
         for idx, r in group[group.status.isin(OK)].iterrows():
-            w = r[WEIGHTS].to_numpy(dtype=float)
+            w = r[weight_cols].to_numpy(dtype=float)
             frame.loc[idx, "beta_vs_fixed"] = (
                 w @ cov @ b / market_variance if market_variance > 1e-15 else np.nan
             )
@@ -247,10 +252,13 @@ def benchmark_risk(frame, cov):
 
 def prior_check(cov):
     # Conditional benchmark identity: excess-return prior and a noisy relative view.
-    b = np.array([0.6, 0.4, 0.0])
+    weight_cols = [f"w{i}" for i in range(len(cov))]
+    b = np.zeros(len(cov))
+    b[:2] = [0.6, 0.4]
     delta = 4.0
     tau = 0.05
-    p = np.array([1.0, -1.0, 0.0])
+    p = np.zeros(len(cov))
+    p[:2] = [1, -1]
     prior = delta * cov @ b
     q = p @ prior + 0.01
     rows = []
@@ -262,7 +270,7 @@ def prior_check(cov):
             dict(
                 view_error_variance=error,
                 max_deviation=np.max(np.abs(recovered - b)),
-                **dict(zip(WEIGHTS, recovered)),
+                **dict(zip(weight_cols, recovered)),
             )
         )
     return rows
@@ -310,7 +318,8 @@ def chart(latest, out):
     plt.close(fig)
 
 
-def build(out):
+def build(out, assets=ASSETS):
+    weight_cols = [f"w{i}" for i in range(len(assets))]
     prep = ROOT / "data/prepared_v1"
     path = prep / "market.parquet"
     expected = json.loads((prep / "manifest.json").read_text())[path.name]
@@ -318,12 +327,12 @@ def build(out):
         if hashlib.file_digest(f, "sha256").hexdigest() != expected:
             raise ValueError("Market input changed")
     market = pd.read_parquet(path)
-    market = market[market.asset.isin(ASSETS)].copy()
+    market = market[market.asset.isin(assets)].copy()
     market["price"] = market.adjusted_usd * market.chf_per_usd
 
     def wide(col):
         return market.pivot(index="session", columns="asset", values=col)[
-            list(ASSETS)
+            list(assets)
         ].sort_index()
 
     prices = wide("price")
@@ -338,7 +347,7 @@ def build(out):
         elig = screen(prices, origin)
         screens.append(elig.assign(origin=origin, scenario="base"))
         mask = elig.eligible.to_numpy()
-        # Base sample gate was frozen for the complete three-asset universe.
+        # Base sample gate was frozen for the complete universe.
         if len(hist) != 756 or len(hist.dropna()) < 719:
             raise ValueError(f"Insufficient training coverage at {origin}")
         estimates = moments(hist.to_numpy(), np.random.default_rng(SEED + i), 199)
@@ -367,7 +376,7 @@ def build(out):
         frame["origin"] = origin
         frame["investable_chf"] = budget["investable"]
         frame["reserve_chf"] = budget["protected"]
-        for col, name in zip(WEIGHTS, ASSETS):
+        for col, name in zip(weight_cols, assets):
             frame[name + "_chf"] = frame[col] * budget["investable"]
         frame["sleeve_cash_chf"] = frame.cash * budget["investable"]
         frame["fee_chf"] = frame.fee * budget["investable"]
@@ -398,7 +407,7 @@ def build(out):
         ("direct gold exclusion", {"excluded": ["GLD"]}, Limits(), 0.08, 50000),
         (
             "look-through unknown",
-            {"unresolved": ["SPY", "IEF", "GLD"]},
+            {"unresolved": list(assets)},
             Limits(),
             0.08,
             50000,

@@ -12,7 +12,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from analysis import (
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from research.shocks.analysis import (
     ASSETS,
     EPISODES,
     FACTORS,
@@ -34,14 +37,16 @@ def digest(path):
         return hashlib.file_digest(source, "sha256").hexdigest()
 
 
-def load_panel():
+def load_panel(assets=ASSETS):
     market_path = ROOT / "data/prepared_v1/market.parquet"
     manifest = json.loads((market_path.parent / "manifest.json").read_text())
     if digest(market_path) != manifest[market_path.name]:
         raise ValueError("Prepared market input differs")
     market = pd.read_parquet(market_path)
     frame = (
-        market.pivot(index="session", columns="asset", values="usd_return")[ASSETS]
+        market.pivot(index="session", columns="asset", values="usd_return")[
+            list(assets)
+        ]
         .loc[:END]
         .copy()
     )

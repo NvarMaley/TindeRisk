@@ -27,25 +27,25 @@ SHOCKS = {
 }
 
 
-def matched(frame):
-    return frame[[*ASSETS, *FACTORS, "fx"]].notna().all(axis=1)
+def matched(frame, assets=ASSETS):
+    return frame[[*assets, *FACTORS, "fx"]].notna().all(axis=1)
 
 
-def fit(frame, minimum):
+def fit(frame, minimum, assets=ASSETS):
     """Multivariate OLS, with per-asset HAC intervals preserving gaps on the venue grid."""
-    valid = matched(frame).to_numpy()
+    valid = matched(frame, assets).to_numpy()
     n = int(valid.sum())
     if n < minimum:
         raise ValueError(f"Only {n} matched sessions, need {minimum}")
     x = np.column_stack((np.ones(n), frame.loc[valid, FACTORS]))
-    y = frame.loc[valid, ASSETS].to_numpy()
+    y = frame.loc[valid, list(assets)].to_numpy()
     beta, _, rank, _ = np.linalg.lstsq(x, y, rcond=None)
     if rank < len(TERMS):
         raise ValueError("Rank-deficient factor design")
     residual = y - x @ beta
     bread = np.linalg.inv(x.T @ x)
     se = np.zeros_like(beta)
-    for i in range(len(ASSETS)):
+    for i in range(len(assets)):
         scores = np.zeros((len(frame), len(TERMS)))
         scores[valid] = x * residual[:, i, None]
         meat = scores.T @ scores

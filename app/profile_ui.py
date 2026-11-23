@@ -83,7 +83,20 @@ def profile_result(d, answers):
     if st.session_state.get("portable_case"):
         st.session_state.demo_profile = r["status"]
         if st.button("Compare fictional portfolios"):
+            st.session_state.research_options = False
             st.switch_page("pages/1_Portfolio_options.py")
+        from pathlib import Path
+
+        if (
+            Path(__file__).resolve().parents[1]
+            / "research/universe/results/options/options.csv"
+        ).exists():
+            if st.button("Compare the historical 13-ETF portfolios"):
+                st.session_state.research_options = True
+                st.switch_page("pages/1_Portfolio_options.py")
+    elif st.button("Explore portfolios for my mandate"):
+        st.session_state.use_intake_allocation = True
+        st.switch_page("pages/1_Portfolio_options.py")
     st.subheader("One-year risk tolerance")
     st.caption(
         "In these hypothetical choices, higher φ means giving more weight to avoiding fluctuations."

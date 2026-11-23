@@ -1,5 +1,7 @@
 # 8.1 · Suivi fictif en CHF
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 Dans **Portfolio options**, sauvegarder une allocation, ouvrir **Portfolio monitor** et confirmer séparément le stockage sur l'hôte. La sélection conserve la version du mandat et du modèle, la date simulée, les unités, les frais, la réserve et les liquidités. La clé aléatoire permet de reprendre ou de supprimer le dossier. Seule son empreinte est enregistrée. Le journal SQLite est local, transactionnel et séparé du dépôt. La démonstration conserve des paramètres fictifs. Les réponses détaillées à l'entretien et l'identité du client restent hors du journal.
 
 Le flux de clôtures et de changes a été créé pour ce projet. Le bouton reçoit un événement daté à la fois. Le calendrier explicite distingue fermeture et séance attendue. Une clôture absente, un change ancien ou une correction tardive laisse une trace. La dernière marque fiable reste visible. Les valeurs initialement reçues et les révisions restent consultables avec leur provenance. Les dates de la démonstration sont simulées. Aucun accès à un flux commercial en temps réel n'est établi.

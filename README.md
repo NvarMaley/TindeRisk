@@ -4,6 +4,8 @@ This repository mirrors the local RiskMatch workspace, including research data a
 
 RiskMatch is an English-language course web app for people investing toward a financial goal. A short factual intake and adaptive swipe interview establish a mandate. The research engine estimates which combinations of net return and risk are attainable within it. The client can compare feasible options, select an allocation and review it as markets or personal circumstances change.
 
+**The default research allocation uses all 13 ETFs.** The expanded study compares the same seven years and costs against the original three-ETF reference. Open **Portfolio options** to compare holdings, or use a completed CHF intake to apply a reserve, a risk ceiling and ticker exclusions. Install both `requirements-frontier.txt` and `requirements-app.txt` for the personalized research calculation. [Results and scope audit](research/universe/README.md)
+
 **Run the course demonstration.** Download the [standalone fictional CHF app](research/release/RiskMatch-demo.zip), extract it and follow its README. The archive runs independently of the research data. The [client pitch](research/release/RiskMatch-client-pitch.pptx) and [release evidence](research/release/README.md) cover the dated withdrawal, feasibility, costs, review, and open source-rights and human-review items.
 
 Read the [detailed project guide](PROJECT_GUIDE.md) for the study setup and eleven subsequent steps, research methods, worked examples and rationale behind each client decision.

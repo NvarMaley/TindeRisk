@@ -2,6 +2,7 @@ from datetime import date
 
 import streamlit as st
 from riskmatch.catalogue import approved
+from riskmatch.universe import ASSETS
 from riskmatch.demo import allocations, matches, difference_interval
 
 
@@ -27,17 +28,27 @@ def show():
         format_func=lambda x: f"{x:.0%}",
         horizontal=True,
     )
-    data = allocations(cap)
+    excluded = st.multiselect("Exclude specific ETF tickers", ASSETS)
+    data = allocations(cap, excluded)
+    st.write(
+        "13 eligible ETF candidates before exclusions. Unallocated funds stay in CHF cash."
+    )
     st.table(
         [
-            dict(
-                Option=name,
-                Equities=f"{w[0]:.1%}",
-                Treasuries=f"{w[1]:.1%}",
-                Gold=f"{w[2]:.1%}",
-                Entry_fee=f"CHF {fee:.2f}",
-                Cash=f"CHF {cash:,.2f}",
-            )
+            {
+                "ETF": ticker,
+                **{name: f"{w[i]:.1%}" for name, (w, fee, cash) in data.items()},
+            }
+            for i, ticker in enumerate(ASSETS)
+        ]
+    )
+    st.table(
+        [
+            {
+                "Option": name,
+                "Entry fee": f"CHF {fee:.2f}",
+                "Liquid CHF": f"{cash:,.2f}",
+            }
             for name, (w, fee, cash) in data.items()
         ]
     )

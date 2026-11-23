@@ -1,5 +1,7 @@
 # 6.2 · Comparer des portefeuilles et financer un objectif
 
+**Univers principal actuel.** Le rapport historique ci-dessous conserve le périmètre de son étude initiale. Les nouveaux portefeuilles, scénarios et résultats sur les treize ETF sont documentés dans la [comparaison à 13 ETF](../universe/README.md).
+
 **Un retrait couvert et un objectif final difficile à atteindre peuvent coexister.** Dans le cas illustratif de RiskMatch, 15 000 CHF sont réservés sur les 50 000 CHF initiaux pour le retrait dans un an. Les 35 000 CHF restants financent les placements, les liquidités supplémentaires et les frais. Pour tester un objectif de 65 000 CHF de pouvoir d'achat dans huit ans, nous avons supposé des versements de 100 CHF par mois et 2 % d'inflation annuelle. Aucun participant n'a fourni ces paramètres. [Hypothèses fixées avant calcul](PROTOCOL.md)
 
 ### Explorer l'exemple

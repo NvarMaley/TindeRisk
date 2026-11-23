@@ -9,7 +9,7 @@ HERE = Path(__file__).resolve().parent
 
 
 def table(p):
-    with (HERE.parent / p).open() as f:
+    with (HERE.parent / "universe/results" / p).open() as f:
         return list(csv.DictReader(f))
 
 
@@ -30,16 +30,24 @@ def verify():
         for arm in ["60/40", "robust"]:
             r = next(
                 x
-                for x in table("frontier/results/latest.csv")
+                for x in table("frontier/latest.csv")
                 if x["arm"] == arm and float(x["cap"]) == 0.08
             )
-            amounts = [float(r[k]) for k in ["SPY_chf", "IEF_chf", "GLD_chf"]]
+            tickers = [k for k in r if k.endswith("_chf") and k[:-4].isupper()]
+            assert len(tickers) == 13
+            amounts = [float(r[k]) for k in tickers]
+            equities = sum(
+                float(r[k])
+                for k in tickers
+                if k not in {"GLD_chf", "TLT_chf", "IEF_chf"}
+            )
+            assert f"{equities:,.0f}" in text(3)
             charge = sum(amounts) * 0.001
             assert f"{charge:.2f}" in text(3)
             assert (
                 abs(sum(amounts) + float(r["sleeve_cash_chf"]) + charge - 35000) < 0.01
             )
-        for row in table("options/results/goal_scenarios.csv"):
+        for row in table("options/goal_scenarios.csv"):
             if (
                 row["arm"] == "robust"
                 and float(row["cap"]) == 0.08
@@ -49,14 +57,14 @@ def verify():
         for arm in ["60/40", "classical", "robust"]:
             sample = [
                 float(r["net_household_return"])
-                for r in table("execution/results/cohorts.csv")
+                for r in table("execution/cohorts.csv")
                 if r["case"] == "primary" and r["policy"] == "hold" and r["arm"] == arm
             ]
             assert len(sample) == 7 and f"{sum(sample) / 7:.2%}" in text(5)
         r = next(
             r
-            for r in table("options/results/reverse_stress.csv")
-            if r["arm"] == "risk parity"
+            for r in table("options/reverse_stress.csv")
+            if r["arm"] == "concentration-aware GMV"
             and r["case"] == "earlier, unsettled"
             and float(r["cap"]) == 0.08
         )

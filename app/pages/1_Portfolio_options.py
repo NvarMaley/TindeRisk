@@ -7,17 +7,23 @@ import pandas as pd
 import streamlit as st
 
 st.set_page_config(page_title="RiskMatch · Portfolio options", layout="wide")
-DATA = Path(__file__).resolve().parents[2] / "research/options/results"
+ROOT = Path(__file__).resolve().parents[2]
+FULL = ROOT / "research/universe/results/options"
+BASE = ROOT / "research/options/results"
 
 
 import os
 import sys
 
-sys.path[:0] = [str(DATA.parents[2] / "src"), str(DATA.parents[2] / "app")]
+sys.path[:0] = [str(ROOT), str(ROOT / "src"), str(ROOT / "app")]
 if (
     os.environ.get("RISKMATCH_PUBLIC_DEMO") == "1"
-    or not (DATA / "options.csv").exists()
-    or st.session_state.get("portable_case")
+    or not (FULL / "options.csv").exists()
+    and not (BASE / "options.csv").exists()
+    or (
+        st.session_state.get("portable_case")
+        and not st.session_state.get("research_options")
+    )
 ):
     from demo_options import show
 
@@ -25,9 +31,32 @@ if (
     st.stop()
 
 
+from riskmatch.universe import ASSETS, REFERENCE
+
+st.title("Portfolio options")
+if st.session_state.get("mandate") and st.checkbox(
+    "Apply the 13-ETF model to my intake", key="use_intake_allocation"
+):
+    from mandate_options import show
+
+    show(ROOT, st.session_state.mandate)
+    st.stop()
+
+reference = st.checkbox("Compare the original three-ETF reference universe")
+DATA = BASE if reference else FULL
+assets = REFERENCE if reference else ASSETS
+if not (DATA / "options.csv").exists():
+    st.error("Research results unavailable for the selected universe.")
+    st.stop()
+
+
 @st.cache_data
+def read_table(folder, name):
+    return pd.read_csv(folder / (name + ".csv"))
+
+
 def table(name):
-    return pd.read_csv(DATA / (name + ".csv"))
+    return read_table(DATA, name)
 
 
 names = {
@@ -40,7 +69,7 @@ names = {
     "risky minimum variance": "Minimum-risk ETF mix",
     "concentration-aware GMV": "Minimum-risk mix with concentration cap",
 }
-st.title("Portfolio options")
+st.caption(f"{len(assets)} ETF candidates · " + ", ".join(assets))
 st.write("Illustrative CHF household · 30 October 2026")
 st.write(
     "Of CHF 50,000, CHF 15,000 is reserved for a payment in one year. Compare ways to invest the remaining CHF 35,000. The example assumes a goal of CHF 65,000 in today's purchasing power in eight years."
@@ -103,8 +132,12 @@ sharpe = f"{r.sharpe:.2f}" if pd.notna(r.sharpe) else "undefined at zero volatil
 st.write(
     f"Annual household estimates · net return {r.annual_household_mean:.2%}, volatility {r.annual_household_vol:.2%}, Sharpe versus CHF cash at zero interest {sharpe}."
 )
+st.dataframe(
+    pd.DataFrame({"ETF": assets, "Position CHF": [r[a + "_chf"] for a in assets]})
+    .set_index("ETF")
+    .style.format("{:,.2f}")
+)
 st.write(
-    f"SPY shares CHF {r.SPY_chf:,.0f} · IEF Treasuries CHF {r.IEF_chf:,.0f} · GLD gold CHF {r.GLD_chf:,.0f}. "
     f"Additional liquid CHF {r.available_sleeve_cash:,.0f}. Modeled entry fees CHF {r.entry_fee_chf:,.2f}. The separate CHF 15,000 reserve is accessible at par."
 )
 st.write(
@@ -226,9 +259,9 @@ else:
 if st.button("Keep this example choice for this session"):
     st.session_state["example_option_choice"] = (names[arm], cap)
     st.session_state["monitor_selection"] = dict(
-        arm=arm,
+        arm=f"{arm} ({len(assets)} ETF universe)",
         cap=cap,
-        weights=[float(r[a]) / 35000 for a in ["SPY_chf", "IEF_chf", "GLD_chf"]],
+        weights=[float(r[a]) / 35000 for a in [ticker + "_chf" for ticker in assets]],
         profile=profile["status"],
     )
 if "example_option_choice" in st.session_state:

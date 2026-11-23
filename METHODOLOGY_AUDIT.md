@@ -1,5 +1,9 @@
 # Methodology audit · 22 November 2026
 
+## Audit du périmètre des ETF · 23 novembre 2026
+
+La sélection SPY/IEF/GLD s'était propagée au choc, aux simulations de financement, à l'exécution et au registre de suivi. Les nouveaux résultats et la démo couvrent les treize candidats. La revue relève également la concentration américaine, les cibles spécifiques des études de prévision, le mandat fixe du stockage fictif, l'absence de calibration auprès de participants, les hypothèses de frais et la validation prospective encore ouverte. [Constats, conséquences et résultats à périmètre comparable](research/universe/README.md)
+
 ## Release follow-up · 23 November 2026
 
 The historical execution comparison follows seven annual cohorts and keeps unsuccessful variants in the denominator. Paired uncertainty spans zero, so research signals remain outside the fictional account's admission list. Twelve browser observations on two screen sizes exercised funding failure, uncertain answers, expired FX and confirmation. Outstanding evidence includes the rights to redistribute third-party archives in the full public repository, public application hosting and an independent human review of the pitch. Individual-security H05 remains gated on filing dates and point-in-time accounting vintages. [Release audit](research/release/README.md)
