@@ -324,3 +324,7 @@ G00 asks whether to try fictional examples and explains their CHF 1,000 starting
 ## 24 November 2026 — French questionnaire recap
 
 Translate question categories and answers independently in the completed profile. Keep translations for older saved questions and include generated feedback about survey consistency, loss reactions and the volatility range.
+
+## 24 November 2026 — Rewind questionnaire answers
+
+Back clears the previous card's response and subsequent responses, then saves the shortened route. Decline buttons show a cross.

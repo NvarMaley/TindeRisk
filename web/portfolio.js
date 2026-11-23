@@ -284,7 +284,7 @@ export function showMatches() {
         [state.profile.volatility_zone ? "Your estimated zone" : "Your search limit", riskBand()],
       ]) +
       (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +
-      '<div class="swipe-buttons"><button data-vote="no">Pass</button><button data-vote="yes" class="like" ' +
+      '<div class="swipe-buttons"><button data-vote="no"><b aria-hidden="true">×</b> Pass</button><button data-vote="yes" class="like" ' +
       (p.valid ? "" : "disabled") +
       '><b>♥</b> Keep</button></div><p class="muted">Return and volatility are historical estimates. Swipe the card or use the buttons.</p>' +
       evidence(p)

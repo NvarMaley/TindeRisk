@@ -4,6 +4,8 @@ Le studio contient **27 cartes de calibration réparties en 7 catégories**, pui
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
+Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct.
+
 ## Pourquoi ces questions
 
 - **Vérifier la compréhension avant l’interprétation.** Deux exemples de lancer indépendant permettent de vérifier qu’une mauvaise issue reste possible et que des victoires antérieures ne déterminent pas le prochain résultat. Une réponse incertaine appelle une relance.

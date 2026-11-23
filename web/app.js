@@ -157,9 +157,9 @@ async function nextCard() {
   const choices = card.choices
     ? '<div class="decision-options" role="group" aria-labelledby="card-statement">' +
       card.choices.map(([id, label]) =>
-        '<button class="secondary" data-decision="' + esc(id) + '">' + esc(label) + '</button>'
+        '<button class="secondary" data-decision="' + esc(id) + '">' + (id === "no" || id === "neither" ? '<b aria-hidden="true">×</b> ' : "") + esc(label) + '</button>'
       ).join("") + '</div>'
-    : '<div class="swipe-buttons"><button data-vote="no">Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div>';
+    : '<div class="swipe-buttons"><button data-vote="no"><b aria-hidden="true">×</b> Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div>';
   shell(
     "calibrate",
     '<div class="sweep"><div class="deck-head"><div><p class="kicker">Behavioural calibration</p><h2>Your move.</h2></div><span class="pill">' +
@@ -215,8 +215,22 @@ async function nextCard() {
       intake();
       return;
     }
-    editing = state.cards[i - 1].id;
-    await nextCard();
+    const container = stage.closest("#stage");
+    if (container.inert) return;
+    container.inert = true;
+    const keep = state.cards.slice(0, i - 1);
+    const previous = state.answers;
+    state.answers = Object.fromEntries(
+      keep.filter(({ id }) => id in previous).map(({ id }) => [id, previous[id]]),
+    );
+    try {
+      await nextCard();
+    } catch (error) {
+      state.answers = previous;
+      throw error;
+    } finally {
+      container.inert = false;
+    }
   });
 }
 async function finishProfile() {
