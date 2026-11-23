@@ -18,6 +18,7 @@ FACTS = {
     "goal": "55000",
     "due": "2030-10-30",
     "target": "5",
+    "reserve_rate": "1",
 }
 YES = {
     "C01",
@@ -165,8 +166,18 @@ def journey(url, browser, phone, report):
     nums = page.locator(".mixrow input[type=number]")
     nums.nth(0).fill("60")
     nums.nth(1).fill("40")
+    amounts = page.locator(".mixrow output").all_text_contents()
+    assert ["".join(c for c in amount if c.isdigit()) for amount in amounts] == [
+        "2100000",
+        "1400000",
+    ]
     page.locator("#manual").click()
     expect(page.locator("#draft")).to_be_visible(timeout=30000)
+    page.get_by_text("Goal, model sensitivity & cost", exact=True).click()
+    expect(page.get_by_text("Projected CHF reserve", exact=True)).to_be_visible()
+    expect(
+        page.get_by_text("Assumed CHF savings rate", exact=True).locator("..")
+    ).to_contain_text("1.0%")
     page.locator("#auto").click()
     expect(page.locator("#auto")).to_be_enabled(timeout=30000)
     page.locator("#draft").click()
@@ -200,6 +211,7 @@ def journey(url, browser, phone, report):
         "reduced_motion": phone,
         "profile": profile,
         "manual_and_suggested_blend": True,
+        "reserve_projection_and_chf_split": True,
         "confirmed": True,
         "simulated_closes": 2,
         "cash_deposit_chf": 100,

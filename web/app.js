@@ -68,7 +68,7 @@ function intake() {
             <legend>Your budget</legend>
             <div class="fields">
               ${input("Starting budget · CHF", "capital", "The total amount for this plan, including any cash you want to set aside.", 'required type="number" min="1" max="1000000000" step=".01" placeholder="50,000"')}
-              ${input("Cash to set aside · CHF", "protected", "Money to keep available outside the investments, for example an emergency fund. Enter 0 if you do not need a reserve.", 'required type="number" min="0" step=".01" placeholder="15,000"')}
+              ${input("Cash to set aside · CHF", "protected", "Money to keep available outside the portfolio. You can model interest from a CHF savings account under Optional preferences. Enter 0 if you do not need a reserve.", 'required type="number" min="0" step=".01" placeholder="15,000"')}
               ${input("Loss you can afford · CHF", "loss", "How much you could lose on the invested money without missing essential payments. Enter 0 to explore a cash-only plan.", 'required type="number" min="0" step=".01" placeholder="5,000"')}
             </div>
           </fieldset>
@@ -85,6 +85,7 @@ function intake() {
         <details class="panel brief-options">
           <summary>Optional preferences</summary>
           <div class="fields">
+            ${input("CHF savings rate · %", "reserve_rate", "Enter the annual rate on your CHF savings account to project the reserve. Leave blank for 0%. The simulation assumes the rate stays constant.", 'type="number" min="-10" max="20" step=".01" placeholder="0"')}
             ${input("Annual return aim · %", "target", "Enter a yearly return you would like to aim for. Leave blank to use your target amount and date. Returns are uncertain.", 'type="number" step=".1" min="-99" max="200" placeholder="e.g. 5"')}
             ${input("Planned spending · CHF", "expense", "Money you expect to take out for a known expense before or on your target date, such as tuition. It comes out of the cash set aside. If needed, we set aside more to cover it. Leave blank if none.", 'type="number" min="0" step=".01" placeholder="0"')}
             ${input("Spending date", "expense_date", "When you expect to use that money. Choose a date on or before your target date.", 'type="date" min="2026-10-31"', 'id="expenseWhen" hidden')}
@@ -104,7 +105,7 @@ function intake() {
     if (f.elements[k]) f.elements[k].value = v;
   }
   const options = f.querySelector(".brief-options");
-  options.open = Boolean(facts.expense > 0 || facts.target || facts.exclusions ||
+  options.open = Boolean(facts.expense > 0 || facts.reserve_rate || facts.target || facts.exclusions ||
     (facts.moral && facts.moral !== "none") || (facts.universe && facts.universe !== "all") || facts.mandatory);
   f.addEventListener("invalid", (event) => {
     if (options.contains(event.target)) options.open = true;

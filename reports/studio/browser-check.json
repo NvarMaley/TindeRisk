@@ -8,6 +8,7 @@
     "reduced_motion": false,
     "profile": "Moderate",
     "manual_and_suggested_blend": true,
+    "reserve_projection_and_chf_split": true,
     "confirmed": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100
@@ -21,6 +22,7 @@
     "reduced_motion": true,
     "profile": "Moderate",
     "manual_and_suggested_blend": true,
+    "reserve_projection_and_chf_split": true,
     "confirmed": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100

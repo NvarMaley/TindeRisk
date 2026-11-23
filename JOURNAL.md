@@ -255,3 +255,7 @@ The lagoon now requests audible jazz as it opens. When autoplay is blocked, norm
 ### Client studio follow-up · Simpler investment brief
 
 Five required fields cover the starting budget, cash set aside, affordable loss, target amount and date. Each field has a help bubble. Optional preferences include planned spending, a yearly return aim, environmental preference and direct company exclusions. The dedicated Chevron screen came from the environmental look-through study and remains available to edit or remove from saved mandates that used it. [Interaction replay](reports/studio/interaction-check.json)
+
+### Client studio follow-up · CHF reserve and final split
+
+The financial brief keeps a five-field default. An optional annual CHF savings rate projects the reserve, accounting for withdrawals on their dates, and the terminal goal uses this value separately from the portfolio. The match preview shows each strategy's share and CHF equivalent. [Reserve and allocation method](reports/studio/README.md#chf-reserve-and-strategy-split)
