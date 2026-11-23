@@ -30,6 +30,8 @@ Dans chaque bloc, l’algorithme choisit d’abord la relance dont les réponses
 
 Les relances d’un bloc précisent sa lecture et **ne changent pas son poids dans la note globale**. Un seuil de baisse identifié dans un scénario peut aider à présenter les pertes simulées des portefeuilles compatibles. Il ne devient pas une capacité de perte en CHF. Chaque carte ajoutée à la banque devra préciser sa catégorie, son déclencheur, ses réponses possibles, l’information nouvelle qu’elle apporte et l’effet éventuel sur le profil. Le dénombrement en bas de ce document correspond au pilote de 18 cartes.
 
+[Catalogue des 126 cartes et leurs déclencheurs](BANQUE_ADAPTATIVE_FR.md)
+
 ## Diagnostic du questionnaire actuel
 
 Les 26 cartes actuelles ont une bonne structure de départ. Elles distinguent délibérément le discours, la décision sous incertitude et la réaction à une baisse. La validation de compréhension, le droit de répondre « incertain » et le contrôle des contradictions sont à conserver. Le problème principal vient de la **quantité d’information par carte**. Certaines relances recueillent une intention de revoir sa réponse sans résoudre le désaccord. D’autres demandent déjà au client comment afficher ou comparer un portefeuille avant de connaître son profil.
