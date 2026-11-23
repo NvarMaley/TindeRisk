@@ -52,7 +52,7 @@ The cash reserve stays outside the investment portfolio. Optional preferences ac
 
 The investment budget is allocated at the final match. The blend screen shows shares and their CHF equivalents before charges and whole-position rounding. It applies the mandate to the combined portfolio before confirmation.
 
-[French questionnaire study](ETUDE_QUESTIONNAIRE_FR.md) documents every proposition, its routing rule and the effect of each answer.
+[French questionnaire study](ETUDE_QUESTIONNAIRE_FR.md) documents every active proposition. The [separate research pilot](CALIBRATION_QUESTIONNAIRE_FR.md) audits the current deck and tests a candidate design with 18 cards.
 
 ### Reading a behavioural score
 

@@ -283,3 +283,7 @@ The French study documents all 26 behavioural cards, the eight common prompts, t
 ### Client studio follow-up · Jazz suite and stable swipes
 
 The studio plays six original jazz pieces as one looping mix. Match screens and the confirmation animation lower the music before the normal level returns on the portfolio page. The title now holds five seconds longer. The header reuses the opening lettering, and card transitions retain the current header and position. [Studio guide](reports/studio/README.md#sound-and-navigation)
+
+### Client studio research · Questionnaire calibration
+
+An 18-card candidate bank includes eight common statements and targeted follow-ups. The executable pilot reports eight category scores, response coverage and conflicts. The first-pass route count is 56,629,125 with three answer options. The deployed studio continues to use its current questionnaire. [French audit and candidate bank](reports/studio/CALIBRATION_QUESTIONNAIRE_FR.md)
