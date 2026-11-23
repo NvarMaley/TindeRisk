@@ -27,6 +27,7 @@ STATEMENTS = {
     "D02": "I would sell after that fall to pay a bill.",
     "D03": "Even with my bills covered, the discomfort would make me sell.",
     "D04": "I would sell because I expect prices to fall further.",
+    "D06": "I would review the plan mainly to check whether my goal is still reachable.",
     "D05": "I would compare a portfolio that explicitly reduces exposure to a shock.",
     "H01": "I could move my goal date if reaching it took longer.",
     "H02": "I could accept a smaller final amount.",
@@ -52,19 +53,62 @@ GIST = {
 }
 
 
+ACTIONS = {
+    "keep": ("Keep the portfolio", "no"),
+    "reduce": ("Reduce the risk", "yes"),
+    "review": ("Review the plan before acting", "skip"),
+    "certain": ("Take the guaranteed amount", "yes"),
+    "gamble": ("Take the 50/50 option", "no"),
+}
+CHOICE_IDS = {
+    "D01": ("keep", "reduce", "review"),
+    **dict.fromkeys(("G01", "G02", "G03"), ("certain", "gamble")),
+}
+
+
+def _binary(answers):
+    return {
+        key: ACTIONS[value][1] if value in ACTIONS else value
+        for key, value in answers.items()
+    }
+
+
+def _choice_row(key):
+    ids = CHOICE_IDS.get(key)
+    if not ids:
+        return {}
+    if key == "D01":
+        text = "Your portfolio is down 15%. What would you do next?"
+        options = [(choice, ACTIONS[choice][0]) for choice in ids]
+    else:
+        g = CARDS[key]["gamble"]
+        text = f"On a fictional CHF {g['stake']:,} investment for one year, which outcome would you choose?"
+        options = [
+            ("certain", f"CHF {g['certain']:,} guaranteed"),
+            ("gamble", f"50/50 chance of CHF {g['low']:,} or CHF {g['high']:,}"),
+        ]
+    return {"text": text, "choices": options}
+
+
 def deck(answers):
     if not isinstance(answers, dict) or any(
-        k not in STATEMENTS or v not in ("yes", "no", "skip")
+        k not in STATEMENTS or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
         for k, v in answers.items()
     ):
         raise ValueError("Invalid calibration response.")
-    active = [k for k in route(answers) if k in STATEMENTS]
+    active = [k for k in route(_binary(answers)) if k in STATEMENTS]
+    if answers.get("D01") == "review":
+        active.insert(active.index("D01") + 1, "D06")
+    families = {
+        k: CARDS[k]["family"] if k in CARDS else "Response to a loss" for k in active
+    }
     rows = [
         {
             "id": k,
             "text": STATEMENTS[k],
-            "family": CARDS[k]["family"],
-            "help": GIST[CARDS[k]["family"]],
+            "family": families[k],
+            "help": GIST[families[k]],
+            **_choice_row(k),
         }
         for k in active
     ]
@@ -194,9 +238,10 @@ def intake(raw):
 
 
 def calibrate(facts, answers):
-    cards, a = deck(answers)
-    if any(c["id"] not in a for c in cards):
+    cards, active = deck(answers)
+    if any(c["id"] not in active for c in cards):
         raise ValueError("Finish the active calibration cards first.")
+    a = _binary(active)
     phi = intersection(gamble_bounds(a))
     # Equal-weight the three domains, not the number of routed questions.
     bets = [
@@ -273,22 +318,42 @@ def calibrate(facts, answers):
             else "No clear response."
         )
 
-    readings = [
-        {
-            "name": "Downside response",
-            "value": observation(
-                "D01",
-                "A fall may prompt a sale.",
-                "You leaned toward holding after a 15% fall.",
-            ),
-            "detail": observation(
-                "D03",
-                "Discomfort was a reason to sell.",
-                "Discomfort alone was not a reason to sell.",
+    downside = observation(
+        "D01",
+        "A fall may prompt a sale.",
+        "You leaned toward holding after a 15% fall.",
+    )
+    detail = (
+        observation(
+            "D03",
+            "Discomfort was a reason to sell.",
+            "Discomfort alone was not a reason to sell.",
+        )
+        if a.get("D01") == "yes"
+        else "Based on the simulated 15% decline."
+    )
+    if active.get("D01") == "review":
+        downside = "You would review the plan before acting."
+        detail = observation(
+            "D06",
+            "Your main reason is to check whether the goal is still reachable.",
+            "You would review the plan for a reason other than checking the goal.",
+        )
+    elif active.get("D01") == "reduce":
+        downside = "You would reduce the portfolio’s risk after the fall."
+        motives = [
+            label
+            for key, label in (
+                ("D02", "cash needs"),
+                ("D03", "discomfort"),
+                ("D04", "expecting a further fall"),
             )
-            if a.get("D01") == "yes"
-            else "Based on the simulated 15% decline.",
-        },
+            if a.get(key) == "yes"
+        ]
+        if motives:
+            detail = "Reasons you selected: " + ", ".join(motives) + "."
+    readings = [
+        {"name": "Downside response", "value": downside, "detail": detail},
         {
             "name": "Goal flexibility",
             "value": observation(
@@ -328,7 +393,18 @@ def calibrate(facts, answers):
         "readings": readings,
         "bounds": phi,
         "horizon_years": round(horizon, 1),
-        "evidence": [c | {"answer": a[c["id"]]} for c in cards],
+        "evidence": [
+            c
+            | {
+                "answer": active[c["id"]],
+                **(
+                    {"text": STATEMENTS[c["id"]]}
+                    if active[c["id"]] in ("yes", "no")
+                    else {}
+                ),
+            }
+            for c in cards
+        ],
         "blocked_reason": blocked,
         "policy_version": "studio-1",
         "facts": facts,

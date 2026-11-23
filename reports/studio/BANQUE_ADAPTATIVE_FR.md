@@ -15,6 +15,10 @@ Le moteur de recherche choisit le seuil intermédiaire puis déplace la relance 
 | Ambiguïté | 12 |
 | Cadrage | 8 |
 
+## Modalités de réponse
+
+L’interface de recherche peut proposer des choix explicites sur les comparaisons de portefeuilles, les paris, les montants certains et les baisses. Les actions nommées correspondent aux deux réponses de la grille ci-dessous. Sur les baisses, « Je revois le plan avant d’agir » reste une décision enregistrée et ne resserre pas le seuil. Elle ne vaut ni maintien ni réduction. Les autres propositions conservent Like, Pass et Incertain.
+
 ## Les 18 cartes d’ancrage
 
 **Like** signifie que la proposition correspond au client. **Pass** indique qu’elle ne lui correspond pas. **Incertain** indique une réponse non déterminée et reste disponible sur chaque carte. Les codes ci-dessous appartiennent à la banque pilote. Les énoncés sont appliqués dans l’ordre du tableau.

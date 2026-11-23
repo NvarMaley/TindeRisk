@@ -299,3 +299,7 @@ The French calibration study now distinguishes portfolio risk and return choices
 ### Client studio research · Extended French card bank
 
 The extended bank contains the 18 pilot anchors and 108 conditional prompts. Research routing chooses portfolio, drawdown and mixed-outcome thresholds within their blocks. A synthetic replay covers all 126 prompts across 1,800 histories. The router keeps anchor scores and records added observations separately. [French catalogue](reports/studio/BANQUE_ADAPTATIVE_FR.md)
+
+### Client studio follow-up · Explicit decision options
+
+The studio uses named options for the guaranteed-versus-risky choices and the 15% decline. A plan review records its own answer and opens a goal-check follow-up, independent of the holding score. The research bank also accepts named portfolio choices, mixed outcomes, and drawdown responses. [Questionnaire study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#choix-explicites-en-service)

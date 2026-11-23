@@ -1,5 +1,5 @@
 {
-  "tracked_count": 333,
+  "tracked_count": 334,
   "files": {
     ".gitignore": "software, configuration and environment",
     ".streamlit/config.toml": "software, configuration and environment",
@@ -157,6 +157,7 @@
     "reports/studio/browser-check.json": "parameters, metadata and research evidence",
     "reports/studio/cherry-swipe.webp": "research chart, fictional screenshot or project artwork",
     "reports/studio/contender.jpg": "research chart, fictional screenshot or project artwork",
+    "reports/studio/decision-browser-check.json": "parameters, metadata and research evidence",
     "reports/studio/entrance-mobile.jpg": "research chart, fictional screenshot or project artwork",
     "reports/studio/entrance.jpg": "research chart, fictional screenshot or project artwork",
     "reports/studio/glass-desktop.jpg": "research chart, fictional screenshot or project artwork",

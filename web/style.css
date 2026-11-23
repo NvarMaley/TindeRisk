@@ -521,6 +521,13 @@ input[type="range"] {
   filter: drop-shadow(0 3px 10px #1d1025);
   opacity: var(--mark, 0);
 }
+.decision-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 175px), 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+.decision-options button { min-height: 50px; }
 .swipe-buttons {
   display: flex;
   justify-content: center;
