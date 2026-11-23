@@ -251,3 +251,7 @@ Both decks use the same transition for left and right votes. The outgoing card s
 ### Client studio follow-up · Music on arrival
 
 The lagoon now requests audible jazz as it opens. When autoplay is blocked, normal page interaction retries playback. The speaker control retains the user’s mute preference. Start retains the splash and both title cues. Right swipes add an ascending chime and left swipes add a short clap on an independent audio bus. The app keeps the jazz loop running during either effect and across tab visibility changes. [Interaction replay](reports/studio/interaction-check.json)
+
+### Client studio follow-up · Simpler investment brief
+
+Five required fields cover the starting budget, cash set aside, affordable loss, target amount and date. Each field has a help bubble. Optional preferences include planned spending, a yearly return aim, environmental preference and direct company exclusions. The dedicated Chevron screen came from the environmental look-through study and remains available to edit or remove from saved mandates that used it. [Interaction replay](reports/studio/interaction-check.json)

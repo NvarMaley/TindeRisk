@@ -26,71 +26,89 @@ function remember(token) {
     else sessionStorage.removeItem(storeKey);
   } catch {}
 }
-function field(label, name, attrs = "") {
-  return (
-    '<label class="field">' +
-    label +
-    '<input name="' +
-    name +
-    '" ' +
-    attrs +
-    "></label>"
-  );
+function field(label, name, help, control, attrs = "") {
+  return `<div class="field" ${attrs}>
+    <label for="brief-${name}">${label}</label>
+    <details class="field-help" name="brief-help">
+      <summary aria-label="Help with ${label}">?</summary>
+      <p id="help-${name}">${help}</p>
+    </details>
+    ${control}
+  </div>`;
+}
+function input(label, name, help, attrs, wrapper = "") {
+  return field(label, name, help,
+    `<input id="brief-${name}" name="${name}" aria-describedby="help-${name}" ${attrs}>`, wrapper);
+}
+function select(label, name, help, options) {
+  return field(label, name, help,`<select id="brief-${name}" name="${name}" aria-describedby="help-${name}">
+    ${options.map(([value, text]) => `<option value="${value}">${text}</option>`).join("")}
+  </select>`);
 }
 function intake() {
-  shell(
-    "intake",
-    '<div class="intake-grid"><aside><p class="kicker">Investment brief</p><h1>Your money.<br>Your terms.</h1><p class="lede">Set aside what you need. We’ll use the rest to explore portfolios around your goal.</p><div class="intake-shot" role="img" aria-label="Miami waterfront at dusk"></div><div class="budget-line"><span>Protected cash</span><b id="reserve">—</b></div><div class="budget-line"><span>Investment sleeve</span><b id="sleeve">—</b></div><p class="muted" style="margin-top:12px">Fictional CHF account · research close 30 Oct 2026.</p></aside><form class="setup-form" id="brief"><div class="panel"><fieldset class="formset"><legend>Your budget</legend><div class="fields">' +
-      field(
-        "Total capital · CHF",
-        "capital",
-        'required type="number" min="1" max="1000000000" step=".01" placeholder="50,000"',
-      ) +
-      field(
-        "Keep protected · CHF",
-        "protected",
-        'required type="number" min="0" step=".01" placeholder="15,000"',
-      ) +
-      field(
-        "Loss you can afford · CHF",
-        "loss",
-        'required type="number" min="0" step=".01" placeholder="5,000"',
-      ) +
-      field(
-        "Planned withdrawal · CHF",
-        "expense",
-        'type="number" min="0" step=".01" placeholder="0"',
-      ) +
-      '<label class="field wide" id="expenseWhen" hidden>Withdrawal date<input type="date" name="expense_date" min="2026-10-31"></label></div></fieldset></div><div class="panel"><fieldset class="formset"><legend>Your destination</legend><div class="fields">' +
-      field(
-        "Target wealth · CHF",
-        "goal",
-        'required type="number" min="1" step=".01" placeholder="60,000"',
-      ) +
-      field("Goal date", "due", 'required type="date" min="2026-10-31"') +
-      field(
-        "Desired annual return · % (optional)",
-        "target",
-        'type="number" step=".1" min="-99" max="200" placeholder="e.g. 5"',
-      ) +
-      '</div></fieldset></div><div class="panel"><fieldset class="formset"><legend>Your boundaries</legend><div class="fields"><label class="field wide">Environmental preference<select name="moral"><option value="none">No environmental preference</option><option value="low_emissions">Prefer lower measured emissions</option><option value="exclude_chevron">Require verified exclusion of Chevron exposure</option></select></label>' +
-      '<label class="field wide">Investment universe<select name="universe"><option value="all">All eligible US instruments</option><option value="funds">ETFs only</option><option value="direct">Individual stocks and Treasuries only</option><option value="treasury">Treasuries and Treasury ETFs only</option></select></label>' +
-      field(
-        "Exclude US tickers (optional)",
-        "exclusions",
-        'placeholder="e.g. XOM, CVX" maxlength="500"',
-      ) +
-      field(
-        "Other mandatory rule (optional)",
-        "mandatory",
-        'placeholder="Rule requiring verification" maxlength="280"',
-      ) +
-      '</div></fieldset></div><div class="error" role="alert"></div><button class="primary" type="submit">Start my calibration</button></form></div>',
-  );
+  const facts = state.facts;
+  const moral = [["none", "No preference"], ["low_emissions", "Prefer lower measured emissions"]];
+  if (facts.moral === "exclude_chevron") {
+    moral.push(["exclude_chevron", "Keep my saved Chevron exclusion"]);
+  }
+  shell("intake", `
+    <div class="intake-grid">
+      <aside>
+        <p class="kicker">Investment brief</p>
+        <h1>Your money.<br>Your terms.</h1>
+        <p class="lede">Set aside what you need. We’ll use the rest to explore portfolios around your goal.</p>
+        <div class="intake-shot" role="img" aria-label="Miami waterfront at dusk"></div>
+        <div class="budget-line"><span>Cash set aside</span><b id="reserve">—</b></div>
+        <div class="budget-line"><span>Available to invest</span><b id="sleeve">—</b></div>
+        <p class="muted" style="margin-top:12px">Fictional CHF account · research close 30 Oct 2026.</p>
+      </aside>
+      <form class="setup-form" id="brief">
+        <div class="panel">
+          <fieldset class="formset">
+            <legend>Your budget</legend>
+            <div class="fields">
+              ${input("Starting budget · CHF", "capital", "The total amount for this plan, including any cash you want to set aside.", 'required type="number" min="1" max="1000000000" step=".01" placeholder="50,000"')}
+              ${input("Cash to set aside · CHF", "protected", "Money to keep available outside the investments, for example an emergency fund. Enter 0 if you do not need a reserve.", 'required type="number" min="0" step=".01" placeholder="15,000"')}
+              ${input("Loss you can afford · CHF", "loss", "How much you could lose on the invested money without missing essential payments. Enter 0 to explore a cash-only plan.", 'required type="number" min="0" step=".01" placeholder="5,000"')}
+            </div>
+          </fieldset>
+        </div>
+        <div class="panel">
+          <fieldset class="formset">
+            <legend>Your goal</legend>
+            <div class="fields">
+              ${input("Target amount · CHF", "goal", "How much you want to have by the target date, including any cash still set aside.", 'required type="number" min="1" step=".01" placeholder="60,000"')}
+              ${input("Target date", "due", "When you want to reach your target amount. This date sets the investment horizon.", 'required type="date" min="2026-10-31"')}
+            </div>
+          </fieldset>
+        </div>
+        <details class="panel brief-options">
+          <summary>Optional preferences</summary>
+          <div class="fields">
+            ${input("Annual return aim · %", "target", "Enter a yearly return you would like to aim for. Leave blank to use your target amount and date. Returns are uncertain.", 'type="number" step=".1" min="-99" max="200" placeholder="e.g. 5"')}
+            ${input("Planned spending · CHF", "expense", "Money you expect to take out for a known expense before or on your target date, such as tuition. It comes out of the cash set aside. If needed, we set aside more to cover it. Leave blank if none.", 'type="number" min="0" step=".01" placeholder="0"')}
+            ${input("Spending date", "expense_date", "When you expect to use that money. Choose a date on or before your target date.", 'type="date" min="2026-10-31"', 'id="expenseWhen" hidden')}
+            ${select("Environmental preference", "moral", "The model can favour holdings with lower measured emissions where data is available.", moral)}
+            ${input("Companies to exclude", "exclusions", "Enter stock symbols separated by commas to exclude those direct holdings. An ETF may still hold them.", 'placeholder="e.g. XOM, AAPL" maxlength="500"')}
+            ${facts.universe && facts.universe !== "all" ? select("Saved asset filter", "universe", "Limit what the model can hold, or return to all eligible US instruments.", [["all", "All eligible US instruments"], ["funds", "ETFs only"], ["direct", "Individual stocks and Treasuries only"], ["treasury", "Treasuries and Treasury ETFs only"]]) : ""}
+            ${facts.mandatory ? input("Saved mandatory rule", "mandatory", "Matching is paused while this rule needs verification. Clear the field to remove your saved rule.", 'maxlength="280"') : ""}
+          </div>
+        </details>
+        <div class="error" role="alert"></div>
+        <button class="primary" type="submit">Start my calibration</button>
+      </form>
+    </div>
+  `);
   const f = root.querySelector("#brief");
   for (const [k, v] of Object.entries(state.facts)) {
     if (f.elements[k]) f.elements[k].value = v;
   }
+  const options = f.querySelector(".brief-options");
+  options.open = Boolean(facts.expense > 0 || facts.target || facts.exclusions ||
+    (facts.moral && facts.moral !== "none") || (facts.universe && facts.universe !== "all") || facts.mandatory);
+  f.addEventListener("invalid", (event) => {
+    if (options.contains(event.target)) options.open = true;
+  }, true);
   const update = () => {
     const cap = f.capital.valueAsNumber,
       reserve = Math.max(
@@ -102,7 +120,7 @@ function intake() {
       ? "CHF " + fmt(Math.max(0, cap - reserve))
       : "—";
     const use = f.expense.valueAsNumber > 0;
-    root.querySelector("#expenseWhen").style.display = use ? "grid" : "none";
+    f.querySelector("#expenseWhen").hidden = !use;
     f.expense_date.required = use;
   };
   update();

@@ -50,6 +50,8 @@ def journey(url, browser, phone, report):
     page.goto(url)
     page.get_by_role("button", name="Press to start").click()
     for k, v in FACTS.items():
+        if k == "target":
+            page.get_by_text("Optional preferences", exact=True).click()
         page.locator(f"#brief [name={k}]").fill(v)
     assert not page.get_by_label("volatility", exact=False).count()
     page.locator("#brief button[type=submit]").click()
