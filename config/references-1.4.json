@@ -1,0 +1,43 @@
+{
+  "version": "1.4-2026-11-23",
+  "catalogue": "2026-11-23.1",
+  "base_chf": 100,
+  "weights": {
+    "SPY": 0.6,
+    "IEF": 0.4
+  },
+  "cost_bps": 10,
+  "sensitivity_bps": [
+    0,
+    25
+  ],
+  "cash_monthly_return": 0,
+  "mandates": {
+    "Unrestricted sleeve, two funds permitted": {
+      "allowed": [
+        "SPY",
+        "IEF",
+        "CHF"
+      ],
+      "confirmed": true
+    },
+    "Reserve in CHF only": {
+      "allowed": [
+        "CHF"
+      ],
+      "confirmed": true
+    },
+    "5% historical illustrative ceiling": {
+      "allowed": [
+        "SPY",
+        "IEF",
+        "CHF"
+      ],
+      "max_volatility": 0.05,
+      "confirmed": true
+    },
+    "Profile to be confirmed": {
+      "confirmed": false
+    }
+  }
+}

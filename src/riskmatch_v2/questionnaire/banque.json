@@ -1,0 +1,1047 @@
+{
+  "version": "2.0.0",
+  "cards": [
+    {
+      "id": "C01",
+      "family": "Comprehension",
+      "text": "In a fair coin toss, each side has a one-in-two chance. Can I still lose on this single toss?",
+      "kind": "binary",
+      "rationale": "Distinguishes the probability of an outcome from the result of one toss.",
+      "alternative": "The wording or swipe direction may have been misunderstood.",
+      "effect": "Yes opens the trade-off questions. No or Skip opens C02.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I could still lose",
+        "no": "No, a loss is impossible"
+      }
+    },
+    {
+      "id": "C02",
+      "family": "Comprehension",
+      "text": "After three wins in a row, can I still lose on a fourth, independent toss?",
+      "kind": "binary",
+      "rationale": "Checks understanding after a neutral rephrasing.",
+      "alternative": "Persistent misunderstanding makes an aversion bound uninterpretable.",
+      "effect": "Yes unlocks the gambles. Otherwise φ stays undetermined.",
+      "when": [
+        [
+          "C01=no"
+        ],
+        [
+          "C01=skip"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I could lose",
+        "no": "No, it will be a win"
+      }
+    },
+    {
+      "id": "T01",
+      "family": "Stated tolerance",
+      "text": "If my expenses were already covered, I would accept large swings in the value of my investments.",
+      "kind": "binary",
+      "rationale": "Separates stated comfort with volatility from financial loss capacity.",
+      "alternative": "“Large” may suggest different amounts to different people.",
+      "effect": "Yes indicates greater stated comfort; No indicates less. Neither adds points.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "T02",
+      "family": "Stated tolerance",
+      "text": "Would a temporary loss of CHF 2,000 on CHF 10,000 change your answer?",
+      "kind": "binary",
+      "rationale": "Anchors stated tolerance to a monetary loss.",
+      "alternative": "The amount may change perceived risk or available cash.",
+      "effect": "Yes invites a review of T01. No retains the initial statement.",
+      "when": [
+        [
+          "T01=yes"
+        ],
+        [
+          "T01=no"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I would reconsider",
+        "no": "No, my answer stands"
+      }
+    },
+    {
+      "id": "G00",
+      "family": "Certain outcome or gamble",
+      "text": "Can you compare two hypothetical investments that each tie up CHF 1,000 for a year, assuming you will not need that money for expenses?",
+      "kind": "binary",
+      "rationale": "Checks whether the certain payment and the gamble are comparable for this respondent.",
+      "alternative": "Needing the money could explain a preference for certainty.",
+      "effect": "Yes permits the gambles if the probabilities are understood. No or Skip leaves φ unbounded.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I can compare them.",
+        "no": "No, the comparison is a problem."
+      }
+    },
+    {
+      "id": "G01",
+      "family": "Certain outcome or gamble",
+      "text": "If you invested CHF 1,000 for one year, would you prefer a guaranteed CHF 1,020 to an equal chance of ending up with CHF 900 or CHF 1,200?",
+      "kind": "binary",
+      "rationale": "Under the mean–variance model, equal utility sets a bound on φ.",
+      "alternative": "A small hypothetical stake can elicit a different response from an entire household portfolio.",
+      "effect": "Right adds a lower bound; left adds an upper bound. Skipping adds neither.",
+      "when": [
+        [
+          "@understood",
+          "G00=yes"
+        ]
+      ],
+      "gamble": {
+        "stake": 1000,
+        "certain": 1020,
+        "low": 900,
+        "high": 1200
+      },
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "G02",
+      "family": "Certain outcome or gamble",
+      "text": "If you invested CHF 1,000 for one year, would you prefer a guaranteed CHF 1,000 to an equal chance of ending up with CHF 900 or CHF 1,200?",
+      "kind": "binary",
+      "rationale": "Under the mean–variance model, equal utility sets a bound on φ.",
+      "alternative": "A small hypothetical stake can elicit a different response from an entire household portfolio.",
+      "effect": "Right adds a lower bound; left adds an upper bound. Skipping adds neither.",
+      "when": [
+        [
+          "@understood",
+          "G00=yes"
+        ]
+      ],
+      "gamble": {
+        "stake": 1000,
+        "certain": 1000,
+        "low": 900,
+        "high": 1200
+      },
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "G03",
+      "family": "Certain outcome or gamble",
+      "text": "If you invested CHF 1,000 for one year, would you prefer a guaranteed CHF 1,040 to an equal chance of ending up with CHF 900 or CHF 1,200?",
+      "kind": "binary",
+      "rationale": "Under the mean–variance model, equal utility sets a bound on φ.",
+      "alternative": "A small hypothetical stake can elicit a different response from an entire household portfolio.",
+      "effect": "Right adds a lower bound; left adds an upper bound. Skipping adds neither.",
+      "when": [
+        [
+          "@understood",
+          "G00=yes"
+        ]
+      ],
+      "gamble": {
+        "stake": 1000,
+        "certain": 1040,
+        "low": 900,
+        "high": 1200
+      },
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "G04",
+      "family": "Certain outcome or gamble",
+      "text": "These choices are inconsistent under the model. Do you confirm that these were the answers you intended?",
+      "kind": "binary",
+      "rationale": "Checks for input errors before retaining conflicting bounds.",
+      "alternative": "The model may not represent the respondent’s choices well.",
+      "effect": "Yes retains the contradiction. No invites correction of the gambles. Neither adds a bound.",
+      "when": [
+        [
+          "@conflict"
+        ]
+      ],
+      "options": {
+        "yes": "Confirm my choices",
+        "no": "Review my choices"
+      }
+    },
+    {
+      "id": "T03",
+      "family": "Stated tolerance",
+      "text": "Your stated comfort with risk and your choices in the gambles suggest different attitudes. Would you like to review your statement?",
+      "kind": "binary",
+      "rationale": "Compares stated comfort and gambling choices qualitatively.",
+      "alternative": "The stakes and context differ.",
+      "effect": "Yes reopens T01. No retains both observations separately.",
+      "when": [
+        [
+          "@discord"
+        ]
+      ],
+      "options": {
+        "yes": "Review my statement",
+        "no": "Keep my answers"
+      }
+    },
+    {
+      "id": "L00",
+      "family": "Reference point",
+      "text": "When assessing a loss, is the amount you originally invested the first reference point that comes to mind?",
+      "kind": "binary",
+      "rationale": "Identifies the respondent’s stated reference point.",
+      "alternative": "A previous peak or a financial goal could also serve as the reference.",
+      "effect": "Record the stated reference. If probabilities are understood, the following pairs test sensitivity to framing.",
+      "when": [],
+      "options": {
+        "yes": "Yes, my original investment",
+        "no": "No, another reference point"
+      }
+    },
+    {
+      "id": "L01",
+      "family": "Reference point",
+      "text": "Starting with CHF 1,000, would you prefer a guaranteed CHF 1,000 to an equal chance of ending up with CHF 900 or CHF 1,100?",
+      "kind": "binary",
+      "rationale": "Compares two economically equivalent descriptions at the same stake.",
+      "alternative": "Attention, framing or a mistaken swipe could change the answer.",
+      "effect": "Compare L01 with L02 and L03 with L04. These cards add no numerical bound.",
+      "when": [
+        [
+          "@understood"
+        ]
+      ],
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "L02",
+      "family": "Reference point",
+      "text": "Here is the same choice expressed as a change in value. Would you prefer a guaranteed zero gain to an equal chance of losing or gaining CHF 100?",
+      "kind": "binary",
+      "rationale": "Compares two economically equivalent descriptions at the same stake.",
+      "alternative": "Attention, framing or a mistaken swipe could change the answer.",
+      "effect": "Compare L01 with L02 and L03 with L04. These cards add no numerical bound.",
+      "when": [
+        [
+          "@understood"
+        ]
+      ],
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "L03",
+      "family": "Reference point",
+      "text": "Starting with CHF 2,000, would you prefer a guaranteed CHF 2,000 to an equal chance of ending up with CHF 1,800 or CHF 2,200?",
+      "kind": "binary",
+      "rationale": "Compares two economically equivalent descriptions at the same stake.",
+      "alternative": "Attention, framing or a mistaken swipe could change the answer.",
+      "effect": "Compare L01 with L02 and L03 with L04. These cards add no numerical bound.",
+      "when": [
+        [
+          "@understood"
+        ]
+      ],
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "L04",
+      "family": "Reference point",
+      "text": "For that same CHF 2,000 investment, would you prefer no change in value to an equal chance of losing or gaining CHF 200?",
+      "kind": "binary",
+      "rationale": "Compares two economically equivalent descriptions at the same stake.",
+      "alternative": "Attention, framing or a mistaken swipe could change the answer.",
+      "effect": "Compare L01 with L02 and L03 with L04. These cards add no numerical bound.",
+      "when": [
+        [
+          "@understood"
+        ]
+      ],
+      "options": {
+        "yes": "Guaranteed amount",
+        "no": "50/50 gamble"
+      }
+    },
+    {
+      "id": "L05",
+      "family": "Reference point",
+      "text": "Your answers differ depending on how the choices were presented at both investment sizes. Would you like to review them together?",
+      "kind": "binary",
+      "rationale": "Two reversals justify a clarification.",
+      "alternative": "A reversal alone does not establish loss aversion.",
+      "effect": "Yes invites a review of both pairs. No records a framing observation.",
+      "when": [
+        [
+          "@inversion"
+        ]
+      ],
+      "options": {
+        "yes": "Review my choices",
+        "no": "Keep them"
+      }
+    },
+    {
+      "id": "D01",
+      "family": "Response to a loss",
+      "text": "Your investments have just fallen by 15%. Would you consider selling now?",
+      "kind": "binary",
+      "rationale": "Distinguishes three possible reasons for selling.",
+      "alternative": "Cash needs, discomfort and market expectations can coexist.",
+      "effect": "Yes opens the three follow-up questions about motives. No records an intention to stay invested.",
+      "when": [],
+      "options": {
+        "yes": "Yes, sell part of it",
+        "no": "No, hold"
+      }
+    },
+    {
+      "id": "D02",
+      "family": "Response to a loss",
+      "text": "Would you sell to pay an expense?",
+      "kind": "binary",
+      "rationale": "Uses a neutral follow-up to identify a motive for selling.",
+      "alternative": "More than one motive may apply.",
+      "effect": "No rules out this stated motive. Yes points to the cash flows in F03. The reserve is unchanged.",
+      "when": [
+        [
+          "D01=yes"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "D03",
+      "family": "Response to a loss",
+      "text": "If your bills were covered, would discomfort with this loss still be enough to make you sell?",
+      "kind": "binary",
+      "rationale": "Uses a neutral follow-up to identify a motive for selling.",
+      "alternative": "More than one motive may apply.",
+      "effect": "No rules out this stated motive. Yes records a preference for stability. The reserve is unchanged.",
+      "when": [
+        [
+          "D01=yes"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "D04",
+      "family": "Response to a loss",
+      "text": "Would you sell because you expect a further fall?",
+      "kind": "binary",
+      "rationale": "Uses a neutral follow-up to identify a motive for selling.",
+      "alternative": "More than one motive may apply.",
+      "effect": "No rules out this stated motive. Yes records a market view to discuss. The reserve is unchanged.",
+      "when": [
+        [
+          "D01=yes"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "D05",
+      "family": "Response to a loss",
+      "text": "If you stayed invested, would you like to compare a portfolio with an explicit hedge?",
+      "kind": "binary",
+      "rationale": "Distinguishes hedging from selling the position.",
+      "alternative": "The cost of protection may change the choice.",
+      "effect": "Yes records a preference to compare a hedge. No leaves that preference inactive.",
+      "when": [
+        [
+          "D01=no"
+        ],
+        [
+          "D04=yes"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "H01",
+      "family": "Flexibility",
+      "text": "If it took longer to reach your target amount, could you postpone your target date?",
+      "kind": "binary",
+      "rationale": "Distinguishes a firm deadline from a preferred date.",
+      "alternative": "The feasible delay depends on the goal.",
+      "effect": "Yes opens H02. No records the date as a firm deadline.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "H02",
+      "family": "Flexibility",
+      "text": "Would you also accept a lower target amount?",
+      "kind": "binary",
+      "rationale": "Distinguishes flexibility in the target date from flexibility in the target amount.",
+      "alternative": "The minimum acceptable amount may need clarification.",
+      "effect": "Record the preference. F05 remains the source of the target amount.",
+      "when": [
+        [
+          "H01=yes"
+        ],
+        [
+          "H01=no"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "S01",
+      "family": "Tracking",
+      "text": "Would you like frequent updates on the value of your investments?",
+      "kind": "binary",
+      "rationale": "Asks how often the respondent wants to check their investments.",
+      "alternative": "Frequent checks may simply reflect curiosity.",
+      "effect": "Yes opens S02. No records a preference for less frequent monitoring.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "S02",
+      "family": "Tracking",
+      "text": "Would a risk alert be enough between scheduled reviews?",
+      "kind": "binary",
+      "rationale": "Distinguishes risk alerts from scheduled updates.",
+      "alternative": "A personal event may explain the preference.",
+      "effect": "Record the monitoring preference. It has no effect on φ.",
+      "when": [
+        [
+          "S01=yes"
+        ]
+      ],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "S03",
+      "family": "Tracking",
+      "text": "Would you like to track the individual portfolios in your blend separately?",
+      "kind": "binary",
+      "rationale": "Identifies the level of detail required to monitor a blend.",
+      "alternative": "The answer determines no portfolio weights.",
+      "effect": "Record whether individual component portfolios should be visible.",
+      "when": [],
+      "options": {
+        "yes": "Yes, I accept",
+        "no": "No, I decline"
+      }
+    },
+    {
+      "id": "F01",
+      "family": "Financial circumstances",
+      "text": "How much money do you have available today, in CHF?",
+      "kind": "form",
+      "rationale": "Establishes available capital.",
+      "alternative": "A range expresses uncertainty.",
+      "effect": "Keep both bounds before deducting the reserve.",
+      "when": [],
+      "fields": [
+        {
+          "id": "low",
+          "label": "Minimum amount",
+          "type": "number"
+        },
+        {
+          "id": "high",
+          "label": "Maximum amount",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "family": "Financial circumstances",
+      "text": "Until what date must this capital cover your expenses?",
+      "kind": "form",
+      "rationale": "Sets the time horizon for liquidity needs.",
+      "alternative": "The protection horizon may end before the target date.",
+      "effect": "Include flows on this date when calculating the reserve.",
+      "when": [],
+      "fields": [
+        {
+          "id": "date",
+          "label": "Protection horizon",
+          "type": "date"
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "family": "Financial circumstances",
+      "text": "What withdrawals and contributions do you expect? Add each cash flow, including those that are still uncertain.",
+      "kind": "rows",
+      "rationale": "The cumulative shortfall at each date determines the reserve needed.",
+      "alternative": "An uncertain or late contribution might never be available when needed.",
+      "effect": "Count only confirmed contributions. Protect confirmed withdrawals and show the range of possible expenses.",
+      "when": [],
+      "fields": [
+        {
+          "id": "direction",
+          "label": "Type of flow",
+          "type": "select",
+          "options": [
+            "withdrawal",
+            "contribution"
+          ]
+        },
+        {
+          "id": "low",
+          "label": "Minimum amount",
+          "type": "number"
+        },
+        {
+          "id": "high",
+          "label": "Maximum amount",
+          "type": "number"
+        },
+        {
+          "id": "currency",
+          "label": "Currency",
+          "type": "select",
+          "options": [
+            "CHF",
+            "USD",
+            "EUR",
+            "other"
+          ]
+        },
+        {
+          "id": "date",
+          "label": "Expected date, if known",
+          "type": "optional_date"
+        },
+        {
+          "id": "certainty",
+          "label": "Certainty",
+          "type": "select",
+          "options": [
+            "confirmed",
+            "uncertain"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "family": "Financial circumstances",
+      "text": "What size of financial loss, in CHF, would put your goal at risk?",
+      "kind": "form",
+      "rationale": "Measures stated financial loss capacity.",
+      "alternative": "A financially affordable loss may still be uncomfortable.",
+      "effect": "Keep the CHF range separate from emotional comfort with losses.",
+      "when": [],
+      "fields": [
+        {
+          "id": "low",
+          "label": "Minimum amount",
+          "type": "number"
+        },
+        {
+          "id": "high",
+          "label": "Maximum amount",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "family": "Goal",
+      "text": "What amount do you want to reach, and by what date?",
+      "kind": "form",
+      "rationale": "Records the goal before calculating the required return.",
+      "alternative": "The target date or currency may still be open.",
+      "effect": "Keep the amount bounds, currency and date.",
+      "when": [],
+      "fields": [
+        {
+          "id": "low",
+          "label": "Minimum amount",
+          "type": "number"
+        },
+        {
+          "id": "high",
+          "label": "Maximum amount",
+          "type": "number"
+        },
+        {
+          "id": "currency",
+          "label": "Currency",
+          "type": "select",
+          "options": [
+            "CHF",
+            "USD",
+            "EUR",
+            "other"
+          ]
+        },
+        {
+          "id": "date",
+          "label": "Target date",
+          "type": "optional_date"
+        }
+      ]
+    },
+    {
+      "id": "P01",
+      "family": "Preference",
+      "text": "What annual return would you like on your CHF investment sleeve?",
+      "kind": "form",
+      "rationale": "Records the desired annual return.",
+      "alternative": "The desired return may exceed what is feasible.",
+      "effect": "Store the signed annual percentage range.",
+      "when": [],
+      "fields": [
+        {
+          "id": "low",
+          "label": "Minimum (%)",
+          "type": "signed"
+        },
+        {
+          "id": "high",
+          "label": "Maximum (%)",
+          "type": "signed"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "family": "Preference",
+      "text": "How would you like to express your risk target?",
+      "kind": "form",
+      "rationale": "Distinguishes minimum risk, a volatility ceiling and a target band.",
+      "alternative": "An open preference needs confirmation after the scenarios.",
+      "effect": "Keep the request type and whether it applies to the sleeve or household for section 3.",
+      "when": [],
+      "fields": [
+        {
+          "id": "mode",
+          "label": "Type of risk request",
+          "type": "select",
+          "options": [
+            "minimum",
+            "cap",
+            "target_band"
+          ]
+        },
+        {
+          "id": "basis",
+          "label": "Risk measurement basis",
+          "type": "select",
+          "options": [
+            "investment sleeve",
+            "household"
+          ]
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P03",
+      "family": "Preference",
+      "text": "What annual volatility ceiling would you accept, as a percentage?",
+      "kind": "form",
+      "rationale": "A ceiling permits any lower volatility.",
+      "alternative": "Volatility measures dispersion at an annual frequency.",
+      "effect": "Retain the respondent’s ceiling for confirmation in section 3.",
+      "when": [
+        [
+          "P02.mode=cap"
+        ]
+      ],
+      "fields": [
+        {
+          "id": "max",
+          "label": "Ceiling (%)",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "family": "Preference",
+      "text": "What range of annual volatility would you like to target?",
+      "kind": "form",
+      "rationale": "A band has both a lower and an upper bound.",
+      "alternative": "The available assets may make the requested band infeasible.",
+      "effect": "Retain both bounds of the request.",
+      "when": [
+        [
+          "P02.mode=target_band"
+        ]
+      ],
+      "fields": [
+        {
+          "id": "low",
+          "label": "Minimum (%)",
+          "type": "number"
+        },
+        {
+          "id": "high",
+          "label": "Maximum (%)",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "P05",
+      "family": "Exposures",
+      "text": "What exposures do you already have outside this investment sleeve?",
+      "kind": "rows",
+      "rationale": "Identifies household concentrations outside the investment sleeve.",
+      "alternative": "Exposure to an employer may come from employment.",
+      "effect": "Keep the type, scope and description of each exposure.",
+      "when": [],
+      "fields": [
+        {
+          "id": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "employer",
+            "sector",
+            "country",
+            "currency",
+            "issuer",
+            "other"
+          ]
+        },
+        {
+          "id": "scope",
+          "label": "Exposure",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "P06",
+      "family": "Diversification",
+      "text": "What diversification limits would you like to apply?",
+      "kind": "rows",
+      "rationale": "Records diversification preferences by sector, country, currency or issuer.",
+      "alternative": "The requested scope or data coverage may be unknown.",
+      "effect": "Keep each rule and its priority. Suspend its use if a mandatory rule cannot be verified.",
+      "when": [],
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope and applicable limit",
+          "type": "text"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P07",
+      "family": "Exclusion",
+      "text": "Which securities or exposures would you like to exclude?",
+      "kind": "rows",
+      "rationale": "Records explicitly requested exclusions.",
+      "alternative": "The requested scope or data coverage may be unknown.",
+      "effect": "Keep each rule and its priority. Suspend its use if a mandatory rule cannot be verified.",
+      "when": [],
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope and applicable limit",
+          "type": "text"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P08",
+      "family": "Environment",
+      "text": "Which environmental criteria would you like to apply?",
+      "kind": "rows",
+      "rationale": "Records the environmental criterion requested.",
+      "alternative": "The requested scope or data coverage may be unknown.",
+      "effect": "Keep each rule and its priority. Suspend its use if a mandatory rule cannot be verified.",
+      "when": [],
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope and applicable limit",
+          "type": "text"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P09",
+      "family": "Hedge",
+      "text": "Which risks would you like protection against?",
+      "kind": "rows",
+      "rationale": "Records the risk the respondent wants to hedge.",
+      "alternative": "The requested scope or data coverage may be unknown.",
+      "effect": "Keep each rule and its priority. Suspend its use if a mandatory rule cannot be verified.",
+      "when": [],
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope and applicable limit",
+          "type": "text"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P10",
+      "family": "Blending",
+      "text": "How would you like to combine multiple portfolios?",
+      "kind": "rows",
+      "rationale": "Records preferences for combining portfolios.",
+      "alternative": "The requested scope or data coverage may be unknown.",
+      "effect": "Keep each rule and its priority. Suspend its use if a mandatory rule cannot be verified.",
+      "when": [],
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope and applicable limit",
+          "type": "text"
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "id": "strength",
+          "label": "Requirement level",
+          "type": "select",
+          "options": [
+            "mandatory",
+            "soft"
+          ]
+        },
+        {
+          "id": "missing",
+          "label": "If data is missing",
+          "type": "select",
+          "options": [
+            "suspend",
+            "ask for clarification",
+            "flag and compare"
+          ]
+        }
+      ]
+    }
+  ]
+}

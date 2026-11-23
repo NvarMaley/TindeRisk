@@ -1,8 +1,0 @@
-study,validation_choice,minimum_gain,historical_gain,historical_pairs,independent_pairs,decision
-H01,Ledoit-Wolf,0.02,-0.003699317039144106,65,0,retain reference
-H02,EWMA,0.02,0.14408784340696176,53,0,retain reference
-H03,slope + macro PC,0.01,-0.09893383577984537,82,0,retain reference
-H04,ridge,0.01,-0.017321613339786872,82,0,retain reference
-H05,,0.01,,0,0,withhold stock sleeve
-H06,signed view or anchor,0.0005,-0.00073910099582614,20,0,retain reference
-H07,quarterly,0.0002,0.00012851537785495555,80,0,retain reference

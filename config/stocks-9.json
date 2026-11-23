@@ -1,0 +1,51 @@
+{
+  "decision": "2026-10-30",
+  "universe_snapshot": "e9d9400b2b65a9fd",
+  "capital_chf": 35000,
+  "invested_fraction": 0.9,
+  "stock_fraction_in_mixed_book": 0.45,
+  "stock_slots": 10,
+  "max_turnover_participation": 0.01,
+  "fee_one_way": 0.001,
+  "holding_sessions": 21,
+  "fundamental_tags": [
+    "Assets",
+    "Liabilities"
+  ],
+  "sec_transport": "https://huggingface.co/datasets/CyberMax-tools/figurewell-sec-xbrl-financials/resolve/d74dfdb8fdf4a326b64d8d0813163850f5d5a32a/data/",
+  "sec_hashes": {
+    "facts.parquet": "6b9aa7727361e9e71e1a687372257fbdcc9333a9e010fb6633cf03c15b5c1147",
+    "filings.parquet": "16896e76475006a08de6b32064f793be8288bb84b242a8195268fe1579d289d6"
+  },
+  "directory": {
+    "revision": "c05edd62db811dab2ca14ae1b7cbc1b4884fa154",
+    "published_utc": "2026-10-30T00:28:01Z",
+    "source": "https://github.com/rreichel3/US-Stock-Symbols/commit/c05edd62db811dab2ca14ae1b7cbc1b4884fa154",
+    "files": {
+      "nasdaq": {
+        "url": "https://raw.githubusercontent.com/rreichel3/US-Stock-Symbols/c05edd62db811dab2ca14ae1b7cbc1b4884fa154/nasdaq/nasdaq_full_tickers.json",
+        "sha256": "949895739105a6dd9bfbced830caa3a66b3f85ecb8055973321b79d5000e351b"
+      },
+      "nyse": {
+        "url": "https://raw.githubusercontent.com/rreichel3/US-Stock-Symbols/c05edd62db811dab2ca14ae1b7cbc1b4884fa154/nyse/nyse_full_tickers.json",
+        "sha256": "319c9811af8d548beb29f4384593f4e529579ee5c4dc1018018e839168ebc5b8"
+      },
+      "amex": {
+        "url": "https://raw.githubusercontent.com/rreichel3/US-Stock-Symbols/c05edd62db811dab2ca14ae1b7cbc1b4884fa154/amex/amex_full_tickers.json",
+        "sha256": "559423cc9708ef45170ae31d1288d1e0639bb25a13dd5a2ba58978ec928262b3"
+      }
+    }
+  },
+  "sec_control": {
+    "0001615165-25-000027": {
+      "assets": 200221000,
+      "liabilities": 184203000,
+      "accepted_et": "2025-11-07T16:42:08-05:00"
+    },
+    "0001628280-26-025211": {
+      "assets": 198605000,
+      "liabilities": 183110000,
+      "accepted_et": "2026-04-15T14:19:47-04:00"
+    }
+  }
+}

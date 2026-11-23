@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    @font-face{font-family:DM Sans;src:url('/app/static/dmsans.woff2');font-weight:100 900;font-display:swap}
+    @keyframes enter-card{from{opacity:.75;transform:translateY(5px)}to{opacity:1;transform:none}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    body {
+      margin: 0;
+      color: #f8f3ff;
+      font: 16px/1.5 "DM Sans",system-ui,sans-serif;
+    }
+    article {
+      background: radial-gradient(ellipse at 95% 0%,#44274c,transparent 60%),linear-gradient(145deg,#25172f,#151d35);
+      animation:enter-card .2s ease-out;
+      border: 1px solid #755985;
+      border-radius: 20px;
+      padding: clamp(16px,4vw,32px);
+      touch-action: pan-y;
+    }
+    h2 {
+      line-height: 1.2;
+      font-size: clamp(1.35rem,4vw,1.85rem);
+      margin: .45em 0 .7em;
+    }
+    #family {
+      color: #8edaff;
+      font-weight: 650;
+    }
+    button,input,select {
+      font: inherit;
+    }
+    button {
+      border: 1px solid #856f9f;
+      border-radius: 10px;
+      background: #29223c;
+      color: #fff;
+      padding: .55em .85em;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: .55;
+    }
+    button.primary {
+      background: #ff9ac9;
+      color: #32142b;
+      border-color: #ffaed1;
+      font-weight: 650;
+    }
+    button:focus-visible,input:focus-visible,select:focus-visible,article:focus-visible {
+      outline: 3px solid #78cfff;
+      outline-offset: 2px;
+    }
+    fieldset {
+      margin: .6em 0;
+      border: 1px solid #715d87;
+      border-radius: 12px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(min(100%,180px),1fr));
+      gap: 10px;
+    }
+    label {
+      display: grid;
+      gap: 3px;
+    }
+    input,select {
+      width: 100%;
+      min-width: 0;
+      border-radius: 7px;
+      color: #181329;
+      background: #fff;
+      padding: .4em;
+      border: 1px solid #b2a0c1;
+    }
+    #actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .note {
+      font-size: .9em;
+      color: #ddd2e7;
+    }
+    #error {
+      color: #ffb6c7;
+    }
+    button.remove {
+      justify-self: start;
+      align-self: end;
+    }
+    p:empty {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <article id="card" tabindex="0" aria-labelledby="question">
+    <span id="family"></span>
+    <h2 id="question"></h2>
+    <p id="hint" class="note"></p>
+    <form id="fields"></form>
+    <div id="actions"></div>
+    <p id="error" role="alert"></p>
+  </article>
+  <script src="card.js"></script>
+</body>
+</html>

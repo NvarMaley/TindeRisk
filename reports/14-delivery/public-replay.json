@@ -1,0 +1,112 @@
+{
+  "tape": "Synthetic execution tape",
+  "model_id": "e9d9400b2b65a9fd",
+  "classes": {
+    "Individual stock": {
+      "screened": 3824,
+      "eligible": 3255,
+      "blocked": 569,
+      "selected_union": 326,
+      "options": {
+        "Return": 147,
+        "Robust": 147,
+        "Diversification": 325,
+        "Hedge": 135,
+        "60/40 benchmark": 0
+      }
+    },
+    "Treasury ETF": {
+      "screened": 2,
+      "eligible": 2,
+      "blocked": 0,
+      "selected_union": 1,
+      "options": {
+        "Return": 0,
+        "Robust": 0,
+        "Diversification": 0,
+        "Hedge": 0,
+        "60/40 benchmark": 1
+      }
+    },
+    "Equity ETF": {
+      "screened": 10,
+      "eligible": 10,
+      "blocked": 0,
+      "selected_union": 1,
+      "options": {
+        "Return": 0,
+        "Robust": 0,
+        "Diversification": 0,
+        "Hedge": 0,
+        "60/40 benchmark": 1
+      }
+    },
+    "Gold (GLD)": {
+      "screened": 1,
+      "eligible": 1,
+      "blocked": 0,
+      "selected_union": 1,
+      "options": {
+        "Return": 0,
+        "Robust": 0,
+        "Diversification": 1,
+        "Hedge": 0,
+        "60/40 benchmark": 0
+      }
+    },
+    "Direct Treasury": {
+      "screened": 65,
+      "eligible": 54,
+      "blocked": 11,
+      "selected_union": 0,
+      "options": {
+        "Return": 0,
+        "Robust": 0,
+        "Diversification": 0,
+        "Hedge": 0,
+        "60/40 benchmark": 0
+      }
+    }
+  },
+  "clients": {
+    "A": {
+      "goal_chf": 50000.0,
+      "goal_date": "2029-10-31",
+      "opening_chf": 35000.0,
+      "reserve_chf": 15000.0,
+      "required_annual_rate": 0.12609531390200665,
+      "rounded_positions": 103,
+      "volatility": 0.08218081423317956,
+      "entry_fee_chf": 21.491109000000005,
+      "final_portfolio_versions": 2,
+      "outside_band": "The rounded portfolio falls outside the confirmed volatility band."
+    },
+    "B": {
+      "goal_chf": 75000.0,
+      "goal_date": "2034-10-31",
+      "opening_chf": 50000.0,
+      "reserve_chf": 0.0,
+      "required_annual_rate": 0.08621822021940813,
+      "rounded_positions": 124,
+      "volatility": 0.09244964045214066,
+      "entry_fee_chf": 33.939063000000004,
+      "final_portfolio_versions": 2,
+      "outside_band": "The rounded portfolio falls outside the confirmed volatility band."
+    }
+  },
+  "empty_universe": "Empty universe or duplicate identifiers",
+  "oil_gain_after_cost_chf": -15.094672696672982,
+  "ledger_controls": {
+    "different_account_rejected": true,
+    "private_marker_detector_positive_control": true,
+    "amended_mandate_rejected": true,
+    "delayed_settlement_rejected": true,
+    "impossible_sale_rejected": true,
+    "stale_mark_rejected": true,
+    "closed_listing_rejected": true,
+    "cancellation_survived_restart": true,
+    "write_interruption_rolled_back": true,
+    "same_receipt_for_two_confirmations": true,
+    "dossier_and_versions_deleted": true
+  }
+}

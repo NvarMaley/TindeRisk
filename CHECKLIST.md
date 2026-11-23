@@ -1,567 +1,513 @@
-# Implementation checklist
-
-Use each subsection in order. Capture commands, dataset versions, denominators, units, timestamps, parameters and observed discrepancies under the matching notebook ID. A passing synthetic identity checks the implementation on that case only. Record the remaining bias, likely direction and sensitivity range when possible. Data acquisition and out-of-sample market validation remain open until the listed evidence exists.
-
-The local [QARM project brief](Theory/Quant_Project/Project_Brief/QARM_2_Slides___Projects.pdf), slides 3–4, asks for a course-based quantitative strategy, a portfolio web app, GitHub code and a 15-minute client pitch. Its strategy examples illustrate possible approaches. The written research record also serves the team's own reporting goal. Verify any later instructor clarification separately.
-
-Work down the numbered tasks. Each box describes an action, method and observable acceptance check. Leave it open until the matching notebook chapter names the input version, command, result and limitation. Record a change in scope in the journal. An item may be deferred or rejected with a reason. The local import status and remaining data gates are recorded in the [data inventory](data/README_data.md).
-
-[Methodology audit](METHODOLOGY_AUDIT.md) records the course crosswalk, priority findings and conditional extensions. For each bias check record the exposed population, expected direction (or unknown), control result, sensitivity of the client decision and unresolved limitation. An unchecked task may have a documented design and still lack empirical evidence.
-
-The selected quantitative extension pairs classical and robust frontiers, a local dual check and reverse withdrawal stress. The historical comparisons are complete. Section 7.2 records the decision to withhold prospective admission.
-
-### Correction de périmètre du 23 novembre 2026
-
-- [x] Étendre le portefeuille investissable aux 13 ETF du panel et garder le cas à trois comme référence. Vérifier les prévisions, les huit dates, le choc conjoint, les 462 simulations d'exécution, les scénarios client, les exclusions et le suivi. Le notebook contient le comparatif recalculé. [Résultats et limites](research/universe/README.md)
-
-### Course acceptance evidence (brief slides 3–4)
-
-| Course criterion | Tasks | Reproducible demonstration to prepare |
-|---|---|---|
-| Client need, strategy and use of course tools | 2.1.2, 6.1.1–6.2.2 | Change the withdrawal in the same mandate, recalculate the reserve, compare the constrained frontier with a simple benchmark and explain sensitivity to covariance and fees. |
-| Interactive, complete and technically reliable web app | 8.1.2, 9.1.1–9.1.2 | Open the deployed Streamlit URL in a fresh browser, change a constraint and verify the displayed numbers against the notebook. Record the code URL and release version. |
-| Clear presentation and response to client questions | 9.1.3 | Time a 15-minute rehearsal; have a reviewer ask about risk, costs or an infeasible goal and trace the answer to an observed result. |
-
-The earlier team's dated handoff reports that the instructor confirmed the topic and the 2024 brief. The [dated feedback](https://github.com/NvarMaley/TindeRisk/blob/c41fd972784a861662d1cd609df013f6d431d0ea/docs/05_DECISIONS.md#professor-feedback--2026-11-17) and slide-to-deliverable mapping are recorded in notebook 1.1.1. Research extensions remain open workstreams. A written report serves the team's own documentation needs.
-
-## 1. Project controls and research design
-
-### 1.1 Establish the course and team baseline
-
-**Evidence to retain:** requirement mapping and environment manifest. **Course reading:** [Advanced Data Analytics Lecture3 Explique](Theory/Course_Notes/Advanced_Data_Analytics_Lecture3_Explique.md) · [Guide Ultime Chapitre 29](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_29.md).
-
-- [ ] **1.1.1** Read the applicable QARM brief and instructor clarification. Record versions, the course optimization requirement, web app, GitHub and pitch deliverables. Cross-reference each requirement to a task and have a teammate check the mapping.
-  - **Procedure.** Read the Project Brief slides and any dated instructor clarification. Make a requirement → slide/page → task → acceptance evidence matrix.
-  - **Verification and failure handling.** Have a second reader distinguish compulsory deliverables from example client mandates. Leave any disputed interpretation open.
-  - **Bias and control.** Scope anchoring. Trace each supposed course requirement to a page or clarification; mark team preferences separately when unsupported.
-- [x] **1.1.2** Scope decision recorded. Formal responsibility assignments and reviewer scheduling were waived by the project owner on 22 November 2026.
-
-- [x] **1.1.3** Connected the local workspace to GitHub, pinned the baseline interpreter, recorded the licensing position and reproduced the synthetic notebook checks from a fresh checkout. See notebook 1.1.3 and the Course examples workflow. Third-party redistribution rights remain an open release item in 9.1.2.
-
-The primary brief mapping is documented in notebook 1.1.1. Independent reading confirmation is pending.
-
-### 1.2 Register what would change a decision
-
-Completed 22 November 2026. Notebook 1.2 records the prospective precision simulation, coverage checks and numerical reproductions, including the LN3 discrepancy.
-
-**Evidence to retain:** dated study register and reproduction log. **Course reading:** [Guide Ultime Chapitre 01](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) · [literature](Theory/Course_Notes/literature.md).
-
-- [x] **1.2.1** Create one study record per H01–H07 with paper/lab, target, horizon, universe, benchmark, variants, primary loss, useful-gain threshold and rejection rule. Distinguish exact replication from adaptation.
-  - **Procedure.** Register estimand, unit of observation, population, H0/H1, timing, gross and net economic effect, benchmark and multiplicity family before fitting. Specify a withdrawal or rejection rule.
-  - **Verification and failure handling.** Archive a signed/versioned protocol. A changed primary outcome opens an exploratory variant with a new ID.
-  - **Bias and control.** Underpowered discovery. Before the trial simulate null and minimum useful effect with the proposed dependence, sample size and model-selection pipeline. Record false positives, power and interval width. Downgrade a trial with inadequate precision to exploratory.
-- [x] **1.2.2** Freeze development, inner validation and untouched evaluation dates after coverage audit. Mark inspected periods retrospective. Record amendments and variant counts before inspecting new outcomes.
-  - **ETF calendar.** Notebook 1.2.2 freezes the CHF frontier calendar. The [study register and calendars](research/study_protocol.md) cover H01–H07.
-  - **Procedure.** Build a date ledger of warm-up, training, inner validation and last untouched block for each target horizon. Mark any published or previously inspected test dates.
-  - **Verification and failure handling.** Require maximum training-label end before the next evaluation decision. Where prospective outcomes do not exist, mark prospective evaluation pending.
-  - **Bias and control.** Repeated access to a holdout. Record who viewed each period, when and why; a model revised after seeing it requires a new evaluation period.
-- [x] **1.2.3** Reproduce analytical course examples for mean–variance, risk-free asset, shrinkage, Black–Litterman, risk budgets and event studies. Record expected/actual values, tolerances and discrepancies.
-  - **Procedure.** Run LN1 Markowitz, LN2 beta, LN3 stability, LN4 views, LN5 risk budgets and LN7 events against lab fixtures. For LN6 construct the two-identical-assets example.
-  - **Verification and failure handling.** Archive constraints, units, expected and reproduced values, tolerance and explanations. Matching a lab validates the calculation for its fixture only.
-  - **Bias and control.** Shared implementation errors. Reconcile with an independently derived analytical solution on a fixture outside the source lab.
-
-## 2. Profile the client
-
-### 2.1 Build the factual intake
-
-Implemented and tested 22 November 2026. Notebook 2.1 records the four-screen walkthrough and financial checks. The theoretical payment clarification in 2.3.2 completes the revised interpretation criterion.
-
-**Evidence to retain:** mandate and dated cash ladder. **Course reading:** [Portfolio-Management-explications copie](Theory/CFA/Portfolio-Management-explications%20copie.md) · [Guide Ultime Chapitre 34](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_34.md).
-
-- [x] **2.1.1** Design four screens for goal/currency/horizon, capital and contributions, withdrawals and reserves, then desired return and preferences. Accept ranges and unknowns. Test missing, zero, negative and contradictory values by field.
-  - **Procedure.** Use an intake schema with value/range, unit, currency, timing and explicit unknown. Encode ethics as hard exclude versus preference. Use hypothetical payment examples to check how the interpretation affects the reserve.
-  - **Verification and failure handling.** Retain original answers and corrections. Check that zero, missing and “prefer not to answer” produce distinct states.
-  - **Bias and control.** Anchoring and missing-not-at-random amounts. Record range, unknown and refusal separately; check whether the funding outcome changes at plausible endpoints.
-- [x] **2.1.2** Calculate protected and investable capital using dated withdrawals and confirmed external funding. Reconcile cash sources and uses. Test a fully funded expense, immediate withdrawal and reserve exceeding capital.
-  - **Procedure.** Construct a dated cash ladder. Reserve the maximum cumulative uncovered outflow plus the separate safety buffer, accounting for earmarked resources only once.
-  - **Verification and failure handling.** Reconcile assets to reserve plus investable capital or an explicit shortfall. Vary the endpoints of ranges to expose mandates that switch eligibility.
-  - **Bias and control.** Optimistic funding. Stress delayed contributions and simultaneous household cash needs. Report the earliest shortfall date and amount across feasible joint scenarios.
-  - **Funding invariant.** Compute the dated cash ladder from liabilities, settlement, safety buffer and confirmed funding. Keep the tolerance band out of that calculation. Change only tolerance and compare the entire ladder; any difference requires correcting the dependency and recomputing affected proposals. Move the withdrawal earlier with tolerance fixed and rerun liquidity even when the amount stays constant.
-- [x] **2.1.3** Solve the goal-funding return from dated cash flows with an explicit timing convention. Show it beside the desired return. Test a known zero-return case and an underspecified or infeasible mandate.
-  - **Procedure.** For dated deposits Cᵢ solve target = initial(1+r)^T + Σ Cᵢ(1+r)^(T−tᵢ) using scipy.optimize.brentq on a bracket with opposite signs. Document timing and annual basis.
-  - **Verification and failure handling.** Plug the solution back into terminal wealth. Check boundary/non-unique cases for mixed-sign flows. Report unresolved when a justified bracket or unique solution is unavailable.
-  - **Bias and control.** Nominal/real mismatch. State whether the target is in today's or future currency and convert consistently under disclosed inflation assumptions. Report sensitivity of required return.
-
-### 2.2 Build the adaptive swipe interview
-
-The [versioned bank](questions/profile_v1.json), [engine](src/riskmatch/interview.py) and notebook 2.2 record the executable checks. The [behavioral rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report) documents the wording review under the revised theoretical scope.
-
-**Evidence to retain:** versioned card specification and route traces. **Course reading:** [W13 Behavioral Finance Guide FR](Theory/Course_Notes/W13_Behavioral_Finance_Guide_FR.md) · [Guide Ultime Chapitre 14](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_14.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
-
-- [x] **2.2.1** Draft 60 scenario IDs including 15 common items. For every card record construct, wording, amounts, probabilities, interpretation, trigger and pass behavior. Review the English wording for leading statements and numeracy burden.
-  - **Procedure.** Use questions/QUESTIONNAIRE_DESIGN.md. Freeze a blueprint of 1 comprehension, 1 declared tolerance, 5 trade-offs, 4 matched loss scenarios, 2 decline reactions, 1 flexibility and 1 monitoring card. Record exact amounts, polarity, competing interpretation and authorized score effect.
-  - **Verification and failure handling.** Check the yes/no/pass mapping against the displayed statement and exercise mirrored choices in simulation. Revise ambiguous mappings before route simulation. Balance affirmative endorsement of risky and certain options.
-  - **Bias and control.** Acquiescence and frame confounding. Counterbalance which option a yes endorses and compare equivalent response encodings in software. For loss pairs record changes in mean, variance, probabilities and reference point; isolate only what the design identifies.
-- [x] **2.2.2** Implement one statement per gesture, right=yes and left=no, with pass, keyboard equivalent and an explanation after failed practice. Test on touch and desktop, including short drags and repeated events.
-  - **Procedure.** Persist card version, wording, display side, step, answer and correction in an event history. Replay mobile, mouse and keyboard paths against the same canonical choice.
-  - **Verification and failure handling.** One gesture yields at most one response. A pass adds no directional evidence. Verify identical scores after replay and after correcting a gesture.
-  - **Bias and control.** Interface measurement error. Replay passes and corrections through the supported input methods and check their recorded meanings. Never infer confidence from gesture speed alone.
-- [x] **2.2.3** Map each risk choice to a threshold by equating the one-year mean–variance utilities of the alternatives. Validate the implied threshold analytically. Intersect consistent bounds and return unresolved status on contradiction or insufficient evidence.
-  - **Procedure.** Compute μ=Σpᵢrᵢ and v=Σpᵢ(rᵢ−μ)² on decimal returns at a common horizon. For sure return c solve φ*=2(μ−c)/v. Test v=0, dominance, negative thresholds and ties before using an item.
-  - **Verification and failure handling.** For initial 1,000 and outcomes 900/1,200 equally likely versus sure 1,020, expect φ*=2.6667. Keep lo=max(lower bounds), hi=min(upper bounds). Flag lo>hi.
-  - **Bias and control.** Functional-form and stake bias. A one-year mean–variance threshold is conditional on the hypothetical stake and comprehension. Test whether rankings change with a different stake or a matched utility model; avoid transporting a band with unstable rankings to client wealth.
-- [x] **2.2.4** Implement core routing, threshold probes inside uncertain intervals, paired loss comparisons and conditional follow-ups. Test a planned sale motivated by an upcoming expense versus discomfort after a decline. Check termination and replay after correcting an answer.
-  - **Procedure.** Trace the common path then choose a probe with a threshold inside the unresolved interval. After a decline explore liquidity, discomfort and market belief separately. Cap risk probes at two under the initial design.
-  - **Verification and failure handling.** Run routes covering a passed practice, no eligible probe, all eligible triggers and an early stop. Compare event log to expected sequence and final branch reason.
-  - **Bias and control.** Adaptive exposure bias. Freeze routing rules and log eligible probes including those skipped. Describe simulated reachability only. Deterministic routing cannot establish the behavioral effect of receiving a probe.
-- [x] **2.2.5** Show tolerance range, capacity, reserve, conflicts, exclusions and monitoring preference. Keep behavioral observations descriptive. Check that a demographic label or stated return target alone cannot raise the risk limit.
-  - **Procedure.** Generate four report sections from distinct fields: model-compatible tolerance, funding capacity, confirmed behavior and strength of evidence. Present desired and required return separately.
-  - **Verification and failure handling.** Change age or self-description with all financial facts and choices fixed. Inspect any changed allocation eligibility and remove unjustified dependence.
-  - **Bias and control.** Circular validation. Behavioral or demographic annotations can explain a conflict; never train a tolerance label on its own score or count the same response twice.
-  - **Client review.** Label the one-year tolerance range as a theoretical model output. Offer correction of misunderstood choices or funding facts. When the range is unresolved, show compatible alternatives and explain the missing evidence. Preserve confirmed liquidity constraints throughout.
-
-- [x] **2.2.6** Propagate approximate amounts through capacity calculations. Check whether a single uncertain trade-off changes the band or options by omitting it in turn. Test near-indifference, an accidental swipe, conflicting choices and an unanswered probe. Clarify within the route limit when consequential, otherwise retain the range. Verify the interface distinguishes reported ranges, model-compatible bounds and statistically calibrated confidence intervals.
-  - **Procedure.** Omit each trade-off once and recompute the interval and feasible options. Distinguish sensitivity to a single card from participant-sampling variability. Test CHF 10–15k uncertain withdrawal on CHF 50k capital.
-  - **Verification and failure handling.** Expect CHF 35–40k investable absent other claims. Record whether clarification changes an action. Keep uncertain classification visible if it does.
-  - **Bias and control.** Unstable classifications. Report the union of feasible bands from leave-one-answer-out sensitivity and the actual actions that differ. Label this as sensitivity, separate from a sampling interval.
-
-### 2.3 Justify the questions and test the routes
-
-The [simulation](research/questionnaire_validation/SIMULATION.md) reached 60/60 cards in 480 synthetic interviews. The [question-by-question rationale](questions/QUESTIONNAIRE_DESIGN.md#how-to-interpret-hypothetical-answers-in-the-report) covers the seven core families and their clarifications.
-
-**Evidence to retain:** synthetic route table and theoretical interpretation of the card families. **Course reading:** [Guide Ultime Chapitre 17](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md) · [Guide Ultime Chapitre 18](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md).
-
-- [x] **2.3.1** First simulate complete, uncertain, contradictory and aborted routes with fixed seeds. Verify scoring independence from display side, held-out answers and future answers.
-  - **Procedure.** Generate seeded coherent, inconsistent, indifferent and pass-heavy participants. Vary presentation order and gesture polarity. Count coverage of every intended branch.
-  - **Verification and failure handling.** Separate structural reachability from human prevalence. Fail if held-out choices update the score or a repeat event updates it twice.
-  - **Bias and control.** Simulator confirmation bias. Generate stress routes outside the scoring model: habitual yes, random responses, stake-dependent choices and genuine indifference. Report unresolved rate under each.
-- [x] **2.3.2** Justify each question family using an actual card, a possible response, a competing explanation and its permitted effect on the profile. Ground design decisions in published research where applicable.
-  - **Verification.** Notebook 2.3.2 replays a sale driven by liquidity, discomfort or market expectations. All three preserve the same numerical tolerance evidence. The matched loss pairs invite clarification and a pass adds no directional bound.
-  - [x] Document all 60 cards, answer polarity, scoring bounds, conditional follow-ups and worked client possibilities in the [card-by-card guide](questions/GUIDE_DES_CARTES.md). Notebook 2.3.2 checks the inventory and the illustrative rankings.
-  - **Scope.** The course deliverable uses fictional responses and deterministic checks. Frequency of behaviors, time taken and prediction of real decisions are unmeasured.
-
-## 3. Collect and prepare point-in-time data
-
-### 3.1 Establish a source catalogue
-
-Completed 22 November 2026. The [source register and study decisions](research/source_catalogue/README.md) link 115 study inputs, comparators and requirements to 843 raw snapshots. The offline fixture checks six manual rows and rejects an unfunded withdrawal. Source-specific research and execution limits remain visible in the register.
-
-**Evidence to retain:** series catalogue and immutable raw manifest. **Course reading:** [Guide Ultime Chapitre 08](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_08.md) · [W6 Financial Statements Analysis](Theory/Course_Notes/W6_Financial_Statements_Analysis.md).
-
-#### Acquisition and reconciliation sheet for 3.1.1–3.2.5
-
-Use the [local import inventory](data/README_data.md) to separate available files from outstanding study requirements. Record vintage, access, rights and decision-date coverage for each branch. The public-data fixture can exercise the pipeline before vendor access is available.
-
-| Study / source to investigate | Grain and requested fields | Preparation and admission control |
-|---|---|---|
-| H01/H02/H07 and benchmarks · authorized total-return provider or fund issuer | Instrument/session: stable ID, venue, close, currency, distributions, split factor, adjusted or total-return level, inception and termination. For bonds distinguish fund returns from yield changes. | Resolve venue sessions, base currency and distribution convention. Preserve dead securities when studying a historical opportunity set. Reconcile a known distribution and split against the issuer. |
-| H03/H04 · FRED, ALFRED and original statistical releases | Series/vintage/observation: curve (e.g. T10Y2Y), credit spread (BAA10Y), VIXCLS, CPIAUCSL, UNRATE, INDPRO; rate level versus change, seasonal adjustment, release date and vintage bounds. | Retain initial releases and revisions separately. Derive year-on-year inflation only after enough released history. If release time is ambiguous lag conservatively; run vintage versus latest-revised sensitivity and label the latter retrospective. |
-| Cash and spending currency · central bank or FRED | DTB3 is a US discount-basis bill quote; DEXSZUS quotes CHF per USD. Select a defensible CHF cash benchmark separately. Record quote convention, tenor, maturity date, fixing and calendar. | For a bill of face 1, discount quote d in decimals and D days, price=1−dD/360 and holding return=1/price−1. State interpolation/roll assumption or label annual-rate/day-count conversion as a proxy. Never use a US cash rate as CHF cash by default. |
-| H05 · WRDS CRSP, Compustat and historical CCM | Security-month PERMNO/PERMCO, returns, delisting, price, shares, venue/share code; GVKEY, fiscal end, filing availability, book equity inputs, revenue, COGS, total assets; link dates/types and point-in-time industry. | Define exchange breakpoints, share classes, market cap units, accounting lag/restatements and delist conventions per dataset release. Keep firm-months together. Verify link uniqueness and report attrition across filters. |
-| H05 · academic factor library | Market excess, SMB, HML, profitability, investment, momentum and cash as needed, monthly region/currency and units. H04 valuation data require dated numerator and denominator. | Align factors and forward return months explicitly. Convert percentage files to decimals once. Store model (CAPM/FF3/FF5 + momentum), input vintage and common sample. |
-| H06 · authorized course StockTwits archive | Message or aggregate grain, timestamp/zone, asset identifier, polarity, count, event definition; market returns and dated company/sector links. | Drop duplicate IDs with an audit trail. Retain neutral and no-message days separately. Estimate pre-event market model, log coverage, avoid labels determined after trade time. |
-| H03 exploratory materials and policy | Gold, oil or copper spot/total-return distinction, real yields and broad dollar; optional FOMC text with release timestamp/version. | Spot series can be predictors. A tradable commodity sleeve needs an investable returns series and documented roll/carry; separate explanation, forecast and execution. |
-| H07 / monitoring · transaction inputs | Instrument/date: bid/ask or spread proxy, commissions, FX fee, settlement, liquidity flags, closing calendar and quote age. | If a spread is modeled, label scenarios and estimate break-even. Keep annual fund charges already embedded in fund returns from being charged twice. |
-| Questionnaire · synthetic fixtures | Generated route, card version, choice, branch, pass, correction and holdout. | Keep held-out answers outside scoring. Interpret counts under the specified generator only. |
-
-
-- [x] **3.1.1** For each study separate tradable holdings, predictors, cash and benchmarks. Record provider, identifier, currency, frequency, units, adjustments, earliest reliable date, revision policy, access and display rights. Check equity, bond, cash, FX and optional commodity coverage against the mandate.
-  - **Procedure.** Write series_catalogue with study_id, provider/table/field, instrument_id, geography, frequency, currency, adjustment, units, start/end, vintage, entitlement and role. Set a tradable comparator and cash series per currency.
-  - **Verification and failure handling.** Report required versus actually retrieved fields for each H01–H07. Mark missing prerequisites and the affected conclusion.
-  - **Bias and control.** Convenience universe. Record ex-ante eligibility and why each candidate asset/region is missing. Test conclusions on a broader or narrower dated set before generalizing.
-- [x] **3.1.2** Inventory authorized price/FX series, FRED/ALFRED macro vintages, WRDS security/accounting links, course StockTwits events and prospective spread/fee inputs. Hash raw snapshots and record retrieval times. Verify hashes and row counts on reload.
-  - **Procedure.** Prepare raw manifests with query parameters, source version, retrieval timestamp, hash, rows, date range and missing codes. Partition raw snapshots by provider and vintage. Use the acquisition table below.
-  - **Verification and failure handling.** On reload verify hash and range. Quarantine changed snapshots and explain revisions. Never log credentials or assume an academic license permits display.
-  - **Bias and control.** Backfill and revision. Record database entry time where available and quantify results with histories before entry removed. Keep original raw and revised extracts.
-- [x] **3.1.3** Build fictional shareable fixtures alongside restricted local data. Document the rebuild commands and missing sources. Verify a clean public clone never needs restricted data for its smoke test.
-  - **Procedure.** Build a deterministic fixture including a split, delisting, macro revision, missing close, currency conversion and withdrawal. Store expected values independently of the pipeline.
-  - **Verification and failure handling.** Run without network or private inputs. Compare recomputed tables to manual expected rows. Label synthetic outputs in every notebook figure.
-  - **Bias and control.** Toy-data optimism. Include at least one deliberately failing fixture. Mark statistics on synthetic paths as software checks only.
-
-- [x] **3.1.4** Inspect the supplied local data pack and reconcile the benchmark return panel. Evidence: [import report](data/README_data.md) and [read-only verification script](research/verify_import.py). This scoped check covers receipt, selected hashes, coverage and return identities. Source rights, research replication and point-in-time suitability remain in the individual open tasks.
-  - **Bias and control.** An imported table can reproduce an earlier error. Raw-to-prepared ETF returns were independently reconciled; the provenance, publication timing and construction of the WRDS panel require separate tests.
-
-### 3.2 Clean without leaking tomorrow's information
-
-Completed 22 November 2026. The [cleaning record](research/cleaning/README.md), [versioned panels](data/prepared_v1/) and notebook 3.2 preserve timing, exceptions, study-by-study coverage and blocked uses. The release supports historical research under its stated conventions. No verified accounting-based H05 ranking or actual trade fills are available.
-
-**Evidence to retain:** prepared panel, join attrition and exceptions. **Course reading:** [Guide Ultime Chapitre 01](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) · [guide tris portefeuille asset growth](Theory/Course_Notes/guide_tris_portefeuille_asset_growth.md).
-
-- [x] **3.2.1** Normalize calendars, time zones, quote direction and identifiers. Enforce one dated key per record. Audit stale and missing prices, duplicates, suspicious jumps and exclusions by asset and year. Reconcile flagged outliers to source events.
-  - **Procedure.** Use venue-specific session calendars. Key prices by instrument, session and vendor vintage. Report NaN counts, duplicate keys, stale runs and median/MAD extreme-return flags by asset-year.
-  - **Verification and failure handling.** Inspect flags against corporate actions and sources. Keep raw and corrected values with reason codes. Do not drop a crash or forward-fill a tradable quote by default.
-  - **Bias and control.** Non-synchronous closes. Compare common-close cutoffs and one-session lead/lag sensitivity across venues. Stale or filled prices can depress variance and apparent correlation; report the changes.
-- [x] **3.2.2** Separate observation, publication, availability and execution. Use backward as-of joins and effective-dated company links. Inject a later revision and after-close release and verify earlier signals stay identical.
-  - **Procedure.** Retain observation_date, published_at, available_at, decision_at and execution_at. Join using pandas.merge_asof backward or DuckDB ASOF JOIN on available_at. Resolve same-timestamp ordering from market convention.
-  - **Verification and failure handling.** Inject a later revision and an after-close release. Assert earlier features and weights remain identical. Without intraday release timing, delay to a documented later eligible decision.
-  - **Bias and control.** Same-day look-ahead. Align timestamps in UTC with source zone and DST preserved; a same-date join needs positive evidence the release preceded the decision.
-  - **Restated and backfilled market histories.** Rebuild decision-date features from as-received snapshots or documented vendor vintages. Include a future split or a corrected close in a mutation test: an old absolute-price filter or trade size must not change. For retrospective adjusted prices verify the return convention separately from executable historical prices. Restrict claims when only the latest history exists.
-- [x] **3.2.3** Reconcile splits, dividends, delisting returns, security entry/exit and cash-rate conventions. Check one corporate action by hand, verify client-currency returns multiplicatively and count attrition before/after joins.
-  - **Procedure.** Record price type and cash distributions. For legacy separate CRSP return/delisting fields combine (1+RET)(1+DLRET)−1 when both apply. Verify provider version before combining. Translate via (1+r_local)(1+r_FX)−1.
-  - **Verification and failure handling.** Audit one split, distribution, delisting, reversed FX quote and holiday by hand. Investigate unexplained gross/total divergence. Keep cash approximation error separate from trading alpha.
-  - **Bias and control.** Unrecorded delisting returns and fund fees. Quantify missing terminal returns and run documented adverse-exit scenarios. Reconcile gross versus net index/fund conventions.
-- [x] **3.2.4** Verify publication timing of fundamentals, macro revisions and sector classifications. Quantify unmatched and ambiguous firm-days. Restrict a signal to descriptive analysis if availability cannot be established.
-  - **Procedure.** Join PERMNO–GVKEY via dated CCM validity and documented link priorities. Match filings by release availability, including restatement vintage, and sector by both effective and known dates.
-  - **Verification and failure handling.** Count unmatched, ambiguous and unknown-publication rows per year/sector. Restrict conclusions to dated coverage and rerun without ambiguous matches. Current sector labels cannot backfill history.
-  - **Bias and control.** Selective linkage. Compare covered and excluded firm sizes, sectors and returns by calendar year. If coverage is selective, report the estimand for the linked sample only.
-- [x] **3.2.5** Freeze common trading dates, warm-up, eligible assets and missing-data rules per comparison. Write versioned Parquet tables, coverage and exception reports. Test that a missing execution quote triggers the specified fallback.
-  - **Procedure.** Export vintage-keyed prices, returns, factors, macro releases, features, eligible universe and cost panels. Keep dynamic membership, each model warm-up and paired evaluation dates in sample_manifest.
-  - **Verification and failure handling.** Compare pre/post-filter counts and results on full eligible versus paired samples. A common sample formed from survivors at the final date fails review.
-  - **Bias and control.** Complete-case bias. Report each method's eligible dates, paired dates, failure dates and investable fallback path. Gains on the intersection alone are insufficient for adoption.
-
-## 4. Describe historical returns and macro exposures
-
-### 4.1 Produce descriptive evidence
-
-**Completed evidence:** [measurement protocol, results and reproduction](research/descriptive/README.md) · [tables and figures](research/descriptive/results/). **Course reading:** [EMiF Class2 Version Ultra Pedagogique fixed](Theory/Course_Notes/EMiF_Class2_Version_Ultra_Pedagogique_fixed.md) · [Guide Ultime Chapitre 05](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_05.md).
-
-- [x] **4.1.1** Calculate simple, log, excess and compounded returns with explicit calendar and currency. Compare manual one-period and multi-period examples to code. Plot wealth and asset coverage together.
-  - **Procedure.** Use r=P_TR,t/P_TR,t−1−1, log1p(r), cumulative wealth Π(1+r), excess r−r_f. Document return currency, timestamps and cash convention. Compute annual growth from actual elapsed years.
-  - **Verification and failure handling.** Hand-check a two-period +10%, −10% path ends at 0.99 of initial capital. Report calendar gaps, missing and total-loss observations separately.
-  - **Bias and control.** Arithmetic/geometric confusion. Show arithmetic mean and realized CAGR with units, fees and exact sample dates; use compounded cash flows for wealth.
-- [x] **4.1.2** Compute annualized volatility, drawdown depth/duration, rolling correlations, historical VaR and Expected Shortfall. Record tail counts, ties and interval uncertainty. Test a flat path and a known loss path.
-  - **Procedure.** Using positive losses, estimate VaR as the chosen empirical quantile and ES as the average worst tail mass with fractional boundary weight. Plot running drawdown W/max(W)−1 and recovery duration. For annual volatility disclose serial-dependence assumptions.
-  - **Verification and failure handling.** Backtest time-ordered VaR exceptions, exact binomial counts under independence and clustering diagnostics. Report uncertainty with blocks, insufficient tail size and ongoing unrecovered drawdowns.
-  - **Bias and control.** Sparse and dependent tails. Report quantile convention, number of independent episodes, breach clustering and interval uncertainty. For joint VaR/ES comparisons preregister a consistent joint score with matching return/loss sign and domain.
-  - **Tail calibration and annualization.** At frozen one-step VaR origins report predicted versus actual breach counts. Use Kupiec unconditional coverage and Christoffersen independence/conditional coverage when exception and transition counts support inference. Otherwise show counts, sparse transitions and dependence-aware uncertainty. For covariance-stationary additive returns use Var(sum of h returns)=hγ₀+2Σ(h−k)γₖ for k=1…h−1. Compare the IID square-root-of-time shortcut with autocovariance sensitivity; compounded simple returns require pathwise compounding.
-- [x] **4.1.3** Attribute portfolio variance and marginal risk to holdings. Check covariance symmetry, eigenvalues and conditioning. Verify contributions sum to total risk and examine sensitivity to the estimation window.
-  - **Procedure.** Compute σp=√(w′Σw), RCᵢ=wᵢ(Σw)ᵢ/σp and effective holdings 1/Σwᵢ² for fully invested long-only positions. Inspect correlation heatmaps, eigenvalues and condition number.
-  - **Verification and failure handling.** Check ΣRCᵢ=σp; identical assets give diversification ratio one. Diagnose singularity before solving. Preserve negative hedging contributions.
-  - **Bias and control.** Noise in diversification estimates. Cross-check risk contributions across windows and joint resamples. When volatility is near zero or covariance indefinite, flag attribution as undefined or unreliable.
-
-### 4.2 Explain reactions to shocks
-
-**Completed evidence:** [dated exposures, common shocks and historical episodes](research/shocks/README.md). **Course reading:** [W3 Economic Analysis Guide FR](Theory/Course_Notes/W3_Economic_Analysis_Guide_FR.md) · [Guide Ultime Chapitre 12](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_12.md).
-
-- [x] **4.2.1** Specify common rate, equity, inflation and FX shocks. Estimate sensitivities using dated exposures with assumptions stated. Apply identical shocks across allocations and reconcile holding contributions to the portfolio effect.
-  - **Procedure.** For fixed income use −modified duration × Δyield plus ½ convexity × Δyield² when inputs exist. For other assets estimate dated factor exposures and apply an explicit vector of market, FX or inflation shocks.
-  - **Verification and failure handling.** Sum holding-level P&L to portfolio P&L. Test bp-to-decimal conversion and cash sensitivity. Distinguish residual risk from explained shock loss.
-  - **Bias and control.** Double-counted macro channels. Separate direct FX repricing from local-asset exposures. Validate combined scenario versus a joint revaluation, and report interaction residuals.
-- [x] **4.2.2** Compare calm and stressed samples, historical episodes and hypothetical scenarios. Report observation counts, exposure instability and confounding. Label any association requiring separate predictive or causal evidence.
-  - **Procedure.** Define crisis windows and identification assumptions before comparing outcomes. Estimate rolling exposures with uncertainty. For regime models use filtered probabilities available at t.
-  - **Verification and failure handling.** Compare common dates and counts. Run leave-one-crisis-out sensitivity. A shock association alone cannot support a causal or predictive claim.
-  - **Bias and control.** Ex-post regime selection. Predefine episodes and run leave-one-episode-out comparisons. For a regime strategy archive filtered probabilities and compare with an unconditional policy.
-
-## 5. Replicate research and validate forecasts
-
-### 5.1 Run each registered experiment
-
-- [x] Extend all seven studies using course methods and external sources. Record a research use, active reference and decision gate for each signal. Recheck publication timing, trading costs and sensitivity to individual instruments. [Seven-study report](research/robustness/README.md) · [Signal register](research/robustness/results/signal_register.csv).
-
-**Historical evidence:** [seven-study replay and admission decisions](research/experiments/README.md) · [forecasts, holdings and diagnostics](research/experiments/results/). H05 remains open for verified filing dates. H02 follows the registered GARCH eligibility and deferral rules. **Course reading:** [Guide Ultime Chapitre 01](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) · [literature](Theory/Course_Notes/literature.md).
-
-- [x] **5.1.1 · H01** Compare sample and Ledoit–Wolf covariance at identical weights using NumPy/scikit-learn. Score future integrated variance (QLIKE), check conditioning, then rerun optimization and measure weight stability and net utility.
-  - **Procedure.** Fit sample covariance and sklearn LedoitWolf to the same trailing past returns. At frozen weights aggregate predicted daily variance to next month's integrated variance. Realized proxy Σdaily(w′r_d)² with a declared centering convention. Compare QLIKE(v,y)=log(v)+y/v.
-  - **Verification and failure handling.** Require positive v and identical units/dates. Report paired loss difference, matrix conditioning, weight dispersion and net utility after re-optimization. Attribute forecast and allocation effects separately.
-  - **Study sources.** [QARM2 LN3 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN3_Cours_Explique%20copie%202.md) · [EMiF Class11 Version Ultra Pedagogique fixed](Theory/Course_Notes/EMiF_Class11_Version_Ultra_Pedagogique_fixed.md).
-  - **Bias and control.** Target mismatch. Summed daily conditional variance measures integrated variance, while variance of a cumulative return may include autocovariances. Freeze the target and weights for the entire measurement. Check the sklearn shrinkage target against the replicated paper specification.
-  - **Dynamic dependence as a conditional challenger.** Use DCC-GARCH only after checking the individual variance fits, standardized residuals, convergence and positive-definite H_t=D_t R_t D_t. Compare rolling, shrinkage and dynamic covariance at the same information cutoff, fixed weights and evaluation dates. Record fallback performance and whether the extra model changes after-cost allocations.
-- [x] **5.1.2 · H02** Compare rolling variance, EWMA and GARCH-t with GJR sensitivity using arch. Check convergence, persistence, Ljung–Box and ARCH-LM on standardized residuals. Match forecast and realized variance horizons. Test dynamic exposure separately after costs.
-  - **Procedure.** Fit rolling baseline, EWMA and arch GARCH(1,1)-t: h_t=ω+αε²_(t−1)+βh_(t−1). Add GJR asymmetry as a registered variant. Refit only at admissible origins. Sum daily conditional variance forecasts over common horizon.
-  - **Verification and failure handling.** Check positivity, fit convergence, finite innovation variance and persistence. Inspect standardized residuals and their squares via Ljung–Box, then ARCH-LM. Compare QLIKE and block intervals. Fall back to EWMA when fit fails; report failure frequency.
-  - **Study sources.** [EMiF Classe9 ARCH GARCH fixed](Theory/Course_Notes/EMiF_Classe9_ARCH_GARCH_fixed.md) · [EMiF Classe10 GARCH fixed](Theory/Course_Notes/EMiF_Classe10_GARCH_fixed.md).
-  - **Bias and control.** Failed-fit selection. Keep every forecast origin, optimizer warning and benchmark fallback. Score both paired successful fits and the full deployed rule. For Student-t check degrees of freedom >2 before variance interpretations.
-- [x] **5.1.3 · H03** Compare a yield-curve bond forecast with lagged macro factors learned by PCA inside training. For VAR or local projections justify lags, stability, shock identification and interval construction. Treat gold/rates and resources/sectors as exploratory until separately confirmed.
-  - **Procedure.** Forecast next-month excess bond return using released curve slope as baseline. Within training scale and fit macro PCA, then augment baseline. For VAR use information criteria inside training, check roots, residual autocorrelation and ordering sensitivity. For local projections define shock, controls and horizon-specific HAC.
-  - **Verification and failure handling.** Compare paired squared errors and out-of-sample R² on vintage-consistent dates. For impulse responses report identification assumptions and bootstrap bands. Treat exploratory real-rate/gold and resource/sector tests as separate hypotheses.
-  - **Study sources.** [EMIF Class5-6 Version Ultra Pedagogique fixed](Theory/Course_Notes/EMIF_Class5-6_Version_Ultra_Pedagogique_fixed.md) · [W3 FED Cours Complet](Theory/Course_Notes/W3_FED_Cours_Complet.md).
-  - **Bias and control.** Generated factors and identification. Refit scaling, PCA, lag selection and regression within every resampled training block. Apply alternative VAR orderings or external identification; mark responses sensitive to ordering as scenario evidence.
-- [x] **5.1.4 · H04** Compare expanding historical mean, OLS and ridge for forward equity excess return. Tune on internal chronological folds. Report out-of-sample R² and paired losses. Apply Clark–West only for suitable nested squared-error forecasts.
-  - **Procedure.** Refit expanding mean, lagged OLS and inner-tuned ridge at each origin. Compute R²_OS=1−Σe_model²/Σe_mean². For persistent predictors simulate the null with dependence retained; evaluate whether apparent fit is common under no predictability.
-  - **Verification and failure handling.** Use Clark–West only for appropriate nested squared-error forecasts, paired dependence-aware tests for eligible alternatives. Report negative R², sensitivity to start date and after-cost effect.
-  - **Study sources.** [guide predictibilite agregee marche](Theory/Course_Notes/guide_predictibilite_agregee_marche.md) · [Advanced Data Analytics Lecture4 Regression Explique](Theory/Course_Notes/Advanced_Data_Analytics_Lecture4_Regression_Explique.md).
-  - **Bias and control.** Persistent predictors and small-sample optimism. Simulate joint predictor/return innovations under no predictability, preserving persistence and innovation correlation. Rerun the selection pipeline and compare observed forecast gain with its null distribution.
-- [ ] **5.1.5 · H05** Use DuckDB/WRDS to construct lagged value, profitability, asset growth and 12–1 momentum. Compare dated sorts, elastic net and boosting on whole-month blocks. Test Spearman rank correlation, factor alpha, microcap sensitivity and the net investable long-only sleeve.
-  - **Historical status.** The price-only 12–1 component is measured on 84 months. Four published portfolio sorts and one dated Apple filing now supply external diagnostics. No cross-sectional month yet meets the individual-stock gate. Learned stock ranks, net sleeve and alpha remain unscored. [Diagnostic](research/experiments/results/price_only_component.csv) · [Excluded origins](research/experiments/results/stock_eligibility.parquet).
-  - **Procedure.** Within month form dated book-to-market, gross profitability, asset growth and 12–1 momentum. Declare accounting definitions, NYSE breakpoints, share-class and microcap rules. Compare simple sort, elastic net and boosting with whole months held together.
-  - **Verification and failure handling.** Report Spearman rank IC per month, equal/value-weighted quantile spreads, long-only return and factor alpha with HAC. Rerun ex-microcaps, with estimated spread costs and dated industry controls. A diagnostic short leg needs separate borrow assumptions to be investable.
-  - **Study sources.** [guide tris portefeuille asset growth](Theory/Course_Notes/guide_tris_portefeuille_asset_growth.md) · [guide modeles factoriels capm fama french](Theory/Course_Notes/guide_modeles_factoriels_capm_fama_french.md).
-  - **Bias and control.** Errors in estimated betas and false factor discovery. If two-pass premia use estimated exposures, bootstrap both passes by month or justify a Shanken correction under its assumptions. For joint alpha testing check GRS sample size, nonsingularity and assumptions; otherwise use dependence-aware joint inference.
-- [x] **5.1.6 · H06** Replicate the LN7 pre-event market model, volume peaks, cumulative abnormal returns and polarity. Control for overlapping events and available timestamps. Compare Black–Litterman with and without a view at matched tracking error, including no-signal dates.
-  - **Follow-up evidence.** A continuous relative-polarity view improved historical utility by 0.000140 against the anchor at 10 bp. Validation was negative. The separate activity-based risk forecast also missed its admission threshold. [Decision and paired comparisons](research/sentiment_followup/README.md).
-  - **Procedure.** Estimate pre-event market model outside the event window; AR_it=r_it−(α_i+β_i r_mt), CAR=sum AR. Align message polarity, volume peaks and first executable price; distinguish no messages from neutral polarity. Replicate LN7 rank comparison then account for coincident dates.
-  - **Verification and failure handling.** Freeze P (view exposures), Q (expected excess view return), Ω (uncertainty) and prior before execution. With Ω large recover the no-view solution. Compare net utility under the same risk budget including no-signal months. Unknown publication dates block the predictive branch.
-  - **Study sources.** [QARM2 LN4 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN4_Cours_Explique%20copie%202.md) · [QARM2 LN7 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN7_Cours_Explique%20copie%202.md).
-  - **Bias and control.** Event-conditioned hindsight. Build placebo events matched on calendar, liquidity and prior message volume, preserving clusters. Compare event-window results with pre-event diagnostics; exclude labels assigned after decision time from the signal.
-- [x] **5.1.7 · H07** Run identical signals through monthly, quarterly and no-trade-band policies on drifted holdings. Compare net wealth, turnover, risk drift, withdrawal coverage and break-even unit costs.
-  - **Procedure.** Apply monthly, quarterly and band rules to the same signals and cash flows with drifted weights. Use currency amounts traded for costing. Find unit-cost break-even by re-running the funded ledger over a cost grid.
-  - **Verification and failure handling.** Report paired net difference, risk-limit breaches, overdue withdrawals and hold dates. If no sign change occurs disclose no crossing in the tested grid.
-  - **Study sources.** [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md) · [Guide Ultime Chapitre 06](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_06.md).
-  - **Bias and control.** Policy tuning bias. Select a band on inner validation only. Compare on common post-selection dates and report near-optimal bands, turnover and funding outcomes when the chosen threshold shifts.
-
-### 5.2 Apply econometric and forecast controls
-
-**Historical evidence:** [dated forecasts](research/experiments/results/forecasts.parquet) · [calibration](research/experiments/results/interval_calibration.csv) · [paired comparisons](research/experiments/results/paired_comparisons.csv). Independent evaluation is pending under the registered calendar. **Course reading:** [EMiF Classe7 Version Ultra Pedagogique fixed](Theory/Course_Notes/EMiF_Classe7_Version_Ultra_Pedagogique_fixed.md) · [EMIF Class5-6 Version Ultra Pedagogique fixed](Theory/Course_Notes/EMIF_Class5-6_Version_Ultra_Pedagogique_fixed.md) · [Advanced Data Analytics Lecture11 DimReduction Explique](Theory/Course_Notes/Advanced_Data_Analytics_Lecture11_DimReduction_Explique.md) · [Guide Ultime Chapitre 17](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md).
-
-- [x] **5.2.1** Inspect ACF/PACF, trends, outliers, dependence and breaks. Select applicable ADF/KPSS specifications, HAC or clustered inference. For integrated systems test cointegration before VECM. For panels justify fixed effects or Fama–MacBeth and corresponding inference.
-  - **Procedure.** Follow guide 01 from population and variable to specification, estimation and residuals. ADF null is unit root; KPSS null is stationarity. Specify constant/trend and lag choices. For panels consider firm/month effects and dependence along both dimensions. For factor premia run monthly cross-sections then time-series inference on premia.
-  - **Verification and failure handling.** Conflicting stationarity results trigger break and transformation sensitivity. For integrated systems test Johansen rank with deterministic terms before VECM. Document sample loss, residual plots, serial dependence and heteroskedasticity before interpreting coefficients.
-  - **Bias and control.** Misspecification and endogeneity. Review residual plots, influence by date/firm and plausible omitted channels. Test alternate trend/lag choices on development; use predictive language in the absence of identified exogenous variation.
-- [x] **5.2.2** Fit scaling, imputation, PCA, feature selection and tuning inside each training window. Purge overlapping labels where required, retain all firms from one month in the same fold, and perturb future observations to detect leakage.
-  - **Procedure.** Create rolling origins and nested inner splits. Fit sklearn Pipeline imputation, StandardScaler, PCA and hyperparameter search using inner training only. Exclude training labels whose end overlaps validation/test. Use filtered regimes only.
-  - **Verification and failure handling.** Check train/validation/test timestamp inequalities and rerun after changing held-out values. Hyperparameters, past transforms and decisions must be unaffected by later data.
-  - **Bias and control.** Cross-fold contamination. Archive feature fit dates and each training label's availability, including publication gaps. Test prediction at the latest origin while its outcome is still unknown.
-- [x] **5.2.3** Archive dated point/range forecasts by asset, horizon, currency and version. Score means by squared error, variance by QLIKE, quantiles by pinball loss. Report interval width, coverage, clustered exceedances and counts by regime.
-  - **Procedure.** Log forecast origin, target end, model version, point forecast, lower/upper quantiles and realization. Pinball loss=(q−1[y<f])(y−f); for a central band report mean width and fraction inside. Use PIT/CRPS only for complete predictive distributions.
-  - **Verification and failure handling.** Report sample counts, misses by side, consecutive misses and calibration by regime. Compare widths at similar coverage. Low coverage triggers recalibration on development or a broader fallback, never tuning on final test outcomes.
-  - **Bias and control.** Calibration hidden by pooling. Evaluate interval coverage, width and separate upper/lower misses within prespecified subperiods using dependence-aware intervals. Keep thin groups unresolved.
-  - **Horizon and fallback.** Record elicitation horizon, forecast horizon, decision date and cash-flow dates separately. Monthly signals support near-term review. Evaluate long-term funding with explicit paths, reinvestment, inflation, FX and withdrawals. Block direct repetition of a one-month premium over the goal horizon. When an overlay expires, fails timing checks or fails out-of-sample admission, use the frozen baseline or no-view mix, mark the reason and preserve the failed origin. A stale valuation feed suspends a trade proposal.
-- [x] **5.2.4** Compare paired losses on identical dates with suitable long-run variance or block bootstrap. Record all variants and multiplicity. Retain simple fallback forecasts where gains are weak, unstable or too small after costs.
-  - **Procedure.** Choose primary paired difference and economic threshold in advance. Use HAC or moving-block bootstrap of dated loss differentials, with horizon, block choice and sensitivity recorded. For multiple confirmatory variants declare family and e.g. Holm adjustment; record all attempts.
-  - **Verification and failure handling.** Report effect, interval, sample size, rejected/retained hypotheses and net utility. Inconclusive results or a failed timing check keep the reference strategy in place.
-  - **Bias and control.** Winner's curse. When selecting the best among many trading rules, use a joint block-resampled max-statistic or suitable SPA/Reality Check against the common benchmark. Center under the null and resample identical dates jointly across alternatives. Retain the multiplicity register and independent confirmation.
-  - **Overlapping forecast losses.** For suitable non-nested forecasts, use Diebold–Mariano on paired d_t=L_candidate−L_reference with HAC long-run variance. Document target horizon, overlap, lag bandwidth, refitting scheme and small-sample sensitivity. If the differential has zero long-run variance, too few independent origins, or nesting invalidates the reference distribution, report the paired effect and its limitations; use the registered nested-model procedure when justified.
-  - **Forecast selection and combination.** For forecasts of the same target, currency and horizon at the same decision time, preregister a baseline, standalone candidates and an equal-weight forecast combination. If justified, compare nonnegative weights summing to one learned only from past out-of-fold forecasts and already available outcomes. Freeze the missing-component rule, compare paired forward losses and coverage on common origins, then evaluate the deployed rule across all origins. Check error dependence and incremental value against the baseline and individual forecasts. Retain the baseline, one model or a combination according to the frozen decision rule. Use explanatory-only signals for stress attribution. Require a separate after-cost benefit before changing allocation.
-
-## 6. Build feasible portfolios and match a mandate
-
-### 6.1 Estimate the constrained net frontier
-
-**Completed evidence:** [funded frontier, historical comparison and sensitivity](research/frontier/README.md) · [dated grid](research/frontier/results/frontiers.csv) · [mandate exceptions](research/frontier/results/mandate_cases.csv). **Course reading:** [QARM2 LN1 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN1_Cours_Explique%20copie%202.md) · [QARM2 LN5 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN5_Cours_Explique%20copie%202.md) · [QARM2 LN6 Cours Explique copie 2](Theory/Quant_Project/QARM2_LN6_Cours_Explique%20copie%202.md).
-
-- [x] **6.1.1** Apply liquidity, reserves, ethical exclusions, concentration and currency restrictions before optimization. Define feasible cash and risky sleeves. Test empty eligible universe, all-cash and infeasible-risk cases.
-  - **Procedure.** Create dated eligibility matrix by mandate and instrument (liquidity, exclusions, currency, limits, withdrawal funding). Run a feasibility problem before maximizing return.
-  - **Verification and failure handling.** Report binding constraints and uncovered amounts. An empty sleeve or impossible target yields an explicit status; never relax a hard exclusion silently.
-  - **Bias and control.** Dated eligibility and infeasible reserves. Verify exclusions and look-through exposures as of each decision. Unknown holdings or unsettled proceeds may invalidate an option; show an unresolved constraint explicitly.
-- [x] **6.1.2** Compare equal weight, fixed mix, constrained minimum variance, risk parity and conditional strategies on identical inputs. Check equal risk contributions in a known diagonal case and recovery of the Black–Litterman prior with negligible view confidence.
-  - **Procedure.** Use equal weight and fixed mix controls, GMV and ERC (RCᵢ/σp=bᵢ); conditional BL prior π=δΣw_market in excess-return units. For LN2 compute beta=cov(p,m)/var(m), tracking error=sd(r_p−r_b).
-  - **Verification and failure handling.** Analytically verify inverse-vol ERC under diagonal Σ, zero tracking error versus self, no-view BL and diversification ratio. Report benchmarks that lack a defensible prior.
-  - **Bias and control.** Benchmark shopping. Freeze admissible controls before optimization. For an expanded universe test incremental opportunity by constrained out-of-sample spanning or matched-frontier comparison at common risk budgets after costs.
-  - **Fair comparator.** Before looking at returns define an implementable fixed mix and a rule for ineligible holdings or a binding risk cap. Freeze the mandate including reserve, currency, exclusions, fees, execution, cash flows and start holdings across arms. If a fixed mix violates a hard cap, apply its prespecified risk reduction or flag it infeasible. Rerun mismatched comparisons before interpreting gains.
-- [x] **6.1.3** Sweep risk budgets with CVXPY or SciPy. Estimate net expected return under explicit trade, spread and FX conventions. Save solver status, residuals, binding constraints and dominated candidates. Validate on a hand-computable two-asset case.
-  - **Procedure.** For each cap s solve max μ′w−cost(Δw) subject to w′Σw≤s², budget and mandate constraints. Define financing of first trade and horizon of recurring costs. Use CVXPY and record primal residuals, feasibility and solver tolerances.
-  - **Verification and failure handling.** Compare with analytic two-asset GMV and direct grid enumeration. Reject materially infeasible weights and dominated points on common net/currency assumptions. Label solver failures separately from economically infeasible caps.
-  - **Bias and control.** Hidden financing in proportional fees. Express trades and budget in common pre-trade wealth units; positions plus reserve/cash plus one-time costs must equal wealth. Validate the initial purchase and the drifted rebalance independently.
-  - **Dual verification (guide 00, §0D.3.4).** For a convex feasible instance record the cap convention (volatility or variance), units, primal residual, dual multiplier and solver status. At a smooth active cap perturb the same right-hand side in both directions and compare the objective slope with the reported multiplier. Repeat with a smaller step and an inactive cap. At a kink use one-sided slopes. This is local sensitivity to a constraint, not a forecast.
-- [x] **6.1.4** Perturb means, covariances, fees and constraints and resample blocks. Report weight and frontier dispersion. Flag rankings that flip under plausible inputs.
-  - **Procedure.** Use moving blocks of return vectors shared across all assets, then re-estimate means/covariance and reoptimize. Compare sampling sensitivity with deterministic fee and cap scenarios.
-  - **Verification and failure handling.** Report weight intervals, turnover, rank changes and constraint breaches including failed draws. An unstable frontier is shown as uncertain.
-  - **Bias and control.** Conditional-on-success frontiers. Publish number of infeasible/failed draws at each risk cap and denominator of reported percentiles. Compare changing weights and changing feasible set separately.
-  - **Classical versus robust frontier (guide 04, §4.5.9).** At common risk budgets compare fixed mix, classical max net mean and robust max net mean minus ρ√(w′Vμw). Use Σ for risk and Vμ for uncertainty of the estimated horizon mean. Estimate Vμ from mean vectors obtained by jointly resampling blocks of training dates; record block length, horizon conversion, number of draws and PSD diagnostics. Freeze the radius or its inner-fold selection rule before evaluation. Equal holdings, execution timing, funded costs and hard constraints apply to both optimization arms. Recover the nominal objective at ρ=0; compare weights only for a unique optimum.
-
-### 6.2 Present defensible client options
-
-**Completed evidence:** [client options, risk preferences and dated shortfalls](research/options/README.md) · [eight eligible options at both risk limits](research/options/results/options.csv) · [funding scenarios](research/options/results/goal_scenarios.csv). **Course reading:** [Guide Ultime Chapitre 16](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_16.md) · [Guide Ultime Chapitre 34](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_34.md).
-
-- [x] **6.2.1** Evaluate net mean–variance utility over the plausible phi interval with consistent horizon and decimal units. Compare Sharpe against matching currency cash. Test an unresolved interval, tied alternatives and sensitivity to capacity.
-  - **Procedure.** Evaluate Uφ=μnet−φσ²/2 at both endpoints per pair of portfolios; differences are affine in φ. Compute internal crossover 2Δμ/Δvariance when defined. Match annual units and currency to the elicitation.
-  - **Verification and failure handling.** Report robust winner, crossover, ties or unresolved. For zero excess-return volatility mark Sharpe undefined. An unbounded/unreliable φ interval cannot justify a precise personal ranking.
-  - **Bias and control.** Sleeve/household utility mismatch. Define the wealth base for returns, risk and elicited φ. With deterministic reserve and risky fraction a, total excess mean scales by a and variance by a². Recompute rankings at both bases and test transfer of elicited preferences before personalized ranking.
-- [x] **6.2.2** Display historical outcome, forecast range, shock loss, liquidity, fees and goal shortfall for each eligible option. Explain whether a longer horizon, more savings or a revised target closes a gap. Verify a desired return cannot override a hard constraint.
-  - **Procedure.** Translate each admissible allocation into investable capital, dated loss scenario, modeled fee, funding path and return range. Separate observed history, future scenario and realized prospective outcomes.
-  - **Verification and failure handling.** Recalculate an example independently in spending currency. Report any goal gap and compare adjustments to contributions, horizon or target at the same capacity.
-  - **Bias and control.** False precision in long-horizon goals. Simulate dated cash flows with resampled joint returns and FX, protect required withdrawals at their due dates, and vary inflation and sequence of returns. Report both frequency and size of funding shortfalls with assumptions.
-  - **Unmodeled joint tail losses.** Start with empirical joint stress and block-resampled asset/FX paths at the withdrawal date. If the decision is sensitive to losses beyond the sample, register peaks-over-threshold/GPD as a sensitivity, check threshold and shape stability, exceedance clustering and uncertainty. A t-copula extension requires dated marginal fits, residual dependence diagnostics and comparison with empirical joint losses. With sparse extremes present scenario losses and sampling limits. Never convert a hypothetical stress into a probability without calibration.
-  - **Reverse withdrawal stress (guide 05, §5.13.3).** At the due date compute available cash plus saleable positions after FX, settlement and modeled fees. Start with the unacceptable event (available resources below amount due) and find the boundary along a specified shock path. Report exact coverage at equality, a pre-existing shortfall, or no reachable shortfall separately. Compare CHF 15,000 fully reserved against a larger or earlier payment. For joint shocks disclose how distance and feasibility are defined. The boundary carries no probability by itself.
-  - **Client display.** Separate dated historical results, conditional monthly ranges and multi-year funding scenarios. Compare only feasible alternatives. When utility rankings flip across plausible tolerance or model inputs, present the trade-off and allow the client to choose. Use a practical-equivalence label only if the prespecified margin and uncertainty support it; a wide interval leads to an inconclusive label.
-
-## 7. Backtest and decide catalogue admission
-
-### 7.1 Replay realistic transactions
-
-**Implementation and evidence.** [Funded execution replay](research/execution/README.md).
-
-**Evidence to retain:** order, fill, cash and cost ledgers. **Course reading:** [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md) · [Guide Ultime Chapitre 06](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_06.md).
-
-- [x] **7.1.1** At every origin save eligible data, forecast, signal and intended order before the execution timestamp. Execute at the first eligible quote under the registered rule. Verify a next-close order earns no return before its fill.
-  - **Procedure.** Create decision and fill tables with origin, data cutoff, intended weights, quote, executable timestamp, fill status and first holding interval. Store orders before outcome evaluation.
-  - **Verification and failure handling.** Move every post-decision observation and verify past orders are invariant. Check a next-close buy manually and a skipped fill with unchanged units.
-  - **Bias and control.** Unfillable signals. Simulate a missed or partial fill and an unavailable quote. Report attempted versus filled orders and delay. No profit accrues on unfilled units.
-- [x] **7.1.2** Maintain shares, cash, FX, reserves, external flows and costs. Charge on amounts traded from drifted weights. Reconcile gross and net wealth against hand examples for initial purchase, no trade, sale and withdrawal.
-  - **Procedure.** Ledger identities: wealth=cash+Σunits×price×FX; cash_after=cash_before+external_flow−Σsigned_trade_value−fees. Estimate half-spread on gross traded notional; report one-way turnover convention separately. Use bid/ask fills or spread model once.
-  - **Verification and failure handling.** Reconcile each fill to currency rounding tolerance, cash availability and fees. Compare zero-cost, positive-cost, no-trade and restricted-liquidity withdrawal paths.
-  - **Bias and control.** Double counting spread, management fees or FX. Compare mid-plus-explicit-cost and bid/ask fill ledgers on a known trade. Record embedded versus additional charges per instrument.
-  - **Liquidity and implementation bias.** Compare planned trade notional with observable lagged volume, timestamped spread and settlement. When available, report decision-to-fill implementation shortfall and opportunity cost on unfilled amounts. If only closing prices exist, stress participation limits, slippage and partial fills and label costs modeled. Archive the wealth/withdrawal sensitivity, including unfilled orders.
-- [x] **7.1.3** Compare buy-and-hold and simple rebalancing over the same dates. Stress costs, calendars, crises, estimation windows and missed trades. Report net wealth, drawdown, turnover, risk breaches and withdrawal shortfalls.
-  - **Procedure.** Run a walk-forward panel of strategies, comparisons and cost levels on matching dates. Stress warm-up, FX, execution lag, spread widening and missed trades with prespecified variants.
-  - **Verification and failure handling.** Report paired terminal wealth, annualized return, max drawdown, ES, turnover, cash shortfall and breach duration. A result that reverses under plausible cost or date choices is flagged.
-  - **Bias and control.** Path dependence. Keep the same return paths and cash flows across strategies and include an adverse ordering before withdrawal. Report the difference between terminal wealth and cash available on the exact due date.
-
-### 7.2 Decide what may reach the application
-
-**Implementation and evidence.** [Signed demonstration catalogue](research/catalogue/README.md).
-
-**Evidence to retain:** study disposition and signed catalogue version. **Course reading:** [Guide Ultime Chapitre 22](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_22.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
-
-- [x] **7.2.1** Review frozen out-of-sample results against the registered economic threshold and paired uncertainty. Label retrospective results. Record retain, reject or descriptive-only for every study with a reason.
-  - **Procedure.** Compare paired net outcome and its block interval with the predeclared minimum useful gain and admissibility constraints. Distinguish development, retrospective and genuinely prospective evidence.
-  - **Verification and failure handling.** Produce one retain/reject/inconclusive record per variant including failures and reasons. Do not reuse the final period after changing a rule.
-  - **Bias and control.** Absence-of-evidence error. Compare the interval with the material-gain threshold. Claim practical equivalence only with prespecified equivalence margins and suitable interval/test; wide uncertainty remains inconclusive.
-  - **Paired client-value test (guides 01 V18 and 04 §4.15.5).** Register one primary horizon, φ range, economic gain threshold and fallback before outcomes. Archive both frontiers and weights at each common origin. Compare net mean–variance scores on realized returns with the same household wealth base and horizon as φ. Recompute mean and variance per strategy inside each paired date-block draw. Report Δscore and intervals, turnover, costs, risk breaches and uncovered cash at due dates. Label this as mean–variance utility; an exact certainty equivalent requires a specified utility and inversion. Display dated estimated frontiers on common axes and realized comparisons in a separate table. Show sensitivity across prespecified windows, covariance estimators and fee levels. Record inconclusive results and keep the simpler benchmark when evidence is insufficient.
-  - **Allocation experiment.** Keep the mandate and permitted information fixed; compare fixed mix, classical and robust frontiers over the same origins. Evaluate paired net utility, shortfall at withdrawal, breaches and turnover. With fictional mandates label results as conditional on those mandates. Retain the admissible baseline if the improvement is too small or inconclusive. Record questionnaire validation separately.
-- [x] **7.2.2** Independently reproduce admitted catalogue entries, costs and mandate screens. Attach as-of date, uncertainty, fallback and data permissions. Check that a failed study cannot silently enter a recommendation.
-  - **Procedure.** Freeze catalogue rows with study version, eligible mandate class, currency, date, benchmark, fee assumptions, forecast expiry, permissions and fallback. Rebuild from immutable source IDs.
-  - **Verification and failure handling.** Have a reviewer rerun a selected row and a rejected row. Only approved, unexpired records pass the app eligibility query.
-  - **Bias and control.** Selective promotion. Include rejected and expired entries with reason codes. Verify that changing the candidate cannot inherit a prior candidate's holdout status.
-
-## 8. Monitor and review in the web app
-
-### 8.1 Value the selected allocation
-
-**Implementation and evidence.** [Local fictional portfolio monitor](research/monitor/README.md).
-
-**Evidence to retain:** holdings snapshot and valuation reconciliation. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 26](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_26.md).
-
-- [x] **8.1.1** Persist confirmed mandate, allocation, units, cash, model version and selection date. Connect an authorized close/FX feed with timestamps, refresh policy and stale-data handling. Test missing, delayed and corrected quotes.
-  - **Procedure.** Use versioned holdings and append-only close/FX observations, provider timestamp, retrieval time, calendar and correction lineage. Store model and consent versions at selection.
-  - **Verification and failure handling.** Test missing market day versus holiday, stale FX with fresh asset prices and vendor correction. Display last reliable valuation and withhold actionable proposals on stale inputs.
-  - **Bias and control.** Feed survivorship and revision. Preserve as-received and subsequently corrected valuations. Report unavailable valuation days and elapsed quote age.
-- [x] **8.1.2** Chart total value, flows, net time-weighted performance, drawdown, drift and goal progress. Show last refresh and distinguish projections. Test that a withdrawal reduces value without creating a fictitious investment loss.
-  - **Procedure.** For end-period cash flow F compute subperiod return (V_end−F)/V_start−1, chain subperiods for TWR. Split at actual flows when timestamps allow. Document timing assumptions where unavailable.
-  - **Verification and failure handling.** Use a zero-market-return withdrawal and a deposit during a price move. Reconcile chart change into market P&L, FX, fees and external flows.
-  - **Bias and control.** Cash-flow timing bias. Reconcile a same-day deposit before versus after a price change; disclose when only end-of-day flows permit an approximation.
-
-### 8.2 Decide whether to rebalance
-
-**Implementation and evidence.** [Confirmed reviews and shadow holdings](research/monitor/README.md).
-
-**Evidence to retain:** hold/trade comparison and confirmation events. **Course reading:** [Guide Ultime Chapitre 21](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_21.md) · [guide couts transaction trading](Theory/Course_Notes/guide_couts_transaction_trading.md).
-
-- [x] **8.2.1** Trigger review after material drift, changed risk, a due expense or a revised mandate. Compare hold versus trade on identical assumptions. Show turnover, costs, liquidity and expected effect on the goal.
-  - **Procedure.** Run hold and proposed trade from identical current holdings, timestamps, cash forecasts and costs. Estimate post-trade risk drift and net change in withdrawal coverage.
-  - **Verification and failure handling.** Compare accepted, declined and hold outcomes without attributing selection effects to the intervention. Allow hold when benefit is within estimation or cost uncertainty.
-  - **Bias and control.** Self-selection into trades. Compute a dated shadow hold path for every eligible proposal with identical flows and executable prices. Describe acceptance-conditioned outcomes separately; attribution to the intervention needs a credible comparison design.
-  - **Hold or trade.** Freeze the materiality margin, costs and uncertainty rule before testing. For a discretionary rebalance, keep the current eligible allocation if the paired net benefit is inconclusive. A new hard constraint or withdrawal triggers a funding review even if expected return barely changes; show the least disruptive feasible correction, or the uncovered amount if none exists. Request confirmation.
-- [x] **8.2.2** Require explicit client confirmation and log declines, holds and accepted changes. Suspend proposals on stale inputs. Test double confirmation, inability to sell, settlement delay and insufficient liquidity.
-  - **Procedure.** Persist review ID, mandate version and decision before applying one simulated trade. Treat repeated confirmations idempotently and revalue if the quote or mandate changes.
-  - **Verification and failure handling.** Test duplicate confirmation, expired proposal, delayed settlement and insufficient available cash. Reconcile the final units to a single confirmed execution.
-  - **Bias and control.** Repeated-action bias. Report unique proposals, stale expiries, declines and duplicate confirmations. Trace one decision to one execution or a documented no-trade outcome.
-
-## 9. Verify, present and release
-
-### 9.1 Demonstrate the complete workflow
-
-**Implementation and evidence.** [Course release and client pitch](research/release/README.md).
-
-**Evidence to retain:** release evidence and client pitch trace. **Course reading:** [Guide Ultime Chapitre 07](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) · [Guide Ultime Chapitre 30](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md).
-
-- [x] **9.1.1** Run unit, integration and mobile/desktop browser checks. Exercise uncertain profile, infeasible goal, missing private files, stale feeds and the full confirmed journey. Store commands, outcomes and known limitations.
-  - **Procedure.** Create end-to-end fixtures linking participant events, mandate, as-of market snapshot, order and dashboard. Run pytest plus mobile/desktop browser smoke tests with a documented seed.
-  - **Verification and failure handling.** Save expected/actual amounts and screenshots of uncertain, infeasible and stale states. A skipped integration test stays explicitly unverified.
-  - **Bias and control.** Happy-path testing. Include failed imports, timeouts and incomplete profiles in test denominators. Allocate independent fixtures to developer tests and acceptance tests.
-  - **Counterfactual acceptance.** Replay one confirmed mandate twice: change only tolerance, then only withdrawal date. Fail release if tolerance moves reserves or a due-date change skips liquidity review. Also simulate a failed signal, a stale valuation and near-tied options; verify the fallback, suspension and unresolved-choice displays respectively.
-- [ ] **9.1.2** Reproduce public examples in a fresh clone. Review source/display rights, consent, sensitive profile storage, deletion and secrets. Verify only intended demo inputs are distributed.
-  - **Procedure.** Create a redistributable input manifest, environment lock, run command and permissions table covering data, course texts and participant records. Test synthetic route in a network-free checkout.
-  - **Verification and failure handling.** Compare expected hashes/metrics. Check exports for private fields and verify deletion on a synthetic participant.
-  - **Bias and control.** Irreproducible provenance. Compare a fresh-clone input/version manifest to the approved one. Record private components the public reviewer cannot reproduce.
-  - [x] The synthetic-only package was reproduced from a fresh remote checkout. Distribution rights for archives already tracked in the public research repository remain open.
-- [ ] **9.1.3** Prepare the 15-minute client pitch around one mandate, two feasible alternatives or a documented shortfall, and a dated review. Cross-check figures against the notebook, course requirements against 1.1.1 and release decisions against the journal.
-  - **Procedure.** Trace each reported number to study ID, sample dates, fee convention and notebook output. Use a client scenario to demonstrate uncertainty and a dated review decision.
-  - **Verification and failure handling.** Rehearse to the course time limit. Have a second reader reproduce one slide number and identify where the scenario could fail.
-  - **Bias and control.** Presentation cherry-picking. Choose the demo scenario before inspecting its performance and show a failure or infeasible case alongside it. Trace every headline result to its full denominator.
-
-  - [x] The seven-slide pitch, timed script and independent numerical checks are complete. A second human reader and live questions remain unverified.
-
-## Quantitative tool selection before the course presentation
-
-| Decision | First comparison | Conditional extension and evidence needed |
-|---|---|---|
-| Elicit a preference · 2.2–2.3 | Common anchors, threshold intervals, hypothetical responses and simulated routes | Describe competing explanations and check the permitted change to the profile. |
-| Estimate a risk budget · H01/H02 | Historical covariance, shrinkage, EWMA and common-weight realized variance | GARCH-t/GJR and DCC need calibrated forecasts and an improvement after costs. [Guide 04, §4.4.7](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_04.md) |
-| Explain and forecast macro effects · H03/H04 | Dated stress, historical mean, lagged regression and training-only PCA | VAR/VECM, local projections and ridge require suitable time-series properties and independent forecast origins. Compare paired losses under the appropriate hypothesis. [Guide 01, V4](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) |
-| Estimate investable signals · H05/H06 | Dated sorts and factor controls; market-model event study and no-view BL | Elastic net, boosting or a BL view must improve an investable sleeve after costs and survive timing, coverage and multiplicity checks. |
-| Protect a dated withdrawal · 4.1/6.2 | Historical drawdowns, ES, joint stress and dated cash shortfalls | VaR coverage tests, EVT and copulas need enough independent observations and calibrated dependence. [Guide 05, §§5.5.12 and 5.5.15](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_05.md) |
-| Choose and review an allocation · 6–8 | Constrained net frontier, simple benchmarks, risk contributions, funded ledger and hold comparison | Evaluate spanning, stability and execution shortfall only under matched constraints, costs and observed liquidity. |
-
-Record each method as planned, run, infeasible or deferred with reason, input vintage, comparator and effect on the client decision. The course demonstration prioritizes an interactive constrained frontier and sensitivity to a client constraint. Additional methods depend on the registered question and evidence.
-
-## Reading index for the local theory corpus
-
-The 104 Markdown sources below are indexed by decision. The two QARM sets are retained under their supplied paths. Research extensions need a registered decision, suitable dated data and a simple comparator before adoption.
-
-| Source | Relevant use in this project |
-|---|---|
-| [Portfolio-Management-explications copie.md](Theory/CFA/Portfolio-Management-explications%20copie.md) | Investor mandate and behavioral interpretation · 2 |
-| [Advanced_Data_Analytics_Cours_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Cours_Explique.md) | Research design and course synthesis · 1.2 |
-| [Advanced_Data_Analytics_Lecture10_GPR_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture10_GPR_Explique.md) | Conditional nonlinear forecast benchmark · 5.2 |
-| [Advanced_Data_Analytics_Lecture11_DimReduction_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture11_DimReduction_Explique.md) | Train-only PCA · H03 |
-| [Advanced_Data_Analytics_Lecture12_Clustering_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture12_Clustering_Explique.md) | Exploratory regimes fitted on training data · 4.2 |
-| [Advanced_Data_Analytics_Lecture13_RL_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture13_RL_Explique.md) | Deferred sequential policy extension requiring credible execution simulator · H07 |
-| [Advanced_Data_Analytics_Lecture14_WrapUp_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture14_WrapUp_Explique.md) | Research design and course synthesis · 1.2 |
-| [Advanced_Data_Analytics_Lecture3_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture3_Explique.md) | Git and reproducible Python · 1.1 |
-| [Advanced_Data_Analytics_Lecture4_Regression_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture4_Regression_Explique.md) | Train-only model fitting and tuning · H04/H05 |
-| [Advanced_Data_Analytics_Lecture6_Classification_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture6_Classification_Explique.md) | Train-only model fitting and tuning · H04/H05 |
-| [Advanced_Data_Analytics_Lecture7_DeepLearning_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture7_DeepLearning_Explique.md) | Conditional challenger requiring enough independent dates · 5.2 |
-| [Advanced_Data_Analytics_Lecture8_Sequences_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture8_Sequences_Explique.md) | Conditional challenger requiring enough independent dates · 5.2 |
-| [Advanced_Data_Analytics_Lecture9_PINNs_Explique.md](Theory/Course_Notes/Advanced_Data_Analytics_Lecture9_PINNs_Explique.md) | Conditional PDE pricing extension only with a derivative valuation target |
-| [EMIF_Class4_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMIF_Class4_Version_Ultra_Pedagogique_fixed.md) | Stationarity, lags and systems · 5.2 |
-| [EMIF_Class5-6_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMIF_Class5-6_Version_Ultra_Pedagogique_fixed.md) | Stationarity, lags and systems · 5.2 |
-| [EMiF_Class11_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Class11_Version_Ultra_Pedagogique_fixed.md) | Conditional variance and dependence · H01/H02 |
-| [EMiF_Class1_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Class1_Version_Ultra_Pedagogique_fixed.md) | Return units and empirical dependence · 4.1 |
-| [EMiF_Class2_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Class2_Version_Ultra_Pedagogique_fixed.md) | Return units and empirical dependence · 4.1 |
-| [EMiF_Class3_Notes_fixed.md](Theory/Course_Notes/EMiF_Class3_Notes_fixed.md) | Cross-sectional and factor inference · H05 |
-| [EMiF_Classe10_GARCH_fixed.md](Theory/Course_Notes/EMiF_Classe10_GARCH_fixed.md) | Conditional variance and dependence · H01/H02 |
-| [EMiF_Classe12_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Classe12_Version_Ultra_Pedagogique_fixed.md) | Conditional breaks and nonlinear regimes · 4.2/5.2 |
-| [EMiF_Classe13_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Classe13_Version_Ultra_Pedagogique_fixed.md) | Conditional breaks and nonlinear regimes · 4.2/5.2 |
-| [EMiF_Classe7_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Classe7_Version_Ultra_Pedagogique_fixed.md) | Stationarity, lags and systems · 5.2 |
-| [EMiF_Classe9_ARCH_GARCH_fixed.md](Theory/Course_Notes/EMiF_Classe9_ARCH_GARCH_fixed.md) | Conditional variance and dependence · H01/H02 |
-| [EMiF_Cours8_Version_Ultra_Pedagogique_fixed.md](Theory/Course_Notes/EMiF_Cours8_Version_Ultra_Pedagogique_fixed.md) | Valuation and return forecasting · H04 |
-| [QARM2_LN1_Cours_Explique.md](Theory/Course_Notes/QARM2_LN1_Cours_Explique.md) | Frontier · 6.1 |
-| [QARM2_LN2_Cours_Explique.md](Theory/Course_Notes/QARM2_LN2_Cours_Explique.md) | Market beta and relative risk · 6.1 |
-| [QARM2_LN3_Cours_Explique.md](Theory/Course_Notes/QARM2_LN3_Cours_Explique.md) | Estimation instability · H01 |
-| [QARM2_LN4_Cours_Explique.md](Theory/Course_Notes/QARM2_LN4_Cours_Explique.md) | Prior and subjective views · H06 |
-| [QARM2_LN5_Cours_Explique.md](Theory/Course_Notes/QARM2_LN5_Cours_Explique.md) | Risk contributions · 6.1 |
-| [QARM2_LN6_Cours_Explique.md](Theory/Course_Notes/QARM2_LN6_Cours_Explique.md) | Diversification measures · 6.1 |
-| [QARM2_LN7_Cours_Explique.md](Theory/Course_Notes/QARM2_LN7_Cours_Explique.md) | Event studies and text signals · H06 |
-| [SAAM_W11_Guide_Pedagogique.md](Theory/Course_Notes/SAAM_W11_Guide_Pedagogique.md) | Eligibility and ESG coverage · 6.1 |
-| [W10_Banking_ExternalFactors_Guide.md](Theory/Course_Notes/W10_Banking_ExternalFactors_Guide.md) | Conditional bank-sector transmission in rate shocks · 4.2/H03 |
-| [W10_Banks_Guide_Pedagogique.md](Theory/Course_Notes/W10_Banks_Guide_Pedagogique.md) | Conditional bank-sector transmission in rate shocks · 4.2/H03 |
-| [W13_Behavioral_Finance_Guide_FR.md](Theory/Course_Notes/W13_Behavioral_Finance_Guide_FR.md) | Investor mandate and behavioral interpretation · 2 |
-| [W13_Course_Conclusions_Guide.md](Theory/Course_Notes/W13_Course_Conclusions_Guide.md) | Research design and course synthesis · 1.2 |
-| [W1_Regulation_Guide_Pedagogique.md](Theory/Course_Notes/W1_Regulation_Guide_Pedagogique.md) | Rights, eligibility and regulatory scope · 1.1/9.1 |
-| [W1_Regulatory_Analysis_Guide.md](Theory/Course_Notes/W1_Regulatory_Analysis_Guide.md) | Source/display restrictions and regulatory assumptions · 3.1/9.1 |
-| [W2_Industry_Analysis_Guide.md](Theory/Course_Notes/W2_Industry_Analysis_Guide.md) | Industry, financial inputs or institutional eligibility · 3.1/H05 |
-| [W2_Industry_Analysis_Guide_FR.md](Theory/Course_Notes/W2_Industry_Analysis_Guide_FR.md) | Industry, financial inputs or institutional eligibility · 3.1/H05 |
-| [W3_Economic_Analysis_Guide_FR.md](Theory/Course_Notes/W3_Economic_Analysis_Guide_FR.md) | Macro drivers and scenario interpretation · H03 |
-| [W3_FED_Cours_Complet.md](Theory/Course_Notes/W3_FED_Cours_Complet.md) | Macro drivers and scenario interpretation · H03 |
-| [W3_geopolitique_cours_complet.md](Theory/Course_Notes/W3_geopolitique_cours_complet.md) | Macro drivers and scenario interpretation · H03 |
-| [W4_MarketAnalysis_Guide.md](Theory/Course_Notes/W4_MarketAnalysis_Guide.md) | Macro drivers and scenario interpretation · H03 |
-| [W4_Market_Analysis_Guide.md](Theory/Course_Notes/W4_Market_Analysis_Guide.md) | Macro drivers and scenario interpretation · H03 |
-| [W4_Market_Analysis_Guide_Complet.md](Theory/Course_Notes/W4_Market_Analysis_Guide_Complet.md) | Macro drivers and scenario interpretation · H03 |
-| [W5_ESG_Guide_Pedagogique.md](Theory/Course_Notes/W5_ESG_Guide_Pedagogique.md) | Eligibility and ESG coverage · 6.1 |
-| [W5_SAAM_Governance_ESG_Regulation.md](Theory/Course_Notes/W5_SAAM_Governance_ESG_Regulation.md) | Eligibility and ESG coverage · 6.1 |
-| [W5_SAAM_Sustainable_Analysis_Guide.md](Theory/Course_Notes/W5_SAAM_Sustainable_Analysis_Guide.md) | Eligibility and ESG coverage · 6.1 |
-| [W6_Financial_Statements_Analysis.md](Theory/Course_Notes/W6_Financial_Statements_Analysis.md) | Industry, financial inputs or institutional eligibility · 3.1/H05 |
-| [W6_Quality_of_Earnings_Guide.md](Theory/Course_Notes/W6_Quality_of_Earnings_Guide.md) | Industry, financial inputs or institutional eligibility · 3.1/H05 |
-| [W7_Guide_Pedagogique.md](Theory/Course_Notes/W7_Guide_Pedagogique.md) | Industry, financial inputs or institutional eligibility · 3.1/H05 |
-| [W8_Investment_Approaches_Guide.md](Theory/Course_Notes/W8_Investment_Approaches_Guide.md) | Conditional comparison of investment signals · 5.2 |
-| [W8_Technical_Analysis_Guide.md](Theory/Course_Notes/W8_Technical_Analysis_Guide.md) | Conditional comparison of investment signals · 5.2 |
-| [W9_Assurances_Guide_Pedagogique.md](Theory/Course_Notes/W9_Assurances_Guide_Pedagogique.md) | Conditional liability scenarios and cash timing · 2.1/4.2 |
-| [W9_Pension_Funds_Guide_Pedagogique.md](Theory/Course_Notes/W9_Pension_Funds_Guide_Pedagogique.md) | Asset–liability mismatch and withdrawal horizon · 2.1/6.2 |
-| [guide_couts_transaction_trading.md](Theory/Course_Notes/guide_couts_transaction_trading.md) | Implementation shortfall · H07 |
-| [guide_modeles_factoriels_capm_fama_french.md](Theory/Course_Notes/guide_modeles_factoriels_capm_fama_french.md) | Cross-sectional and factor inference · H05 |
-| [guide_predictibilite_agregee_marche.md](Theory/Course_Notes/guide_predictibilite_agregee_marche.md) | Valuation and return forecasting · H04 |
-| [guide_tris_portefeuille_asset_growth.md](Theory/Course_Notes/guide_tris_portefeuille_asset_growth.md) | Cross-sectional and factor inference · H05 |
-| [literature.md](Theory/Course_Notes/literature.md) | Research design and course synthesis · 1.2 |
-| [Guide_Ultime_Chapitre_00.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_00.md) | Numerical tolerances and dimensions · 1.2.3 |
-| [Guide_Ultime_Chapitre_01.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_01.md) | Identification, inference and out-of-sample checks · 5.2 |
-| [Guide_Ultime_Chapitre_02.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_02.md) | Risk premia and factor attribution · H05 |
-| [Guide_Ultime_Chapitre_03.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_03.md) | Discounting and rate sensitivity · 4.2 |
-| [Guide_Ultime_Chapitre_04.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_04.md) | Constrained frontier · 6.1 |
-| [Guide_Ultime_Chapitre_05.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_05.md) | Tail loss and stress · 4.1 |
-| [Guide_Ultime_Chapitre_06.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_06.md) | Costs and execution · 7.1 |
-| [Guide_Ultime_Chapitre_07.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_07.md) | Versioning and stale feeds · 8.1 |
-| [Guide_Ultime_Chapitre_08.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_08.md) | Source reliability · 3.1 |
-| [Guide_Ultime_Chapitre_09.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_09.md) | Sector comparability · H05 |
-| [Guide_Ultime_Chapitre_10.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_10.md) | Accounting timing and definitions · H05 |
-| [Guide_Ultime_Chapitre_11.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_11.md) | Asset-specific exposures · 4.2 |
-| [Guide_Ultime_Chapitre_12.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_12.md) | Macro transmission · H03 |
-| [Guide_Ultime_Chapitre_13.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_13.md) | Investability and index selection · 3.1 |
-| [Guide_Ultime_Chapitre_14.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_14.md) | Framing and reference points · 2.2 |
-| [Guide_Ultime_Chapitre_15.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_15.md) | Sustainability constraints · 6.1 |
-| [Guide_Ultime_Chapitre_16.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_16.md) | Utility under uncertainty · 6.2 |
-| [Guide_Ultime_Chapitre_17.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_17.md) | Forecast scoring and calibration · 5.2 |
-| [Guide_Ultime_Chapitre_18.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_18.md) | Noise and classification sensitivity · 2.2 |
-| [Guide_Ultime_Chapitre_19.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_19.md) | Conditional combination of views · H06 |
-| [Guide_Ultime_Chapitre_20.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_20.md) | Position sizing and constraints · 6.1 |
-| [Guide_Ultime_Chapitre_21.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_21.md) | Mandate review and consent · 8.2 |
-| [Guide_Ultime_Chapitre_22.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_22.md) | Decision audit · 7.2 |
-| [Guide_Ultime_Chapitre_24.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_24.md) | Optional strategy attribution · 4.2 |
-| [Guide_Ultime_Chapitre_25.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_25.md) | Conditional leverage/short feasibility · 6.1 |
-| [Guide_Ultime_Chapitre_26.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_26.md) | Valuation and cash reconciliation · 8.1 |
-| [Guide_Ultime_Chapitre_27.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_27.md) | Rights and disclosure review · 9.1 |
-| [Guide_Ultime_Chapitre_28.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_28.md) | Client explanation · 6.2 |
-| [Guide_Ultime_Chapitre_29.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_29.md) | Independent review and ownership · 1.1 |
-| [Guide_Ultime_Chapitre_30.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_30.md) | End-to-end reproduction · 9.1 |
-| [Guide_Ultime_Chapitre_31.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_31.md) | Industry mechanisms · H05 |
-| [Guide_Ultime_Chapitre_32.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_32.md) | Conditional geography or mandate restrictions · 6.1 |
-| [Guide_Ultime_Chapitre_33.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_33.md) | Conditional liability stress · 4.2 |
-| [Guide_Ultime_Chapitre_34.md](Theory/Methodology/Chapter_Guides_00-34/Guide_Ultime_Chapitre_34.md) | Household cash reserve and horizon · 2.1 |
-| [Sommaire.md](Theory/Methodology/Chapter_Guides_00-34/Sommaire.md) | Chapter navigation and decision map · 1.2 |
-| [QARM2_LN1_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN1_Cours_Explique%20copie%202.md) | Frontier · 6.1 |
-| [QARM2_LN2_Cours_Explique2 copie.md](Theory/Quant_Project/QARM2_LN2_Cours_Explique2%20copie.md) | Market beta and relative risk · 6.1 |
-| [QARM2_LN3_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN3_Cours_Explique%20copie%202.md) | Estimation instability · H01 |
-| [QARM2_LN4_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN4_Cours_Explique%20copie%202.md) | Prior and subjective views · H06 |
-| [QARM2_LN5_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN5_Cours_Explique%20copie%202.md) | Risk contributions · 6.1 |
-| [QARM2_LN6_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN6_Cours_Explique%20copie%202.md) | Diversification measures · 6.1 |
-| [QARM2_LN7_Cours_Explique copie 2.md](Theory/Quant_Project/QARM2_LN7_Cours_Explique%20copie%202.md) | Event studies and text signals · H06 |
+# RiskMatch V2 implementation checklist
+
+- [x] **0. Define the project scope.** Perimeter V2 and execution plan defined.
+  - **Procedure and tools.** List the perimeter decisions leading the project and link each requirement to a part of the checklist. Maintain the separation between the fictitious base and market studies.
+  - **Evidence to retain.** README, checklist and directory of concordant methods on autonomy, American perimeter and CHF.
+  - **Checks and fallback.** The design agreement does not validate any actual data or customer calculations.
+
+**Reading the checklist.** A checked item has the evidence specified for that item. An open item may already have a working prototype or a published intermediate result. The notebook derives its progress table from the boxes below. Every numbered item has a dedicated heading in the [research notebook](RiskMatch_V2.ipynb), with its checkbox, method, tools, results or outstanding evidence. The coverage test in 1.5 checks their order and status. Sections 8–10, 12 and 13 already contain partial work.
+
+**Work order.** Check the stand-alone base and V2 sources (1). Develop the mandate (2–3) and, in parallel, inventory all sources and build the catalogue (4, 9–10). Enter each eligible instrument in the first calculation per client (5–7). Measure exposures and shocks (8), apply environmental preferences (11), and then test forecasts (12). Provide follow-up and revision (13–14). Compare the multi-asset library to a fixed allocation defined in V2, with comparable dates, mandate and costs. Local sources go first in the calendar. The identified deficiencies trigger a search for targeted public sources or review of the local files already provided. The V2 workflow works without a WRDS subscription.
+
+**Planned organization.** Python 3.12, locked environment, Parquet for series, JSON or YAML for parameters, local web prototype to validate the visual path, Streamlit for integrated demo, Git for decisions. Planned `src/riskmatch_v2/` for reusable code, `tests/` for testing, `config/` for assumptions and `reports/<étape>/` for the results. The notebook calls the same functions as the site. The base uses an embedded demo catalogue and accepts an explicit local file. The first market import and historical references in CHF are validated in 1.3–1.4. For each step, keep the command, dated parameters, input versions and checksums, results report and past controls. After each step checked, check the sub-step, complete the notebook with reproducible results and record in the [V2 journal](JOURNAL.md) the decision, rationale, data used and limitations. For each step that produces visual results, save the figures and a short comment in `reports/<étape>/`, and then connect them from the [directory of results](reports/README.md), the notebook and the journal. After validation, create the commit and push shareable changes to the V2-specific GitHub repository. Keep private or licensed entries in `data/local/` and exclude results for which dissemination is not permitted. If data is missing, record the absence, test the withdrawal and keep visible what remains to be done. The following thresholds are an initial project protocol. Action, stimulus, risk measures and data controls remain verifiable on fictitious cases before the market replay. To find the dependencies, follow the order of work. The numbering identifies the workstreams and their evidence.
+
+**Reading the checklist items.** The design, calculation, control and delivery tasks each have their own proof. Some can move in parallel. The final validation checklist items are based on the outputs of previous tasks.
+
+**Transversal control of 23 November 2026.** As of October 30, 2026, the multi-asset study submitted 3,322 securities, including 3,255 individual stocks, 54 direct Treasuries and 13 ETFs. Previous comparisons of 13 ETFs are used as a control. The evidence by sub-step is in the [review of the 43 checklist items](reports/univers-complet/AUDIT.md). checklist items 6.3 to 6.5 remain open for full certification of extended trajectories. The previous ETF comparison remains searchable. [Audit of assets, results and graphs](reports/univers-complet/README.md)
+
+## 1. Project foundation and historical benchmarks
+
+- [x] **1.1 Create a standalone project.** Installing from `pyproject.toml`. Check the command `riskmatch-v2` and tests of the catalog on isolated copy.
+  - **Procedure and tools.** In an isolated copy, create a Python 3.12 environment, install the package with `python -m pip install .`, then run `riskmatch-v2` and `python -m unittest discover -s tests`.
+  - **Evidence to retain.** The command uses embedded data and tests pass from the copy alone.
+  - **Checks and fallback.** A reading in the parent repository or an import dependent on the current directory blocks standalone delivery.
+- [x] **1.2 Prepare the V2 research notebook.** Load on-board demonstration data, trace sources and compare instrument returns on a common basis. Check cells from the stand-alone project.
+  - **Procedure and tools.** Install Notebook option and run `jupyter execute RiskMatch_V2.ipynb` with the core of the environment. Compare the result to the CLI diagnosis on an equal date.
+  - **Evidence to retain.** Run in an isolated copy, displayed fictitious sources and common results between entries.
+  - **Checks and fallback.** Any state hidden between cells or external file required must be eliminated before the next validation.
+- [x] **1.3 Import market data for the first mandates.** Record the source, licence, date of observation and availability, unit, cover and checksum of each import. An import of existing data is possible if its use is allowed. The V2 catalogue remains responsible for its validation.
+  - **Procedure and tools.** Inventory files and endpoints by provider. Keep the brutes intact. Write a manifest with query parameters, version, time stamping, SHA-256, lines, cover, currency and private/public rights. Record secrets outside the repository.
+  - **Evidence to retain.** A reproducible import from an authorized file, accompanied by an array of missing sources, with a public source to be checked, a local file to be qualified or an explicitly blocked state.
+  - **Checks and fallback.** Isolate a file whose fingerprint or schema changes. Document a review and recheck before using its new vintage.
+  - **Audited result on November 23, 2026.** 13 ETF, 257 months available in CHF and 4 months excluded. [Report, graph, manifest and sources to be qualified](reports/01-3-import-marche/README.md)
+- [x] **1.4 Define the V2 benchmarks.** Define one or more internal strategies with fixed weights, with schedule, rebalancing and explicit fees. Check and display their compatibility with each mandate. Publish results by period and distinguish arithmetic mean and compound return.
+  - **Procedure and tools.** Version weights, actives, calendar, weight gain and scale. Replay buy and hold and simple rebalancing on the same dates as custom options.
+  - **Evidence to retain.** Series of returns and costs reconciled, status of compatibility with the mandate and reference available even on simple cases.
+  - **Checks and fallback.** A non-mandate reference remains as a comparison. An incomplete history leads to an explicit reduction of the common period.
+  - **Audited result on November 23, 2026.** 257 three independent periods, two variants of 60/40 and CHF cash, fee register and four illustrative mandates. [Graph, results and controls](reports/01-4-references/README.md)
+
+- [x] **1.5 Map requirements to deliverables.**
+  - **Procedure and tools.** Create a column or table of correspondence between client request, section, dependencies, proof and file. Distinguish delivery obligations, studies to be tested and conditional extensions to data.
+  - **Evidence to retain.** Delivery covers incomplete questionnaire cases, out-of-scope target, non-negotiable assets and post-selection review. The known dependencies are visible before starting the work.
+  - **Checks and fallback.** An experimental result can remain open with a pattern. An essential criterion without evidence prevents the full V2 from being declared.
+
+  - **Audited result on November 23, 2026.** [Matrix of requests, dependencies, evidence and four paths to verify](reports/01-5-exigences/README.md). The notebook checks the correspondence with all the checklist items.
+
+**Deliverable and evidence.** Installable base, demonstration set, local import test and market inventory verified at the time of integration. [Notebook](RiskMatch_V2.ipynb)
+
+## 2. Questionnaire and client mandate
+
+- [x] **2.1 Build the complete V2 questionnaire specification.** For each project question, provide ID, exact text, category, answers, scale or rule, possible deduction, clarification and consequence. Create a versioned local bank and create independent theoretical cases. Historical cards are available for their examples. Keep the correspondence between ID and version.
+  - **Procedure and tools.** Build a JSON bank with stable identifier, version, text, situation, measured built, answers, scale, relaunch and effect on the mandate. Make each choice read economically and establish the road graph.
+  - **Evidence to retain.** One line per card with theoretical justification. Check valid identifiers, branch destinations and responses by data testing.
+  - **Checks and fallback.** An ambiguous interpretation has a neutral revival and an unknown state. The fictitious scenarios test the declared logic.
+  - **Evidence of November 23, 2026.** [guide to 41 cards and branches](reports/02-questionnaire/CARDS.md).
+- [x] **2.2 Write the questions about financial circumstances.** "How much can you mobilize today?", "When and in what currency will you have to withdraw money?", "What contributions are certain enough to count?", "What loss would put your project in trouble?", "What amount do you want to achieve and when?" Enter amounts, dates, intervals and unknowns. The schedule calculates the amount to be protected and the investable balance. Separate the financially absorbable loss from the feeling in the face of a decline.
+  - **Procedure and tools.** Create fields for amounts, currencies, dates and ranges. Horodater contributions and expenses, specify their certainty and calculate the reserve based on confirmed flows.
+  - **Evidence to retain.** Manual case CHF 50,000 with CHF 15,000 to protect. Verify uncertain inputs, withdrawal before/after the horizon and missing date.
+  - **Checks and fallback.** An unknown amount remains unknown. If several sizes are plausible, test the feasibility on the bounds before confirming the investment sleeve.
+  - **Evidence of November 23, 2026.** [proof of reserve calculation and flows](reports/02-questionnaire/README.md).
+- [x] **2.3 Write the preference questions.** "What return would you like?", "Do you want a ceiling, a target band or the lowest risk?", "What exposures do you already have, for example via your employer?", "Do you want to limit a sector, country, currency or issuer?", "What environmental exclusions or preferences do you intend to apply?". For each preference, record the perimeter, priority, imperative character and desired response if data is missing.
+  - **Procedure and tools.** Write the desired target cards, type of risk, diversification, exclusions and sustainability. For each preference, collect perimeter, intensity and imperative character.
+  - **Evidence to retain.** Two mandates with the same tolerance and distinct preferences trigger the expected differences. Test a mandatory exclusion and a flexible preference.
+  - **Checks and fallback.** Indecision leaves the preference open. A firm exclusion cannot become a flexible penalty at the time of calculation.
+  - **Evidence of November 23, 2026.** [Mandates with imperative and flexible preferences](reports/02-questionnaire/cas.json).
+- [x] **2.4 Implement the interpretation rules for each card.** For a bet included and comparable to the certain placement, calculate the bound on φ via the average difference and the variance of the bet. In the reference bet card, a certain choice of CHF 1,020 against the gamble paying CHF 900/1,200 equal chances gives a low bound of around 2.67 and the choice of bet a high bound. Intersect compatible bounds. A passage, incomprehension and an answer on the emotional reaction do not add any numerical bounds. Replay the calculation by removing each decisive card. In case of conflict, ask for clarification and then keep uncertainty if it persists.
+  - **Procedure and tools.** Use decimal returns on the bet displayed. For a strictly positive variance, calculate the threshold by twice the mean return difference on the variance. Add only the bound due to an included choice and re-enact the intersection by removing each key card.
+  - **Evidence to retain.** Recalculate the example CHF 1,020 by hand. Test agreement, refusal, passage, incomprehension, contradiction and sensitivity to the deletion of a response.
+  - **Checks and fallback.** An empty interval triggers clarification. Maintain open boundaries, contradiction or insufficient evidence as separate states.
+  - **Evidence of November 23, 2026.** [limits, contradictions and card removal](reports/02-questionnaire/README.md).
+- [x] **2.5 Save a versioned client mandate.** In typical Python structures, keep answers, corrections, facts, assumptions, objectives, flows, exclusions, confirmed choices and outstanding questions. Allow correction in Streamlit. Scenarios remain theoretical. Test their consistency on fictitious cases, without presenting them as validation with participants.
+  - **Procedure and tools.** Define Python structures typed for facts, answers, objectives, constraints and preferences. Version the mandate to confirm and trace the link between each derived field and its entries.
+  - **Evidence to retain.** A change in expenditure recalculates the reserve. A change in risk choice recalculates its own fields. Each export indicates the version and unknowns.
+  - **Checks and fallback.** A correction invalidates the previous proposal. An older version must remain legible in the follow-up with the appropriate schema.
+  - **Evidence of November 23, 2026.** [export versioned, corrected and rereaded](reports/02-questionnaire/README.md).
+
+- [x] **2.6 Specify the cards and supported gestures.** Show one statement or preference at a time. Right and button "Yes / I accept" give the same answer. Left and "No / I refuse" button give the same answer. "I don't know / pass" is recorded separately and doesn't give any risk aversion points. Provide arrows on the keyboard and a correction history. For an A/B choice, specify on the card what each gesture selects. Enter amounts and dates in dedicated fields.
+  - **Procedure and tools.** Implement an active card. Mapper swipe, button and keyboard to the same answer. Define a threshold of gesture, a state of cancellation and a return to the previous answer.
+  - **Evidence to retain.** Test on mobile and computer right, left, pass, incomplete gesture, keyboard and correction. Each response produces the same branch regardless of the input mode.
+  - **Checks and fallback.** An incomplete gesture or double interaction does not validate any additional response. A passage retains a separate condition.
+  - **Evidence of November 23, 2026.** [buttons, keyboards, touch gestures and cancellation](reports/02-questionnaire/README.md).
+
+- [x] **2.7 Test the adaptive route independently of the interface.**
+  - **Procedure and tools.** Build predefined fictitious paths for agreement, refusal, passage, adversarial response and correction. List branches' destinations, test inaccessible cards and recalculate from the answers retained after correction.
+  - **Evidence to retain.** Each prices produces the expected state of the grid, score and mandate. A recovery card for incomprehension does not count as a new preference.
+  - **Checks and fallback.** A missing branch can be used to repeat or clarify. Correcting a response removes its consequences that have become invalid.
+  - **Evidence of November 23, 2026.** [seven routes and control of all cards](reports/02-questionnaire/cas.json).
+
+- [x] **2.8 Adapt the behavioural and cognitive questions to V2.**
+  - **Procedure and tools.** Build a common core covering seven families documented in V1. Understanding of probabilities, declared tolerance, arbitrations certain/uncertain, sensitivity to the passage under the start, reaction to a decline, flexibility of the objective and preference for follow-up. For each family, specify the number of cards of the kernel, the re-launches, the bias or behaviour studied, the other possible explanations and the permitted consequence. Adapt the stimulus to V2 choices, including diversification, coverage and combination. Use coverage or tracking responses as preferences, with score criteria distinct from numerical arbitrations.
+  - **Evidence to retain.** Bank V2 and matrix « family → card → answer → other explanation → restart → decision ». Compare a route with declared and contradictory bets, a repeated reversal around the initial bet and three distinct sales patterns after decline. Verify that only a confirmed change in expenditures changes the reserve.
+  - **Checks and fallback.** After persistent incomprehension, keep the aversion undetermined. A response to scoping or emotional reaction produces an observation to discuss. Hypothetical choices and hypothetical cases do not allow an individual psychological diagnosis to be attributed.
+  - **Evidence of November 23, 2026.** [matrix of the seven families and three sales reasons](reports/02-questionnaire/CARDS.md).
+
+**Deliverable and evidence.** Mandate grid and diagram, with case "decline by 15% → need for money", "decline by 15% → preference for stability" and "decline by 15% → anticipation of a further decline". These three responses produce three different suites. [Design V1](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/questions/QUESTIONNAIRE_DESIGN.md) · [card Guide](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/questions/GUIDE_DES_CARDS.md) · Local theory, guides 14, 16, 21 and 34.
+
+## 3. Risk confirmation and loss capacity
+
+- [x] **3.1 Define risk measurement conventions.** Use annual initial slices on the investment sleeve, in CHF. Proposal to be tested and documented before use: very conservative [0, 4[%, prudent [4, 8[%, moderate [8, 12[%, dynamic [12, 20[%, very dynamic [20, ∞[%. These are benchmarks for dialogue. Allow a custom volatility band and a free percentage. Make 4%, 8%, 12% and 20% unambiguous in the tests.
+  - **Procedure and tools.** Put the steps in a dated configuration in annual CHF volatility of the investment sleeve. Describe their bounds and store the custom slice in decimal units.
+  - **Evidence to retain.** Tests at 4%, 8%, 12% and 20%, just below and above. Check for 35%, 40% and 100% conversions.
+  - **Checks and fallback.** Refuse reverse bounds, negative values and ambiguous units. Keep the free demand for the feasibility test.
+  - **Evidence of November 23, 2026.** Dated conventions, controlled thresholds on both sides and tested units. [Section 3 Report](reports/03-portrait/README.md)
+- [x] **3.2 Present the risk decision to the client.** Link responses to examples of losses in frances across multiple horizons. Present the proposed band with reasons, scenario losses and household effect. Request to confirm, modify or remain undecided. Keep separate `minimum`, `plafond`, `cible_tranche` and `inconnu`. A target of 40% with a tolerance of 2 points gives [38%, 42%].
+  - **Procedure and tools.** Show the instalment recommendation, its reasons, loss of scenario in CHF and the two relevant denominators. Record the decision and type of mandate.
+  - **Evidence to retain.** Four cases of seizure give the four expected statements. A 40% ±2 point target becomes 38-42%.
+  - **Checks and fallback.** If the customer does not confirm its slice, keep the uncertainty and suspend its custom ranking.
+  - **Evidence of November 23, 2026.** Four modes, target 40 ± 2 and export versioned after rereading. [Section 3 Report](reports/03-portrait/README.md)
+- [x] **3.3 Resolve conflicting answers.** A high risk preference and a need to protect close spending trigger clarification and flow protection. A slice that has become impossible triggers a feasibility result. An uncertain preference leaves the custom ranking waiting.
+  - **Procedure and tools.** Code rules for clarification between horizon, financial capacity and declared preference. For each conflict, display the flow or response involved.
+  - **Evidence to retain.** Test a near expense, an uncertain need and a drop deemed intolerable despite a high target. Show the reasons for the final mandate.
+  - **Checks and fallback.** Preserving the reserve. If conflict persists, maintain confirmed limits and present uncertainty.
+  - **Evidence of November 23, 2026.** Reasons for clarification and target/ceiling comparison against a fictitious 18% mark. [Section 3 Report](reports/03-portrait/README.md)
+
+- [x] **3.4 Test the effects of the reserve and the risk measurement basis.**
+  - **Procedure and tools.** Apply the same scenarios to the investment sleeve and then to the assets covered by the mandate. Replay a certain nominal expense and an estimated expenditure only. Report available amounts on each date.
+  - **Evidence to retain.** Of CHF 50,000 of which CHF 15,000 is protected, a 10% decrease in the investment sleeve alone represents CHF 3,500, before another scenario effect. Also check the case without investment capital.
+  - **Checks and fallback.** Show denominator next to each measurement. An unconfirmed reserve triggers clarification before committing the amount concerned.
+  - **Evidence of November 23, 2026.** Two denominators, dated cash and uncertain or full reserve cases. [Section 3 Report](reports/03-portrait/README.md)
+
+**Deliverable and evidence.** Validation view with examples 6–10%, 35%, 40%, 100% and minimal risk. The same tolerance responses with different liquidity needs give different mandates. [ESMA, suitability elements](https://www.esma.europa.eu/sites/default/files/2023-04/ESMA35-43-3172_Guidelines_on_certain_aspects_of_the_MiFID_II_suitability_requirements.pdf) · Local theory, guides 16, 21 and 34.
+
+## 4. Asset catalogue and dated eligibility
+
+**Perimeter.** US market for shares, bonds and equity/bond funds. Raw materials vehicles listed in the United States. Cash and targets in CHF. Record the rating space and exposure area, then test eligibility on both fields for funds.
+
+- [x] **4.1 Define the instrument-level data schema.** Stable identifier, type of asset, issuer, place, currency, calendar, date of entry and exit, source, right of use, date of observation and date of availability. Add price, total return, foreign exchange value, fees, liquidity and missing data per series. Inventory of available ETFs and CRSP securities, bond series, commodity instruments, foreign exchange and CHF cash. Record separately the role of each series in the catalogue, negotiable instrument, factor, benchmark or source to be completed. Add dated classifications and the underlying positions of ETFs when available.
+  - **Procedure and tools.** Define Arrow schemes for instruments, historical identifiers, prices and distributions, FX, sources and fund positions. Use dated keys and role and class vocabularies.
+  - **Evidence to retain.** Unique keys, verified roles and class coverage. Demonstrate that a reused ticker does not identify two issuers as one title.
+  - **Checks and fallback.** Isolate observation without reliable identity or date. A spot factor remains excluded from the weight of a portfolio.
+- [x] **4.2 Clean and align market data.** Use pandas and PyArrow. Deduce, verify securities events and the direction of change. Convert by `(1 + local return) × (1 + FX return into CHF) − 1`. Keep return in local currency and CHF. Mark each hole, do not create zero returns to fill it and use common dates for comparisons and empirical covariance control. Maintain a separate measurement of fees already embedded in the total return series.
+  - **Procedure and tools.** Align calendars, hours and currencies. Treat splits, dividends and quotes duplicated before aggregations. Make past-oriented as-of joins for published data. Keep raw, corrected and pattern code.
+  - **Evidence to retain.** Known games with split, dividend, closing, reverse FX, expired price and subsequent revision. Disturb the future and check that previous outputs do not change.
+  - **Checks and fallback.** An extreme movement remains in the game unless corrected. Report coverage and loss of lines to each join.
+- [x] **4.3 Build one-, three-, five- and ten-year instrument profiles.** With NumPy/pandas, publish effective, average and compound return, annualized variance and volatility according to frequency, maximum decrease and recovery time in days. Mark unfinished recoveries and incomplete windows. Produce correlations and concentrations by currency, sector, issuer and underlying on a comparable basis.
+  - **Procedure and tools.** Calculate the records from the total returns and actual dates observed. Reconstitute the curves of wealth. Define the peak and recovery from the same recovery agreement.
+  - **Evidence to retain.** Manual case with compound return, drawdown and recovery. Publish coverage, numbers, frequency and dates by window.
+  - **Checks and fallback.** Mark incomplete windows and unobserved recoveries. Compare only assets using a consistent calendar base and currency.
+
+- [x] **4.4 Determine eligibility at each decision date.** Version criteria by class before results. For any proposal in 2026, verify on its exact date the actual quotation or negotiability, access on behalf of the customer, freshness of price and exchange, minimum size, settlement, liquidity and fees. Also check the minimum history required for the risk model and the absence of double counting. For historical purposes, use the information available on the date studied and keep dividends, outflows and cashed product. Keep all instruments in the inventory and publish by class the numbers identified, eligible and excluded, with good reason and possible extraction to be requested. The criteria can produce a different universe depending on the date and mandate.
+  - **Procedure and tools.** Apply by date and class the controls of negotiability, freshness, volume or batches, settlement and coverage of risk. Record additional access to the instrument for the account concerned.
+  - **Evidence to retain.** Register with active, date, decision and reason code. Inventory of candidates, eligible and selected with differences explained by class.
+  - **Checks and fallback.** A title of unknown or non-purchaseable status on the date of the mandate does not pass into a proposal. Keep it in the inventory for research.
+- [x] **4.5 Build two point-in-time views.** For comparison, choose the last common usable period and compare V2 strategies on the same dates and fees. For the most recent proposal, apply eligibility checks on its own valuation date. A CRSP extract arrested in 2025 can enter a replay dated 2025. A valid prices on the decision date is required to be able to use a title in a more recent proposal. Test a written title after the historical period, an expired price in 2026 and a recent introduction with insufficient history.
+  - **Procedure and tools.** Generate a frozen replay snapshot and a recent decision snapshot. Associate price date, calendar and version of the catalogue with each release.
+  - **Evidence to retain.** Replay an action then rated in 2025, then show its status for a 2026 proposal. Test radiation, outdated prices and recent introduction.
+  - **Checks and fallback.** A stopped historical series can remain exploitable in research. It does not replace a valid current price.
+
+- [x] **4.6 Document applicable methods for each asset class.** Follow [directory of methods](LIBRARY_METHODS.md). To give priority to historical measurements and the diagnosis of the base. Add class-specific analyses and mark methods whose data do not yet allow calculation. Comparisons of forecasts and plans follow steps 8 and 12.
+  - **Procedure and tools.** Build a matrix methods × classes. Link descriptive sheets, factor tests, bond metrics and fee measures to functions and inputs. Check the examples of the [method sheet](LIBRARY_METHODS.md).
+  - **Evidence to retain.** For each class, see available calculations, their units and missing data. Document the method used for each value presented.
+  - **Checks and fallback.** Mark "not estimable" with the missing condition instead of publishing a metric on an inadequate basis.
+
+- [x] **4.7 Test the catalogue with defective data.**
+  - **Procedure and tools.** Create a small independent reference game with missing price, reverse exchange, split, dividend, write-off, corrected price and late macro announcement. Use Python tests and hand-calculated expected results.
+  - **Evidence to retain.** Check the date-by-date join, the number of lines excluded by reason and the recalculated reports. The modification of a future value does not change any previous result.
+  - **Checks and fallback.** Any invalid data shall retain its motive and source. A correction published later does not rewrite any frozen decision snapshots.
+
+- [x] **4.8 Verify when each source becomes available.**
+  - **Procedure and tools.** Store separately economic date, publication, first possible use and market time stamping. Build a snapshot by analysis date with retrospective joins and dated versions.
+  - **Evidence to retain.** Inject a post-closure deposit and a correction published later. The old recommendation is identical and the new one reads the correct version.
+  - **Checks and fallback.** If the time is unknown, use a documented conservative delay or suspend the historic use of the signal.
+
+- [x] **4.9 Reconstruct fund exposures as of the mandate date.**
+  - **Procedure and tools.** Attach published positions, issuer identifiers and cover on the version available in each decision. Calculate the total holding of an issuer via funds and direct securities.
+  - **Evidence to retain.** Hand-to-hand approach an asset held via two funds and live. Publish the unattributable share and effect of missing lines.
+  - **Checks and fallback.** Uncertain exposure remains distinct from zero exposure. Apply the agreed rule if a mandatory exclusion depends on that data.
+
+**Result of November 23, 2026.** 60,736 records, nine documented checks and zero eligible instruments for an order on that date. [Report, graph and reproduction](reports/04-catalogue/README.md) · [Class and exit methods](reports/04-catalogue/METHODS.md) · [Aggregates](reports/04-catalogue/resultats.json)
+
+**Deliverable and evidence.** Catalogue Parquet, register of provenance, sheets and matrix. Reconcil a CHF return by hand, check a dividend and a market closure, and then test a series whose history does not cover ten years. [Inventory V1](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/data/README_data.md) · Local theory, guide 01 and QARM2 LN1–LN3.
+
+## 5. Portfolio feasibility and allocation
+
+- [x] **5.1 Prepare allocation inputs.** Investment investment sleeve, existing weights and positions, exclusions, limits by security/sector/currency, reserve, `mu` and covariance in CHF. First based on 504 sessions compared to 756 depending on coverage. Compare empirical covariance and Ledoit–Wolf. If the intersection of history reduces coverage excessively, test factor covariance with a small set of factors, asset sensitivities estimated on available dates and residual variances. Verify the semi-defined positivity, compare risk to common sub-universe estimates and measure out-of-sample deviations. If the risk of an asset remains unestimated, keep its record and explain its ineligibility. For expected returns, from a reduced historical average to an explicit reference, and compare with the equilibrium prior if a benchmark and justifiable weights are available.
+  - **Procedure and tools.** Build CHF returns at the decision date and produce consistent moments in frequency. Compare windows, shrinking and factor model on common dates. Recalculate matrix after exclusions.
+  - **Evidence to retain.** Archive of solver inputs, symmetry and positivity tests, coverage by security and predicted risk compared to the realized risk.
+  - **Checks and fallback.** A poorly conditioned matrix triggers a documented coverage check or stabilized estimate. An estimated risk-free security remains uncalculated.
+- [x] **5.2 Implement the efficient frontier.** Use CVXPY and CLARABEL, with SciPy HiGHS for linear control problems. First, check that a portfolio meets the constraints. Find the minimum volatility and then maximize the net expected return under several ceilings, with a standard constraint on volatility. Start long-only, without borrowing. Configure costs according to commissions, spread, change and turnover. Check separately that the cash flow finances each transaction.
+  - **Procedure and tools.** Write constraints in CVXPY from the current mandate and positions. Resolve feasibility, minimum and ceiling grid. Bring back fresh and horizon to a comparable base and preserve the reserve.
+  - **Evidence to retain.** Trace the border, active constraints, costs and final cash. Recalculate the budget and non-solver bounds.
+  - **Checks and fallback.** An ambiguous numerical status or a breached constraint blocks the recommendation. Explain the constraint if it is identifiable.
+- [x] **5.3 Handle lower volatility bounds and unreachable requests.** If the optimum also satisfies the bottom of the slice, hold it. Otherwise, the minimum volatility requirement in the band is non-convex. On the small universe, list the peaks when constraints and budget describe a listable polytope. The maximum variance is then reached at least one summit. For a target, use segments between eligible solutions to produce candidates and verify the recalculated risk. To ensure the best estimated return in the band, use separate and evaluated research as required. Divide the weight intervals, use ceiling relaxation to limit the net return of each region and remove regions with too low a certified maximum variance. Keep the best possible allocation and its deviation at the global boundary. For the prototype, publish no more than 1 pb of annualized return deviation for a solution declared optimal to this accuracy. In the enlarged universe, an upper limit of variance can certify the impossibility. A set of tested allocations can only describe what has been found. Send explicitly "inconclusive search" if no solution is found or proven impossibility.
+  - **Procedure and tools.** First check if the ceiling optimum is already in the slice. Otherwise, find candidates, establish valid boundaries and keep the search log. Use a small listable case as oracle.
+  - **Evidence to retain.** For each application, register candidate, valid bound, deviation, delay and status. Test an impossible target and a possible target whose low bound changes the optimum.
+  - **Checks and fallback.** Only a valid bound makes it possible to conclude that it is impossible. At the end of the calculation, keep the verified candidates with their level of evidence.
+- [x] **5.4 Test the optimizer.** Compare to an analytical case with two actives and then an independent reference on a small V2 universe. Recalculate weight, fresh, exposure and risk outside the solver. For the prototype, check sum of weights to `1e-6` and violations by weight at `1e-6` in decimal units. Play minimum, 35%, cap and target 40%, 100%, binding exclusion and empty universe. Report optimal result, verified candidate, impossible according to evidence or inconclusive search.
+  - **Procedure and tools.** Write analytical cases with two assets and recalculate independently residues, volatility, costs and limits. Add cash tests alone, no eligible instruments and multiple exclusions.
+  - **Evidence to retain.** Table of residues and expected results for minimum, ceilings and targets. Verify unit consistency on 40% and 100%.
+  - **Checks and fallback.** Explain the error, ineligibility and optimum uncertified statements. An optimization score does not correct warrant violations.
+
+- [x] **5.5 Measure computation across the full library.** Raise dimensions, calculation time, convergence and optimum deviation on the small reference set and all eligible titles. Cache intermediate data and results by date and version of catalogue. Verify that a change in the mandate only recalculates the results concerned. If a slice search reaches its time budget, show only the verified candidates and the remaining uncertainty on the optimum. Record performance and assets actually considered.
+  - **Procedure and tools.** Measure time and memory over a series of snapshots of increasing size and then over any eligible universe. Index the cache by data, date and version of the computational dependencies.
+  - **Evidence to retain.** Median and worst observed time, number of candidates, status and full list of assets submitted. A change of mandate invalidates the results concerned.
+  - **Checks and fallback.** An excessive delay triggers the expected decline in research, without imposing a silent quota on assets.
+
+- [x] **5.6 Measure allocation stability.**
+  - **Procedure and tools.** Freeze variants of averages, windows, covariance and costs. Recalculate options by disrupting each input and then on resynchronized blocks. Compare on the same mandate and with the same universe.
+  - **Evidence to retain.** Present weight dispersion, securities rotation, risk variation, expected return change and ranking changes. Verify that a small plausible variation can be explained in case of unstable option.
+  - **Checks and fallback.** Mark a sensitive recommendation and display a robust variant if eligible. A ranking that easily reverses retains its level of uncertainty.
+
+- [x] **5.7 Verify the solver’s optimality and feasibility certificates.**
+  - **Procedure and tools.** Check on each output weight, residual cash, volatility, fresh and active constraints. Calculate a valid standstill separate from the candidates for those bands where a certificate is expected.
+  - **Evidence to retain.** Test a workable slice where an optimum under ceiling falls below the low limit, an impossible case demonstrated and an interrupted calculation with eligible candidate.
+  - **Checks and fallback.** Separately display eligible states, certified optimum, impossible and inconclusive search. Archive the tolerance and limits of the calculation.
+
+- [x] **5.8 Convert continuous weights into executable orders.**
+  - **Procedure and tools.** Convert weight to units with price, currency and lots. Recalculate fresh, concentration, exposure and reserve after rounding. If necessary solve or adjust again with the quantities actually purchaseable.
+  - **Evidence to retain.** A small file and a minimum batch obligation illustrate the difference. The option presented as executable meets the constraints after rounding.
+  - **Checks and fallback.** If no eligible lot meets the mandate, display the difference between the theoretical result and the feasible alternative.
+
+**Result of November 23, 2026.** Research boundary on the 13 funds, maximum of 22.18% verified on 170 summits, load test on 3,676 series and control of all entries in the November registry. [Report and two figures](reports/05-faisabilite/README.md) · [Executed Notebook](RiskMatch_V2.ipynb) · [Results](reports/05-faisabilite/resultats.json)
+
+**Deliverable and evidence.** Reusable calculation function, boundary and feasibility reasons. Test a target and a 40% cap on a V2 game where the target exceeds the achievable limit. [CVXPY, solvers](https://www.cvxpy.org/version/1.7/tutorial/solvers/index.html) · [Ledoit–Wolf](https://scikit-learn.org/stable/modules/generated/sklearn.covariance.LedoitWolf.html) · Local theory, guide 04 and QARM2 LN2–LN4.
+
+## 6. Portfolio options, scores and blends
+
+- [x] **6.1 Define the portfolio variants.** Calculate the highest net return in the mandate, the minimum or robust risk variant, and a priority preference variant that can be measured. For a coverage preference, minimize the loss under the relevant scenario. For diversification, e.g. reduce the aggregate concentration per issuer or a sector exposure requested, with a documented return threshold. When the client has requested and coverage allows, calculate also the environmental option of step 11. Display a fixed reference and compromises by option. Report variants that result in the same weights.
+  - **Procedure and tools.** Set optimisation targets by variant. Reuse imperative constraints. For a coverage option, use the stress chosen. For a sustainable option, use the approved measure and its coverage.
+  - **Evidence to retain.** Test that each variant meets its criteria and fulfils the same mandate. Distinguish substantial differences, compromises and identical allocations.
+  - **Checks and fallback.** Show only the distinct and computable variants. Explicitly display a non-mandate reference.
+- [x] **6.2 Measure trade-offs.** Produce weight, expected return and range, variance/volatility, fresh, Sharp in common currency and frequency, concentration and contributions of Euler to risk. Compare to a fixed strategy with the same dates, flows and cost assumptions. Display its possible incompatibility with the mandate. Distinguish net realized return, expected return and loss of scenario.
+  - **Procedure and tools.** Compare on the same date, currency and fee assumption. Calculate Sharpe with consistent cash flow, risk contribution and crisis performance. Indicate the nature and coverage of the ranges.
+  - **Evidence to retain.** Table by option with weight, fresh, historical, estimate, loss of scenario and effect on target. Verify an aggregated risk by independent calculation.
+  - **Checks and fallback.** An unavailable metric keeps its pattern. A change of classification under plausible assumption must appear in the form.
+- [ ] **6.3 Replay transactions.** Set annual rebalancing in study V2 and perform at the next session according to a documented agreement. Test an initial hypothesis of 10 bp and sensitivities at 0 and 25 bp. Test an expanded cost and rounded batches where the source permits. The costs of buying, selling and holding apply to allocations calculated with or without Black–Litterman.
+  - **Procedure and tools.** Build a decision schedule and then execute from eligible currencies and prices. Replay orders on the first allowed date. Calculate costs on amounts actually exchanged after weight drift.
+  - **Evidence to retain.** Net and gross results, turnover, date of execution and possible lack of cash. Check purchase, no transaction, sale and withdrawal on manual case.
+  - **Checks and fallback.** An unexecuted, partial or delayed order retains its status and the former portfolio until effective settlement.
+
+- [ ] **6.4 Reconcile each replay cash flow.**
+  - **Procedure and tools.** Keep a record by date with order, execution, units, exchange, cash, fees, payments, withdrawals and any pending settlement. Separate decision, enforcement and settlement time stamping. Arrange returns on positions actually held.
+  - **Evidence to retain.** Check with manual cases a purchase followed by price variation, partial sale, withdrawal, missed order and delayed settlement. Reconcil positions and cash with the daily net value.
+  - **Checks and fallback.** An order on hold does not carry any performance before it is executed. The reserve and cash required for settlement remain verifiable.
+
+- [ ] **6.5 Compare strategies under identical execution assumptions.**
+  - **Procedure and tools.** Figer starting capital, calendar, returns, changes and implementing rules. Test with and without charge, then spread expanded, transaction missed and delay of a session.
+  - **Evidence to retain.** Table of net wealth differences, turnovers, withdrawals paid and risk exceedances under the same basis. Identify the outcome that depends on a favourable hypothesis.
+  - **Checks and fallback.** Indicate the effect of each cost and timing difference before interpreting a variance as a strategy gain.
+
+- [x] **6.6 Define a mandate-fit score.**
+  - **Procedure and tools.** Check imperative constraints and negotiability before classifying. For eligible allocations, calculate sub-scores of financial, historical and stress risk, diversification and concentration, validated forecasts, and fees. Link a historical sub-score to the observed net return and holding during crises, avoiding twice the same risk. Normalize on benchmarks set by mandate, horizon and currency. The final score in 100 is the weighted sum of the sub-scores. Version the grid. Propose explicit default weights and link them to the client's confirmed priorities.
+  - **Evidence to retain.** Table with gross values, sub-scores, weights, contributions and recalcable total. Test two customers who differently weigh diversification and goal. Verify that an off-term option cannot win in the ranking.
+  - **Checks and fallback.** The score is an index of adequacy. A probability or expected return remains displayed separately. The macro, market, quantitative and sentimental signals remain visible in their families. They contribute to the forecast sub-score via validated models for the right target and horizon.
+
+- [x] **6.7 Test missing data and ranking stability.**
+  - **Procedure and tools.** Apply a common grid of available criteria to all comparison options. Set the necessary data, level of coverage and withdrawal rules before testing. Test a historical grid without forecasts when the complete grid is unavailable for comparison. Reasonably vary weights and estimates. Define a margin of equality before producing the ranks.
+  - **Evidence to retain.** Comparison with complete data, scenario without validated sentiment, scenario with missing essential data and similar cases, the order of which is inverse. Show the cover and version of the scale.
+  - **Checks and fallback.** A private option of an indispensable data remains without an overall score. A partial score has its own wording and coverage. Close or unstable options are reported as comparable, with compromises to be agreed.
+
+- [x] **6.8 Combine several portfolios at client-selected weights.**
+  - **Procedure and tools.** Allow to choose two or more eligible options with one share per option. The shares are positive or zero and total 100% of the investment sleeve. The confirmed reserve remains separate. Convert shares by weight per instrument with the matrix of candidate portfolios. Group positions of the same security, including cash per currency, and calculate net orders from positions already held. Recalculate estimated return, covariance, costs, concentration, exposure to shocks and feasibility after rounding to the quantities that can be purchased. For the historical replay, simulate the actual planned rebalancing rules.
+  - **Evidence to retain.** Recalculate by hand a 60/40 mixture with a common title. If it weighs 20% in A and 10% in B, check its final weight of 16%. Test 100% in one option, shares that do not total 100%, identical portfolios and off-site mix despite eligible components. Check the suitability score and graphs from the aggregated positions.
+  - **Checks and fallback.** Recalculate the risk and score on the mixture. Any violation of the mandate shall be explained before confirmation. Display a workable adjustment when the calculation finds one. The reserve investment sleeve does not contribute to the budget of the combination.
+
+- [x] **6.9 Optimize the blend of the selected options.**
+  - **Procedure and tools.** Optimize the shares of the selected options, then check the aggregate portfolio with controls of 5.2–5.8. Propose the Sharpe estimated in CHF after costs on an explicit horizon and a consistent reference rate, the maximum estimated return in the confirmed band, or the minimum risk compatible with the mandate. Use common returns and covariance of underlying positions, or covariance of strategies obtained on a common game if they follow distinct dynamic rules. Check the minima per option if the client wants to keep more than one, and report cases where only one option is sufficient according to their criteria.
+  - **Evidence to retain.** Compare free weighting, equiweighting, best option alone and optimized combination. Replay a simple analytical case and a set of strongly correlated strategies. Publish the criterion, fees, horizon, aggregate risk and level of evidence of research.
+  - **Checks and fallback.** An almost zero variance or too fragile return estimate may render Sharp untapped. In this case, explain and propose feasible comparisons on the other criteria. When the solver does not certify the optimum, present the verified result as a candidate.
+
+**Deliverable and evidence.** A comparison card per customer and a grid that justifies the differences in ranking. Replay the calculation with different costs and explain the changes. [Replay V1](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/research/execution/PROTOCOL.md) · Local theory, Guides 04 and 06, QARM2 LN5–LN6.
+
+**Section 6 results on the multi-asset universe.** Cells 6.1 to 6.9 of the notebook use mandate results on 3,322 instruments. Four variants were calculated, two of which were grouped together, with a fixed benchmark outside the mandate. Eight mixtures were compared. Sections 6.3 to 6.5 remain open for validation of the nine-year replay. The separate ETF benchmark notebook retains its eleven blends and historical rankings. [Main report](reports/univers-complet/README.md) · [Notebook](RiskMatch_V2.ipynb) · [ETF benchmark](reports/06-options/ETF_Benchmark.ipynb)
+
+**Multi-asset replay.** The PFBX continuation extends the comparable window from 37 to 51 sessions (12 January 2018) across all 35 scenarios. BHAC blocks the next session. The original 39,408 fills reconcile to the recorded ledger; independent prices and settlement evidence are still missing for the complete nine-year comparison. [Replay evidence](reports/univers-complet/replay-evidence.json) · [Method and outstanding data](reports/univers-complet/README.md)
+
+## 7. Goals and cash-flow schedules
+
+- [x] **7.1 Build the CHF cash-flow schedule.** Dates, contributions, withdrawals, reserve and explicit nominal or real objective. Calculate the constant rate required by flow projection and `scipy.optimize.brentq` when the series allows a single root. Detect absence or ambiguity. Test capital alone, opposing flows, already funded objective and insufficient reserves.
+  - **Procedure and tools.** Build a schedule in CHF and separate real, nominal and protected flows objectives. Use `brentq` in a relevant interval after verifying the presence and, depending on the flow structure, the uniqueness of a solution.
+  - **Evidence to retain.** Check a case without contributions by closed formula, then the payments dated by reprojecting of the final capital.
+  - **Checks and fallback.** If no single rate solves the problem, explain the reason and present the differences in francs per scenario.
+- [x] **7.2 Evaluate multiple investment horizons.** Simulate the post-cost trajectory by resampling monthly blocks synchronized between assets and currency. Start with blocks of 12 months and 2,000 paths, then compare to blocks of 6 and 24 months if historical allows. Fix the seed and publish the assumptions. Measure the dates payable, the terminal deficit and its sensitivity to contributions, amount and maturity. For bonds, also compare coupon and repayment deadlines to requirements.
+  - **Procedure and tools.** Resampling common monthly blocks by maintaining the dependency between assets and exchange. Replay fees, payments, withdrawals, lots and coupons according to the data. Fix seeds and variants before comparison.
+  - **Evidence to retain.** Simulated achievement rate, mean and median deficit, date of absence, quantiles and sensitivities block/date/amount/contributions.
+  - **Checks and fallback.** If history is too short, publish the available scenarios and their coverage. The simulated frequency remains conditional on the model.
+- [x] **7.3 Replay the complete client journey with the V2 catalogue.** A has a close expense. B has a long horizon. At the same tolerance, check the effect of their fluxes. Also replay minimum, 40% cap, target of 35 or 40%, 100% wish, too high required return, exclusions and diversification preferences. Compare the custom allowance to a fixed V2 allowance at the same time and on the same cost basis. Link each change to a flow change, preferably or d-universe. Use a controlled case to test an impossible target even if 40% becomes accessible with some individual securities.
+  - **Procedure and tools.** Use two clients with the same tolerance and separate timelines, then change a single data. Repeat minimal risk cases, ceiling, reachable band, impossible target and required return too high.
+  - **Evidence to retain.** Two files that link responses, reserves, assets, options, costs, desires, needs and achievable range. Show the expected change with each variation.
+  - **Checks and fallback.** Any proposal that alters a firm constraint without confirmation is rejected. An alternative indicates precisely what objective it fulfils.
+
+- [x] **7.4 Measure the first cash shortfall and the final funding gap.**
+  - **Procedure and tools.** For each trajectory, record the first unfunded maturity, deficit at that date, terminal deficit and recovery conditions. Test the separate effect of a revised input, offset or target.
+  - **Evidence to retain.** One case succeeds the final objective but lacks an intermediate expenditure. The results explicitly show both measures and amounts in CHF.
+  - **Checks and fallback.** A trajectory that ends above the target does not erase a missed deadline. Simulated probabilities remain conditional on assumptions.
+
+**Deliverable and evidence.** Two client files and a comparison of date/contribution/amount scenarios. Display side by side the desired return, the required return and the estimated achievable range in the confirmed risk band. Enact the deviations and the possible effect of an adjustment in the amount, date or payment. [Simulation V1](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/research/options/PROTOCOL.md) · Local theory, guides 21 and 34.
+
+**Section 7 research evidence.** The dated CHF solver, two theoretical client dossiers, paired block scenarios, lot-based costs and missed-payment reconciliation are available in the [funding report](reports/07-funding/README.md). The common history supports seven six-month starts, one twelve-month start and no twenty-four-month start. The longer benchmark-only sensitivity is reported separately. No client success probability or live order is certified.
+
+## 8. Exposures, correlations and shocks
+
+- [x] Calculate individual WTI sensitivities, 10-year rates, market and exchange with HAC intervals, compare two years and aggregate the WTI scenario on published positions. Three historical crises have one register per instrument. The five-factor extension below adds curve slope, signed oil shocks, regimes, observed recoveries and direct cash-flow repricing. [Calculations and coverage](reports/econometrie/README.md)
+
+- [x] **8.1 Build the factor time series.** Market, CHF exchange, rate and slope, WTI in USD/bar, volatility regimes. Align closing hours and observation dates. Load factors from their documented sources, including EIA for WTI. Study positive and negative shocks separately, with initial thresholds of ±5 USD/barrel and quantile variants fixed before analysis.
+  - **Procedure and tools.** Build dated factors: base point rates, WTI in USD per barrel, exchange and market in returns, then volatility regimes. Archive calendars and availability.
+  - **Evidence to retain.** Source table, distribution of shocks and non-missing measurements. Check one threshold plus and minus and one holiday.
+  - **Checks and fallback.** Do not collate comments from different sessions without explicit rules. Test sensitivity to fences and thresholds.
+- [x] **8.2 Estimate exposures for individual instruments and portfolios.** With SciPy/statsmodels, produce Pearson and Spearman correlations, multifactor regressions and mobile sensitivities. First test a 252 session window, at least 200 common observations, one session delay and HAC errors. Calculate effects and intervals, varying the windows and the set of factors. Test if a sign is robust at times, currency and withdrawal of extreme episodes.
+  - **Procedure and tools.** Create OLS/HAC regressions with statsmodels, then moving windows. Recalculate over comparable periods, with several factors and sensitivity to extremes.
+  - **Evidence to retain.** Coefficients, units, intervals, numbers and signs by period. Check the weight aggregation on a portfolio with constant weight and sample.
+  - **Checks and fallback.** An unstable correlation or insufficient sample gives a conservative or unestimated exposure. Publish contradictory cases.
+- [x] **8.3 Build the historical crisis library.** Choose episodes and windows before testing, calculate returns around events, maximum loss and recovery, specify the number of episodes and process recoveries or their dependence. For uncertainty, use one bootstrap per block when the sample is sufficient. Link the scenario to the portfolio via exposures, then compare to a historical replay with explicit weight and calendar.
+  - **Procedure and tools.** Freeze the list of episodes and windows, calculate abnormal returns if the reference allows and treat overlaps. Test isolated and joint shocks with common assumptions.
+  - **Evidence to retain.** Crisis registry and recovery, WTI +10 USD and joint scenario. Show difference between observed episode and conditional estimate.
+  - **Checks and fallback.** If there are not enough events, present the cases and uncertainty without extrapolated frequency.
+
+- [x] **8.4 Attribute shock effects to holdings and currencies.**
+  - **Procedure and tools.** Apply multifactor stress to positions and revalue instruments whose fluxes allow direct calculation. Compare stable portfolio change, contributions per asset and aggregate exposures.
+  - **Evidence to retain.** Bring the WTI and USD/CHF shock closer to total in CHF. Check consistency with rate curve revalorisation for an obligation.
+  - **Checks and fallback.** An important interaction calls for a costed joint scenario with its assumptions. Keep explicit the date, uncertainty and omitted factors.
+
+**Verified in 8.1–8.4.** Five dated factors, signed shock distributions, 3,373 central fits among 3,902 securities, matched-weight checks on five portfolios, 11,706 crisis records and direct repricing for 64 Treasury issues. Incomplete paths and unstable exposures are identified separately. [Methods, charts and coverage](reports/08-chocs/README.md) · [Scenario results](reports/08-chocs/results.json) · [WTI source](https://www.eia.gov/dnav/pet/hist/rwtcD.htm)
+
+## 9. Individual US stocks
+
+- [x] **9.1 Audit the local CRSP extract.** Inventory tables, last observations and version-specific treatment of dividends and delistings. For 2026, attach a dated listing list and price and volume history from a usable public source or a new local file provided. Control identifying, date, price, total return, listing history, volume and output. Check if output is integrated with performance to avoid counting twice.
+  - **Procedure and tools.** Inventory CRSP tables and versions with permanent keys. Compare daily and monthly coverage, performance agreements and availability in 2026. Describe missing data by field and date. Check an overlap period before extending a series with another source.
+  - **Evidence to retain.** Manifest, actual, latest dates and distribution/output controls. The connection between sources is reproducible and its deviations are documented. [Nasdaq Trader Directory](https://www.nasdaqtrader.com/Trader.aspx?id=symbollookup)
+  - **Checks and fallback.** An output already taken into account does not add up. Unverified 2026 data blocks current eligibility, while allowing for a historical replay dated.
+  - **Verified.** 46,320 complete 2025 stock-month comparisons, three corporate-action controls and a pre-open October 2026 listing snapshot. [Extract and bridge evidence](reports/09-stocks/README.md)
+
+- [ ] **9.2 Construct a point-in-time stock universe.** Accept all extraction actions that pass the criteria of 4.4 and publish the grounds for exclusion. Define the measurement period and a volume contribution limit adapted to the amount. Select with the values then available, re-examine the universe at rebalancing and track outputs to the actually cashed product. Measure overlap between direct and ETF titles.
+  - **Procedure and tools.** Apply size, liquidity, access and historical rules to the entire extraction on each date. Reconstitute quotation periods and transaction effects.
+  - **Evidence to retain.** Compare ETF and ETF + direct securities with a common base. Check dividend, change of drawer, quote exit and overlap of funds.
+  - **Checks and fallback.** Do not rebuild the ancient universe from survivors alone. Exclusions retain reasons and dates.
+  - **Measured scope and open evidence.** Ten dated screens, nine paired ETF comparisons and 2,959 passing stocks on 30 October 2026. Historical successor payments and permanent IDs outside the frozen cohort still require verification. [Research outcomes and exact limitations](reports/09-stocks/README.md)
+
+- [x] **9.3 Add fundamentals after matching identifiers.** If available, Compustat and CRSP/Compustat link table with period of validity and date on which the report was known. EDGAR reply with CIK identifiers, filing date and deposit ID. Check a history with reprocessing. Report variable if date is not traceable.
+  - **Procedure and tools.** Attach financial data and valid date identifiers. Use publication date and filing version with CCM or EDGAR. Test a post-closure deposit and reprocessing.
+  - **Evidence to retain.** An observation obtained from its source and a subsequent revision that does not change an earlier classification.
+  - **Checks and fallback.** In the absence of a demonstrable publication deadline, keep the variable out of the historical ranking.
+
+- [x] **9.4 Audit historical coverage of US stocks.**
+  - **Procedure and tools.** Publish staff by year, sector and reason for exclusion from registration and release dates. Compare the universe actually available each year to the universe that would survive until the end date.
+  - **Evidence to retain.** Check an entry, exit and reclassification several years before the end. Explain the effect of filtering and missing data on the test universe.
+  - **Checks and fallback.** When coverage is partial, qualify the subuniverse and conclusion. Non-observable titles remain identified if their existence is known.
+
+**Deliverable and evidence.** ETF-only and ETF-plus-stock returns use identical dates, fees and cash. The publication-time control preserves Veritone's original balance sheet, and dated counts expose the effect of filtering historical membership. The local archive contains detailed securities, filings and terminal events. [Study, figures and sources](reports/09-stocks/README.md) · [Auditable summary](reports/09-stocks/results.json)
+
+## 10. US Treasuries and commodities
+
+- [x] **10.1 Identify the bond data needed for the selected issues.** The selected direct bonds are US Treasuries. Verify each issue’s identifier, coupon schedule, maturity, quoted price, accrued interest, settlement, lot size and trading access. Corporate bonds are outside the selected universe.
+  - **Procedure and tools.** Sample sources first on simple emissions. Inventory ID, currency, price, date, interest accrued, coupon, maturity, settlement and customer access data.
+  - **Evidence to retain.** For each category, field proof and list of measurable issues with liquidity limit. Document gaps in coverage and permitted use by source.
+  - **Checks and fallback.** An issue without exploitable price or adapted model remains in inventory. Document the ETF fold or shadow example.
+  - **Verified coverage.** All 65 issue sheets include terms, historical auction lots, mark and access status. The October cohort has 64 valuations, 54 model-eligible issues and zero verified customer orders. [Issue register](reports/10-treasuries-gold/issues.json)
+
+- [x] **10.2 Calculate bond value and interest-rate risk.** Generate the schedule, reconcile clean price with full price, coupons, total return, modified duration and convexity on an verified example. Test sensitivity to ±100 bp, change and credit gap. In case of insufficient coverage, keep bond ETFs in the historical allocation and isolate the pedagogical example of direct obligation.
+  - **Procedure and tools.** Generate flows according to dates and conventions, calculate own/full price then duration, DV01 and convexity. Separate stress rate, credit and FX then joint shocks.
+  - **Evidence to retain.** Reconcil an obligation by hand, with coupon, accrued interest, repayment and revalorization ±100 bp.
+  - **Checks and fallback.** Use full revalorisation if the duration/convexity approximation becomes too far away. Show the sensitivity of results to flows and prices.
+- [x] **10.3 Validate the selected investable commodity exposure.** Validate GLD as the selected investable gold exposure, including costs and coverage. Use WTI spot in the factor and shock analysis. Any additional commodity vehicle would require a separate selection decision and a documented total-return series.
+  - **Procedure and tools.** Identify rated vehicles, mechanism, rolling rules, total return history and fees. Load the spot price into the scenario factors.
+  - **Evidence to retain.** A card compares vehicle performance and spot variation on common dates and explains the relevant difference.
+  - **Checks and fallback.** An asset without marketable and historical prices produces a factor analysis alone.
+
+- [x] **10.4 Test tradability for bonds with irregular quotes.**
+  - **Procedure and tools.** Set separately the listing and transaction dates. Examine age, price dispersion and observed sizes. Test the batches and payment deadlines for the customer's portfolio.
+  - **Evidence to retain.** An obligation with an old price or no suitable size shall be rejected on the exact date. Replay a valid batch purchase and payment before payment.
+  - **Checks and fallback.** An indicative valuation does not allow a proposal that is presented as a purchaseable. Show the ETF or cash alternative if it meets the mandate.
+
+**Verified in 10.1–10.4.** Reconciled a real auction to six decimals, repriced 64 nominal issues, reviewed 230 accepted issue-level buyback amounts, tested cash, coupon, maturity and rejection cases, and measured GLD versus gold over 262 common months. [Report and figures](reports/10-treasuries-gold/README.md) · [Reproducible results](reports/10-treasuries-gold/results.json)
+
+## 11. Environmental preferences
+
+- [x] **11.1 Choose measurable environmental criteria.** Explicit exclusion and, if sources permit, carbon intensity with units and coverage rates. Define aggregation for securities held directly and indirectly, date of measurement and processing of missing data.
+  - **Procedure and tools.** Choose a dated metric, unit, perimeter and source. Calculate coverage by weight and check indirect positions with issuer identifiers.
+  - **Evidence to retain.** Cover table with direct title case, funds and missing data. Check the exclusion of an indirectly held issuer.
+  - **Checks and fallback.** A mandatory preference and an unknown underlying trigger the rule chosen in the mandate. A partially measured preference displays its coverage.
+- [x] **11.2 Test decisions under environmental constraints.** Apply mandatory exclusions according to the mandate rule. For a flexible preference, create a variant with limit on the measure or compromise classification. Display measurable coverage and return/risk/fee spread against reference.
+  - **Procedure and tools.** Compare the environmental option and other constraints with the same data, ceiling and cost assumptions. Test imperative and flexible preference.
+  - **Evidence to retain.** File illustrating triggered exclusion, risk and fee differences, measure and share actually covered.
+  - **Checks and fallback.** If the measure is missing or the allocations are identical, explain the result rather than artificially classify the options.
+
+**Deliverable and evidence.** Replay a case with a prohibited title hidden in an ETF and a case where the information is missing. Compare variants on the same documented perimeter. Local Theory, Guide 15.
+
+**Executed evidence.** The dated Chevron look-through replay and paired optimizations ran on the section 6 model. The conditional point-source measure covers 54 issuers. [Controls, comparisons and figures](reports/11-environment/README.md)
+
+## 12. Forecasts and signal validation
+
+- [x] Timely comparison of historical variance and exponential weighting by security at 21 and 63 sessions, then record a descriptive alert of acceleration. The nine tests below record the subsequent signal, probability and allocation decisions. [Test results](reports/econometrie/README.md)
+
+- [x] **12.1 Freeze the forecast evaluation protocol.** For each signal define the target, date of publication, horizon and reference model before calculation. Define before the test the economic measurement according to the signal function. For a performance signal, compare the net return to equal cap. For a risk signal, compare the frequency of overruns and the extent of overruns under the same portfolio rules. For volatility, start with variance performed over the next 21 sessions and then test 63 sessions if data is sufficient. For return, start with the monthly excess return on CHF cash. For alerts, define an observable event and its delay. Retest on the same calendar by reference and candidate.
+  - **Procedure and tools.** Write for each signal a structured sheet: target, decision date, horizon, usable information, comparison, metrics and pass threshold. Freeze before final block.
+  - **Evidence to retain.** Reproducible card for variance 21 sessions, monthly performance and a defined alert. The dates and scores are aligned by reference and candidate.
+  - **Checks and fallback.** Without a verifiable target and time stamp, keep the descriptive signal. The return prediction and the risk prediction keep their tests clean.
+- [x] **12.2 Prepare the signals.** Macro: rate and economic situation, with ALFRED vintages if available and date of availability. Market: VIX and other price risk measures, with source and time stamp. Quantitative: realized volatility, delayed momentum and liquidity. Geopolitics: GPR index dated. Feeling: inventory the corpus and its rights, then date the observations, align the publications with the first usable moment, deduce and test a simple reference and then a NLP model if the coverage is sufficient. Archive text, score and date separately. No signal calculated during a session is used in a previous order.
+  - **Procedure and tools.** Import by family. Horodate vintage macros, move publications after closing to the first possible decision, deduce messages and archive values, texts, licenses and scores separately.
+  - **Evidence to retain.** Macro revision tests, new after closing, duplicate message and spindle change. The signals remain identifiable at their origin.
+  - **Checks and fallback.** Late or missing data recorded with documented pattern and processing. No future score is attributed to a past decision.
+- [x] **12.3 Compare forecast models.** Volatility: mobile history and EWMA as references, GARCH with `arch`, then regularized regression or gradient boosting if the observations allow. Note QLIKE and variance error. Performance: reduced average as reference, Ridge to test an additional signal. If a view brings an estimated gain and uncertainty, test Black–Litterman with prior, matrix of documented views and uncertainty, under the same constraints and costs. Keep the refused signals on the register.
+  - **Procedure and tools.** Compare mobile references and EWMA to GARCH, then test Ridge and candidates on chronological subsamples. For Black–Litterman, document prior, horizon, view and matrix of uncertainty.
+  - **Evidence to retain.** Archived forecasts, QLIKE, errors, coverage and proof that the confidence view tending to zero is regaining the prior.
+  - **Checks and fallback.** An unstable model returns to the reference. The costs remain those of induced transactions and apply with the same agreements.
+- [x] **12.4 Test market overheating indicators.** Start with simple indicators, e.g. price acceleration, valuation if available and volume. On fairly long series, evaluate SADF/GSADF on a limited basket, with appropriate critical values and false positive tests. Repeat on successive historical dates, recalculating without future data and adjusting multiplicity. Publish reported episodes, lack of data and delayed detection.
+  - **Procedure and tools.** Archive a long series overheating protocol and fix windows and false positives accepted. Compare a simple indicator to SADF/GSADF tests if coverage allows.
+  - **Evidence to retain.** Dates of detection, false positives, delay and effect of multiplicity control. Replay historical dates with the only information available.
+  - **Checks and fallback.** An overheating alert describes the observed evidence and its instability. Probability requires its own validation.
+- [x] **12.5 Define acceptance criteria for signals.** Chronological cutting with increasing window, adjustment on drive windows only, train/test separation by duration of overlapping targets and last block reserved. Test a signal alone, then its additional effect. Use a block bootstrap of score differences. To enter the recommendation, require a forecast gain of which the 95% interval excludes the lack of improvement and whose sign holds in the majority of blocks, then verify that the funded rule brings the expected economic improvement after costs on the final block. To display a probability, check Brier or log-loss against the reference frequency and check the calibration curves on the reserved data. Otherwise display an exposure or scenario alert.
+  - **Procedure and tools.** Set drive, time validation and reserved test block. Purging overlapping targets. Calculate matched losses and block intervals, then replay net transactions on the frozen rule.
+  - **Evidence to retain.** Decision by candidate and reason, sample size, statistical and economic gain, calibration curves and negative results retained.
+  - **Checks and fallback.** Any unstable or insufficient gain leaves the reference active. A forecast without verified calibration does not produce a percentage of customer probability.
+
+- [x] **12.6 Display each signal and combine evidence for each forecast target.** Maintain a record by signal with family, measure, date, target, horizon, meaning, intensity and quality of evidence. Display macro, market, quantitative and sentimental signals individually. Build a weighted opinion only between validated signals for the same target and horizon. Compare to a simple reference, measure the additional input and limit the weight of redundant signals. Fig the rule before the final test. Compare the combination to the best signal alone and the reference. Show meaning, intensity, effective weights, contributions, exclusions, missing data and disagreements. Keep the exploratory signals visible with zero weight. Test and calibrate separately any announced probability. Check a case with opposing signals and a case without sufficient evidence where only the reference notice is displayed. [Detailed rule](LIBRARY_METHODS.md#4-signal-interpretation-and-evidence-based-weighting)
+  - **Procedure and tools.** Separately measure, direction, intensity and proof of each signal. Compare weight and weight based on validation for the same target and horizon. Test redundancy, then freeze.
+  - **Evidence to retain.** Details of contributions, actual weight and coverage. Compare on the block reserved for reference and the best signal alone. Replay disagreement and missing data.
+  - **Checks and fallback.** An exploratory signal keeps a zero weight. If the combination is not robust, display individual reviews and return to the reference model.
+
+- [x] **12.7 Link risk assessments to verifiable actions.**
+  - **Procedure and tools.** For each portfolio, the estimated risks are 21 and 63 sessions depending on coverage, oil/rate/exchange scenarios and maturity deficit risk. Attach to each notice its date, unit, horizon, signal weights and model. Compare reference allowance and allocation taking into account the signal at equal costs.
+  - **Evidence to retain.** Replaying opposing signals, a positive opinion with fragile historical gain and a portfolio whose volatility increases without significant effect on the target. Explain when the client keeps his or her allowance, studies a cover or reviews his or her assumptions.
+  - **Checks and fallback.** A directional score remains presented with its scale. Only calibrated events can display a probability. Coverage is also judged on its cost and effects on other risks.
+
+- [x] **12.8 Prevent unvalidated signals from changing a proposal.**
+  - **Procedure and tools.** Build a versioned registry by target and horizon. Connect the engine to the only eligible condition on the decision date and log back versions, withdrawals and references.
+  - **Evidence to retain.** Inject a strong but rejected signal, an expired signal and a version change. The allowance follows only the eligible game and the explanation corresponds.
+  - **Checks and fallback.** Information rejected or expired may appear to be descriptive with zero weight. The previous version remains reproducible.
+
+- [x] **12.9 Test probabilities and prediction intervals separately from the score.**
+  - **Procedure and tools.** Figer events, horizons and units. Compare probabilities to reference frequency and ranges to coverage frequencies on a reserved block. Publish the workforce and uncertainty intervals.
+  - **Evidence to retain.** Calibration curves and scores, coverage and width of range. Test a series with few events then a change of diet.
+  - **Checks and fallback.** Remove the percentage or range whose reliability does not pass the checks. Present the conditional impact or descriptive alert.
+
+**Deliverable and evidence.** Record of experiments and decisions by signal, including references, scores, dates, fees, leak tests, accepted probabilities and negative results. [ALFRED](https://alfred.stlouisfed.org/) · [GPR Index](https://www.matteoiacoviello.com/gpr.htm) · [Time cut](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html) · [Calibration](https://scikit-learn.org/stable/modules/calibration.html) · [Work on bubbles](https://www.cambridge.org/core/journals/econometric-theory/article/abs/financial-bubble-implosion-and-reverse-regression/E43AC1EFA8A36467BAF4C602950B6074) · Local theory, QARM2 LN3–LN4 and LN7, EMiF classes 9–10, guides 12, 17 and 19.
+
+**Executed evidence.** The 3,902-instrument transfer audit, 52 admission experiments, held-out predictions, publication and withdrawal controls, two calibration diagnostics and five portfolio notices are archived. No signal passes both statistical and funded gates in validation and on the final block. [Report and figures](reports/12-forecasts/README.md)
+
+## 13. Application, portfolio matching and monitoring
+
+- [x] **13.1 Integrate five Streamlit screens.** Questionnaire, mandate confirmed, results and comparison, portfolio monitored, request for review. Build the V2 interface separately from the Python engine. Test cards on mobile and computer. Verify that gesture, button and keyboard produce the same response and branch, that a correction recalculates the mandate and that an incomplete gesture does not validate any response. Rewrite an amended application and invalidate the old proposal with its version of mandate.
+  - **Procedure and tools.** Link the five screens to common Python functions in the notebook. Follow drafts, confirmed mandate, recalculated options, simulated portfolio and revision. Test via browser on phone and computer.
+  - **Evidence to retain.** Check gestures, buttons, keyboard, screen rotation, feedback and data modification. An old result becomes obsolete after validated change.
+  - **Checks and fallback.** An incomplete status remains editable and confirmation is based on the latest version of the mandate.
+- [x] **13.2 Monitor portfolios at the close.** Save fictitious transactions, positions, flows and portfolio versions to SQLite. Valorize with price and timed FX and display latest update, out-of-payments/debit performance to compare the strategy and value of the account including all streams. Reconcil the result with a small hand-calculated survey. Report an expired price and suspend the confirmation that depends on it.
+  - **Procedure and tools.** Write a SQLite register of units, prices, FX, flows and fees. Set the order of operations for a day and calculate value and neutralized performance of flows. Horod the corrections and recalculate the affected periods.
+  - **Evidence to retain.** Reconcil by hand a purchase, a prices review, a withdrawal and a positive cashflow. Show value, performance, drawdown, drift and last quote.
+  - **Checks and fallback.** A withdrawal reduces the value and does not create a fictitious loss. Suspend proposals that depend on an outdated price.
+- [x] **13.3 Test a targeted portfolio revision.** The client asks for oil protection after choosing his portfolio. Recalculate from current positions and mandate. Present status quo and alternative, decrease in exposure or loss under shock, transaction costs, impact on target and other displaced risks. Require a unique confirmation in the demo. Replay a double submission and change of mandate between proposal and confirmation. Repeat the calculation after changing the date, target, savings or band and show the difference with the portfolio actually held.
+  - **Procedure and tools.** Build review triggers, including shock requested, drift or modified lens. Compare maintenance and revision on the same data, check possible sales and settlement cash, then request versioned confirmation.
+  - **Evidence to retain.** Oil protection with estimated effect, costs, other risks and result on target. Replay refusal, double click, delayed settlement and modified mandate.
+  - **Checks and fallback.** Repeated confirmation creates at most a simulated movement. An impossible sale or expired listing blocks the explained transition to the customer.
+
+- [x] **13.4 Define how the demo handles client data.**
+  - **Procedure and tools.** List the necessary data, location and read rights. Use only fictitious profiles in the published demo. Defining export and deletion of a folder by including its registered versions and proposals. Keep local and secret files out of deposit.
+  - **Evidence to retain.** Create two fictitious accounts, check their separation, test export and deletion, and inspect distributed files and logs with a set of fictitious markers.
+  - **Checks and fallback.** Any cross-access or identifiable distributed profile blocks public demo. Keep local state time to correct the broadcast.
+
+- [x] **13.5 Trigger a review while leaving the decision to the client.**
+  - **Procedure and tools.** Version the drift thresholds of weights, losses, risk, maturity and change of mandate. Compare the retention option to a change and explain the trigger.
+  - **Evidence to retain.** Test for sub-threshold variation, significant drift, near expense and reported risk. The site distinguishes opinions, proposals and confirmation.
+  - **Checks and fallback.** A notification or signal does not trigger any transaction. Retention remains available when it is compatible with the mandate.
+
+- [x] **13.6 Safely record a simulated revision.**
+  - **Procedure and tools.** Write in a single SQLite transaction confirmation, mandate version and portfolio movements. Use a unique identifier for confirmation and check the status just before writing.
+  - **Evidence to retain.** Replay an interruption after validation, two simultaneous confirmations and a cancellation followed by a restart. The register returns to a consistent state and does not duplicate any movement.
+  - **Checks and fallback.** If data or mandate changes, invalidate the proposal concerned. In case of write error, the transaction is cancelled and the last reliable state remains visible.
+
+- [x] **13.7 Build the graphical portfolio comparison screen.**
+  - **Procedure and tools.** With Streamlit and Plotly, show the score side by side, its sub-scores and three key compromises. Use a ring diagram for weights by class or sector, with details of titles and cash in a table. Add bars for concentration and risk contributions, as well as a card of correlations on request. On the return–volatility chart, indicate the proposed band, reference and allocations.
+  - **Evidence to retain.** On phone and computer, check that graphs use the same dated data as the notebook and table. Weights total 100% based on the denominator displayed. The contribution bars are reconciled with the total of the measure represented.
+  - **Checks and fallback.** Show units, date, currency and legends. The values remain accessible via an array and the classification remains legible without colour. An unknown or aggregated category is explicitly indicated. [Streamlit Graphs](https://docs.streamlit.io/develop/concepts/design/charts) · [Plotly diagrams](https://plotly.com/python/pie-charts/)
+
+- [x] **13.8 Visualize history, scenarios and the revision decision.**
+  - **Procedure and tools.** Show a curve of historical value and maximum decline at comparable dates, a frieze of payments and withdrawals, identified future scenario bands and shock loss bars in CHF. Add a short outline of the prices answers → mandate → allocations → choice. For a review, trace current portfolio and proposal with the fees and exposures that change, then display the signals and their contributions to the notice.
+  - **Evidence to retain.** Replay an out-of-range risk target and oil cover. Verify on the charts common dates, threshold, feasible options and net effect of revision. Test the mobile display and a scenario without validated forecast.
+  - **Checks and fallback.** Visually identify observed historical, modeled projection and conditional impact result. When a forecast is missing, leave the historical reading or scenario available with its own wording.
+
+- [x] **13.9 Design and implement the visual identity.**
+  - **Procedure and tools.** Build a mobile interface first, with airy cards and legible numbers. Take the local web prototype as a visual reference. Use a pink, electric blue and purple night palette, an original skyline and a 3D cherry. Apply the same system to cards, backgrounds, transitions, waiting states and match animation. Maintain an original lettering, with Archivo Black and DM Sans in the demo version. Keep color choices of graphs consistent between comparison and tracking. Use short transitions for navigation between cards and original icons for actions.
+  - **Evidence to retain.** Captures of the questionnaire journeys, comparison, choice and follow-up on telephone and computer. Check contrast, keyboard focus, colorless readability and support for animation reduction.
+  - **Checks and fallback.** The movements adapt to the preference of reducing animations. Legends, states and amounts are understandable without animation or dependence on a single color.
+
+- [x] **13.10 Let clients browse, choose and confirm a portfolio match.**
+  - **Procedure and tools.** Display options on cards with score, estimated return, risk and fees, then offer a detailed view with graphics and comparison. Give the actions "Choose this portfolio" and "Compose an allocation". For a combination, propose sliders coupled with percentage fields and engine weights. Show the aggregate composition and its controls, then ask for confirmation. Trigger the heart animation and "Confirmed Match" status only after recording the simulated selection. Then present the action "See my portfolio".
+  - **Evidence to retain.** Test the simple choice, manual combination, proposed combination, cancellation and double click. Check that the animation is played once and that the follow-up opens the confirmed version. Check the same result in reduced motion mode.
+  - **Checks and fallback.** The heart confirms a successful recording. In case of error or portfolio become inadmissible, keep the choice in draft and explain the cause. The customer can return to alternatives before confirmation.
+
+- [x] **13.11 Monitor and revise a blended allocation.**
+  - **Procedure and tools.** Record original options and their shares, final composition after rounding, market snapshot, mandate and simulated movements. Displays value, performance, allocation and risks of the aggregate portfolio. The initial shares remain searchable, and follow-up indicates whether the strategy plans to maintain these shares or allow composition to drift.
+  - **Evidence to retain.** Replay a 60/40 match, market variation, flow and cover demand. Reconciling the follow-up with the aggregate position register, then comparing the costs and risks of a review with those of the portfolio held.
+  - **Checks and fallback.** A revision starts again from the actual composition held and requires a new confirmation. Suggested weight changes remain proposals until this confirmation.
+
+**Deliverable and evidence.** The five-screen simulator, dated CHF match, oil revision, privacy checks and desktop/mobile captures are available in the [section 13 report](reports/13-application/README.md). [Follow-up V1](https://github.com/NvarMaley/TindeRisk/blob/c3a1fdb/research/monitor/README.md) · Local theory, guides 07, 21 and 22.
+
+## 14. Final verification and delivery
+
+The [release audit and launch guide](reports/14-delivery/README.md) records both clean-checkout replays. Intraday feasibility was assessed; a verified multi-asset price and USD/CHF feed remains open. [Measured source freshness](reports/14-delivery/intraday.json)
+
+- [x] **14.1 Reproduce the release in a clean checkout.** Install the locked environment, run `python -m unittest discover -s tests` Since the future V2 repository, then the notebook with a new kernel, then remake both paths and revision without manual intervention in the data. Test also foreign currency, missing data, incomplete history and empty investment universe. Attach the class balance sheet of available, used and blocked instruments, proof that all eligible instruments have been offered to the engine and compare it with the fixed V2 strategy. Identify separately the eligible securities and those that the engine has actually retained in the allocations.
+  - **Procedure and tools.** Start with a clean copy, install the package, run tests and notebook, then replay the tracks with and without private data. Include mobile integration and desktop checks.
+  - **Evidence to retain.** Precise orders, versions, results of each case, catalogue comparison and traces of the route. Ensure that the stand-alone installation reproduces the base.
+  - **Checks and fallback.** Any divergence is localized by version, source or hypothesis. Unreproduced evidence remains open in the checklist.
+- [x] **14.2 Prepare the final evidence package.** Deliver launch guide, list of data and rights, assumptions, validation decisions and cases still open. The notebook maintains the results and methods of the study. The site presents the customer's decision and reasons. Examine separately the dissemination of the code and data.
+  - **Procedure and tools.** Gather guide, sources, rights, model choice and journal. Summarize the path of a mandate and its alternatives, then link each digit to the notebook and corresponding dataset.
+  - **Evidence to retain.** A person can restart the demo and check the numbers with the expected files. Inventory of fictitious and published data.
+  - **Checks and fallback.** Remove private data or without confirmed rights from dissemination files. Document the demonstration fold.
+- [ ] **14.3 Assess intraday monitoring.** If a source is accessible, check time stamping, deadlines observed, fees, calendar, currencies, quotas and withdrawal at closing. Replay a session and display the freshness of the enhancement. Follow-up remains at the close or with the observed time limit until a live source is verified.
+  - **Procedure and tools.** Compare market time, reception and display during a session. Check for change, access, rights, and offending behaviour. Measure latency rather than infer the name of the flow.
+  - **Evidence to retain.** Journal with time, latency, rights and results of outdated or missing data tests. Show clearly the recovery status to the customer.
+  - **Checks and fallback.** Keep the last reliable price and the closing or delayed mode in case of unverified flows. Lintraday remains open if its source is missing.
+
+- [x] **14.4 Verify the delivered scope before publication.**
+  - **Procedure and tools.** Reread the 1.5 matrix and point out the proofs of the notebook, journal, tests and site on the same version. Control the public list of files after creating the demo version.
+  - **Evidence to retain.** An independent prices covers cards, expenses, eligible U.S. universe, out-of-range slice, coverage search and simulated confirmation. Report the status of intraday and missing sources.
+  - **Checks and fallback.** Any gap between demo, notebook and published data is corrected or declared open. V1 references remain optional for installation.
+
+**Deliverable and evidence.** Reproduction report, demo, verifiable results and explicit statement of multi-asset coverage and intraday. Local theory, guides 06, 07 and 30.
+
+## Course references
+
+The methodological guides cited are optional readings. In the local course notes, they are in `Theory/Methodology/Chapter_Guides_00-34/`. The notes QARM2 and the classes EMiF 9–10 are in `Theory/Course_Notes/`. The CFA synthesis on sensitivities is in `Theory/CFA/`. V1 remains an optional historical document. The V2 project installs and runs with its files only.
+
+[Return to V2 README](README.md)

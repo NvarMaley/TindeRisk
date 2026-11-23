@@ -1,0 +1,114 @@
+{
+  "SPY-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "SPY-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-spy.xlsx",
+    "sha256": "416c2ee060d40afa0b41a943a7537be0bb1ffc5f4af281c68212c00b2012f7ae",
+    "retrieved": "2026-11-23T13:53:22.036774+00:00"
+  },
+  "XLB-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLB-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlb.xlsx",
+    "sha256": "a63a56882eddb4d0945ba2d6a8e02ff55b209c3fd0fb9de8e6168b288ba625cc",
+    "retrieved": "2026-11-23T13:53:22.134374+00:00"
+  },
+  "XLE-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLE-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xle.xlsx",
+    "sha256": "b101184ed1f6039e6a20c97711405f175a1aa5f3fb6a194463c9b7ac0e4bc6bb",
+    "retrieved": "2026-11-23T13:53:22.131795+00:00"
+  },
+  "XLF-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLF-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlf.xlsx",
+    "sha256": "a52841b8f24d535246ac20296c03bbb5ac4d992e152de2a00aaa9c28752ff32e",
+    "retrieved": "2026-11-23T13:53:22.187742+00:00"
+  },
+  "XLI-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLI-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xli.xlsx",
+    "sha256": "ea28d3977b7a062e2f42406a0e47631d6a08d8d98dfef21bdc86bd822c223c07",
+    "retrieved": "2026-11-23T13:53:22.134150+00:00"
+  },
+  "XLK-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLK-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlk.xlsx",
+    "sha256": "ad69d6cd10dbd0fa6dc601f4d2cfbd71bb0b383ca9b5fd161320ced5080a1aa4",
+    "retrieved": "2026-11-23T13:53:22.284560+00:00"
+  },
+  "XLP-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLP-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlp.xlsx",
+    "sha256": "783ab575e3d17b54d4866b0861dea6e6ac918fa8d24e7f86fd37b849e11bc5f8",
+    "retrieved": "2026-11-23T13:53:22.267876+00:00"
+  },
+  "XLU-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLU-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlu.xlsx",
+    "sha256": "01084dc025199f957d061f9af25dd3ccc6892fc6744ed163b849886825fbc057",
+    "retrieved": "2026-11-23T13:53:22.268074+00:00"
+  },
+  "XLV-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLV-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xlv.xlsx",
+    "sha256": "3f71227cb0a496be1fe3f1591a1f191c1d074cc2d4b30f2fded985c0dac49b01",
+    "retrieved": "2026-11-23T13:53:22.295515+00:00"
+  },
+  "XLY-holdings.xlsx": {
+    "provider": "State Street",
+    "file": "XLY-holdings.xlsx",
+    "url": "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-xly.xlsx",
+    "sha256": "5477d77acff13fc91a5ae1c780f11172485b999339a5ae21dcd0ea7fbc22e10a",
+    "retrieved": "2026-11-23T13:53:22.338433+00:00"
+  },
+  "TLT-holdings.csv": {
+    "provider": "iShares",
+    "file": "TLT-holdings.csv",
+    "url": "https://www.ishares.com/us/products/239454/ishares-20%2B-year-treasury-bond-etf/latest-holdings.csv",
+    "retrieved": "2026-11-23T13:54:49.960647+00:00",
+    "sha256": "74c9f4ddec4291ef3b83e4727c045ac1f89ac39b4cf6ad21b8e69bd078427327"
+  },
+  "IEF-holdings.csv": {
+    "provider": "iShares",
+    "file": "IEF-holdings.csv",
+    "url": "https://www.ishares.com/us/products/239456/ishares-7-10-year-treasury-bond-etf/latest-holdings.csv",
+    "retrieved": "2026-11-23T13:54:50.044233+00:00",
+    "sha256": "2bf7e56fdf8537a4f42f63790bc72ff6e6d3f57f1b3c8933cf0ad2e57eb73aad"
+  },
+  "crsp_msf.csv": {
+    "file": "crsp_msf.csv",
+    "url": "Export local du Monthly Stock File",
+    "provider": "CRSP CIZ",
+    "retrieved": "2026-10-16T14:45:50Z",
+    "sha256": "0d1434ef4c94517470233c4d2008bad85d7823ef5cd15fd810056efec92071fc"
+  },
+  "DGS10.csv": {
+    "file": "DGS10.csv",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+    "provider": "FRED",
+    "retrieved": "2026-11-21T16:03:08.215190+00:00",
+    "sha256": "078cf9534a352af6007ae9e93cd7beb94b2616d57bc469e8e895ba19a322ccce"
+  },
+  "DCOILWTICO.csv": {
+    "file": "DCOILWTICO.csv",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO",
+    "provider": "FRED",
+    "retrieved": "2026-11-21T16:03:08.215190+00:00",
+    "sha256": "10ff6925e3b8a4bcf7f6968f51936a8fc9d841daa29ceaedada058690a06b3c9"
+  },
+  "macro_releases.parquet": {
+    "file": "macro_releases.parquet",
+    "url": "CPIAUCSL, INDPRO, UNRATE",
+    "provider": "ALFRED / local preparation",
+    "retrieved": "2026-11-23T13:53:00Z",
+    "sha256": "2328210a55bb8b1a76de0f2d96165d5688b950244a81c7a8714c07cd737370a1"
+  }
+}

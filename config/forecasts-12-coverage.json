@@ -1,0 +1,6 @@
+{
+  "scope": "Descriptive transfer diagnostic on all 3,902 October inventory instruments, including non-admitted and incomplete histories. Defined after the SPY study. No selection or admission from these results.",
+  "models": "Eight single-signal incremental standardized Ridge specifications against each instrument's own reference. Three target/horizon pairs, alpha 10, at least 24 matured paired training labels, report final statistics at eight complete evaluations. Shared macro/market/policy inputs are mapped to a prior usable session. Quantitative predictors use the instrument's own observations. Daily dollar-volume feature only where the section 4 ETF source supplies actual price and volume.",
+  "time": "Section 8 CHF market panel from 2014-10. Full future block required. Prior 63-session variance requires 50 observations and the last close. Strictly purge final-boundary crossings and adjacent immature labels. No real-time membership claim.",
+  "output": "One explicit local row per instrument, signal and target, including zero coverage. Publish class counts, names of signals and coverage denominators. No cross-sectional funding replay or live weight."
+}

@@ -1,0 +1,148 @@
+{
+  "version": "2026-11-23.1",
+  "usage": "Local study. Redistribution of unestablished individual series and returns.",
+  "availability": "Chaque extraction est attestée à retrieved_utc. Heure de première publication historique inconnue.",
+  "sources": [
+    {
+      "file": "DEXSZUS.csv",
+      "series": "DEXSZUS",
+      "provider": "Federal Reserve H.10 via FRED",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DEXSZUS",
+      "unit": "CHF par USD",
+      "retrieved_utc": "2026-11-21T16:03:08.215190+00:00",
+      "sha256": "922081ee3b0235be899b37b7ac38a1202e359febdb433b034659465fa8051b87"
+    },
+    {
+      "file": "GLD-20261118.json",
+      "series": "GLD",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:27.121589+00:00",
+      "sha256": "781bd23f1f146ab3f4915998edb6adee3b5d6abd3264e76c4ae65bbbfa80ead6"
+    },
+    {
+      "file": "IEF-20261118.json",
+      "series": "IEF",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/IEF?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:26.474653+00:00",
+      "sha256": "72048ac29890616b115761394a08d764a0a021928535c63229ba0add5cc003d9"
+    },
+    {
+      "file": "SPY-20261118.json",
+      "series": "SPY",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:27.444589+00:00",
+      "sha256": "81bbd346a10d38766fdacb6bc2567314eb6da7f27cb0869baac827d5184050b8"
+    },
+    {
+      "file": "TLT-20261118.json",
+      "series": "TLT",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/TLT?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:26.830873+00:00",
+      "sha256": "c92a213adf1262fb2629bebbfee7a0b0344212c0656f2515926afe0cc2b053f4"
+    },
+    {
+      "file": "XLB-20261118.json",
+      "series": "XLB",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLB?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:25.838769+00:00",
+      "sha256": "4aea38da76ce0d0cad592feda42a20cc80cbee941ac1b0a56dba5acc45743085"
+    },
+    {
+      "file": "XLE-20261118.json",
+      "series": "XLE",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLE?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:24.207252+00:00",
+      "sha256": "ac318ef1fa395a5400927f7168c0542e914909b86ba23febb0957954f879519d"
+    },
+    {
+      "file": "XLF-20261118.json",
+      "series": "XLF",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:23.840590+00:00",
+      "sha256": "39c603a4fdc56697a2a8a92e5ed49d826428bfeb9797b1d35ecaef7b307b802a"
+    },
+    {
+      "file": "XLI-20261118.json",
+      "series": "XLI",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLI?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:25.519561+00:00",
+      "sha256": "39250adc208beb72e172412c8536c35b22b7757946a54df0b6148a307b5bfd98"
+    },
+    {
+      "file": "XLK-20261118.json",
+      "series": "XLK",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLK?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:23.513605+00:00",
+      "sha256": "d7ce5d583535ca5fc67466fb17f4ffa78b271d154faf7e2513ab291bffb1279f"
+    },
+    {
+      "file": "XLP-20261118.json",
+      "series": "XLP",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLP?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:25.175184+00:00",
+      "sha256": "457d5dff6d802d514217422b8b3e35c3c0de0529429fc9ce3051afdef923bc6c"
+    },
+    {
+      "file": "XLU-20261118.json",
+      "series": "XLU",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLU?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:26.144071+00:00",
+      "sha256": "436cda7889729b79af57bcab187eccf424db6eed0416eebd66bdf4ae1c7dde1c"
+    },
+    {
+      "file": "XLV-20261118.json",
+      "series": "XLV",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLV?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:24.513222+00:00",
+      "sha256": "a435c415467d4bb2b4496793550d4ee1ed902557e30141be824d85799b754b0a"
+    },
+    {
+      "file": "XLY-20261118.json",
+      "series": "XLY",
+      "provider": "Yahoo Finance",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLY?period1=1104710400&period2=1795046400&interval=1d&events=div%2Csplits%2CcapitalGains",
+      "unit": "USD adjusted per share",
+      "retrieved_utc": "2026-11-21T18:40:24.851562+00:00",
+      "sha256": "f0a94384c503286f45f67ba78a265fe9c9b52c4905236cb78813deecefdd3625"
+    }
+  ],
+  "classes": {
+    "GLD": "or",
+    "IEF": "obligations",
+    "SPY": "actions",
+    "TLT": "obligations",
+    "XLB": "actions",
+    "XLE": "actions",
+    "XLF": "actions",
+    "XLI": "actions",
+    "XLK": "actions",
+    "XLP": "actions",
+    "XLU": "actions",
+    "XLV": "actions",
+    "XLY": "actions"
+  }
+}

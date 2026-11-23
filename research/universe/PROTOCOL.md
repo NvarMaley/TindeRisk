@@ -1,5 +1,0 @@
-# Allocation sur les treize ETF disponibles · 23 novembre 2026
-
-L'univers principal reprend tous les symboles du panel historique. SPY, IEF et GLD forment le comparateur antérieur. Les dix autres titres sont TLT et les neuf fonds sectoriels américains. Ils sont inclus avant examen des performances. Un poids nul est autorisé. La réserve en CHF est distincte des treize ETF.
-
-Reprendre les décisions de fin octobre 2019–2026, les 756 séances de formation antérieures, le seuil de 719 observations communes, la devise CHF, les limites de risque et les 10 pb sur les transactions. Maintenir le mix fixe SPY/IEF et les sept cohortes, et comparer les portefeuilles classique et robuste à trois et treize titres sur les mêmes dates après frais. Appliquer les onze variantes d'exécution et deux politiques déjà enregistrées. Recalculer les scénarios de financement, les sensibilités et le choc conjoint avec les treize rendements. La fenêtre est rétrospective. Les études ciblant une obligation, une action ou une opinion de sentiment conservent leurs cibles explicites.

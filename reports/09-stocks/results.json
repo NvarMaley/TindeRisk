@@ -1,0 +1,6364 @@
+{
+  "extraction_scope": [
+    {
+      "day": "1998-10-30",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 908
+    },
+    {
+      "day": "1998-10-30",
+      "reason": "Other or missing exchange",
+      "securities": 114
+    },
+    {
+      "day": "1998-10-30",
+      "reason": "Other share or security type",
+      "securities": 652
+    },
+    {
+      "day": "1998-10-30",
+      "reason": "US common share in scope",
+      "securities": 7255
+    },
+    {
+      "day": "1999-10-29",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 894
+    },
+    {
+      "day": "1999-10-29",
+      "reason": "Other or missing exchange",
+      "securities": 152
+    },
+    {
+      "day": "1999-10-29",
+      "reason": "Other share or security type",
+      "securities": 677
+    },
+    {
+      "day": "1999-10-29",
+      "reason": "US common share in scope",
+      "securities": 6866
+    },
+    {
+      "day": "2000-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 973
+    },
+    {
+      "day": "2000-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 138
+    },
+    {
+      "day": "2000-10-31",
+      "reason": "Other share or security type",
+      "securities": 699
+    },
+    {
+      "day": "2000-10-31",
+      "reason": "US common share in scope",
+      "securities": 6642
+    },
+    {
+      "day": "2001-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 946
+    },
+    {
+      "day": "2001-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 172
+    },
+    {
+      "day": "2001-10-31",
+      "reason": "Other share or security type",
+      "securities": 722
+    },
+    {
+      "day": "2001-10-31",
+      "reason": "US common share in scope",
+      "securities": 5886
+    },
+    {
+      "day": "2002-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 893
+    },
+    {
+      "day": "2002-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 180
+    },
+    {
+      "day": "2002-10-31",
+      "reason": "Other share or security type",
+      "securities": 780
+    },
+    {
+      "day": "2002-10-31",
+      "reason": "US common share in scope",
+      "securities": 5413
+    },
+    {
+      "day": "2003-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 847
+    },
+    {
+      "day": "2003-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 200
+    },
+    {
+      "day": "2003-10-31",
+      "reason": "Other share or security type",
+      "securities": 834
+    },
+    {
+      "day": "2003-10-31",
+      "reason": "US common share in scope",
+      "securities": 5043
+    },
+    {
+      "day": "2004-10-29",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 847
+    },
+    {
+      "day": "2004-10-29",
+      "reason": "Other or missing exchange",
+      "securities": 178
+    },
+    {
+      "day": "2004-10-29",
+      "reason": "Other share or security type",
+      "securities": 904
+    },
+    {
+      "day": "2004-10-29",
+      "reason": "US common share in scope",
+      "securities": 4981
+    },
+    {
+      "day": "2005-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 845
+    },
+    {
+      "day": "2005-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 152
+    },
+    {
+      "day": "2005-10-31",
+      "reason": "Other share or security type",
+      "securities": 976
+    },
+    {
+      "day": "2005-10-31",
+      "reason": "US common share in scope",
+      "securities": 4933
+    },
+    {
+      "day": "2006-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 846
+    },
+    {
+      "day": "2006-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 140
+    },
+    {
+      "day": "2006-10-31",
+      "reason": "Other share or security type",
+      "securities": 1121
+    },
+    {
+      "day": "2006-10-31",
+      "reason": "US common share in scope",
+      "securities": 4865
+    },
+    {
+      "day": "2007-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 818
+    },
+    {
+      "day": "2007-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 120
+    },
+    {
+      "day": "2007-10-31",
+      "reason": "Other share or security type",
+      "securities": 1408
+    },
+    {
+      "day": "2007-10-31",
+      "reason": "US common share in scope",
+      "securities": 4742
+    },
+    {
+      "day": "2008-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 799
+    },
+    {
+      "day": "2008-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 103
+    },
+    {
+      "day": "2008-10-31",
+      "reason": "Other share or security type",
+      "securities": 1523
+    },
+    {
+      "day": "2008-10-31",
+      "reason": "US common share in scope",
+      "securities": 4520
+    },
+    {
+      "day": "2009-10-30",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 762
+    },
+    {
+      "day": "2009-10-30",
+      "reason": "Other or missing exchange",
+      "securities": 109
+    },
+    {
+      "day": "2009-10-30",
+      "reason": "Other share or security type",
+      "securities": 1568
+    },
+    {
+      "day": "2009-10-30",
+      "reason": "US common share in scope",
+      "securities": 4232
+    },
+    {
+      "day": "2010-10-29",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 774
+    },
+    {
+      "day": "2010-10-29",
+      "reason": "Other or missing exchange",
+      "securities": 93
+    },
+    {
+      "day": "2010-10-29",
+      "reason": "Other share or security type",
+      "securities": 1734
+    },
+    {
+      "day": "2010-10-29",
+      "reason": "US common share in scope",
+      "securities": 4101
+    },
+    {
+      "day": "2011-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 814
+    },
+    {
+      "day": "2011-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 85
+    },
+    {
+      "day": "2011-10-31",
+      "reason": "Other share or security type",
+      "securities": 1958
+    },
+    {
+      "day": "2011-10-31",
+      "reason": "US common share in scope",
+      "securities": 3948
+    },
+    {
+      "day": "2012-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 819
+    },
+    {
+      "day": "2012-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 87
+    },
+    {
+      "day": "2012-10-31",
+      "reason": "Other share or security type",
+      "securities": 2026
+    },
+    {
+      "day": "2012-10-31",
+      "reason": "US common share in scope",
+      "securities": 3832
+    },
+    {
+      "day": "2013-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 819
+    },
+    {
+      "day": "2013-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 82
+    },
+    {
+      "day": "2013-10-31",
+      "reason": "Other share or security type",
+      "securities": 2143
+    },
+    {
+      "day": "2013-10-31",
+      "reason": "US common share in scope",
+      "securities": 3814
+    },
+    {
+      "day": "2014-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 859
+    },
+    {
+      "day": "2014-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 60
+    },
+    {
+      "day": "2014-10-31",
+      "reason": "Other share or security type",
+      "securities": 2261
+    },
+    {
+      "day": "2014-10-31",
+      "reason": "US common share in scope",
+      "securities": 3943
+    },
+    {
+      "day": "2015-10-30",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 891
+    },
+    {
+      "day": "2015-10-30",
+      "reason": "Other or missing exchange",
+      "securities": 47
+    },
+    {
+      "day": "2015-10-30",
+      "reason": "Other share or security type",
+      "securities": 2404
+    },
+    {
+      "day": "2015-10-30",
+      "reason": "US common share in scope",
+      "securities": 3953
+    },
+    {
+      "day": "2016-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 870
+    },
+    {
+      "day": "2016-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 51
+    },
+    {
+      "day": "2016-10-31",
+      "reason": "Other share or security type",
+      "securities": 2511
+    },
+    {
+      "day": "2016-10-31",
+      "reason": "US common share in scope",
+      "securities": 3820
+    },
+    {
+      "day": "2017-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 884
+    },
+    {
+      "day": "2017-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 45
+    },
+    {
+      "day": "2017-10-31",
+      "reason": "Other share or security type",
+      "securities": 2596
+    },
+    {
+      "day": "2017-10-31",
+      "reason": "US common share in scope",
+      "securities": 3768
+    },
+    {
+      "day": "2018-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 951
+    },
+    {
+      "day": "2018-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 42
+    },
+    {
+      "day": "2018-10-31",
+      "reason": "Other share or security type",
+      "securities": 2743
+    },
+    {
+      "day": "2018-10-31",
+      "reason": "US common share in scope",
+      "securities": 3805
+    },
+    {
+      "day": "2019-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 979
+    },
+    {
+      "day": "2019-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 44
+    },
+    {
+      "day": "2019-10-31",
+      "reason": "Other share or security type",
+      "securities": 2833
+    },
+    {
+      "day": "2019-10-31",
+      "reason": "US common share in scope",
+      "securities": 3787
+    },
+    {
+      "day": "2020-10-30",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1055
+    },
+    {
+      "day": "2020-10-30",
+      "reason": "Other or missing exchange",
+      "securities": 43
+    },
+    {
+      "day": "2020-10-30",
+      "reason": "Other share or security type",
+      "securities": 2893
+    },
+    {
+      "day": "2020-10-30",
+      "reason": "US common share in scope",
+      "securities": 3851
+    },
+    {
+      "day": "2021-10-29",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1386
+    },
+    {
+      "day": "2021-10-29",
+      "reason": "Other or missing exchange",
+      "securities": 22
+    },
+    {
+      "day": "2021-10-29",
+      "reason": "Other share or security type",
+      "securities": 3230
+    },
+    {
+      "day": "2021-10-29",
+      "reason": "US common share in scope",
+      "securities": 4462
+    },
+    {
+      "day": "2022-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1486
+    },
+    {
+      "day": "2022-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 9
+    },
+    {
+      "day": "2022-10-31",
+      "reason": "Other share or security type",
+      "securities": 3525
+    },
+    {
+      "day": "2022-10-31",
+      "reason": "US common share in scope",
+      "securities": 4564
+    },
+    {
+      "day": "2023-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1379
+    },
+    {
+      "day": "2023-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 8
+    },
+    {
+      "day": "2023-10-31",
+      "reason": "Other share or security type",
+      "securities": 3796
+    },
+    {
+      "day": "2023-10-31",
+      "reason": "US common share in scope",
+      "securities": 4254
+    },
+    {
+      "day": "2024-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1375
+    },
+    {
+      "day": "2024-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 12
+    },
+    {
+      "day": "2024-10-31",
+      "reason": "Other share or security type",
+      "securities": 4289
+    },
+    {
+      "day": "2024-10-31",
+      "reason": "US common share in scope",
+      "securities": 4007
+    },
+    {
+      "day": "2025-10-31",
+      "reason": "Non-US or unknown incorporation",
+      "securities": 1534
+    },
+    {
+      "day": "2025-10-31",
+      "reason": "Other or missing exchange",
+      "securities": 3
+    },
+    {
+      "day": "2025-10-31",
+      "reason": "Other share or security type",
+      "securities": 5093
+    },
+    {
+      "day": "2025-10-31",
+      "reason": "US common share in scope",
+      "securities": 3843
+    }
+  ],
+  "date": "2026-10-30",
+  "audit": {
+    "raw": {
+      "Daily": [
+        {
+          "year": 1998,
+          "first_date": "1998-01-02",
+          "last_date": "1998-12-31",
+          "rows": 2290717,
+          "securities": 9900,
+          "missing_price": 29183.0,
+          "missing_return": 29947.0,
+          "missing_ticker": 29070.0
+        },
+        {
+          "year": 1999,
+          "first_date": "1999-01-04",
+          "last_date": "1999-12-31",
+          "rows": 2179306,
+          "securities": 9598,
+          "missing_price": 39329.0,
+          "missing_return": 40137.0,
+          "missing_ticker": 39167.0
+        },
+        {
+          "year": 2000,
+          "first_date": "2000-01-03",
+          "last_date": "2000-12-29",
+          "rows": 2135727,
+          "securities": 9310,
+          "missing_price": 40894.0,
+          "missing_return": 41762.0,
+          "missing_ticker": 40852.0
+        },
+        {
+          "year": 2001,
+          "first_date": "2001-01-02",
+          "last_date": "2001-12-31",
+          "rows": 1967157,
+          "securities": 8612,
+          "missing_price": 45835.0,
+          "missing_return": 46289.0,
+          "missing_ticker": 45541.0
+        },
+        {
+          "year": 2002,
+          "first_date": "2002-01-02",
+          "last_date": "2002-12-31",
+          "rows": 1865180,
+          "securities": 7931,
+          "missing_price": 48536.0,
+          "missing_return": 48921.0,
+          "missing_ticker": 48720.0
+        },
+        {
+          "year": 2003,
+          "first_date": "2003-01-02",
+          "last_date": "2003-12-31",
+          "rows": 1767591,
+          "securities": 7496,
+          "missing_price": 54350.0,
+          "missing_return": 54689.0,
+          "missing_ticker": 54375.0
+        },
+        {
+          "year": 2004,
+          "first_date": "2004-01-02",
+          "last_date": "2004-12-31",
+          "rows": 1738878,
+          "securities": 7363,
+          "missing_price": 50152.0,
+          "missing_return": 50677.0,
+          "missing_ticker": 50399.0
+        },
+        {
+          "year": 2005,
+          "first_date": "2005-01-03",
+          "last_date": "2005-12-30",
+          "rows": 1740857,
+          "securities": 7395,
+          "missing_price": 42842.0,
+          "missing_return": 43382.0,
+          "missing_ticker": 43154.0
+        },
+        {
+          "year": 2006,
+          "first_date": "2006-01-03",
+          "last_date": "2006-12-29",
+          "rows": 1737926,
+          "securities": 7455,
+          "missing_price": 36888.0,
+          "missing_return": 37487.0,
+          "missing_ticker": 37114.0
+        },
+        {
+          "year": 2007,
+          "first_date": "2007-01-03",
+          "last_date": "2007-12-31",
+          "rows": 1774884,
+          "securities": 7721,
+          "missing_price": 32439.0,
+          "missing_return": 33219.0,
+          "missing_ticker": 32794.0
+        },
+        {
+          "year": 2008,
+          "first_date": "2008-01-02",
+          "last_date": "2008-12-31",
+          "rows": 1779883,
+          "securities": 7435,
+          "missing_price": 26921.0,
+          "missing_return": 27291.0,
+          "missing_ticker": 27064.0
+        },
+        {
+          "year": 2009,
+          "first_date": "2009-01-02",
+          "last_date": "2009-12-31",
+          "rows": 1697444,
+          "securities": 7190,
+          "missing_price": 30219.0,
+          "missing_return": 30546.0,
+          "missing_ticker": 30600.0
+        },
+        {
+          "year": 2010,
+          "first_date": "2010-01-04",
+          "last_date": "2010-12-31",
+          "rows": 1687990,
+          "securities": 7157,
+          "missing_price": 28569.0,
+          "missing_return": 29081.0,
+          "missing_ticker": 28892.0
+        },
+        {
+          "year": 2011,
+          "first_date": "2011-01-03",
+          "last_date": "2011-12-30",
+          "rows": 1707275,
+          "securities": 7172,
+          "missing_price": 25011.0,
+          "missing_return": 25549.0,
+          "missing_ticker": 25207.0
+        },
+        {
+          "year": 2012,
+          "first_date": "2012-01-03",
+          "last_date": "2012-12-31",
+          "rows": 1702255,
+          "securities": 7196,
+          "missing_price": 24458.0,
+          "missing_return": 24904.0,
+          "missing_ticker": 24535.0
+        },
+        {
+          "year": 2013,
+          "first_date": "2013-01-02",
+          "last_date": "2013-12-31",
+          "rows": 1710126,
+          "securities": 7246,
+          "missing_price": 23432.0,
+          "missing_return": 23965.0,
+          "missing_ticker": 23548.0
+        },
+        {
+          "year": 2014,
+          "first_date": "2014-01-02",
+          "last_date": "2014-12-31",
+          "rows": 1771914,
+          "securities": 7502,
+          "missing_price": 19108.0,
+          "missing_return": 19774.0,
+          "missing_ticker": 19047.0
+        },
+        {
+          "year": 2015,
+          "first_date": "2015-01-02",
+          "last_date": "2015-12-31",
+          "rows": 1821762,
+          "securities": 7724,
+          "missing_price": 14984.0,
+          "missing_return": 15593.0,
+          "missing_ticker": 15145.0
+        },
+        {
+          "year": 2016,
+          "first_date": "2016-01-04",
+          "last_date": "2016-12-30",
+          "rows": 1830179,
+          "securities": 7772,
+          "missing_price": 14578.0,
+          "missing_return": 15048.0,
+          "missing_ticker": 14752.0
+        },
+        {
+          "year": 2017,
+          "first_date": "2017-01-03",
+          "last_date": "2017-12-29",
+          "rows": 1829533,
+          "securities": 7817,
+          "missing_price": 13443.0,
+          "missing_return": 14031.0,
+          "missing_ticker": 13623.0
+        },
+        {
+          "year": 2018,
+          "first_date": "2018-01-02",
+          "last_date": "2018-12-31",
+          "rows": 1871209,
+          "securities": 8013,
+          "missing_price": 12238.0,
+          "missing_return": 12926.0,
+          "missing_ticker": 12294.0
+        },
+        {
+          "year": 2019,
+          "first_date": "2019-01-02",
+          "last_date": "2019-12-31",
+          "rows": 1913706,
+          "securities": 8118,
+          "missing_price": 12283.0,
+          "missing_return": 12879.0,
+          "missing_ticker": 12333.0
+        },
+        {
+          "year": 2020,
+          "first_date": "2020-01-02",
+          "last_date": "2020-12-31",
+          "rows": 1950716,
+          "securities": 8466,
+          "missing_price": 12077.0,
+          "missing_return": 12932.0,
+          "missing_ticker": 11858.0
+        },
+        {
+          "year": 2021,
+          "first_date": "2021-01-04",
+          "last_date": "2021-12-31",
+          "rows": 2189483,
+          "securities": 9717,
+          "missing_price": 8370.0,
+          "missing_return": 10113.0,
+          "missing_ticker": 8375.0
+        },
+        {
+          "year": 2022,
+          "first_date": "2022-01-03",
+          "last_date": "2022-12-30",
+          "rows": 2392191,
+          "securities": 10137,
+          "missing_price": 4234.0,
+          "missing_return": 5086.0,
+          "missing_ticker": 4083.0
+        },
+        {
+          "year": 2023,
+          "first_date": "2023-01-03",
+          "last_date": "2023-12-29",
+          "rows": 2356482,
+          "securities": 10307,
+          "missing_price": 3080.0,
+          "missing_return": 3903.0,
+          "missing_ticker": 3230.0
+        },
+        {
+          "year": 2024,
+          "first_date": "2024-01-02",
+          "last_date": "2024-12-31",
+          "rows": 2404143,
+          "securities": 10511,
+          "missing_price": 3733.0,
+          "missing_return": 4850.0,
+          "missing_ticker": 3930.0
+        },
+        {
+          "year": 2025,
+          "first_date": "2025-01-02",
+          "last_date": "2025-12-31",
+          "rows": 2542416,
+          "securities": 11397,
+          "missing_price": 3241.0,
+          "missing_return": 4917.0,
+          "missing_ticker": 2898.0
+        }
+      ],
+      "Monthly": [
+        {
+          "year": 1998,
+          "first_date": "1998-01-30",
+          "last_date": "1998-12-31",
+          "rows": 110606,
+          "securities": 9887,
+          "missing_price": 1351.0,
+          "missing_return": 1382.0,
+          "missing_ticker": 2498.0,
+          "missing_volume": 1351.0,
+          "delisting_rows": 1302.0
+        },
+        {
+          "year": 1999,
+          "first_date": "1999-01-29",
+          "last_date": "1999-12-31",
+          "rows": 105228,
+          "securities": 9577,
+          "missing_price": 1808.0,
+          "missing_return": 1864.0,
+          "missing_ticker": 2933.0,
+          "missing_volume": 1808.0,
+          "delisting_rows": 1203.0
+        },
+        {
+          "year": 2000,
+          "first_date": "2000-01-31",
+          "last_date": "2000-12-29",
+          "rows": 103267,
+          "securities": 9306,
+          "missing_price": 1903.0,
+          "missing_return": 1952.0,
+          "missing_ticker": 3023.0,
+          "missing_volume": 1903.0,
+          "delisting_rows": 1244.0
+        },
+        {
+          "year": 2001,
+          "first_date": "2001-01-31",
+          "last_date": "2001-12-31",
+          "rows": 96619,
+          "securities": 8595,
+          "missing_price": 2166.0,
+          "missing_return": 2181.0,
+          "missing_ticker": 3207.0,
+          "missing_volume": 2166.0,
+          "delisting_rows": 1168.0
+        },
+        {
+          "year": 2002,
+          "first_date": "2002-01-31",
+          "last_date": "2002-12-31",
+          "rows": 90186,
+          "securities": 7919,
+          "missing_price": 2269.0,
+          "missing_return": 2283.0,
+          "missing_ticker": 3041.0,
+          "missing_volume": 2269.0,
+          "delisting_rows": 824.0
+        },
+        {
+          "year": 2003,
+          "first_date": "2003-01-31",
+          "last_date": "2003-12-31",
+          "rows": 85580,
+          "securities": 7489,
+          "missing_price": 2534.0,
+          "missing_return": 2548.0,
+          "missing_ticker": 3188.0,
+          "missing_volume": 2534.0,
+          "delisting_rows": 704.0
+        },
+        {
+          "year": 2004,
+          "first_date": "2004-01-30",
+          "last_date": "2004-12-31",
+          "rows": 84264,
+          "securities": 7352,
+          "missing_price": 2354.0,
+          "missing_return": 2391.0,
+          "missing_ticker": 2853.0,
+          "missing_volume": 2354.0,
+          "delisting_rows": 566.0
+        },
+        {
+          "year": 2005,
+          "first_date": "2005-01-31",
+          "last_date": "2005-12-30",
+          "rows": 84583,
+          "securities": 7383,
+          "missing_price": 2004.0,
+          "missing_return": 2022.0,
+          "missing_ticker": 2590.0,
+          "missing_volume": 2004.0,
+          "delisting_rows": 633.0
+        },
+        {
+          "year": 2006,
+          "first_date": "2006-01-31",
+          "last_date": "2006-12-29",
+          "rows": 84764,
+          "securities": 7446,
+          "missing_price": 1725.0,
+          "missing_return": 1751.0,
+          "missing_ticker": 2266.0,
+          "missing_volume": 1725.0,
+          "delisting_rows": 594.0
+        },
+        {
+          "year": 2007,
+          "first_date": "2007-01-31",
+          "last_date": "2007-12-31",
+          "rows": 86743,
+          "securities": 7711,
+          "missing_price": 1520.0,
+          "missing_return": 1560.0,
+          "missing_ticker": 2194.0,
+          "missing_volume": 1520.0,
+          "delisting_rows": 731.0
+        },
+        {
+          "year": 2008,
+          "first_date": "2008-01-31",
+          "last_date": "2008-12-31",
+          "rows": 85846,
+          "securities": 7431,
+          "missing_price": 1245.0,
+          "missing_return": 1255.0,
+          "missing_ticker": 1859.0,
+          "missing_volume": 1245.0,
+          "delisting_rows": 665.0
+        },
+        {
+          "year": 2009,
+          "first_date": "2009-01-30",
+          "last_date": "2009-12-31",
+          "rows": 82051,
+          "securities": 7181,
+          "missing_price": 1411.0,
+          "missing_return": 1419.0,
+          "missing_ticker": 1989.0,
+          "missing_volume": 1411.0,
+          "delisting_rows": 589.0
+        },
+        {
+          "year": 2010,
+          "first_date": "2010-01-29",
+          "last_date": "2010-12-31",
+          "rows": 81823,
+          "securities": 7153,
+          "missing_price": 1342.0,
+          "missing_return": 1359.0,
+          "missing_ticker": 1854.0,
+          "missing_volume": 1342.0,
+          "delisting_rows": 571.0
+        },
+        {
+          "year": 2011,
+          "first_date": "2011-01-31",
+          "last_date": "2011-12-30",
+          "rows": 82717,
+          "securities": 7166,
+          "missing_price": 1168.0,
+          "missing_return": 1177.0,
+          "missing_ticker": 1652.0,
+          "missing_volume": 1168.0,
+          "delisting_rows": 524.0
+        },
+        {
+          "year": 2012,
+          "first_date": "2012-01-31",
+          "last_date": "2012-12-31",
+          "rows": 82966,
+          "securities": 7190,
+          "missing_price": 1160.0,
+          "missing_return": 1171.0,
+          "missing_ticker": 1691.0,
+          "missing_volume": 1160.0,
+          "delisting_rows": 578.0
+        },
+        {
+          "year": 2013,
+          "first_date": "2013-01-31",
+          "last_date": "2013-12-31",
+          "rows": 82615,
+          "securities": 7244,
+          "missing_price": 1100.0,
+          "missing_return": 1124.0,
+          "missing_ticker": 1551.0,
+          "missing_volume": 1100.0,
+          "delisting_rows": 490.0
+        },
+        {
+          "year": 2014,
+          "first_date": "2014-01-31",
+          "last_date": "2014-12-31",
+          "rows": 85588,
+          "securities": 7497,
+          "missing_price": 883.0,
+          "missing_return": 915.0,
+          "missing_ticker": 1320.0,
+          "missing_volume": 883.0,
+          "delisting_rows": 477.0
+        },
+        {
+          "year": 2015,
+          "first_date": "2015-01-30",
+          "last_date": "2015-12-31",
+          "rows": 88002,
+          "securities": 7720,
+          "missing_price": 689.0,
+          "missing_return": 720.0,
+          "missing_ticker": 1184.0,
+          "missing_volume": 689.0,
+          "delisting_rows": 528.0
+        },
+        {
+          "year": 2016,
+          "first_date": "2016-01-29",
+          "last_date": "2016-12-30",
+          "rows": 88396,
+          "securities": 7767,
+          "missing_price": 670.0,
+          "missing_return": 699.0,
+          "missing_ticker": 1299.0,
+          "missing_volume": 670.0,
+          "delisting_rows": 688.0
+        },
+        {
+          "year": 2017,
+          "first_date": "2017-01-31",
+          "last_date": "2017-12-29",
+          "rows": 88830,
+          "securities": 7814,
+          "missing_price": 622.0,
+          "missing_return": 660.0,
+          "missing_ticker": 1167.0,
+          "missing_volume": 622.0,
+          "delisting_rows": 604.0
+        },
+        {
+          "year": 2018,
+          "first_date": "2018-01-31",
+          "last_date": "2018-12-31",
+          "rows": 90909,
+          "securities": 8006,
+          "missing_price": 560.0,
+          "missing_return": 588.0,
+          "missing_ticker": 1141.0,
+          "missing_volume": 560.0,
+          "delisting_rows": 624.0
+        },
+        {
+          "year": 2019,
+          "first_date": "2019-01-31",
+          "last_date": "2019-12-31",
+          "rows": 92409,
+          "securities": 8111,
+          "missing_price": 570.0,
+          "missing_return": 590.0,
+          "missing_ticker": 1119.0,
+          "missing_volume": 570.0,
+          "delisting_rows": 609.0
+        },
+        {
+          "year": 2020,
+          "first_date": "2020-01-31",
+          "last_date": "2020-12-31",
+          "rows": 93979,
+          "securities": 8460,
+          "missing_price": 551.0,
+          "missing_return": 593.0,
+          "missing_ticker": 1116.0,
+          "missing_volume": 551.0,
+          "delisting_rows": 617.0
+        },
+        {
+          "year": 2021,
+          "first_date": "2021-01-29",
+          "last_date": "2021-12-31",
+          "rows": 106393,
+          "securities": 9715,
+          "missing_price": 384.0,
+          "missing_return": 492.0,
+          "missing_ticker": 870.0,
+          "missing_volume": 384.0,
+          "delisting_rows": 550.0
+        },
+        {
+          "year": 2022,
+          "first_date": "2022-01-31",
+          "last_date": "2022-12-30",
+          "rows": 116031,
+          "securities": 10133,
+          "missing_price": 189.0,
+          "missing_return": 238.0,
+          "missing_ticker": 853.0,
+          "missing_volume": 189.0,
+          "delisting_rows": 749.0
+        },
+        {
+          "year": 2023,
+          "first_date": "2023-01-31",
+          "last_date": "2023-12-29",
+          "rows": 115061,
+          "securities": 10298,
+          "missing_price": 129.0,
+          "missing_return": 173.0,
+          "missing_ticker": 1137.0,
+          "missing_volume": 129.0,
+          "delisting_rows": 1100.0
+        },
+        {
+          "year": 2024,
+          "first_date": "2024-01-31",
+          "last_date": "2024-12-31",
+          "rows": 116741,
+          "securities": 10509,
+          "missing_price": 160.0,
+          "missing_return": 206.0,
+          "missing_ticker": 1018.0,
+          "missing_volume": 160.0,
+          "delisting_rows": 913.0
+        },
+        {
+          "year": 2025,
+          "first_date": "2025-01-31",
+          "last_date": "2025-12-31",
+          "rows": 126849,
+          "securities": 11394,
+          "missing_price": 128.0,
+          "missing_return": 193.0,
+          "missing_ticker": 961.0,
+          "missing_volume": 128.0,
+          "delisting_rows": 907.0
+        }
+      ]
+    },
+    "fields": {
+      "Daily": [
+        "PERMNO",
+        "HdrCUSIP",
+        "Ticker",
+        "PERMCO",
+        "DlyCalDt",
+        "DlyPrc",
+        "DlyRet",
+        "DlyBid",
+        "DlyAsk",
+        "ShrOut"
+      ],
+      "Monthly": [
+        "PERMNO",
+        "SecInfoStartDt",
+        "SecInfoEndDt",
+        "SecurityBegDt",
+        "SecurityEndDt",
+        "SecurityHdrFlg",
+        "HdrCUSIP",
+        "HdrCUSIP9",
+        "CUSIP",
+        "CUSIP9",
+        "PrimaryExch",
+        "ConditionalType",
+        "ExchangeTier",
+        "TradingStatusFlg",
+        "SecurityNm",
+        "ShareClass",
+        "USIncFlg",
+        "IssuerType",
+        "SecurityType",
+        "SecuritySubType",
+        "ShareType",
+        "SecurityActiveFlg",
+        "DelActionType",
+        "DelStatusType",
+        "DelReasonType",
+        "DelPaymentType",
+        "Ticker",
+        "TradingSymbol",
+        "PERMCO",
+        "SICCD",
+        "NAICS",
+        "ICBIndustry",
+        "NASDCompno",
+        "NASDIssuno",
+        "IssuerNm",
+        "YYYYMM",
+        "MthCalDt",
+        "MthCompFlg",
+        "MthCompSubFlg",
+        "MthPrc",
+        "MthPrcFlg",
+        "MthPrcDt",
+        "MthDtFlg",
+        "MthDelFlg",
+        "MthCap",
+        "MthPrevPrc",
+        "MthPrevPrcFlg",
+        "MthPrevDt",
+        "MthPrevDtFlg",
+        "MthPrevCap",
+        "MthRet",
+        "MthRetx",
+        "MthRetFlg",
+        "MthDisCnt",
+        "MthVol",
+        "MthVolFlg",
+        "MthPrcVol",
+        "MthFacShrFlg",
+        "MthPrcVolMissCnt",
+        "ShrStartDt",
+        "ShrEndDt",
+        "ShrOut",
+        "ShrSource",
+        "ShrFacType",
+        "ShrAdrFlg",
+        "DisExDt",
+        "DisSeqNbr",
+        "DisOrdinaryFlg",
+        "DisType",
+        "DisFreqType",
+        "DisPaymentType",
+        "DisDetailType",
+        "DisTaxType",
+        "DisOrigCurType",
+        "DisDivAmt",
+        "DisFacPr",
+        "DisFacShr",
+        "DisDeclareDt",
+        "DisRecordDt",
+        "DisPayDt",
+        "DisPERMNO",
+        "DisPERMCO",
+        "vwretd",
+        "vwretx",
+        "ewretd",
+        "ewretx",
+        "sprtrn"
+      ]
+    },
+    "agreement": {
+      "year": 2025,
+      "pairs": 46320,
+      "securities": 4092,
+      "median_error_bp": 0.008835135069315547,
+      "p95_error_bp": 0.026934594837246452,
+      "over_1bp": 0
+    },
+    "dividend": {
+      "issuer": "Apple",
+      "dividend": 0.25,
+      "ex_date": "2025-02-10",
+      "pay_date": "2025-02-13",
+      "previous_usd": 227.63,
+      "close_usd": 227.65,
+      "reconstructed": 0.0011861353951587716,
+      "reported": 0.001186
+    },
+    "rename": [
+      {
+        "permno": 13407,
+        "ticker": "FB",
+        "issuer": "META PLATFORMS INC",
+        "day": "2022-05-31"
+      },
+      {
+        "permno": 13407,
+        "ticker": "META",
+        "issuer": "META PLATFORMS INC",
+        "day": "2022-06-30"
+      }
+    ],
+    "exit": {
+      "permno": 19567,
+      "ticker": "PAND",
+      "month_end": "2021-03-31",
+      "terminal_return": -0.003322,
+      "prior_close": 60.2,
+      "last_quote": 60.05,
+      "cash": 60.0,
+      "completion": "2021-04-01",
+      "source": "https://www.merck.com/news/merck-completes-acquisition-of-pandion-therapeutics/"
+    },
+    "documented_cash_events": 2478,
+    "bridge": {
+      "complete": 3129,
+      "unmatched": 518,
+      "event to verify": 103,
+      "partial": 72,
+      "documented exit": 2
+    },
+    "directory_timestamp": "File Creation Time: 1123202610:03",
+    "overlap_tested_links": 3304
+  },
+  "screen": [
+    {
+      "day": "2017-10-31",
+      "reviewed": 3768,
+      "model": 3565,
+      "liquid_affordable": 3069,
+      "also_pass_final": 1766,
+      "quoted_at_end": 1814
+    },
+    {
+      "day": "2018-10-31",
+      "reviewed": 3805,
+      "model": 3545,
+      "liquid_affordable": 3061,
+      "also_pass_final": 1843,
+      "quoted_at_end": 1903
+    },
+    {
+      "day": "2019-10-31",
+      "reviewed": 3787,
+      "model": 3578,
+      "liquid_affordable": 2973,
+      "also_pass_final": 1913,
+      "quoted_at_end": 1962
+    },
+    {
+      "day": "2020-10-30",
+      "reviewed": 3851,
+      "model": 3574,
+      "liquid_affordable": 3208,
+      "also_pass_final": 2066,
+      "quoted_at_end": 2153
+    },
+    {
+      "day": "2021-10-29",
+      "reviewed": 4462,
+      "model": 3677,
+      "liquid_affordable": 3389,
+      "also_pass_final": 2219,
+      "quoted_at_end": 2330
+    },
+    {
+      "day": "2022-10-31",
+      "reviewed": 4564,
+      "model": 4216,
+      "liquid_affordable": 3487,
+      "also_pass_final": 2373,
+      "quoted_at_end": 2470
+    },
+    {
+      "day": "2023-10-31",
+      "reviewed": 4254,
+      "model": 4131,
+      "liquid_affordable": 3220,
+      "also_pass_final": 2439,
+      "quoted_at_end": 2512
+    },
+    {
+      "day": "2024-10-31",
+      "reviewed": 4007,
+      "model": 3884,
+      "liquid_affordable": 3274,
+      "also_pass_final": 2606,
+      "quoted_at_end": 2713
+    },
+    {
+      "day": "2025-10-31",
+      "reviewed": 3843,
+      "model": 3697,
+      "liquid_affordable": 3380,
+      "also_pass_final": 2786,
+      "quoted_at_end": 2946
+    },
+    {
+      "day": "2026-10-30",
+      "reviewed": 3824,
+      "model": 3255,
+      "liquid_affordable": 2959,
+      "also_pass_final": 2959,
+      "quoted_at_end": 2959
+    }
+  ],
+  "reasons": [
+    {
+      "day": "2017-10-31",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 4
+    },
+    {
+      "day": "2017-10-31",
+      "screen_reason": "Pass",
+      "securities": 3069
+    },
+    {
+      "day": "2017-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 492
+    },
+    {
+      "day": "2017-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 202
+    },
+    {
+      "day": "2018-10-31",
+      "screen_reason": "Missing or zero verified volume",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 5
+    },
+    {
+      "day": "2018-10-31",
+      "screen_reason": "Pass",
+      "securities": 3061
+    },
+    {
+      "day": "2018-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 478
+    },
+    {
+      "day": "2018-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 260
+    },
+    {
+      "day": "2019-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 5
+    },
+    {
+      "day": "2019-10-31",
+      "screen_reason": "Pass",
+      "securities": 2973
+    },
+    {
+      "day": "2019-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 600
+    },
+    {
+      "day": "2019-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 209
+    },
+    {
+      "day": "2020-10-30",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 5
+    },
+    {
+      "day": "2020-10-30",
+      "screen_reason": "Pass",
+      "securities": 3208
+    },
+    {
+      "day": "2020-10-30",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 361
+    },
+    {
+      "day": "2020-10-30",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 277
+    },
+    {
+      "day": "2021-10-29",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 9
+    },
+    {
+      "day": "2021-10-29",
+      "screen_reason": "Pass",
+      "securities": 3389
+    },
+    {
+      "day": "2021-10-29",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 279
+    },
+    {
+      "day": "2021-10-29",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 784
+    },
+    {
+      "day": "2021-10-29",
+      "screen_reason": "missing decision-date price",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 6
+    },
+    {
+      "day": "2022-10-31",
+      "screen_reason": "Pass",
+      "securities": 3487
+    },
+    {
+      "day": "2022-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 723
+    },
+    {
+      "day": "2022-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 348
+    },
+    {
+      "day": "2023-10-31",
+      "screen_reason": "CRSP status or prices",
+      "securities": 2
+    },
+    {
+      "day": "2023-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 7
+    },
+    {
+      "day": "2023-10-31",
+      "screen_reason": "Pass",
+      "securities": 3220
+    },
+    {
+      "day": "2023-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 904
+    },
+    {
+      "day": "2023-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 121
+    },
+    {
+      "day": "2024-10-31",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 8
+    },
+    {
+      "day": "2024-10-31",
+      "screen_reason": "Pass",
+      "securities": 3274
+    },
+    {
+      "day": "2024-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 602
+    },
+    {
+      "day": "2024-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 122
+    },
+    {
+      "day": "2025-10-31",
+      "screen_reason": "CRSP status or prices",
+      "securities": 2
+    },
+    {
+      "day": "2025-10-31",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 7
+    },
+    {
+      "day": "2025-10-31",
+      "screen_reason": "Pass",
+      "securities": 3380
+    },
+    {
+      "day": "2025-10-31",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 310
+    },
+    {
+      "day": "2025-10-31",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 144
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 5
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "Pass",
+      "securities": 2959
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 291
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "documented exit",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "event to verify",
+      "securities": 18
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 14
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "partial",
+      "securities": 17
+    },
+    {
+      "day": "2026-10-30",
+      "screen_reason": "unmatched",
+      "securities": 518
+    }
+  ],
+  "portfolios": [
+    {
+      "day": "2017-10-31",
+      "book": "SPY only",
+      "entry": "2017-11-01",
+      "end": "2017-12-01",
+      "net_return": -0.000700385395,
+      "reason": "Complete"
+    },
+    {
+      "day": "2017-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2017-11-01",
+      "end": "2017-12-01",
+      "net_return": -0.018442601217,
+      "reason": "Complete"
+    },
+    {
+      "day": "2018-10-31",
+      "book": "SPY only",
+      "entry": "2018-11-01",
+      "end": "2018-12-03",
+      "net_return": 0.011925971184,
+      "reason": "Complete"
+    },
+    {
+      "day": "2018-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2018-11-01",
+      "end": "2018-12-03",
+      "net_return": -0.005380957865,
+      "reason": "Complete"
+    },
+    {
+      "day": "2019-10-31",
+      "book": "SPY only",
+      "entry": "2019-11-01",
+      "end": "2019-12-03",
+      "net_return": 0.008860765574,
+      "reason": "Complete"
+    },
+    {
+      "day": "2019-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2019-11-01",
+      "end": "2019-12-03",
+      "net_return": 0.018076606554,
+      "reason": "Complete"
+    },
+    {
+      "day": "2020-10-30",
+      "book": "SPY only",
+      "entry": "2020-11-02",
+      "end": "2020-12-02",
+      "net_return": 0.07188548507,
+      "reason": "Complete"
+    },
+    {
+      "day": "2020-10-30",
+      "book": "SPY plus stocks",
+      "entry": "2020-11-02",
+      "end": "2020-12-02",
+      "net_return": 0.078163497086,
+      "reason": "Complete"
+    },
+    {
+      "day": "2021-10-29",
+      "book": "SPY only",
+      "entry": "2021-11-01",
+      "end": "2021-12-01",
+      "net_return": -0.011741797856,
+      "reason": "Complete"
+    },
+    {
+      "day": "2021-10-29",
+      "book": "SPY plus stocks",
+      "entry": "2021-11-01",
+      "end": "2021-12-01",
+      "net_return": -0.00747192665,
+      "reason": "Complete"
+    },
+    {
+      "day": "2022-10-31",
+      "book": "SPY only",
+      "entry": "2022-11-01",
+      "end": "2022-12-01",
+      "net_return": -0.007245064684,
+      "reason": "Complete"
+    },
+    {
+      "day": "2022-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2022-11-01",
+      "end": "2022-12-01",
+      "net_return": 0.014784104407,
+      "reason": "Complete"
+    },
+    {
+      "day": "2023-10-31",
+      "book": "SPY only",
+      "entry": "2023-11-01",
+      "end": "2023-12-01",
+      "net_return": 0.033124440167,
+      "reason": "Complete"
+    },
+    {
+      "day": "2023-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2023-11-01",
+      "end": "2023-12-01",
+      "net_return": 0.03414403489,
+      "reason": "Complete"
+    },
+    {
+      "day": "2024-10-31",
+      "book": "SPY only",
+      "entry": "2024-11-01",
+      "end": "2024-12-03",
+      "net_return": 0.066121749611,
+      "reason": "Complete"
+    },
+    {
+      "day": "2024-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2024-11-01",
+      "end": "2024-12-03",
+      "net_return": 0.102555741891,
+      "reason": "Complete"
+    },
+    {
+      "day": "2025-10-31",
+      "book": "SPY only",
+      "entry": "2025-11-03",
+      "end": "2025-12-03",
+      "net_return": -0.008767143933,
+      "reason": "Complete"
+    },
+    {
+      "day": "2025-10-31",
+      "book": "SPY plus stocks",
+      "entry": "2025-11-03",
+      "end": "2025-12-03",
+      "net_return": -0.027534992578,
+      "reason": "Complete"
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY only",
+      "entry": null,
+      "end": null,
+      "net_return": null,
+      "reason": "Horizon beyond frozen market data"
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "entry": null,
+      "end": null,
+      "net_return": null,
+      "reason": "Horizon beyond frozen market data"
+    }
+  ],
+  "current_stock_selection": [
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:53613",
+      "weight": 0.045,
+      "symbol": "MU",
+      "participation": 7.6632e-08
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:86580",
+      "weight": 0.045,
+      "symbol": "NVDA",
+      "participation": 8.4032e-08
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:13407",
+      "weight": 0.045,
+      "symbol": "META",
+      "participation": 1.24606e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:93436",
+      "weight": 0.045,
+      "symbol": "TSLA",
+      "participation": 1.35344e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:14593",
+      "weight": 0.045,
+      "symbol": "AAPL",
+      "participation": 1.39572e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:61241",
+      "weight": 0.045,
+      "symbol": "AMD",
+      "participation": 1.64181e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:10107",
+      "weight": 0.045,
+      "symbol": "MSFT",
+      "participation": 1.65465e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:59328",
+      "weight": 0.045,
+      "symbol": "INTC",
+      "participation": 1.79588e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:90319",
+      "weight": 0.045,
+      "symbol": "GOOGL",
+      "participation": 1.82844e-07
+    },
+    {
+      "day": "2026-10-30",
+      "book": "SPY plus stocks",
+      "id": "PERMNO:84788",
+      "weight": 0.045,
+      "symbol": "AMZN",
+      "participation": 1.835e-07
+    }
+  ],
+  "paired": 9,
+  "positive_spreads": 6,
+  "mean_paired_spread": 0.0028254985311975123,
+  "directory": {
+    "published_utc": "2026-10-30T00:28:01Z",
+    "venues": {
+      "nasdaq": 4013,
+      "nyse": 2677,
+      "amex": 292
+    },
+    "securities_in_snapshot": 6982,
+    "matched_final_screen_symbols": 2945,
+    "outside_cohort_symbols": 3468,
+    "us_labelled_outside_cohort": 1879,
+    "ipo_symbols_seen": 182
+  },
+  "overlap": {
+    "direct": 0.2,
+    "via_spy": 0.041886089999999994,
+    "via_xlk": 0.05490036,
+    "total": 0.29678645,
+    "unassigned_net": 0.0011110589999999375,
+    "unassigned_gross": 0.0012135269999999376,
+    "hard_exclusion": "excluded"
+  },
+  "mixed_book_overlap": {
+    "holdings_date": "2026-11-20",
+    "disclosed": "2026-11-23T13:53:22.036774+00:00",
+    "direct_issuers": 10,
+    "also_in_spy": 10,
+    "direct_weight_identified": 0.44999999999999996,
+    "overlap_weight": 0.1560854655,
+    "issuers": [
+      {
+        "issuer": "CUSIP6:007903",
+        "direct": 0.045,
+        "through_spy": 0.005224005,
+        "symbol": "AMD"
+      },
+      {
+        "issuer": "CUSIP6:02079K",
+        "direct": 0.045,
+        "through_spy": 0.021201921,
+        "symbol": "GOOGL"
+      },
+      {
+        "issuer": "CUSIP6:023135",
+        "direct": 0.045,
+        "through_spy": 0.018267552,
+        "symbol": "AMZN"
+      },
+      {
+        "issuer": "CUSIP6:037833",
+        "direct": 0.045,
+        "through_spy": 0.037697481,
+        "symbol": "AAPL"
+      },
+      {
+        "issuer": "CUSIP6:30303M",
+        "direct": 0.045,
+        "through_spy": 0.0093260025,
+        "symbol": "META"
+      },
+      {
+        "issuer": "CUSIP6:458140",
+        "direct": 0.045,
+        "through_spy": 0.001920825,
+        "symbol": "INTC"
+      },
+      {
+        "issuer": "CUSIP6:594918",
+        "direct": 0.045,
+        "through_spy": 0.027128952,
+        "symbol": "MSFT"
+      },
+      {
+        "issuer": "CUSIP6:595112",
+        "direct": 0.045,
+        "through_spy": 0.0050630445,
+        "symbol": "MU"
+      },
+      {
+        "issuer": "CUSIP6:67066G",
+        "direct": 0.045,
+        "through_spy": 0.0229064085,
+        "symbol": "NVDA"
+      },
+      {
+        "issuer": "CUSIP6:88160R",
+        "direct": 0.045,
+        "through_spy": 0.007349274,
+        "symbol": "TSLA"
+      }
+    ]
+  },
+  "ipo_records": 289,
+  "duplicate_ipo_deal_ids": 0,
+  "fundamentals": {
+    "forms_with_dates": 20443,
+    "matched_forms": 10789,
+    "matched_securities": 2820,
+    "usable_securities": 2510,
+    "usable_versions": 19270,
+    "ambiguous_fact_keys": 0,
+    "source_quarters": [
+      "2025q4",
+      "2026q1",
+      "2026q2",
+      "2026q3"
+    ],
+    "changed_asset_pairs": 113,
+    "original": {
+      "ticker": "VERI",
+      "cik": "1615165",
+      "adsh": "0001615165-25-000027",
+      "period_end": "2025-09-30",
+      "available": "2025-11-10",
+      "form": "10-Q",
+      "Assets": 200221000.0,
+      "Liabilities": 184203000.0,
+      "liabilities_to_assets": 0.919998401766,
+      "accepted_et": "2025-11-07T16:42:08-05:00",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1615165/000161516525000027/0001615165-25-000027-index.htm"
+    },
+    "later": {
+      "ticker": "VERI",
+      "cik": "1615165",
+      "adsh": "0001628280-26-025211",
+      "period_end": "2025-09-30",
+      "available": "2026-04-16",
+      "form": "10-Q/A",
+      "Assets": 198605000.0,
+      "Liabilities": 183110000.0,
+      "liabilities_to_assets": 0.921980816193,
+      "accepted_et": "2026-04-15T14:19:47-04:00",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1615165/000162828026025211/0001628280-26-025211-index.htm"
+    },
+    "after_close": {
+      "ticker": "VERI",
+      "cik": "1615165",
+      "adsh": "0001615165-25-000027",
+      "period_end": "2025-09-30",
+      "available": "2025-11-10",
+      "form": "10-Q",
+      "Assets": 200221000.0,
+      "Liabilities": 184203000.0,
+      "liabilities_to_assets": 0.919998401766,
+      "accepted_et": "2025-11-07T16:42:08-05:00",
+      "filing_url": "https://www.sec.gov/Archives/edgar/data/1615165/000161516525000027/0001615165-25-000027-index.htm"
+    },
+    "in_final_inventory": 2506,
+    "in_final_screen": 2070
+  },
+  "historical_october": [
+    {
+      "day": "1998-10-30",
+      "reviewed": 7255,
+      "active": 7251,
+      "also_pass_final": 1021,
+      "quoted_at_end": 1082
+    },
+    {
+      "day": "1999-10-29",
+      "reviewed": 6866,
+      "active": 6862,
+      "also_pass_final": 1058,
+      "quoted_at_end": 1123
+    },
+    {
+      "day": "2000-10-31",
+      "reviewed": 6642,
+      "active": 6637,
+      "also_pass_final": 1107,
+      "quoted_at_end": 1176
+    },
+    {
+      "day": "2001-10-31",
+      "reviewed": 5886,
+      "active": 5885,
+      "also_pass_final": 1128,
+      "quoted_at_end": 1194
+    },
+    {
+      "day": "2002-10-31",
+      "reviewed": 5413,
+      "active": 5412,
+      "also_pass_final": 1153,
+      "quoted_at_end": 1218
+    },
+    {
+      "day": "2003-10-31",
+      "reviewed": 5043,
+      "active": 5042,
+      "also_pass_final": 1176,
+      "quoted_at_end": 1240
+    },
+    {
+      "day": "2004-10-29",
+      "reviewed": 4981,
+      "active": 4981,
+      "also_pass_final": 1232,
+      "quoted_at_end": 1300
+    },
+    {
+      "day": "2005-10-31",
+      "reviewed": 4933,
+      "active": 4932,
+      "also_pass_final": 1281,
+      "quoted_at_end": 1349
+    },
+    {
+      "day": "2006-10-31",
+      "reviewed": 4865,
+      "active": 4863,
+      "also_pass_final": 1324,
+      "quoted_at_end": 1391
+    },
+    {
+      "day": "2007-10-31",
+      "reviewed": 4742,
+      "active": 4741,
+      "also_pass_final": 1375,
+      "quoted_at_end": 1445
+    },
+    {
+      "day": "2008-10-31",
+      "reviewed": 4520,
+      "active": 4519,
+      "also_pass_final": 1411,
+      "quoted_at_end": 1486
+    },
+    {
+      "day": "2009-10-30",
+      "reviewed": 4232,
+      "active": 4232,
+      "also_pass_final": 1429,
+      "quoted_at_end": 1503
+    },
+    {
+      "day": "2010-10-29",
+      "reviewed": 4101,
+      "active": 4101,
+      "also_pass_final": 1464,
+      "quoted_at_end": 1536
+    },
+    {
+      "day": "2011-10-31",
+      "reviewed": 3948,
+      "active": 3948,
+      "also_pass_final": 1501,
+      "quoted_at_end": 1575
+    },
+    {
+      "day": "2012-10-31",
+      "reviewed": 3832,
+      "active": 3830,
+      "also_pass_final": 1545,
+      "quoted_at_end": 1621
+    },
+    {
+      "day": "2013-10-31",
+      "reviewed": 3814,
+      "active": 3814,
+      "also_pass_final": 1611,
+      "quoted_at_end": 1695
+    },
+    {
+      "day": "2014-10-31",
+      "reviewed": 3943,
+      "active": 3942,
+      "also_pass_final": 1714,
+      "quoted_at_end": 1808
+    },
+    {
+      "day": "2015-10-30",
+      "reviewed": 3953,
+      "active": 3952,
+      "also_pass_final": 1805,
+      "quoted_at_end": 1910
+    },
+    {
+      "day": "2016-10-31",
+      "reviewed": 3820,
+      "active": 3820,
+      "also_pass_final": 1869,
+      "quoted_at_end": 1984
+    },
+    {
+      "day": "2017-10-31",
+      "reviewed": 3768,
+      "active": 3767,
+      "also_pass_final": 1950,
+      "quoted_at_end": 2078
+    },
+    {
+      "day": "2018-10-31",
+      "reviewed": 3805,
+      "active": 3805,
+      "also_pass_final": 2066,
+      "quoted_at_end": 2203
+    },
+    {
+      "day": "2019-10-31",
+      "reviewed": 3787,
+      "active": 3787,
+      "also_pass_final": 2172,
+      "quoted_at_end": 2320
+    },
+    {
+      "day": "2020-10-30",
+      "reviewed": 3851,
+      "active": 3851,
+      "also_pass_final": 2303,
+      "quoted_at_end": 2466
+    },
+    {
+      "day": "2021-10-29",
+      "reviewed": 4462,
+      "active": 4462,
+      "also_pass_final": 2579,
+      "quoted_at_end": 2795
+    },
+    {
+      "day": "2022-10-31",
+      "reviewed": 4564,
+      "active": 4564,
+      "also_pass_final": 2685,
+      "quoted_at_end": 2928
+    },
+    {
+      "day": "2023-10-31",
+      "reviewed": 4254,
+      "active": 4252,
+      "also_pass_final": 2757,
+      "quoted_at_end": 3021
+    },
+    {
+      "day": "2024-10-31",
+      "reviewed": 4007,
+      "active": 4006,
+      "also_pass_final": 2854,
+      "quoted_at_end": 3130
+    },
+    {
+      "day": "2025-10-31",
+      "reviewed": 3843,
+      "active": 3841,
+      "also_pass_final": 2956,
+      "quoted_at_end": 3255
+    }
+  ],
+  "historical_sectors": [
+    {
+      "day": "1998-10-30",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 22
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 82
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1510
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 2721
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 2
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 245
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 456
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Retail",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 1318
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 558
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "1998-10-30",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 333
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 20
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 75
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1435
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 2513
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 2
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 199
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 440
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 1350
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 521
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "1999-10-29",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 307
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 67
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1344
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 2384
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 2
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "No price",
+      "securities": 2
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 193
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 408
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 1459
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 516
+    },
+    {
+      "day": "2000-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 252
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 58
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1215
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 2162
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 182
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 354
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 1225
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 455
+    },
+    {
+      "day": "2001-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 219
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 15
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 51
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1158
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 2015
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 153
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 340
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 1086
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 395
+    },
+    {
+      "day": "2002-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 198
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 11
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 49
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1140
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1876
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 144
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 311
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 954
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 371
+    },
+    {
+      "day": "2003-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 185
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 9
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 51
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1115
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1865
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 140
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 305
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 927
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 385
+    },
+    {
+      "day": "2004-10-29",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 183
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 10
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 50
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1134
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1828
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 149
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Mining",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 296
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 890
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 392
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2005-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 181
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 8
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 51
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1122
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1823
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 174
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 274
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 837
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 391
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2006-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 180
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 8
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 52
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1083
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1792
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 186
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 261
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 801
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 381
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 5
+    },
+    {
+      "day": "2007-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 172
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 10
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 48
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1031
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1710
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 189
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 240
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 766
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 367
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2008-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 154
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 11
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 46
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 962
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1580
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 182
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 232
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 734
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 343
+    },
+    {
+      "day": "2009-10-30",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 141
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 13
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 45
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 923
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1541
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 181
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 226
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 716
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 322
+    },
+    {
+      "day": "2010-10-29",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 133
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 10
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 42
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 904
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1465
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 183
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 228
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 678
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 319
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2011-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 116
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 10
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 42
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 872
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1428
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 179
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 217
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 672
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 301
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 104
+    },
+    {
+      "day": "2012-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 11
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 46
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 891
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1387
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 179
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 217
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 674
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 298
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2013-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 105
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 13
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 50
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 914
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1409
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 182
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 230
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 720
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 306
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 5
+    },
+    {
+      "day": "2014-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 110
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 47
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 921
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1393
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 163
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 225
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 746
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Services",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 309
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 5
+    },
+    {
+      "day": "2015-10-30",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 126
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 11
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 48
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 887
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1347
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 149
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 220
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 728
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 293
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 6
+    },
+    {
+      "day": "2016-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 129
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 10
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 46
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 875
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1289
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 172
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 216
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 745
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 267
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 4
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 141
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 11
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 45
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 893
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1302
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 167
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 214
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 764
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 257
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 3
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 147
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 47
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 881
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1344
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 158
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 204
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 736
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 266
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 137
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 17
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 50
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 923
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1339
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 138
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 202
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 784
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 254
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 143
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 18
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 54
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1236
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1439
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 131
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 216
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 965
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 260
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 141
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 15
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 57
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1284
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1469
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 134
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 219
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 980
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 255
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 2
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 148
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 60
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 1091
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1412
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 136
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 218
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 930
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 243
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 146
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 14
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 54
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 944
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1415
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Stale price",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 132
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 201
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 867
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 236
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 4
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 138
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Agriculture",
+      "reason": "Dated active",
+      "securities": 13
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Construction",
+      "reason": "Dated active",
+      "securities": 56
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Dated active",
+      "securities": 895
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Manufacturing",
+      "reason": "Dated active",
+      "securities": 1351
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Mining",
+      "reason": "Dated active",
+      "securities": 124
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Public administration",
+      "reason": "Dated active",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Retail",
+      "reason": "Dated active",
+      "securities": 189
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "reason": "Dated active",
+      "securities": 842
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "reason": "Inactive",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Transport and utilities",
+      "reason": "Dated active",
+      "securities": 232
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Unclassified",
+      "reason": "Dated active",
+      "securities": 7
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Wholesale",
+      "reason": "Dated active",
+      "securities": 131
+    }
+  ],
+  "dated_sector_reasons": [
+    {
+      "day": "2017-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 9
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 40
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 3
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 685
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 137
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 52
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1067
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 170
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 51
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 131
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 24
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 17
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 2
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 189
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 17
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 10
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 585
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 103
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 56
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 239
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 21
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 7
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 3
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 121
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 13
+    },
+    {
+      "day": "2017-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 7
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 7
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 40
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Missing or zero verified volume",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 694
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 125
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 72
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1050
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 178
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 73
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 138
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 20
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 9
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 189
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 17
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 8
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 584
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 104
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 74
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 232
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 16
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 9
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 2
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 123
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 14
+    },
+    {
+      "day": "2018-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 10
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 11
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 41
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 3
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 693
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 143
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 44
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1054
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 220
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 69
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 124
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 29
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 172
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 26
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 6
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 539
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 131
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 64
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 229
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 26
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 11
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 110
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 21
+    },
+    {
+      "day": "2019-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 6
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 15
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Agriculture",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 47
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 696
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 143
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 83
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1164
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 114
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 60
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 123
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 8
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 7
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 183
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 11
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 8
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 627
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 59
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 97
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 236
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 14
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 3
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 116
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 11
+    },
+    {
+      "day": "2020-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 16
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 16
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Agriculture",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 47
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 772
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 109
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 353
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "missing decision-date price",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1231
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 91
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 116
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 115
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 7
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 9
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 182
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 9
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 23
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 4
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 677
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 41
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 243
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 235
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 11
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 14
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 113
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 10
+    },
+    {
+      "day": "2021-10-29",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 18
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 13
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 49
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 5
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 953
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 175
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 154
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1107
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 293
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 68
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 114
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 10
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 10
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 186
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 22
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 10
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 723
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 171
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 86
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 225
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 25
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 4
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 116
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 19
+    },
+    {
+      "day": "2022-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 13
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 12
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 51
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 8
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 807
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 249
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 33
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1062
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 320
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 29
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 110
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 18
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 8
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 172
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 35
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 9
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 684
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 214
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 32
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 208
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 29
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 112
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 29
+    },
+    {
+      "day": "2023-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 12
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 47
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 4
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 756
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 164
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 22
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1184
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 210
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 20
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 112
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 16
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 4
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 174
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 23
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Services",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 664
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 144
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 58
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 204
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 22
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 9
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 3
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 119
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 17
+    },
+    {
+      "day": "2024-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 12
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 48
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 3
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Construction",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 4
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 778
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 81
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 34
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1223
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 99
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 28
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 114
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 8
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Mining",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 160
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 22
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Retail",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "screen_reason": "CRSP status or prices",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 725
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 64
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 53
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 204
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 19
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 8
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 114
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 12
+    },
+    {
+      "day": "2025-10-31",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 5
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Agriculture",
+      "screen_reason": "Pass",
+      "securities": 10
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Agriculture",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "Pass",
+      "securities": 45
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Construction",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Pass",
+      "securities": 707
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 54
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "event to verify",
+      "securities": 3
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Finance and real estate",
+      "screen_reason": "partial",
+      "securities": 6
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Pass",
+      "securities": 1045
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 110
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "event to verify",
+      "securities": 7
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Manufacturing",
+      "screen_reason": "partial",
+      "securities": 3
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Mining",
+      "screen_reason": "Pass",
+      "securities": 104
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Mining",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Public administration",
+      "screen_reason": "Pass",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "One share exceeds stock ticket",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "Pass",
+      "securities": 147
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 17
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Retail",
+      "screen_reason": "event to verify",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Services",
+      "screen_reason": "Pass",
+      "securities": 610
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Services",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 78
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Services",
+      "screen_reason": "event to verify",
+      "securities": 5
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Services",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 3
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Services",
+      "screen_reason": "partial",
+      "securities": 4
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Pass",
+      "securities": 186
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 11
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "event to verify",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Transport and utilities",
+      "screen_reason": "partial",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Unclassified",
+      "screen_reason": "Pass",
+      "securities": 4
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Unclassified",
+      "screen_reason": "documented exit",
+      "securities": 2
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Unclassified",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 6
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Unclassified",
+      "screen_reason": "partial",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Unclassified",
+      "screen_reason": "unmatched",
+      "securities": 518
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "Pass",
+      "securities": 100
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "Turnover limit exceeded",
+      "securities": 16
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "event to verify",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "less than 252 common returns in 504 sessions",
+      "securities": 1
+    },
+    {
+      "day": "2026-10-30",
+      "sector_group": "Wholesale",
+      "screen_reason": "partial",
+      "securities": 1
+    }
+  ],
+  "historical_examples": {
+    "entry": {
+      "ticker": "LBRT",
+      "permno": 17221,
+      "listed": "2018-01-12",
+      "observed": "2018-10-31"
+    },
+    "exit": {
+      "ticker": "TCF",
+      "permno": 10375,
+      "last": "2019-07-31",
+      "observed": "2018-10-31"
+    },
+    "reclassification": {
+      "permno": "10145",
+      "ticker": "HON",
+      "day_before": "2016-10-31",
+      "sector_group_before": "Manufacturing",
+      "sector_before": "3714",
+      "day": "2017-10-31",
+      "sector_group": "Wholesale",
+      "sector": "5099"
+    }
+  },
+  "live_allowed": 0,
+  "current_sector_date": "2025-12-31",
+  "terminal_status": {
+    "Successor or mixed consideration requires tracing": 673,
+    "Cash included in terminal return": 490,
+    "Settlement requires evidence": 267
+  },
+  "current_reasons": {
+    "Pass": 2959,
+    "unmatched": 518,
+    "Turnover limit exceeded": 291,
+    "event to verify": 18,
+    "partial": 17,
+    "less than 252 common returns in 504 sessions": 14,
+    "One share exceeds stock ticket": 5,
+    "documented exit": 2
+  },
+  "archive": "b1d0fc86f9a8d7ab"
+}

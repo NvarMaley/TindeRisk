@@ -1,0 +1,1238 @@
+{
+  "Minimum risk": {
+    "ready_for_feasibility": true,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "minimum",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": null,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "confirmed for study",
+    "reasons": [],
+    "issues": [],
+    "feasibility": "to be tested",
+    "equivalent": null,
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Free range 6–10%": {
+    "ready_for_feasibility": true,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "target_band",
+      "basis": "investment sleeve",
+      "low": 0.06,
+      "high": 0.1,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "confirmed for study",
+    "reasons": [],
+    "issues": [],
+    "feasibility": "to be tested",
+    "equivalent": {
+      "basis": "household",
+      "low": 0.041999999999999996,
+      "high": 0.06999999999999999,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Ceiling of 35%": {
+    "ready_for_feasibility": true,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.35,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "confirmed for study",
+    "reasons": [],
+    "issues": [],
+    "feasibility": "to be tested",
+    "equivalent": {
+      "basis": "household",
+      "low": null,
+      "high": 0.24499999999999997,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "40 per cent ceiling": {
+    "ready_for_feasibility": true,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": {
+      "decimal": 0.18,
+      "basis": "investment sleeve",
+      "as_of": "2026-11-23",
+      "portrait_version": 1,
+      "evidence": "Example constructed · supposed maximum of 18%",
+      "portrait_digest": "4ba29d798ff38606996396eac44add87079d6c19f90d4ae7ef6413c04c50962c"
+    },
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.4,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "confirmed for study",
+    "reasons": [],
+    "issues": [],
+    "feasibility": "to be tested",
+    "equivalent": {
+      "basis": "household",
+      "low": null,
+      "high": 0.27999999999999997,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Target of 40% ± 2 points": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": {
+      "choice": {
+        "mode": "minimum",
+        "basis": "investment sleeve",
+        "low": null,
+        "high": null,
+        "high_exclusive": false,
+        "unit": "decimal",
+        "period": "year",
+        "currency": "CHF",
+        "band": null
+      },
+      "reason": "Compare the minimum risk taking into account the reserve and the limits expressed."
+    },
+    "feasibility_certificate": {
+      "decimal": 0.18,
+      "basis": "investment sleeve",
+      "as_of": "2026-11-23",
+      "portrait_version": 1,
+      "evidence": "Example constructed · supposed maximum of 18%",
+      "portrait_digest": "4ba29d798ff38606996396eac44add87079d6c19f90d4ae7ef6413c04c50962c"
+    },
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "target_band",
+      "basis": "investment sleeve",
+      "low": 0.38,
+      "high": 0.42,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "target out of range",
+    "reasons": [
+      "F03 · withdrawal from the protective horizon on 2027-03-31 (15000–15000 CHF)."
+    ],
+    "issues": [],
+    "feasibility": "target out of range",
+    "equivalent": {
+      "basis": "household",
+      "low": 0.26599999999999996,
+      "high": 0.294,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "High target, intolerable drop": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": {
+      "choice": {
+        "mode": "minimum",
+        "basis": "investment sleeve",
+        "low": null,
+        "high": null,
+        "high_exclusive": false,
+        "unit": "decimal",
+        "period": "year",
+        "currency": "CHF",
+        "band": null
+      },
+      "reason": "Compare the minimum risk taking into account the reserve and the limits expressed."
+    },
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 4000.0,
+      "high": 6000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "target_band",
+      "basis": "investment sleeve",
+      "low": 0.38,
+      "high": 0.42,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "no",
+    "state": "to be clarified",
+    "reasons": [
+      "F03 · withdrawal from the protective horizon on 2027-03-31 (15000–15000 CHF).",
+      "D03 · a 15% decrease prompted you to sell out of discomfort.",
+      "F04 · Declared difficulty threshold between 4000 et 6000 CHF. This threshold remains applicable."
+    ],
+    "issues": [
+      "Scenarios · acceptance of the decrease to be clarified.",
+      "F04 · the illustrated loss exceeds the declared difficulty threshold. Review the application or specify F04."
+    ],
+    "feasibility": "to be tested",
+    "equivalent": {
+      "basis": "household",
+      "low": 0.26599999999999996,
+      "high": 0.294,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "100% ceiling on the household": {
+    "ready_for_feasibility": true,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "cap",
+      "basis": "household",
+      "low": null,
+      "high": 1.0,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "confirmed for study",
+    "reasons": [],
+    "issues": [],
+    "feasibility": "to be tested",
+    "equivalent": {
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 1.4285714285714286,
+      "high_exclusive": false
+    },
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Undecided customers": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "unknown",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": null,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": false,
+    "bills": "yes",
+    "comfort": "unknown",
+    "state": "pending confirmation",
+    "reasons": [],
+    "issues": [
+      "Scenarios · acceptance of the decrease to be clarified."
+    ],
+    "feasibility": "to be tested",
+    "equivalent": null,
+    "household_invested_share": 0.7,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 35000.0,
+      "high": 35000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3500.0,
+          "high": 3500.0
+        },
+        "household_fraction": {
+          "low": 0.07,
+          "high": 0.07
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 7000.0,
+          "high": 7000.0
+        },
+        "household_fraction": {
+          "low": 0.14,
+          "high": 0.14
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Estimated bill of CHF 10,000–20,000": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "minimum",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": null,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "to be clarified",
+    "reasons": [],
+    "issues": [
+      "F01/F03 · amount to be protected or invested."
+    ],
+    "feasibility": "to be tested",
+    "equivalent": null,
+    "household_invested_share": null,
+    "reserve_chf": {
+      "low": 0.0,
+      "high": 20000.0
+    },
+    "investable_chf": {
+      "low": 30000.0,
+      "high": 50000.0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 3000.0,
+          "high": 5000.0
+        },
+        "household_fraction": {
+          "low": 0.06,
+          "high": 0.1
+        },
+        "pocket_fraction": 0.1
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 6000.0,
+          "high": 10000.0
+        },
+        "household_fraction": {
+          "low": 0.12,
+          "high": 0.2
+        },
+        "pocket_fraction": 0.2
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 20000.0,
+          "high": 20000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 20000.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "All capital is protected": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "minimum",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": null,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "to be clarified",
+    "reasons": [],
+    "issues": [
+      "F01/F03 · no investment investment sleeve."
+    ],
+    "feasibility": "no investment capital",
+    "equivalent": null,
+    "household_invested_share": 0.0,
+    "reserve_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "investable_chf": {
+      "low": 0,
+      "high": 0
+    },
+    "stresses": [
+      {
+        "months": 1,
+        "loss_fraction": 0.1,
+        "loss_chf": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "household_fraction": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "pocket_fraction": null
+      },
+      {
+        "months": 12,
+        "loss_fraction": 0.2,
+        "loss_chf": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "household_fraction": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "pocket_fraction": null
+      }
+    ],
+    "dated_cash": [
+      {
+        "date": "2026-11-23",
+        "phase": "before flow",
+        "cash_chf": {
+          "low": 15000.0,
+          "high": 15000.0
+        }
+      },
+      {
+        "date": "2027-03-31",
+        "phase": "After withdrawals",
+        "cash_chf": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      }
+    ],
+    "allocation_authorized": false
+  },
+  "Date of expenditure unknown": {
+    "ready_for_feasibility": false,
+    "ranking_authorized": false,
+    "alternative": null,
+    "feasibility_certificate": null,
+    "declared_risk": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "priority": "high",
+      "strength": "mandatory",
+      "missing": "ask for clarification"
+    },
+    "declared_bounds_pct": {
+      "max": 12.0
+    },
+    "capacity_loss_chf": {
+      "low": 15000.0,
+      "high": 15000.0
+    },
+    "policy": "3.0-2026-11-23",
+    "portrait_version": 1,
+    "initial": {
+      "mode": "cap",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": 0.12,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "suggestion_reason": "P02/P03 · declared ceiling.",
+    "choice": {
+      "mode": "minimum",
+      "basis": "investment sleeve",
+      "low": null,
+      "high": null,
+      "high_exclusive": false,
+      "unit": "decimal",
+      "period": "year",
+      "currency": "CHF",
+      "band": null
+    },
+    "accepted": true,
+    "bills": "yes",
+    "comfort": "yes",
+    "state": "to be clarified",
+    "reasons": [],
+    "issues": [
+      "F03 · date to be specified, flow passed to check or conversion to CHF required"
+    ],
+    "feasibility": "to be tested",
+    "equivalent": null,
+    "household_invested_share": null,
+    "reserve_chf": null,
+    "investable_chf": null,
+    "stresses": [],
+    "dated_cash": [],
+    "allocation_authorized": false
+  }
+}

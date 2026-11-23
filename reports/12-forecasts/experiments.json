@@ -1,0 +1,3184 @@
+[
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "ewma",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.16324413845032854,
+      "ci": [
+        -0.09826532661669608,
+        0.6259114711060723
+      ],
+      "positive_segments": 1,
+      "mse": 2.1824755134855842e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.646964615115727,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 45867.52907573173,
+        "fees_chf": 166.4260367988571,
+        "frequency": 0.17142857142857143,
+        "mean_excess": 0.010898433170824041
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 0.039141638652681825,
+      "ci": [
+        -0.05173746350199016,
+        0.16644079385386248
+      ],
+      "positive_segments": 2,
+      "mse": 3.380411530794226e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -8.032829844923286,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 53422.69576865364,
+        "fees_chf": 141.95660900435882,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005891764967067609
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "garch",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.20279706462303984,
+      "ci": [
+        -0.075385106804227,
+        0.818225767070214
+      ],
+      "positive_segments": 2,
+      "mse": 1.665518422363506e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.68651754128844,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46715.190692848126,
+        "fees_chf": 190.18208248572034,
+        "frequency": 0.2,
+        "mean_excess": 0.011338736213664777
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 0.060804823375566766,
+      "ci": [
+        -0.03367930109493534,
+        0.1936111406431968
+      ],
+      "positive_segments": 2,
+      "mse": 3.556992218876868e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -8.05449302964617,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 53026.73733108636,
+        "fees_chf": 165.95680381430734,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.006536235172163815
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_realized",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.19971799901082354,
+      "ci": [
+        0.02621966121252,
+        0.4894090234239324
+      ],
+      "positive_segments": 3,
+      "mse": 1.629751330741714e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.6834384756762235,
+      "reference_score": -7.483720476665399,
+      "statistical": true,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47224.70500516619,
+        "fees_chf": 135.34570249391547,
+        "frequency": 0.22857142857142856,
+        "mean_excess": 0.014062681354507195
+      },
+      "reason": "Economic gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 0.08045123733674368,
+      "ci": [
+        -0.013990300618366824,
+        0.22732557052530789
+      ],
+      "positive_segments": 2,
+      "mse": 2.3855793204439616e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -8.074139443607345,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54494.805385879554,
+        "fees_chf": 108.36204316137608,
+        "frequency": 0.15942028985507245,
+        "mean_excess": 0.00721017946827902
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_realized",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.09493339103523478,
+      "ci": [
+        -0.29570283880887777,
+        0.020805504963389274
+      ],
+      "positive_segments": 0,
+      "mse": 1.9044702582682726e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.388787085630166,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47582.27972273811,
+        "fees_chf": 132.75416997183925,
+        "frequency": 0.21428571428571427,
+        "mean_excess": 0.013901821360870042
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.03168076009136473,
+      "ci": [
+        -0.10741961862557367,
+        0.014243020056424348
+      ],
+      "positive_segments": 1,
+      "mse": 3.007217495870843e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.962007446179238,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54270.4913760717,
+        "fees_chf": 107.25768823255464,
+        "frequency": 0.15942028985507245,
+        "mean_excess": 0.006964852152266423
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_momentum",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.39372095787701306,
+      "ci": [
+        -1.171492546635836,
+        0.15608095259523128
+      ],
+      "positive_segments": 1,
+      "mse": 1.7676935163272828e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.089999518788387,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 51008.59426118249,
+        "fees_chf": 89.30601547664102,
+        "frequency": 0.2571428571428571,
+        "mean_excess": 0.017221098266628213
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.06782885205275824,
+      "ci": [
+        -0.23887756547989253,
+        0.060496062717641436
+      ],
+      "positive_segments": 1,
+      "mse": 2.706530490632858e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.925859354217845,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55369.326914927195,
+        "fees_chf": 84.95708193616187,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.008104341014880544
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_momentum",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.01024063445095269,
+      "ci": [
+        -0.022232844305129503,
+        0.043763082642598476
+      ],
+      "positive_segments": 1,
+      "mse": 1.8570588125637782e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.493961111116352,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47258.685331821136,
+        "fees_chf": 134.74755811924862,
+        "frequency": 0.2,
+        "mean_excess": 0.01375400576037884
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 0.02205409842272076,
+      "ci": [
+        -0.008419201820087199,
+        0.063833362806405
+      ],
+      "positive_segments": 2,
+      "mse": 2.7578507862701747e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -8.015742304693324,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54205.77192605303,
+        "fees_chf": 106.94205406776673,
+        "frequency": 0.15942028985507245,
+        "mean_excess": 0.0069471006805759735
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_liquidity",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.09631348073734511,
+      "ci": [
+        -0.06777274070988991,
+        0.3104401423266319
+      ],
+      "positive_segments": 3,
+      "mse": 1.6668228637065298e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.580033957402746,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 51361.79190903514,
+        "fees_chf": 78.41320770909364,
+        "frequency": 0.2714285714285714,
+        "mean_excess": 0.01753442135677129
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.02462038543768803,
+      "ci": [
+        -0.1486048998788165,
+        0.11443227014396941
+      ],
+      "positive_segments": 2,
+      "mse": 2.6648628295329584e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.969067820832914,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55480.18097555995,
+        "fees_chf": 77.73610179399157,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.008139920151133932
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_liquidity",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.13960079786468702,
+      "ci": [
+        -0.051581997682692934,
+        0.5304611123734616
+      ],
+      "positive_segments": 2,
+      "mse": 1.7808361834923675e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.623321274530087,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47698.62892205289,
+        "fees_chf": 127.2726020972087,
+        "frequency": 0.2,
+        "mean_excess": 0.011507156494662057
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.04727758836167529,
+      "ci": [
+        -0.09365236342605084,
+        -0.006223575923455783
+      ],
+      "positive_segments": 0,
+      "mse": 3.174941963895903e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.946410617908929,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 53710.66427002409,
+        "fees_chf": 122.78125207763685,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.006451309493079091
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_vix",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.3207131989728926,
+      "ci": [
+        0.026072051436505463,
+        0.9012224314358798
+      ],
+      "positive_segments": 2,
+      "mse": 2.1316268754690807e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.804433675638293,
+      "reference_score": -7.483720476665399,
+      "statistical": true,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 48429.91686999227,
+        "fees_chf": 113.73471799018864,
+        "frequency": 0.22857142857142856,
+        "mean_excess": 0.011866215260577438
+      },
+      "reason": "Economic gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 0.019700461721568627,
+      "ci": [
+        -0.07559531645494916,
+        0.12555169048471915
+      ],
+      "positive_segments": 2,
+      "mse": 2.5547569659507082e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -8.01338866799217,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54101.17666660082,
+        "fees_chf": 112.6963528947578,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.0069808145767815185
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_vix",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.10253120102702717,
+      "ci": [
+        -0.2820379869947236,
+        -0.0011977547068292341
+      ],
+      "positive_segments": 0,
+      "mse": 2.0034352819429352e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.381189275638373,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47016.57135708506,
+        "fees_chf": 136.7189885687012,
+        "frequency": 0.2,
+        "mean_excess": 0.013771730428331777
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.030895953012341493,
+      "ci": [
+        -0.07353947706560077,
+        0.0004069400494467477
+      ],
+      "positive_segments": 0,
+      "mse": 3.08044588124558e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.96279225325826,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54075.94362000981,
+        "fees_chf": 111.60447802521932,
+        "frequency": 0.15942028985507245,
+        "mean_excess": 0.006639646257760971
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_curve",
+    "validation": {
+      "n": 47,
+      "coverage": 0.6714285714285714,
+      "gain": -0.7335762947299225,
+      "ci": [
+        -2.217466277938116,
+        0.04720281590850891
+      ],
+      "positive_segments": 0,
+      "mse": 2.3479475190856296e-07,
+      "reference_mse": 2.753939920301145e-07,
+      "score": -6.749100171863892,
+      "reference_score": -7.482676466593814,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "candidate_book": {
+        "terminal_chf": 45946.992264492386,
+        "fees_chf": 65.4150023851943,
+        "frequency": 0.2553191489361702,
+        "mean_excess": 0.017125949961094084
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.049168637634009756,
+      "ci": [
+        -0.18283485077328945,
+        0.09124494012310769
+      ],
+      "positive_segments": 2,
+      "mse": 2.709967811203586e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.9445195686365935,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55492.609747811635,
+        "fees_chf": 77.75194654915117,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.008139920151133927
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_curve",
+    "validation": {
+      "n": 47,
+      "coverage": 0.6714285714285714,
+      "gain": -0.27237349627783114,
+      "ci": [
+        -0.6097867418686583,
+        -0.04819700919446107
+      ],
+      "positive_segments": 0,
+      "mse": 2.682365084204493e-07,
+      "reference_mse": 2.753939920301145e-07,
+      "score": -7.2103029703159836,
+      "reference_score": -7.482676466593814,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "candidate_book": {
+        "terminal_chf": 42913.01051037568,
+        "fees_chf": 92.35769243715187,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012733917078724165
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.05318334947471317,
+      "ci": [
+        -0.11370182576802611,
+        -0.006924890944811279
+      ],
+      "positive_segments": 0,
+      "mse": 3.0913939272752145e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.940504856795891,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54106.5701941926,
+        "fees_chf": 113.76316138550843,
+        "frequency": 0.15942028985507245,
+        "mean_excess": 0.006415403209789669
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_unemployment",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.1406109382479758,
+      "ci": [
+        -0.6540767597458967,
+        0.17363867375839645
+      ],
+      "positive_segments": 2,
+      "mse": 1.7360362429147035e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.343109538417423,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 51328.84447210182,
+        "fees_chf": 78.40118294972478,
+        "frequency": 0.2714285714285714,
+        "mean_excess": 0.017601431772092942
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.02888701621715194,
+      "ci": [
+        -0.1435060198016536,
+        0.09995281267553596
+      ],
+      "positive_segments": 2,
+      "mse": 2.6694028301479434e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.964801190053451,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55492.609747811635,
+        "fees_chf": 77.75194654915117,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.008139920151133927
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_unemployment",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.043017695776341645,
+      "ci": [
+        -0.11358133508145835,
+        0.0013797667055428574
+      ],
+      "positive_segments": 0,
+      "mse": 2.0789991265628393e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.440702780889059,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46674.14011845995,
+        "fees_chf": 139.93155515186947,
+        "frequency": 0.2,
+        "mean_excess": 0.01347768180608506
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.012937313657338636,
+      "ci": [
+        -0.03041886360050441,
+        0.0007422529632924542
+      ],
+      "positive_segments": 0,
+      "mse": 3.1904933727769e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.980750892613264,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54107.0239159589,
+        "fees_chf": 114.38204534910642,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005823451582531341
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_tone",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.09391521867643596,
+      "ci": [
+        -0.49208896789302065,
+        0.17459650979378047
+      ],
+      "positive_segments": 2,
+      "mse": 1.7263987355246266e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.3898052579889635,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 51328.84447210182,
+        "fees_chf": 78.40118294972478,
+        "frequency": 0.2714285714285714,
+        "mean_excess": 0.017601431772092942
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.022135564229272948,
+      "ci": [
+        -0.1404623426616935,
+        0.10789491309895761
+      ],
+      "positive_segments": 2,
+      "mse": 2.6537459696144406e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.97155264204133,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55492.609747811635,
+        "fees_chf": 77.75194654915117,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.008139920151133927
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_tone",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -0.03214372390141278,
+      "ci": [
+        -0.0802208105389012,
+        0.007238803188288746
+      ],
+      "positive_segments": 0,
+      "mse": 1.941314688267609e-07,
+      "reference_mse": 2.094799574054774e-07,
+      "score": -7.451576752763987,
+      "reference_score": -7.483720476665399,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46734.0373029812,
+        "fees_chf": 137.23413036692844,
+        "frequency": 0.2,
+        "mean_excess": 0.013681934491624236
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": -0.03350520204716134,
+      "ci": [
+        -0.07923896107476161,
+        -0.002627182827343213
+      ],
+      "positive_segments": 0,
+      "mse": 3.1562427373718185e-08,
+      "reference_mse": 3.22881125158756e-08,
+      "score": -7.960183004223443,
+      "reference_score": -7.993688206270601,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54187.31743758828,
+        "fees_chf": 115.4783984653287,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005991636552742028
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "alone_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 34,
+      "coverage": 0.4927536231884058,
+      "gain": 0.024306274595117392,
+      "ci": [
+        -0.12256258074249012,
+        0.24886954045188722
+      ],
+      "positive_segments": 2,
+      "mse": 4.59053198746354e-08,
+      "reference_mse": 5.969455649316215e-08,
+      "score": -7.959100286796924,
+      "reference_score": -7.934794012201809,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 45360.0327805487,
+        "fees_chf": 77.12245527468902,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968007
+      },
+      "candidate_book": {
+        "terminal_chf": 46796.598075813534,
+        "fees_chf": 59.62645288633669,
+        "frequency": 0.11764705882352941,
+        "mean_excess": 0.008209281695493495
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 21,
+    "model": "increment_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 34,
+      "coverage": 0.4927536231884058,
+      "gain": -0.03892716430107139,
+      "ci": [
+        -0.08642161062097178,
+        -0.004177238638481359
+      ],
+      "positive_segments": 0,
+      "mse": 5.983571598950436e-08,
+      "reference_mse": 5.969455649316215e-08,
+      "score": -7.895866847900737,
+      "reference_score": -7.934794012201809,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 45360.0327805487,
+        "fees_chf": 77.12245527468902,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968007
+      },
+      "candidate_book": {
+        "terminal_chf": 45428.461228236105,
+        "fees_chf": 77.77495959741395,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968007
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_realized",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 5.887860060371467e-05,
+      "ci": [
+        -2.04464277147632e-05,
+        0.00014948827125649733
+      ],
+      "positive_segments": 2,
+      "mse": 0.0023803223226579093,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0023803223226579093,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 1.2806088942369207e-05,
+      "ci": [
+        -6.0082099723538094e-05,
+        7.974347854973295e-05
+      ],
+      "positive_segments": 2,
+      "mse": 0.0015916058595145724,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015916058595145724,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_realized",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 9.270629887346056e-05,
+      "ci": [
+        -3.6824981297448944e-05,
+        0.00022375882178725395
+      ],
+      "positive_segments": 2,
+      "mse": 0.0023464946243881638,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0023464946243881638,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 1.564864015936316e-05,
+      "ci": [
+        -0.00010402233590072762,
+        0.00011857804892389102
+      ],
+      "positive_segments": 2,
+      "mse": 0.0015887633082975784,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015887633082975784,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_momentum",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 3.175845896711784e-05,
+      "ci": [
+        -2.7827197703784702e-05,
+        8.150296767112591e-05
+      ],
+      "positive_segments": 1,
+      "mse": 0.0024074424642945066,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0024074424642945066,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 4.097258040076221e-05,
+      "ci": [
+        -2.7166085714896827e-05,
+        0.00010706516463998936
+      ],
+      "positive_segments": 2,
+      "mse": 0.0015634393680561795,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015634393680561795,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_momentum",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 6.199019356026964e-05,
+      "ci": [
+        -3.5121202556418495e-05,
+        0.00014175123529066707
+      ],
+      "positive_segments": 2,
+      "mse": 0.0023772107297013547,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0023772107297013547,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 47387.780307539135,
+        "fees_chf": 190.30393428315278,
+        "frequency": 0.2,
+        "mean_excess": 0.013327952795037483
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 5.333971404058639e-05,
+      "ci": [
+        -5.487312617539418e-05,
+        0.00015625684637859808
+      ],
+      "positive_segments": 2,
+      "mse": 0.0015510722344163552,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015510722344163552,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_liquidity",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -2.7474532402203102e-05,
+      "ci": [
+        -0.00023144727574067855,
+        0.00010663091191287754
+      ],
+      "positive_segments": 1,
+      "mse": 0.002466675455663827,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.002466675455663827,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 43177.752595753576,
+        "fees_chf": 431.7734000504794,
+        "frequency": 0.2,
+        "mean_excess": 0.013327734021584992
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 3.920358819393811e-05,
+      "ci": [
+        -4.004770690948836e-05,
+        0.00010664127398946619
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015652083602630035,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015652083602630035,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_liquidity",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -1.5660553637947247e-05,
+      "ci": [
+        -0.0002467788310121189,
+        0.00013830340854827157
+      ],
+      "positive_segments": 1,
+      "mse": 0.0024548614768995715,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0024548614768995715,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 44483.81228669063,
+        "fees_chf": 244.88350291184773,
+        "frequency": 0.2,
+        "mean_excess": 0.013327734021086005
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 4.844715845556206e-05,
+      "ci": [
+        -7.511682911029355e-05,
+        0.0001482136051936089
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015559647900013796,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015559647900013796,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_vix",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 8.07423640931685e-05,
+      "ci": [
+        -2.8129675490988822e-05,
+        0.00017791212206665853
+      ],
+      "positive_segments": 2,
+      "mse": 0.002358458559168456,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.002358458559168456,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 7.126377152815922e-05,
+      "ci": [
+        -2.1490726700522135e-05,
+        0.00015912190471925434
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015331481769287824,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015331481769287824,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_vix",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 0.00011305763852689306,
+      "ci": [
+        -5.8270665762325236e-05,
+        0.0002718407845165133
+      ],
+      "positive_segments": 2,
+      "mse": 0.0023261432847347316,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0023261432847347316,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 8.537181729501324e-05,
+      "ci": [
+        -5.4560347466551014e-05,
+        0.00021307454121903137
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015190401311619285,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015190401311619285,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_curve",
+    "validation": {
+      "n": 47,
+      "coverage": 0.6714285714285714,
+      "gain": -3.36600222473074e-05,
+      "ci": [
+        -0.000256288491642275,
+        0.00013726816274026103
+      ],
+      "positive_segments": 1,
+      "mse": 0.0023843128143939568,
+      "reference_mse": 0.002350652792146649,
+      "score": 0.0023843128143939568,
+      "reference_score": 0.002350652792146649,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "candidate_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 4.8976510303925323e-05,
+      "ci": [
+        -7.46472001347676e-05,
+        0.00014390590421143145
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015554354381530162,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015554354381530162,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55400.57216143105,
+        "fees_chf": 246.1818038035913,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.005783424206434839
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_curve",
+    "validation": {
+      "n": 47,
+      "coverage": 0.6714285714285714,
+      "gain": -3.781673958098441e-05,
+      "ci": [
+        -0.0002669105528938012,
+        0.000137044801460659
+      ],
+      "positive_segments": 1,
+      "mse": 0.002388469531727633,
+      "reference_mse": 0.002350652792146649,
+      "score": 0.002388469531727633,
+      "reference_score": 0.002350652792146649,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "candidate_book": {
+        "terminal_chf": 42564.94758800091,
+        "fees_chf": 94.53863442258864,
+        "frequency": 0.19148936170212766,
+        "mean_excess": 0.012479665119536767
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 4.831489532787677e-05,
+      "ci": [
+        -8.687727918864078e-05,
+        0.0001533205067715457
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015560970531290647,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015560970531290647,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 55588.0254517504,
+        "fees_chf": 296.07553496290086,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.005783424206434834
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_unemployment",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -2.6069377917816365e-05,
+      "ci": [
+        -9.157292868166642e-05,
+        3.3621206351311285e-05
+      ],
+      "positive_segments": 1,
+      "mse": 0.0024652703011794406,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0024652703011794406,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 38973.6655697438,
+        "fees_chf": 211.10034965210542,
+        "frequency": 0.14285714285714285,
+        "mean_excess": 0.011222061258760923
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 3.0441718320866915e-05,
+      "ci": [
+        -5.763062678675305e-06,
+        5.7796864431318843e-05
+      ],
+      "positive_segments": 2,
+      "mse": 0.001573970230136075,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.001573970230136075,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_unemployment",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": -1.489173214639216e-05,
+      "ci": [
+        -8.416535050471036e-05,
+        5.005619141175674e-05
+      ],
+      "positive_segments": 1,
+      "mse": 0.002454092655408017,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.002454092655408017,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 42308.2837726157,
+        "fees_chf": 291.5277461203504,
+        "frequency": 0.14285714285714285,
+        "mean_excess": 0.011222061258760923
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 4.864338033011381e-05,
+      "ci": [
+        -8.785798027163807e-06,
+        9.318904536053365e-05
+      ],
+      "positive_segments": 3,
+      "mse": 0.001555768568126828,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.001555768568126828,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_tone",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 4.205801995208211e-05,
+      "ci": [
+        -6.911172805463165e-06,
+        0.0001001935476135979
+      ],
+      "positive_segments": 2,
+      "mse": 0.0023971429033095427,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.0023971429033095427,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 1.297281154477848e-05,
+      "ci": [
+        -5.6470301652413734e-05,
+        6.517369057205717e-05
+      ],
+      "positive_segments": 2,
+      "mse": 0.0015914391369121635,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015914391369121635,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 52575.834271214546,
+        "fees_chf": 193.5256512227729,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.005783424206434823
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_tone",
+    "validation": {
+      "n": 70,
+      "coverage": 1.0,
+      "gain": 6.439658166161746e-05,
+      "ci": [
+        -1.8942440905084587e-05,
+        0.00015233333819423465
+      ],
+      "positive_segments": 2,
+      "mse": 0.002374804341600007,
+      "reference_mse": 0.0024392009232616246,
+      "score": 0.002374804341600007,
+      "reference_score": 0.0024392009232616246,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "candidate_book": {
+        "terminal_chf": 46346.75239699821,
+        "fees_chf": 139.49824087469125,
+        "frequency": 0.2,
+        "mean_excess": 0.013326961294435872
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 69,
+      "coverage": 1.0,
+      "gain": 1.915049745421167e-05,
+      "ci": [
+        -8.674790041517164e-05,
+        0.00010026327437762149
+      ],
+      "positive_segments": 3,
+      "mse": 0.0015852614510027299,
+      "reference_mse": 0.001604411948456942,
+      "score": 0.0015852614510027299,
+      "reference_score": 0.001604411948456942,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 54034.017798825604,
+        "fees_chf": 114.33259722841733,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726621
+      },
+      "candidate_book": {
+        "terminal_chf": 54730.47144531076,
+        "fees_chf": 158.2230960660451,
+        "frequency": 0.14492753623188406,
+        "mean_excess": 0.005854375256726623
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "alone_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 34,
+      "coverage": 0.4927536231884058,
+      "gain": -5.803928234182702e-05,
+      "ci": [
+        -0.00018422901071872054,
+        7.326238869134952e-05
+      ],
+      "positive_segments": 1,
+      "mse": 0.00174765859436133,
+      "reference_mse": 0.001689619312019503,
+      "score": 0.00174765859436133,
+      "reference_score": 0.001689619312019503,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 45360.0327805487,
+        "fees_chf": 77.12245527468902,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968007
+      },
+      "candidate_book": {
+        "terminal_chf": 42194.74907938513,
+        "fees_chf": 72.20497015167027,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968005
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "return",
+    "horizon": 21,
+    "model": "increment_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 34,
+      "coverage": 0.4927536231884058,
+      "gain": -6.098006845049312e-05,
+      "ci": [
+        -0.00019483353955937924,
+        7.470739450803667e-05
+      ],
+      "positive_segments": 1,
+      "mse": 0.001750599380469996,
+      "reference_mse": 0.001689619312019503,
+      "score": 0.001750599380469996,
+      "reference_score": 0.001689619312019503,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 45360.0327805487,
+        "fees_chf": 77.12245527468902,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968007
+      },
+      "candidate_book": {
+        "terminal_chf": 42194.74907938513,
+        "fees_chf": 72.20497015167027,
+        "frequency": 0.08823529411764706,
+        "mean_excess": 0.007589872857968005
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "ewma",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.10961229753434931,
+      "ci": [
+        -0.17422340580395776,
+        0.6290348101819793
+      ],
+      "positive_segments": 1,
+      "mse": 7.597977450979365e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.666707383834512,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 49201.01812674008,
+        "fees_chf": 104.78120399182085,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.007596626283665064
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.04030688046813002,
+      "ci": [
+        -0.08801604056608855,
+        0.2684010937335734
+      ],
+      "positive_segments": 1,
+      "mse": 9.325581610746323e-09,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.978237766413297,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52487.902742719285,
+        "fees_chf": 74.2600062039746,
+        "frequency": 0.13636363636363635,
+        "mean_excess": 0.0052822479621110726
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "garch",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.1343077623374648,
+      "ci": [
+        -0.2073515536634144,
+        0.6528787158011775
+      ],
+      "positive_segments": 1,
+      "mse": 8.886029551290926e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.69140284863763,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 49861.69574629266,
+        "fees_chf": 90.6668103015559,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.009148046919878153
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.1009971528408976,
+      "ci": [
+        -0.012591707085857723,
+        0.3423420110999877
+      ],
+      "positive_segments": 2,
+      "mse": 1.0187320717117917e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -8.038928038786066,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52488.51950985764,
+        "fees_chf": 68.2076702566717,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.00587807214549999
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_realized",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.18436420449251092,
+      "ci": [
+        0.010751523063456439,
+        0.507965718102225
+      ],
+      "positive_segments": 2,
+      "mse": 7.155737349311325e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.741459290792675,
+      "reference_score": -7.557095086300163,
+      "statistical": true,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51098.3048216088,
+        "fees_chf": 72.39778644901125,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.011179757394669124
+      },
+      "reason": "Economic gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.1333571416576504,
+      "ci": [
+        0.00794152088070755,
+        0.37513773153731267
+      ],
+      "positive_segments": 3,
+      "mse": 8.621445656653924e-09,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -8.071288027602817,
+      "reference_score": -7.937930885945167,
+      "statistical": true,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52610.44430320994,
+        "fees_chf": 69.4299697515155,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.006634167317089768
+      },
+      "reason": "Economic gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_realized",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": -0.03730814807783192,
+      "ci": [
+        -0.20899854870579548,
+        0.053215516039335775
+      ],
+      "positive_segments": 2,
+      "mse": 1.1866154742272609e-07,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.51978693822233,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51453.9858036604,
+        "fees_chf": 105.13743570242332,
+        "frequency": 0.08695652173913043,
+        "mean_excess": 0.011164630276750177
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.0025119814762510503,
+      "ci": [
+        -0.05724741845831549,
+        0.04650138525046898
+      ],
+      "positive_segments": 2,
+      "mse": 2.1668476529614095e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.940442867421419,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51781.85992554153,
+        "fees_chf": 95.84885543632554,
+        "frequency": 0.13636363636363635,
+        "mean_excess": 0.0058156675230599635
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_momentum",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": -0.1073318317156961,
+      "ci": [
+        -0.6073469204932358,
+        0.14304707792955926
+      ],
+      "positive_segments": 2,
+      "mse": 7.522646151395084e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.449763254584468,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 52318.95585549942,
+        "fees_chf": 64.87779503273192,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.012559563874353587
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.016708180653834302,
+      "ci": [
+        -0.0762640539184883,
+        0.1450572670217254
+      ],
+      "positive_segments": 2,
+      "mse": 1.2431754557974961e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.954639066599,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52540.03384056572,
+        "fees_chf": 65.96797010588244,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.007832680721919312
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_momentum",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.08802282377982254,
+      "ci": [
+        0.0074460981678335526,
+        0.24997434818468553
+      ],
+      "positive_segments": 2,
+      "mse": 1.1372899273451835e-07,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.645117910079986,
+      "reference_score": -7.557095086300163,
+      "statistical": true,
+      "economic": true,
+      "passed": true,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51414.188268233054,
+        "fees_chf": 105.00186335943837,
+        "frequency": 0.08695652173913043,
+        "mean_excess": 0.010809315179099664
+      },
+      "reason": "Passed research gates"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.08487525800333785,
+      "ci": [
+        0.025602082883832512,
+        0.18996011413442412
+      ],
+      "positive_segments": 3,
+      "mse": 1.4001220923109158e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -8.022806143948507,
+      "reference_score": -7.937930885945167,
+      "statistical": true,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51914.09862983061,
+        "fees_chf": 89.34295357929669,
+        "frequency": 0.13636363636363635,
+        "mean_excess": 0.006081355584741108
+      },
+      "reason": "Economic gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_liquidity",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.24418511619339886,
+      "ci": [
+        -0.05216808068150736,
+        0.6808564476583067
+      ],
+      "positive_segments": 3,
+      "mse": 6.106926631629502e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.801280202493562,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 52298.24370104778,
+        "fees_chf": 72.90292634789336,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.010164666983091453
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.019586548622390065,
+      "ci": [
+        -0.1167733025814857,
+        0.24653429828134849
+      ],
+      "positive_segments": 1,
+      "mse": 1.3168532180140524e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.957517434567558,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52321.807517948946,
+        "fees_chf": 67.67441242173888,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.007832972243793361
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_liquidity",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.2550626706720339,
+      "ci": [
+        -0.016916993862566808,
+        0.7916283855242779
+      ],
+      "positive_segments": 2,
+      "mse": 7.830419311827802e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.812157756972198,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 49966.26412738546,
+        "fees_chf": 104.44456906747853,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.005830751697719372
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": -0.02820237069266973,
+      "ci": [
+        -0.08724043253662145,
+        0.0833297984676273
+      ],
+      "positive_segments": 1,
+      "mse": 2.6094389105182262e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.909728515252497,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51100.08832481823,
+        "fees_chf": 101.00295412713145,
+        "frequency": 0.13636363636363635,
+        "mean_excess": 0.005506562297381296
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_vix",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.347545035378522,
+      "ci": [
+        -0.023466720170123207,
+        0.9257459176326054
+      ],
+      "positive_segments": 3,
+      "mse": 4.853680177664902e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.904640121678685,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51729.75774370473,
+        "fees_chf": 77.48556149852583,
+        "frequency": 0.17391304347826086,
+        "mean_excess": 0.007423943164884145
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.06075548531933213,
+      "ci": [
+        -0.021187971351897376,
+        0.23188007264094218
+      ],
+      "positive_segments": 3,
+      "mse": 1.1797199481337944e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.9986863712645,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51822.33679483783,
+        "fees_chf": 82.02704786276418,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.0063246456067159096
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_vix",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": -0.08086016223917343,
+      "ci": [
+        -0.2789635890157493,
+        0.0262858238858793
+      ],
+      "positive_segments": 2,
+      "mse": 1.274806104226589e-07,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.47623492406099,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": true,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51408.72100985343,
+        "fees_chf": 107.95830729125835,
+        "frequency": 0.08695652173913043,
+        "mean_excess": 0.011164630519888924
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.004491413249409725,
+      "ci": [
+        -0.0068394194855871835,
+        0.01623402043015006
+      ],
+      "positive_segments": 2,
+      "mse": 2.112660857371305e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.942422299194579,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51852.91007660374,
+        "fees_chf": 97.41155488872724,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.005723479744380783
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_curve",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.01878817001458468,
+      "ci": [
+        -0.11895692246429439,
+        0.20787290061737113
+      ],
+      "positive_segments": 2,
+      "mse": 1.2700891404655881e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.956719055959751,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52473.92723747543,
+        "fees_chf": 65.34288306468133,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.00783268072191932
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_curve",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": -0.011297396142670639,
+      "ci": [
+        -0.027191027151260032,
+        0.0007159997877701271
+      ],
+      "positive_segments": 1,
+      "mse": 2.1067600270289876e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.926633489802498,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51931.791590710774,
+        "fees_chf": 96.62864785658218,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.005372022509384575
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_unemployment",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.008799276180453088,
+      "ci": [
+        -0.24153481981429173,
+        0.1669203521212466
+      ],
+      "positive_segments": 1,
+      "mse": 7.304915586474049e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.565894362480615,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 52594.617076437775,
+        "fees_chf": 65.19021746498879,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.01274248763571072
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.03768505263780755,
+      "ci": [
+        -0.09126242814913307,
+        0.23471355170785305
+      ],
+      "positive_segments": 2,
+      "mse": 1.2069145530366972e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.975615938582976,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52540.03384056572,
+        "fees_chf": 65.96797010588244,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.007832680721919312
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_unemployment",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.03303485062218372,
+      "ci": [
+        -0.0052016980287391485,
+        0.1020546994815666
+      ],
+      "positive_segments": 2,
+      "mse": 1.50554470365697e-07,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.590129936922346,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51179.67315362667,
+        "fees_chf": 116.03609711883492,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011443947124253302
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.012060261609932505,
+      "ci": [
+        -0.011527204412584799,
+        0.041653815612214776
+      ],
+      "positive_segments": 3,
+      "mse": 2.2277476675388733e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.9499911475550995,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51959.088616938796,
+        "fees_chf": 98.93931493161186,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00510800177578764
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_tone",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.0379133435070729,
+      "ci": [
+        -0.16683601565332076,
+        0.16771376918652578
+      ],
+      "positive_segments": 2,
+      "mse": 7.22660835271037e-08,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.595008429807238,
+      "reference_score": -7.557095086300163,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 52594.617076437775,
+        "fees_chf": 65.19021746498879,
+        "frequency": 0.21739130434782608,
+        "mean_excess": 0.01274248763571072
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": 0.04995265549723271,
+      "ci": [
+        -0.07865508058564169,
+        0.25239050976242206
+      ],
+      "positive_segments": 2,
+      "mse": 1.1719009714323686e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.987883541442399,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 52540.03384056572,
+        "fees_chf": 65.96797010588244,
+        "frequency": 0.18181818181818182,
+        "mean_excess": 0.007832680721919312
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_tone",
+    "validation": {
+      "n": 23,
+      "coverage": 1.0,
+      "gain": 0.04082926151098159,
+      "ci": [
+        0.003275016324921042,
+        0.108380225485109
+      ],
+      "positive_segments": 2,
+      "mse": 1.3770656104676715e-07,
+      "reference_mse": 1.3763417988853432e-07,
+      "score": -7.597924347811145,
+      "reference_score": -7.557095086300163,
+      "statistical": true,
+      "economic": true,
+      "passed": true,
+      "reference_book": {
+        "terminal_chf": 51260.164710246376,
+        "fees_chf": 109.26478732913195,
+        "frequency": 0.13043478260869565,
+        "mean_excess": 0.011186314024441226
+      },
+      "candidate_book": {
+        "terminal_chf": 51142.620967699826,
+        "fees_chf": 110.99695516810378,
+        "frequency": 0.08695652173913043,
+        "mean_excess": 0.011164630517456333
+      },
+      "reason": "Passed research gates"
+    },
+    "final": {
+      "n": 22,
+      "coverage": 1.0,
+      "gain": -0.01147028118992473,
+      "ci": [
+        -0.04057624796835322,
+        0.014781260381067213
+      ],
+      "positive_segments": 1,
+      "mse": 2.30171902708813e-08,
+      "reference_mse": 2.0512093458615946e-08,
+      "score": -7.926460604755244,
+      "reference_score": -7.937930885945167,
+      "statistical": false,
+      "economic": false,
+      "passed": false,
+      "reference_book": {
+        "terminal_chf": 51867.26116980741,
+        "fees_chf": 95.66673918561678,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.00545243518344582
+      },
+      "candidate_book": {
+        "terminal_chf": 51829.74619139595,
+        "fees_chf": 97.56074491951742,
+        "frequency": 0.09090909090909091,
+        "mean_excess": 0.0057360858936146225
+      },
+      "reason": "Statistical or coverage gate"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "alone_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "research_pass": false
+  },
+  {
+    "target": "variance",
+    "horizon": 63,
+    "model": "increment_gpr",
+    "validation": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "final": {
+      "n": 0,
+      "passed": false,
+      "reason": "Insufficient paired outcomes"
+    },
+    "research_pass": false
+  }
+]
