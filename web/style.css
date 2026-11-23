@@ -1081,3 +1081,29 @@ th {
   padding: 8px;
   border-bottom: 1px solid var(--rim);
 }
+
+.save-panel h1 {
+  font-size: clamp(2.3rem, 6vw, 4.1rem);
+}
+#save-form {
+  display: grid;
+  gap: 15px;
+  max-width: 440px;
+  margin-top: 24px;
+}
+.save-field {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+.legacy-save {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legacy-save input {
+  width: auto;
+}
+#save-form .primary {
+  justify-self: start;
+}

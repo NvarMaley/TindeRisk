@@ -39,6 +39,22 @@ YES = {
 }
 
 
+def create_named_save(view, name, pin="0427"):
+    save = view.locator("#save-form")
+    save.locator("select").select_option("new")
+    save.locator('[name="name"]').fill(name)
+    save.locator('[name="pin"]').fill(pin)
+    save.locator('[name="confirmation"]').fill(pin)
+    view.get_by_role("button", name="Create save").click()
+
+
+def unlock_named_save(view, name, pin="0427"):
+    save = view.locator("#save-form")
+    save.locator("select").select_option(label=name)
+    save.locator('[name="pin"]').fill(pin)
+    view.get_by_role("button", name="Unlock save").click()
+
+
 def journey(url, browser, phone, report):
     page = browser.new_page(
         viewport={"width": 393 if phone else 1380, "height": 840},
@@ -50,6 +66,8 @@ def journey(url, browser, phone, report):
     page.on("pageerror", lambda e: errors.append(str(e)))
     page.goto(url)
     page.get_by_role("button", name="Press to start").click()
+    name = "Phone replay" if phone else "Desktop replay"
+    create_named_save(page, name)
     for k, v in FACTS.items():
         if k == "target":
             page.get_by_text("Optional preferences", exact=True).click()
@@ -199,6 +217,9 @@ def journey(url, browser, phone, report):
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth+1")
     page.reload()
     page.get_by_role("button", name="Press to start").click()
+    expect(page.locator("#save-form")).to_be_visible()
+    expect(page.locator('[data-go="tracking"]')).to_have_count(0)
+    unlock_named_save(page, name)
     expect(page.locator('[data-go="tracking"]')).to_be_visible()
     assert not errors, errors
     page.close()
@@ -213,6 +234,7 @@ def journey(url, browser, phone, report):
         "manual_and_suggested_blend": True,
         "reserve_projection_and_chf_split": True,
         "confirmed": True,
+        "pin_required_after_reload": True,
         "simulated_closes": 2,
         "cash_deposit_chf": 100,
     }

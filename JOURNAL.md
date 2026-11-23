@@ -263,3 +263,7 @@ The financial brief keeps a five-field default. An optional annual CHF savings r
 ### Client studio follow-up · Lagoon and navy glass
 
 The lagoon artwork continues behind the studio at desktop and mobile aspect ratios. Translucent navy panels carry the brief, portfolio controls and asset library. [Desktop](reports/studio/glass-desktop.jpg) · [Mobile](reports/studio/glass-mobile.jpg)
+
+### Client studio follow-up · Named test saves
+
+The selector opens after the title sequence. A new save requires a name and matching four-digit PIN entries. Separate saves restore their own brief, completed card answers and portfolios after unlocking. A tester can explicitly lock a save, and the browser requires the PIN after reloading. Left votes remain available by text button or gesture. [Local test workflow](reports/studio/README.md#named-local-saves)

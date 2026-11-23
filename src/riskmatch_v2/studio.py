@@ -9,6 +9,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from . import studio_saves as saves
 from .matching.ledger import Ledger
 from .matching.mandate import MARKET_DAY
 from .studio_live import live_value
@@ -64,22 +65,34 @@ def dispatch(action, data, directory=None):
     directory = directory or ACCOUNTS
     if action == "bootstrap":
         return {"day": MARKET_DAY}
+    if action == "list_saves":
+        return saves.list_saves(directory)
+    if action == "create_save":
+        return saves.create_save(directory, data)
+    if action == "unlock_save":
+        return saves.unlock_save(directory, data)
+    access = data.get("token")
+    if action == "lock_save":
+        saves.lock_save(directory, access)
+        return {"locked": True}
+    token, save_id = saves.resolve(directory, access)
     if action == "intake":
-        return intake(data["facts"])
+        facts = intake(data["facts"])
+        if save_id:
+            saves.draft(directory, save_id, facts=data["facts"])
+        return facts
     if action == "route":
         cards, answers = deck(data["answers"])
+        if save_id:
+            saves.draft(directory, save_id, answers=answers)
         return {"cards": cards, "answers": answers}
     if action == "calibrate":
         facts = intake(data["facts"])
         policy, profile = calibrate(facts, data["answers"])
-        book = (
-            Ledger(directory, data["token"])
-            if data.get("token")
-            else Ledger.create(directory)
-        )
+        book = Ledger(directory, token) if token else Ledger.create(directory)
         day = book.latest_day() or MARKET_DAY
         current = book.account(day)
-        if data.get("token") and data.get("version") != current["mandate_version"]:
+        if token and data.get("version", 0) != current["mandate_version"]:
             raise ValueError(
                 "Your profile changed in another session. Reopen it before saving."
             )
@@ -106,13 +119,22 @@ def dispatch(action, data, directory=None):
         )
         version = book.save_mandate(policy, expected_version=current["mandate_version"])
         return {
-            "token": book.token,
+            "token": access if save_id else book.token,
             "profile": profile,
             "version": version,
             "funded": bool(current["portfolio_version"]),
         }
-    book = Ledger(directory, data.get("token"))
+    book = Ledger(directory, token)
     latest = book.latest_mandate()
+    if action == "resume" and save_id and not latest:
+        saved = saves.draft(directory, save_id)
+        return {
+            "profile": None,
+            "version": 0,
+            "facts": saved.get("facts", {}),
+            "answers": saved.get("answers", {}),
+            "funded": False,
+        }
     if not latest or not latest["active"]:
         raise ValueError("Reopen a calibrated studio profile.")
     policy = latest["payload"]
@@ -126,6 +148,8 @@ def dispatch(action, data, directory=None):
             "funded": bool(book.account(day)["portfolio_version"]),
         }
     if action == "delete":
+        if save_id:
+            raise ValueError("Protected saves cannot be deleted from the studio.")
         book.delete()
         return {"deleted": True}
     if action == "export":

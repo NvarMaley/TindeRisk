@@ -10,6 +10,7 @@
     "manual_and_suggested_blend": true,
     "reserve_projection_and_chf_split": true,
     "confirmed": true,
+    "pin_required_after_reload": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100
   },
@@ -24,6 +25,7 @@
     "manual_and_suggested_blend": true,
     "reserve_projection_and_chf_split": true,
     "confirmed": true,
+    "pin_required_after_reload": true,
     "simulated_closes": 2,
     "cash_deposit_chf": 100
   }

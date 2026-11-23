@@ -1,5 +1,5 @@
 {
-  "tracked_count": 324,
+  "tracked_count": 326,
   "files": {
     ".gitignore": "software, configuration and environment",
     ".streamlit/config.toml": "software, configuration and environment",
@@ -248,6 +248,7 @@
     "src/riskmatch_v2/studio_library.py": "software, configuration and environment",
     "src/riskmatch_v2/studio_live.py": "software, configuration and environment",
     "src/riskmatch_v2/studio_profile.py": "software, configuration and environment",
+    "src/riskmatch_v2/studio_saves.py": "software, configuration and environment",
     "src/riskmatch_v2/treasury_gold/__init__.py": "software, configuration and environment",
     "src/riskmatch_v2/treasury_gold/__main__.py": "software, configuration and environment",
     "src/riskmatch_v2/treasury_gold/access.py": "software, configuration and environment",
@@ -288,6 +289,7 @@
     "tests/test_stress.py": "software, configuration and environment",
     "tests/test_studio_allocation.py": "software, configuration and environment",
     "tests/test_studio_profile.py": "software, configuration and environment",
+    "tests/test_studio_saves.py": "software, configuration and environment",
     "tests/test_treasury_gold.py": "software, configuration and environment",
     "tests/test_universe.py": "software, configuration and environment",
     "web/app.js": "software, configuration and environment",
