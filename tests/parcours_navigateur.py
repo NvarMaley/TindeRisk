@@ -22,7 +22,7 @@ def question(page, key):
 
 
 def desktop(page):
-    page.goto(URL)
+    page.goto(URL.rstrip("/") + "/?view=research")
     question(page, "C01")
     frame = screen(page)
     frame.locator("article").focus()
@@ -125,7 +125,7 @@ def desktop(page):
 def mobile(browser):
     context = browser.new_context(is_mobile=True, has_touch=True, viewport={"width":390,"height":844})
     page=context.new_page()
-    page.goto(URL)
+    page.goto(URL.rstrip("/") + "/?view=research")
     question(page,"C01")
     dev=context.new_cdp_session(page)
     def swipe(dx, cancel=False):

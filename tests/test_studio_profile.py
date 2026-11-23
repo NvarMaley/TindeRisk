@@ -1,0 +1,136 @@
+"""Calibrated bands, protective constraints, and feed eligibility of the client studio."""
+
+import json
+import os
+import unittest
+from datetime import UTC, datetime, timedelta
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+
+from riskmatch_v2.studio import dispatch
+from riskmatch_v2.studio_live import live_value
+from riskmatch_v2.studio_profile import calibrate, deck, intake
+
+FACTS = {
+    "capital": 50000,
+    "protected": 15000,
+    "expense": 0,
+    "loss": 15000,
+    "goal": 55000,
+    "due": "2030-10-30",
+}
+BASE = {
+    "C01",
+    "G00",
+    "T01",
+    "G01",
+    "G03",
+    "L00",
+    "L01",
+    "L02",
+    "L03",
+    "L04",
+    "D01",
+    "D03",
+    "H01",
+    "S01",
+}
+
+
+def answers(yes):
+    a = {}
+    while pending := [x["id"] for x in deck(a)[0] if x["id"] not in a]:
+        k = pending[0]
+        a[k] = "yes" if k in yes else "no"
+    return a
+
+
+class Calibration(unittest.TestCase):
+    def test_behavior_and_capacity_are_distinct(self):
+        m, p = calibrate(intake(FACTS), answers(BASE))
+        self.assertEqual(
+            (p["score"], p["band"], p["low"], p["high"]), (44, "Moderate", 0.08, 0.12)
+        )
+        self.assertEqual((m["capital_chf"], m["reserve_chf"]), (35000, 15000))
+        m, p = calibrate(intake(FACTS | {"loss": 0}), answers(BASE))
+        self.assertEqual((p["score"], m["mode"], m["high"]), (44, "minimum", 0))
+        m, p = calibrate(intake(FACTS), answers({"C01", "G00", "T01"}))
+        self.assertEqual((p["score"], m["low"], m["high"]), (100, 0.2, None))
+
+    def test_insufficient_and_uncovered_evidence(self):
+        m, p = calibrate(intake(FACTS), answers(set()))
+        self.assertIsNone(p["score"])
+        self.assertTrue(m["blocked_reason"])
+        m, p = calibrate(
+            intake(FACTS | {"mandatory": "Screen every indirect coal holding"}),
+            answers(BASE),
+        )
+        self.assertIn("verified coverage", m["blocked_reason"])
+        with self.assertRaises(ValueError):
+            calibrate(intake(FACTS), {})
+        with self.assertRaises(ValueError):
+            intake(FACTS | {"expense": 2000, "expense_date": "2032-02-01"})
+
+    def test_cash_only_match_and_account_revision(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            result = dispatch(
+                "calibrate",
+                {"facts": FACTS | {"loss": 0}, "answers": answers(BASE)},
+                root,
+            )
+            token = {"token": result["token"], "version": result["version"]}
+            choices = dispatch("candidates", token, root)
+            self.assertEqual(
+                [x["id"] for x in choices["plans"] if x["valid"]], ["cash"]
+            )
+            request = token | {"ids": ["cash"], "revision": choices["revision"]}
+            proposal = dispatch("draft", request, root)
+            self.assertEqual(dispatch("export", token, root)["flows"], [])
+            result = dispatch("confirm", token | {"draft": proposal["draft"]}, root)
+            again = dispatch("confirm", token | {"draft": proposal["draft"]}, root)
+            self.assertEqual(again["version"], result["version"])
+            self.assertEqual(len(dispatch("export", token, root)["flows"]), 1)
+            self.assertEqual(result["tracking"]["positions"], 0)
+            self.assertEqual(result["tracking"]["cash"], 35000)
+            later = dispatch(
+                "advance", token | {"day": result["tracking"]["day"]}, root
+            )
+            self.assertEqual(len(later["history"]), 2)
+            with self.assertRaisesRegex(ValueError, "account changed"):
+                dispatch("blend", request, root)
+
+
+class LiveMarks(unittest.TestCase):
+    def test_market_hours_quotes_fx_and_scope(self):
+        now = datetime(2026, 11, 23, 19, 10, tzinfo=UTC)
+        acct = {"cash": 100, "holdings": {"SPY": 2}}
+        row = {
+            "at": now.isoformat(),
+            "value": 50,
+            "currency": "USD",
+            "unit": "ledger_unit",
+        }
+        feed = {
+            "mode": "realtime",
+            "display_authorized": True,
+            "source": "Fictional feed test",
+            "securities": {"SPY": row},
+            "usd_chf": {"value": 0.9, "at": row["at"]},
+        }
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "feed.json"
+
+            def check(payload, time=now):
+                path.write_text(json.dumps(payload))
+                return live_value(acct, path=path, now=time)
+
+            self.assertEqual(check(feed)["value"], 190)
+            self.assertFalse(check(feed, now + timedelta(minutes=2))["live"])
+            self.assertFalse(check(feed | {"usd_chf": {}})["live"])
+            self.assertFalse(check(feed | {"securities": {}})["live"])
+            self.assertFalse(check(feed | {"display_authorized": False})["live"])
+            self.assertFalse(check(feed, now + timedelta(days=5))["live"])
+            with patch.dict(os.environ, {"RISKMATCH_LIVE_MARKS": ""}):
+                self.assertFalse(live_value(acct)["live"])

@@ -46,7 +46,7 @@ def journey(browser, url, phone, capture):
             value, exact=True
         ).click()
 
-    page.goto(url)
+    page.goto(url.rstrip("/") + "/?view=research")
     question(page, "C01")
     picture("profile")
     if phone:

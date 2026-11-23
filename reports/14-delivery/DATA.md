@@ -16,6 +16,10 @@ A public checkout contains the Python and Streamlit code, the simulated cases an
 | Fictional profiles and portfolio ledger | Two authored funding examples, synthetic test cases, deliberately published receipts containing only aggregate checks and screenshots from fictional sessions. | Draft responses, per-session SQLite databases, exported client data and recovery keys remain private. [Isolation and deletion checks](../13-application/ledger-replay.json) |
 | Fonts and artwork | Archivo Black and DM Sans derivatives with their bundled SIL Open Font License notices; project cherry/skyline assets and UI screenshots. | See the bundled notices for the font terms. [Archivo Black](../../app/static/archivoblack-OFL.txt) · [DM Sans](../../app/static/dmsans-OFL.txt) |
 
+## Current client studio research artifacts
+
+The static asset sheets contain calculated summaries across windows, correlations, shock estimates, signal evaluation and source-coverage flags. The allocation bundle contains three model return estimates, covariance factors, scenario sensitivities and exposure measurements. Execution prices are generated from a synthetic tape. The source archives, security-by-date raw prices and account databases remain local. These research outputs carry the dissemination qualifications above. [Coverage and field guide](../studio/README.md) · [Model conventions](../studio/ALLOCATION.md)
+
 ## Audit boundary
 
 The inventory checks the Git-tracked release, enforces explicit categories for raw-data file types and the four shipped CSVs, and detects public-input changes by digest. The section 13 privacy replay separately tests cross-account access, deletion, and three private fixture markers. These checks cover this distribution. Separate market data agreements would be needed to operate and distribute a live portfolio price service.

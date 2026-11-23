@@ -231,3 +231,11 @@ Replayed the A and B dossiers from card answers through a booked match, deposit,
 Measured a public IBM sample during the US session. The newest bar was 66.32 hours old at receipt. A separate historical session returned all 78 regular five-minute intervals. Portfolio monitoring displays the dated price and FX marks and the source check separately. A live CHF portfolio feed and display entitlement remain unverified. Checklist items 14.1, 14.2 and 14.4 are closed. Items 6.3–6.5, 9.2 and 14.3 remain open. [Release report and reproduction commands](reports/14-delivery/README.md) · [Data register](reports/14-delivery/DATA.md) · [Intraday observation](reports/14-delivery/intraday.json)
 
 Both isolated checkouts completed 105 unit tests without skips. Fresh kernels executed all 97 code cells and produced 25 embedded figures. The tracked file inventory covers 268 files, and all seven numerical input fingerprints matched. [Verification receipts](reports/14-delivery/verification.json)
+
+## 23 November 2026 — Client studio redesign
+
+The client enters one financial brief, then calibrates willingness by swiping first-person propositions. The factual brief sets the protected and investable amounts, goal, horizon and mandatory constraints. A profile derives willingness and its volatility band from the active responses. The theoretical thresholds and conditions for an undetermined result appear alongside the profile.
+
+The browser now exposes 3,902 dated research sheets. Each solve starts from 3,322 eligible securities before household restrictions. A shortlist supports manual and suggested blends, with separate review and confirmation in the fictional ledger. The portfolio chart uses five available simulated closes. Live display requires an operator-authorised feed covering every held position and USD/CHF.
+
+The desktop and mobile replays reached a 44/100 Moderate profile after 22 answers, inspected GLD, compared and mixed two strategies, booked a match, advanced the close, recorded a deposit and resumed the profile. [Client studio and visual evidence](reports/studio/README.md) · [Allocation methodology](reports/studio/ALLOCATION.md)

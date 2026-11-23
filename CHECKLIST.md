@@ -427,6 +427,12 @@
 
 ## 13. Application, portfolio matching and monitoring
 
+- [x] Deliver the client-facing path from the lagoon entrance through the budget and goal brief, adaptive swipes, behavioural score and explanatory profile.
+- [x] Expose the complete research library and calculate whole-unit strategies from the dated eligible universe. Show risk, strengths, weaknesses, measured environmental coverage and separate signal readings.
+- [x] Verify manual and suggested blends, independent confirmation, holdings, a simulated close, a deposit and resume on desktop and phone. [Studio methods, screenshots and test receipt](reports/studio/README.md)
+
+The numbered points below also retain the earlier research walkthrough. Section 14.3 tracks live-data coverage.
+
 - [x] **13.1 Integrate five Streamlit screens.** Questionnaire, mandate confirmed, results and comparison, portfolio monitored, request for review. Build the V2 interface separately from the Python engine. Test cards on mobile and computer. Verify that gesture, button and keyboard produce the same response and branch, that a correction recalculates the mandate and that an incomplete gesture does not validate any response. Rewrite an amended application and invalidate the old proposal with its version of mandate.
   - **Procedure and tools.** Link the five screens to common Python functions in the notebook. Follow drafts, confirmed mandate, recalculated options, simulated portfolio and revision. Test via browser on phone and computer.
   - **Evidence to retain.** Check gestures, buttons, keyboard, screen rotation, feedback and data modification. An old result becomes obsolete after validated change.
