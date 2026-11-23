@@ -25,13 +25,10 @@ FACTS = {
 BASE = {
     "C01",
     "T01",
-    "G01",
-    "G03",
+    "G12",
     "L00",
     "L01",
     "L02",
-    "L03",
-    "L04",
     "D01",
     "D03",
     "H01",
@@ -49,25 +46,34 @@ def answers(yes):
 
 class Calibration(unittest.TestCase):
     def test_direct_examples_replace_permission_and_review_prompts(self):
-        retired = {"G00": "no", "G04": "no", "T03": "yes", "L05": "yes"}
+        retired = {
+            "G00": "no",
+            "G01": "certain",
+            "G04": "no",
+            "T03": "yes",
+            "L03": "yes",
+            "L04": "yes",
+            "L05": "yes",
+            "V03": "lower",
+        }
         cards, active = deck(retired | {"C01": "yes"}, derived=True)
         ids = [card["id"] for card in cards]
-        self.assertEqual(ids[:4], ["C01", "G01", "G02", "G03"])
+        self.assertEqual(ids[:3], ["C01", "G11", "G12"])
         self.assertFalse(set(retired).intersection(ids))
         self.assertEqual(active, {"C01": "yes"})
 
         cards, _ = deck({"C01": "no"}, derived=True)
         self.assertEqual([card["id"] for card in cards[:2]], ["C01", "C02"])
-        self.assertFalse(any(card["id"] == "G01" for card in cards))
+        self.assertFalse(any(card["id"] == "G11" for card in cards))
 
     def test_behavior_and_capacity_are_distinct(self):
         m, p = calibrate(intake(FACTS), answers(BASE))
         self.assertEqual(
-            (p["score"], p["band"], p["low"], p["high"]), (44, "Moderate", 0.08, 0.12)
+            (p["score"], p["band"], p["low"], p["high"]), (50, "Moderate", 0.08, 0.12)
         )
         self.assertEqual((m["capital_chf"], m["reserve_chf"]), (35000, 15000))
         m, p = calibrate(intake(FACTS | {"loss": 0}), answers(BASE))
-        self.assertEqual((p["score"], m["mode"], m["high"]), (44, "minimum", 0))
+        self.assertEqual((p["score"], m["mode"], m["high"]), (50, "minimum", 0))
         m, p = calibrate(intake(FACTS), answers({"C01", "T01"}))
         self.assertEqual((p["score"], m["low"], m["high"]), (100, 0.2, None))
 
@@ -96,9 +102,8 @@ class Calibration(unittest.TestCase):
     def test_named_choices_and_review_are_preserved(self):
         legacy = answers(BASE)
         named = legacy | {
-            "G01": "certain",
-            "G02": "gamble",
-            "G03": "certain",
+            "G11": "gamble",
+            "G12": "certain",
             "D01": "reduce",
         }
         _, previously = calibrate(intake(FACTS), legacy)
@@ -163,7 +168,7 @@ class Calibration(unittest.TestCase):
         facts = intake(FACTS)
         mixed = baseline | {"V01": "wider", "V02": "lower", "V04": "lower"}
         _, profile = calibrate(facts, mixed, derived=True)
-        self.assertEqual(profile["score"], 44)
+        self.assertEqual(profile["score"], 50)
         self.assertEqual(
             [row["id"] for row in profile["aversion"]["evidence"]], ["V01", "V02"]
         )
@@ -171,9 +176,9 @@ class Calibration(unittest.TestCase):
         self.assertAlmostEqual(profile["aversion"]["gamma_high"], 25 / 6)
         cautious = baseline | {"V01": "lower", "V02": "lower", "V03": "lower"}
         _, profile = calibrate(facts, cautious, derived=True)
-        self.assertAlmostEqual(profile["aversion"]["gamma_low"], 25 / 3)
+        self.assertAlmostEqual(profile["aversion"]["gamma_low"], 25 / 6)
         self.assertIsNone(profile["aversion"]["gamma_high"])
-        self.assertEqual(profile["score"], 44)
+        self.assertEqual(profile["score"], 50)
 
         _, different_score = calibrate(
             facts,

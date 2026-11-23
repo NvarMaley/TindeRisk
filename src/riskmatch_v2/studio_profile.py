@@ -9,7 +9,20 @@ from .risk_review import POLICY
 
 # A like always endorses the first-person proposition. Orientations retain the bank's
 # original yes/no coding so its conditional branches and gamble bounds still apply.
-RETIRED_CARDS = frozenset(("G00", "G04", "T03", "L05"))
+LEGACY_GAMBLES = ("G01", "G02", "G03")
+RETIRED_CARDS = frozenset(("G00", *LEGACY_GAMBLES, "G04", "T03", "L03", "L04", "L05"))
+GAMBLE_CARDS = {
+    key: {
+        "family": "Certain outcome or gamble",
+        "gamble": {
+            "stake": 1000,
+            "certain": certain,
+            "low": 950,
+            "high": 1200,
+        },
+    }
+    for key, certain in (("G11", 1030), ("G12", 1070))
+}
 STATEMENTS = {
     "C01": "Even on a fair coin toss, I could lose this round.",
     "C02": "Even after winning three coin tosses in a row, I could lose the next toss.",
@@ -18,8 +31,6 @@ STATEMENTS = {
     "L00": "When judging a loss, I first think about the amount I paid.",
     "L01": "I would keep CHF 1,000 for sure over an equal chance of CHF 900 or CHF 1,100.",
     "L02": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 100 and a 50% chance of gaining CHF 100.",
-    "L03": "I would keep CHF 2,000 for sure over an equal chance of CHF 1,800 or CHF 2,200.",
-    "L04": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 200 and a 50% chance of gaining CHF 200.",
     "D01": "After a 15% fall, I would consider selling.",
     "D02": "I would reduce my investment after that fall because I need cash to pay a bill.",
     "D03": "Even if I did not need the money, the stress of that fall would make me reduce my investment.",
@@ -32,8 +43,8 @@ STATEMENTS = {
     "S02": "Between scheduled reviews, a risk alert would be enough for me.",
     "S03": "If I combine several investment strategies, I want to track each one separately.",
 }
-for key in ("G01", "G02", "G03"):
-    g = CARDS[key]["gamble"]
+for key, card in GAMBLE_CARDS.items():
+    g = card["gamble"]
     STATEMENTS[key] = (
         f"I would take a certain CHF {g['certain']:,} over a 50/50 chance "
         f"of CHF {g['low']:,} or CHF {g['high']:,}."
@@ -56,11 +67,7 @@ COMPARISON_OUTCOMES = {
     "V01": ((-2, 6), (-5, 11)),
     "V02": ((-2, 6), (-12, 20)),
 }
-# The follow-up keeps volatility fixed and changes the extra expected return.
-FOLLOW_UP_OUTCOMES = {
-    "V03": ((-2, 6), (-4, 12)),
-    "V04": ((-2, 6), (-13, 19)),
-}
+RETIRED_COMPARISONS = ("V03", "V04")
 COMPARISON_ANSWERS = ("lower", "wider", "neither", "skip")
 
 ACTIONS = {
@@ -72,7 +79,7 @@ ACTIONS = {
 }
 CHOICE_IDS = {
     "D01": ("keep", "reduce", "review"),
-    **dict.fromkeys(("G01", "G02", "G03"), ("certain", "gamble")),
+    **dict.fromkeys((*GAMBLE_CARDS, *LEGACY_GAMBLES), ("certain", "gamble")),
 }
 
 
@@ -92,7 +99,7 @@ def _choice_row(key):
         text = "Your portfolio is down 15%. What would you do next?"
         options = [(choice, ACTIONS[choice][0]) for choice in ids]
     else:
-        g = CARDS[key]["gamble"]
+        g = GAMBLE_CARDS[key]["gamble"]
         text = f"On a fictional CHF {g['stake']:,} investment for one year, which outcome would you choose?"
         options = [
             ("certain", f"CHF {g['certain']:,} guaranteed"),
@@ -106,20 +113,12 @@ def _choice_row(key):
     return {"text": text, "choices": options, "help": help_text}
 
 
-def _portfolio_cards(answers, derived):
-    yield from COMPARISON_OUTCOMES.items()
-    if derived and answers.get("V01") == answers.get("V02"):
-        follow_up = {"lower": "V03", "wider": "V04"}.get(answers.get("V01"))
-        if follow_up:
-            yield follow_up, FOLLOW_UP_OUTCOMES[follow_up]
-
-
 def _aversion(active, cash_only):
     lower, upper = 0.0, None
     evidence = []
     tested_volatility = 0.0
     state = "estimated"
-    for key, outcomes in _portfolio_cards(active, True):
+    for key, outcomes in COMPARISON_OUTCOMES.items():
         choice = active.get(key)
         if choice == "neither":
             state = "cash_preferred"
@@ -149,7 +148,7 @@ def _aversion(active, cash_only):
 
 
 def deck(answers, *, portfolio_check=False, derived=False):
-    available = COMPARISON_OUTCOMES | (FOLLOW_UP_OUTCOMES if derived else {})
+    available = (*COMPARISON_OUTCOMES, *RETIRED_COMPARISONS)
     if not isinstance(answers, dict) or any(
         v not in COMPARISON_ANSWERS
         if k in available and (portfolio_check or derived)
@@ -161,16 +160,14 @@ def deck(answers, *, portfolio_check=False, derived=False):
         raise ValueError("Invalid calibration response.")
 
     active = [key for key in route(_binary(answers)) if key in STATEMENTS]
-    # Keep the three examples together as soon as comprehension is established.
-    examples = [key for key in ("G01", "G02", "G03") if key in active]
-    if examples:
-        active = [key for key in active if key not in examples]
+    if understood(_binary(answers)):
         first = active.index("T01")
-        active[first:first] = examples
+        active[first:first] = GAMBLE_CARDS
     if answers.get("D01") == "review":
         active.insert(active.index("D01") + 1, "D06")
     families = {
-        k: CARDS[k]["family"] if k in CARDS else "Response to a loss" for k in active
+        k: (GAMBLE_CARDS | CARDS).get(k, {"family": "Response to a loss"})["family"]
+        for k in active
     }
     rows = [
         {
@@ -183,7 +180,7 @@ def deck(answers, *, portfolio_check=False, derived=False):
         for k in active
     ]
     if (portfolio_check or derived) and understood(_binary(answers)):
-        for key, outcomes in _portfolio_cards(answers, derived):
+        for key, outcomes in COMPARISON_OUTCOMES.items():
             options = [
                 (choice, f"{name} · {loss:+d}% or {gain:+d}%")
                 for choice, name, (loss, gain) in zip(
@@ -361,11 +358,9 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
     if any(c["id"] not in active for c in cards):
         raise ValueError("Finish the active calibration cards first.")
     a = _binary(active)
-    phi = intersection(gamble_bounds(a))
+    phi = intersection(gamble_bounds(a, cards=GAMBLE_CARDS))
     # Equal-weight the three domains, not the number of routed questions.
-    bets = [
-        100 * (a[k] == "no") for k in ("G01", "G02", "G03") if a.get(k) in ("yes", "no")
-    ]
+    bets = [100 * (a[k] == "no") for k in GAMBLE_CARDS if a.get(k) in ("yes", "no")]
     stated = None if a.get("T01") not in ("yes", "no") else 100 * (a["T01"] == "yes")
     if a.get("T02") == "yes":
         stated = None  # Changed declaration has no known direction.
@@ -397,7 +392,7 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False):
     flex = [100 * (a[k] == "yes") for k in ("H01", "H02") if a.get(k) in ("yes", "no")]
     frame = [
         (a.get(x), a.get(y))
-        for x, y in (("L01", "L02"), ("L03", "L04"))
+        for x, y in (("L01", "L02"),)
         if a.get(x) in ("yes", "no") and a.get(y) in ("yes", "no")
     ]
     blocked = facts["blocked_reason"]

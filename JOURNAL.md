@@ -336,3 +336,7 @@ An answered review prompt stays in the studio record when revising an earlier an
 ## 24 November 2026 — Present questions directly
 
 The studio presents the three fictional comparisons consecutively once comprehension is established. It retires G00, G04, T03 and L05 in the active deck while retaining the wording in older profiles. The answers and the instrument risk model remain independent of the retired cards.
+
+## 24 November 2026 — Reduce repeated comparisons
+
+Two guaranteed-versus-uncertain cards compare CHF 1,030 and CHF 1,070 with the same equally likely CHF 950 or CHF 1,200 outcome. The studio also keeps one pair of framing questions and two portfolio comparisons. Old responses remain visible under their original amounts.

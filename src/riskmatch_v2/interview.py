@@ -131,10 +131,10 @@ def understood(values):
     return values.get("C01") == "yes" or values.get("C02") == "yes"
 
 
-def gamble_bounds(values):
+def gamble_bounds(values, *, cards=CARDS):
     bounds = {}
     if understood(values) and values.get("G00") == "yes":
-        for key, card in CARDS.items():
+        for key, card in cards.items():
             if "gamble" not in card or values.get(key) not in ("yes", "no"):
                 continue
             g = card["gamble"]

@@ -1,10 +1,10 @@
 # Étude du questionnaire comportemental de RiskMatch
 
-Le studio contient **23 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles et une relance conditionnelle**. **7 cartes forment le tronc commun** (C01, T01, L00, D01, H01, S01 et S03). Les **16 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-3** dérive la tranche indicative à partir des choix de portefeuille et des allocations calculées. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
+Le studio contient **20 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles**. **7 cartes forment le tronc commun** (C01, T01, L00, D01, H01, S01 et S03). Les **13 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-3** dérive la tranche indicative à partir des choix de portefeuille et des allocations calculées. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
-Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct. Dès que la compréhension est établie, les exercices G01 à G03 sont présentés à la suite. Les cartes G00, G04, T03 et L05 appartiennent au parcours historique. Les anciennes sauvegardes peuvent les afficher comme réponses passées.
+Le bouton **Retour** efface la réponse à la carte précédente et toutes les réponses qui la suivent. Le parcours se recalcule à partir des réponses restantes. La croix sur un bouton indique un refus. **Je ne sais pas** conserve son rôle distinct. Dès que la compréhension est établie, les exercices G11 et G12 sont présentés à la suite. Les anciens exercices G01–G03, la deuxième paire de cadrage et les relances archivées restent documentés. Les anciennes sauvegardes peuvent les afficher comme réponses passées.
 
 ## Pourquoi ces questions
 
@@ -19,7 +19,8 @@ Les 26 cartes d’origine ont été reformulées pour le swipe. Le studio propos
 
 | Carte | Proposition et choix affichés | Effet sur le profil |
 |---|---|---|
-| **G01, G02, G03** | Sur 1 000 CHF fictifs pendant un an, choisir le montant certain (1 020, 1 000 ou 1 040 CHF selon la carte) ou une chance sur deux de recevoir 900 CHF ou 1 200 CHF. | La certitude et le pari sont nommés directement. Les points et les bornes restent ceux de la grille ci-dessous. |
+| **G11** | 1 030 CHF garantis ou 950 CHF / 1 200 CHF, avec 50 % de chances chacun. Capital fictif de 1 000 CHF, horizon d’un an. | Montant garanti = 0 point dans le domaine des arbitrages et φ ≥ 5,76. Pari = 100 points et φ ≤ 5,76. |
+| **G12** | 1 070 CHF garantis face au même choix incertain. | Montant garanti = 0 point dans le domaine des arbitrages et φ ≥ 0,64. Pari = 100 points et φ ≤ 0,64. |
 | **D01** | Le portefeuille perd 15 %. Choisir **Garder le portefeuille**, **Réduire le risque** ou **Revoir le plan avant d’agir**. | Garder donne 100 au domaine du maintien. Réduire ouvre les cartes D02–D04 sur le besoin de cash, l’inconfort et les perspectives. Revoir le plan ouvre D06 et laisse le domaine du maintien sans score. |
 | **D06** | « Je reverrais le plan surtout pour vérifier si mon objectif reste atteignable. » Cette carte apparaît après le choix de revoir le plan. | Like identifie la vérification de l’objectif comme motif. Pass garde le motif ouvert. Incertain enregistre une absence de position nette. Aucun point de maintien. |
 
@@ -33,8 +34,8 @@ Lorsque la compréhension de base est établie, les comparaisons terminent le pa
 |---|---|---|---|---:|
 | **V01** | −2 % ou +6 % | −5 % ou +11 % | Comparaison de départ | 4,17 |
 | **V02** | −2 % ou +6 % | −12 % ou +20 % | Deuxième comparaison | 1,67 |
-| **V03** | −2 % ou +6 % | −4 % ou +12 % | Après deux A. B garde la volatilité de V01 et offre un rendement espéré plus élevé. | 8,33 |
-| **V04** | −2 % ou +6 % | −13 % ou +19 % | Après deux B. B garde la volatilité de V02 et offre un rendement espéré plus faible. | 0,83 |
+
+Le studio présente V01 et V02 uniquement. La paire L01–L02 conserve les deux présentations d’un même résultat pour mesurer le cadrage.
 
 Chaque scénario fournit une moyenne μ et un écart-type σ. Avec deux résultats équiprobables, σ vaut la moitié de leur écart. On utilise les rendements en décimal. Dans le modèle moyenne–variance, l’utilité vaut `μ − γ × σ² / 2`. Le seuil `γ* = 2 × (μB − μA) / (σB² − σA²)` indique où A et B ont la même utilité. **A fixe une borne basse pour γ et B une borne haute.** Deux choix compatibles suffisent à estimer un intervalle, éventuellement ouvert vers le haut. B dans V01 et A dans V02 donnent par exemple **γ ∈ [1,67 ; 4,17]**. Des bornes incompatibles ou moins de deux choix A/B conduisent à « à confirmer » et la recherche se limite aux CHF. Un choix explicite de garder les CHF ou une capacité de perte à zéro oriente également vers les CHF.
 
@@ -46,11 +47,11 @@ La zone est une sensibilité au modèle sur des choix fictifs. Elle peut dépass
 
 ## Relecture bilingue du studio
 
-Les cartes actives ont été relues avec leurs branchements. Les trois exemples indiquent directement qu’ils utilisent de l’argent fictif. Les cartes de cadrage distinguent explicitement « ni gain ni perte » du pari. Après une baisse, les relances reprennent le choix de réduire l’investissement et clarifient ses motifs. Les cartes de portefeuille précisent l’horizon d’un an. Le codage des réponses, les calculs et les seuils sont conservés. [Formulations anglaises du studio](../../src/riskmatch_v2/studio_profile.py) · [Traductions françaises](../../web/translations.js)
+Les cartes actives ont été relues avec leurs branchements. Les deux exemples indiquent directement qu’ils utilisent de l’argent fictif. Les cartes de cadrage distinguent explicitement « ni gain ni perte » du pari. Après une baisse, les relances reprennent le choix de réduire l’investissement et clarifient ses motifs. Les cartes de portefeuille précisent l’horizon d’un an. Le codage des réponses, les calculs et les seuils sont conservés. [Formulations anglaises du studio](../../src/riskmatch_v2/studio_profile.py) · [Traductions françaises](../../web/translations.js)
 
 Le récapitulatif traduit séparément la catégorie et la réponse, y compris dans les anciens profils. Les motifs d’une réduction du risque et les commentaires sur la tranche s’affichent aussi en français lorsque cette langue est choisie.
 
-## Grille des 26 cartes d’origine
+## Grille historique des 26 cartes d’origine
 
 Les énoncés ci-dessous traduisent les propositions d’origine. Les choix explicites actuels figurent plus haut. Pour les autres reformulations, les liens de la relecture bilingue donnent les libellés en service. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.
 

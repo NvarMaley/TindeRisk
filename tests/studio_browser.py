@@ -25,13 +25,10 @@ YES = {
     "C01",
     "C02",
     "T01",
-    "G01",
-    "G03",
+    "G12",
     "L00",
     "L01",
     "L02",
-    "L03",
-    "L04",
     "D01",
     "D03",
     "H01",
@@ -126,13 +123,11 @@ def journey(url, browser, phone, report):
         answered.append(key)
         approve = key in YES
         explicit = {
-            "G01": "certain",
-            "G02": "gamble",
-            "G03": "certain",
+            "G11": "gamble",
+            "G12": "certain",
             "D01": "reduce",
-            "V01": "wider" if phone else "lower",
+            "V01": "wider",
             "V02": "lower",
-            "V03": "wider",
         }
         if key not in explicit:
             swiped.append(key)
@@ -204,7 +199,7 @@ def journey(url, browser, phone, report):
     expect(zone_panel).to_contain_text("Derived from your portfolio choices")
     expect(zone_panel).to_contain_text("Risk aversion · γ")
     zone = zone_panel.locator(".lede").inner_text()
-    assert "%" in zone and ("V03" in answered) != phone
+    assert "%" in zone and [k for k in answered if k.startswith("V")] == ["V01", "V02"]
     expect(
         page.get_by_text(
             "You would reduce the portfolio’s risk after the fall.", exact=True
@@ -304,7 +299,7 @@ def journey(url, browser, phone, report):
         "answered": len(answered),
         "explicit_decisions": len(answered) - len(swiped),
         "estimated_volatility_zone": zone,
-        "adaptive_portfolio_card": "V03" in answered,
+        "portfolio_comparisons": 2,
         "cherry_transitions": len(cycles),
         "swipe_sounds": len(sounds),
         "jazz_pauses_during_cards": 0,
