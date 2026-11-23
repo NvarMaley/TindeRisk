@@ -147,6 +147,96 @@ class Calibration(unittest.TestCase):
         self.assertEqual(policy["mode"], "minimum")
         self.assertEqual(profile["portfolio_check"]["allocation_ceiling"], 0)
 
+    def test_portfolio_choices_bound_aversion_independently_of_score(self):
+        baseline = answers(BASE)
+        facts = intake(FACTS)
+        mixed = baseline | {"V01": "wider", "V02": "lower", "V04": "lower"}
+        _, profile = calibrate(facts, mixed, derived=True)
+        self.assertEqual(profile["score"], 44)
+        self.assertEqual(
+            [row["id"] for row in profile["aversion"]["evidence"]], ["V01", "V02"]
+        )
+        self.assertAlmostEqual(profile["aversion"]["gamma_low"], 5 / 3)
+        self.assertAlmostEqual(profile["aversion"]["gamma_high"], 25 / 6)
+        cautious = baseline | {"V01": "lower", "V02": "lower", "V03": "lower"}
+        _, profile = calibrate(facts, cautious, derived=True)
+        self.assertAlmostEqual(profile["aversion"]["gamma_low"], 25 / 3)
+        self.assertIsNone(profile["aversion"]["gamma_high"])
+        self.assertEqual(profile["score"], 44)
+
+        _, different_score = calibrate(
+            facts,
+            answers({"C01", "G00", "T01"}) | {"V01": "wider", "V02": "lower"},
+            derived=True,
+        )
+        self.assertEqual(different_score["score"], 100)
+        self.assertEqual(different_score["aversion"]["gamma_low"], 5 / 3)
+
+        for choices, state in (
+            ({"V01": "lower", "V02": "wider"}, "needs_confirmation"),
+            ({"V01": "skip", "V02": "wider"}, "needs_confirmation"),
+            ({"V01": "wider", "V02": "neither"}, "cash_preferred"),
+        ):
+            with self.subTest(choices=choices):
+                _, profile = calibrate(facts, baseline | choices, derived=True)
+                self.assertEqual(profile["aversion"]["state"], state)
+                self.assertIsNone(profile["aversion"]["gamma_high"])
+
+    def test_portfolio_choices_derive_and_constrain_the_live_matches(self):
+        baseline = answers(BASE) | {"V01": "wider", "V02": "lower"}
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            saved = dispatch(
+                "calibrate",
+                {"facts": FACTS, "answers": baseline, "derive_volatility": True},
+                root,
+            )
+            account = {"token": saved["token"], "version": saved["version"]}
+            profile = saved["profile"]
+            zone = profile["volatility_zone"]
+            self.assertEqual(zone["state"], "estimated")
+            self.assertGreater(zone["high"], zone["low"])
+            self.assertGreater(zone["low"], 0)
+            self.assertLessEqual(zone["high"], 1)
+            restored = dispatch("resume", account, root)["profile"]
+            self.assertEqual(restored["volatility_zone"], zone)
+            self.assertEqual(restored["aversion"], profile["aversion"])
+
+            bundle = dispatch("candidates", account, root)
+            self.assertEqual(bundle["volatility_zone"], zone)
+            matches = {p["id"]: p for p in bundle["plans"] if p["valid"]}
+            self.assertIn("preference", matches)
+            self.assertIn("cash", matches)
+            self.assertTrue(
+                all(
+                    p["vol"] <= zone["high"] + 1e-8
+                    and p["tested_loss_chf"] <= FACTS["loss"] + 0.01
+                    for p in matches.values()
+                )
+            )
+            plan = dispatch(
+                "blend",
+                account | {"ids": ["preference"], "revision": bundle["revision"]},
+                root,
+            )["plan"]
+            self.assertEqual(plan, matches["preference"])
+
+            revised = dispatch(
+                "calibrate",
+                account
+                | {
+                    "facts": FACTS | {"loss": 0},
+                    "answers": baseline,
+                    "derive_volatility": True,
+                },
+                root,
+            )
+            self.assertEqual(revised["profile"]["score"], profile["score"])
+            self.assertEqual(revised["profile"]["volatility_zone"]["high"], 0)
+            self.assertEqual(
+                revised["profile"]["volatility_zone"]["state"], "cash_capacity"
+            )
+
     def test_insufficient_and_uncovered_evidence(self):
         m, p = calibrate(intake(FACTS), answers(set()))
         self.assertIsNone(p["score"])

@@ -59,6 +59,11 @@ COMPARISON_OUTCOMES = {
     "V01": ((-2, 6), (-5, 11)),
     "V02": ((-2, 6), (-12, 20)),
 }
+# The follow-up keeps volatility fixed and changes the extra expected return.
+FOLLOW_UP_OUTCOMES = {
+    "V03": ((-2, 6), (-4, 12)),
+    "V04": ((-2, 6), (-13, 19)),
+}
 COMPARISON_ANSWERS = ("lower", "wider", "neither", "skip")
 
 ACTIONS = {
@@ -98,10 +103,53 @@ def _choice_row(key):
     return {"text": text, "choices": options}
 
 
-def deck(answers, *, portfolio_check=False):
+def _portfolio_cards(answers, derived):
+    yield from COMPARISON_OUTCOMES.items()
+    if derived and answers.get("V01") == answers.get("V02"):
+        follow_up = {"lower": "V03", "wider": "V04"}.get(answers.get("V01"))
+        if follow_up:
+            yield follow_up, FOLLOW_UP_OUTCOMES[follow_up]
+
+
+def _aversion(active, cash_only):
+    lower, upper = 0.0, None
+    evidence = []
+    tested_volatility = 0.0
+    state = "estimated"
+    for key, outcomes in _portfolio_cards(active, True):
+        choice = active.get(key)
+        if choice == "neither":
+            state = "cash_preferred"
+        if choice not in ("lower", "wider"):
+            continue
+        (a, b), (c, d) = outcomes
+        tested_volatility = max(tested_volatility, (d - c) / 200)
+        threshold = 400 * (c + d - a - b) / ((d - c) ** 2 - (b - a) ** 2)
+        evidence.append({"id": key, "threshold": threshold, "choice": choice})
+        if choice == "lower":
+            lower = max(lower, threshold)
+        else:
+            upper = threshold if upper is None else min(upper, threshold)
+    if cash_only:
+        state = "cash_capacity"
+    elif state != "cash_preferred" and (
+        len(evidence) < 2 or (upper is not None and upper < lower)
+    ):
+        state = "needs_confirmation"
+    return {
+        "state": state,
+        "gamma_low": lower if state == "estimated" else None,
+        "gamma_high": upper if state == "estimated" else None,
+        "evidence": evidence,
+        "highest_tested_volatility": tested_volatility,
+    }
+
+
+def deck(answers, *, portfolio_check=False, derived=False):
+    available = COMPARISON_OUTCOMES | (FOLLOW_UP_OUTCOMES if derived else {})
     if not isinstance(answers, dict) or any(
         v not in COMPARISON_ANSWERS
-        if k in COMPARISON_OUTCOMES and portfolio_check
+        if k in available and (portfolio_check or derived)
         else k not in STATEMENTS
         or v not in ("yes", "no", "skip", *CHOICE_IDS.get(k, ()))
         for k, v in answers.items()
@@ -124,8 +172,8 @@ def deck(answers, *, portfolio_check=False):
         }
         for k in active
     ]
-    if portfolio_check and understood(_binary(answers)):
-        for key, outcomes in COMPARISON_OUTCOMES.items():
+    if (portfolio_check or derived) and understood(_binary(answers)):
+        for key, outcomes in _portfolio_cards(answers, derived):
             options = [
                 (choice, f"{name} · {loss:+d}% or {gain:+d}%")
                 for choice, name, (loss, gain) in zip(
@@ -139,7 +187,9 @@ def deck(answers, *, portfolio_check=False):
                 {
                     "id": key,
                     "text": "Which portfolio would you choose for your investable money?",
-                    "family": "Portfolio cross-check",
+                    "family": "Portfolio trade-off"
+                    if derived
+                    else "Portfolio cross-check",
                     "help": "One fictional year in CHF. Each result has a 50/50 chance. Both options have the same fees and access to cash. This choice carries no score points.",
                     "choices": [*options, ("neither", "Neither · keep cash")],
                 }
@@ -296,8 +346,8 @@ def _comparison_policy(active, band, cash_only):
     return {"status": status, "scenario_ceiling": ceiling, "allocation_ceiling": cap}
 
 
-def calibrate(facts, answers, *, portfolio_check=False):
-    cards, active = deck(answers, portfolio_check=portfolio_check)
+def calibrate(facts, answers, *, portfolio_check=False, derived=False):
+    cards, active = deck(answers, portfolio_check=portfolio_check, derived=derived)
     if any(c["id"] not in active for c in cards):
         raise ValueError("Finish the active calibration cards first.")
     a = _binary(active)
@@ -341,7 +391,7 @@ def calibrate(facts, answers, *, portfolio_check=False):
         if a.get(x) in ("yes", "no") and a.get(y) in ("yes", "no")
     ]
     blocked = facts["blocked_reason"]
-    if not usable:
+    if not usable and not derived:
         blocked = (
             blocked
             or "There is insufficient consistent evidence for a volatility band. Revisit the comprehension and certain-outcome cards."
@@ -362,7 +412,7 @@ def calibrate(facts, answers, *, portfolio_check=False):
     )
     check = (
         _comparison_policy(active, band, cash_only)
-        if portfolio_check and band
+        if portfolio_check and band and not derived
         else None
     )
     if check:
@@ -380,6 +430,22 @@ def calibrate(facts, answers, *, portfolio_check=False):
         else "target_band",
         "blocked_reason": blocked,
     }
+
+    aversion = None
+    if derived:
+        aversion = _aversion(active, cash_only)
+        policy.update(
+            low=0,
+            high=0,
+            mode="minimum",
+            studio_preference={
+                k: aversion[k] for k in ("state", "gamma_low", "gamma_high")
+            },
+        )
+        cap_note = (
+            "Portfolio choices bound risk aversion in a mean–variance model. "
+            "The range depends on the modeled returns, the account and its financial limits."
+        )
 
     def observation(key, yes, no):
         return (
@@ -456,10 +522,19 @@ def calibrate(facts, answers, *, portfolio_check=False):
     ]
     return policy, {
         "portfolio_check": check,
+        **(
+            {
+                "aversion": aversion,
+                "stress_conflict": a.get("D03") == "yes"
+                and active.get("V02") == "wider",
+            }
+            if derived
+            else {}
+        ),
         "score": score,
         "band": band["label"] if band else "Undetermined",
-        "low": low,
-        "high": high,
+        "low": None if derived else low,
+        "high": None if derived else high,
         "cap_note": cap_note,
         "domains": domains,
         "flexibility": round(sum(flex) / len(flex)) if flex else None,
@@ -479,6 +554,10 @@ def calibrate(facts, answers, *, portfolio_check=False):
             for c in cards
         ],
         "blocked_reason": blocked,
-        "policy_version": "studio-2" if portfolio_check else "studio-1",
+        "policy_version": "studio-3"
+        if derived
+        else "studio-2"
+        if portfolio_check
+        else "studio-1",
         "facts": facts,
     }

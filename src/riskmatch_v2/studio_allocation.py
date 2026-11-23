@@ -16,6 +16,10 @@ from .options.scoring import scale
 ROOT = Path(__file__).resolve().parents[2]
 CASH = "CHF cash"
 TITLES = {
+    "preference": (
+        "Your risk trade-off",
+        "Balance modeled return and variance using your portfolio choices",
+    ),
     "return": (
         "Return seeker",
         "Seek higher model return within the estimated risk ceiling",
@@ -189,7 +193,7 @@ class _Session:
         s = self.d["specific_risk"][variant]
         return float(np.sqrt(np.sum((weights @ f) ** 2) + np.sum((weights * s) ** 2)))
 
-    def solve(self, key, *, required_net=None):
+    def solve(self, key, *, required_net=None, gamma=None, loss_margin=0.0):
         allow = self.allowed.copy()
         if key == "carbon":
             allow &= self.d["carbon"][:, 2] >= 0.99999
@@ -220,24 +224,26 @@ class _Session:
             cp.sum(w) + fee <= 1 - (self.cash - self.settled) / self.budget,
         ]
 
-        def volatility(variant):
+        def risk_exposures(variant):
             root = self.d["factor_roots"][variant, ix]
             specific = self.d["specific_risk"][variant, ix]
-            return cp.norm(cp.hstack([root.T @ w, cp.multiply(specific, w)]))
+            return cp.hstack([root.T @ w, cp.multiply(specific, w)])
 
         if high is not None:
             for variant in (0, 1) if key == "robust" else (0,):
-                limits.append(volatility(variant) <= high * 0.992)
+                limits.append(cp.norm(risk_exposures(variant)) <= high * 0.992)
         stress = self.d["stress_2008"][ix]
         shocks = self.d["shocks"][ix]
         if self.capacity is not None:
-            cap = self.capacity / self.budget
+            cap = self.capacity * (1 - loss_margin) / self.budget
             limits.extend([-stress @ w + fee <= cap, -shocks.T @ w + fee <= cap])
         net = mu[:, 0] @ w - fee / self.years
         objective = net
         if required_net is not None:
             limits.append(net >= required_net)
-            objective = -volatility(0)
+            objective = -cp.norm(risk_exposures(0))
+        elif gamma is not None:
+            objective = net - (gamma / 2) * cp.sum_squares(risk_exposures(0))
         elif key == "robust":
             worst = cp.Variable()
             limits.append(worst <= mu.T @ w - fee / self.years)
@@ -313,7 +319,27 @@ class _Session:
         keys = ["return", "robust", "diversified", "defensive", "reference"]
         if self.m.get("prefer_lower_emissions"):
             keys.insert(3, "carbon")
-        return {key: self.solve(key) for key in keys}
+        allocations = {key: self.solve(key) for key in keys}
+        if (gamma := self.m.get("preference_gamma")) is not None:
+            allocations = {
+                "preference": self.preference_weights(gamma),
+                **allocations,
+                "cash": np.zeros(self.n),
+            }
+        return allocations
+
+    def preference_weights(self, gamma):
+        # Whole positions can break a binding CHF loss limit. Retry with
+        # small buffers and check against the original constraints each time.
+        for margin in (0.0, 0.005, 0.02):
+            weights = self.solve("preference", gamma=gamma, loss_margin=margin)
+            if weights is None:
+                return None
+            units = self.rounded(weights)
+            valid, _ = self.evaluate(units, "preference", {}, detail=False)
+            if valid:
+                return weights
+        return None
 
     def rounded(self, weights):
         ideal = weights * self.budget / self.prices
@@ -603,7 +629,7 @@ def _prepared(serialized):
     return session, session.allocations()
 
 
-def _prepare(mandate):
+def _allocation_inputs(mandate):
     # The cache holds only inputs that affect allocations. The profile narrative,
     # submitted answers and dossier identifiers have no role in sizing a trade.
     fields = (
@@ -621,6 +647,7 @@ def _prepare(mandate):
         "high_exclusive",
         "mode",
         "target_return",
+        "preference_gamma",
         "exclusions",
         "exclude_chevron",
         "prefer_lower_emissions",
@@ -641,9 +668,71 @@ def _prepare(mandate):
             "stale_symbols",
         )
         inputs["account"] = {k: account[k] for k in fields if k in account}
-    return _prepared(
-        json.dumps(inputs, sort_keys=True, separators=(",", ":"), allow_nan=False)
-    )
+    return json.dumps(inputs, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+def _prepare(mandate):
+    return _prepared(_allocation_inputs(mandate))
+
+
+@lru_cache(maxsize=16)
+def _preference_volatilities(serialized, lower, upper):
+    session = _Session(json.loads(serialized))
+    if session.reason:
+        return ()
+    # Utility-maximising variance is nonincreasing in gamma before rounding.
+    # Include an interior sensitivity and verify every example as whole units.
+    middle = (lower + upper) / 2 if upper is not None else 2 * lower
+    volatilities = []
+    for gamma in (lower, middle, upper):
+        weights = (
+            session.preference_weights(gamma)
+            if gamma is not None
+            else np.zeros(session.n)
+        )
+        if weights is None:
+            return ()
+        units = session.rounded(weights)
+        valid, _ = session.evaluate(units, "preference", {}, detail=False)
+        if not valid:
+            return ()
+        volatilities.append(session.sigma(session.amounts(units)[-1]))
+    return tuple(volatilities)
+
+
+def apply_preference(mandate):
+    """Derive a modeled volatility zone using the current constrained account."""
+    preference = mandate.get("studio_preference")
+    if preference is None:
+        return mandate, None
+    state = preference["state"]
+    lower, upper = preference["gamma_low"], preference["gamma_high"]
+    low = high = None
+    gamma = None
+    if state == "estimated":
+        unconstrained_volatility = mandate | {"low": 0, "high": None}
+        points = _preference_volatilities(
+            _allocation_inputs(unconstrained_volatility), lower, upper
+        )
+        if points:
+            low, high = min(points), max(points)
+            gamma = (lower + upper) / 2 if upper is not None else 2 * lower
+        else:
+            state = "unavailable"
+    elif state in ("cash_preferred", "cash_capacity"):
+        low = high = 0.0
+    working = mandate | {
+        "low": 0,
+        "high": high or 0.0,
+        "mode": "minimum" if not high else "target_band",
+        "preference_gamma": gamma,
+    }
+    return working, {
+        "state": state,
+        "low": low,
+        "high": high,
+        "as_of": working.get("day", DAYS[0]),
+    }
 
 
 def candidates(mandate):

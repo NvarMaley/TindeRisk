@@ -436,6 +436,8 @@
 - [x] Show five required fields and short help bubbles on the brief. Group preferences under a collapsed disclosure and preserve planned spending on existing mandates. Keep compatibility with saved mandates. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Verify the full brief is reachable by wheel and touch in standalone and Streamlit, together with pre-start music, automatic retry on normal interaction when autoplay is blocked, synchronised title audio and persistent mute. [Interaction replay](reports/studio/interaction-check.json)
 - [x] Deliver the client-facing path from the lagoon entrance through the budget and goal brief, adaptive swipes, behavioural score and explanatory profile.
+- [x] Derive the studio's illustrative annual volatility zone from A/B portfolio choices and the constrained allocation engine. Preserve the behavioural scores and verify unresolved choices, cash and checked whole-unit matches. [Questionnaire method](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille) · [Desktop and mobile replay](reports/studio/volatility-browser-check.json)
+  - **Open evidence.** Validation on held-out portfolio choices and out-of-sample market assumptions. The current test uses fictional decisions and the dated historical model.
 - [x] Expose the complete research library and calculate whole-unit strategies from the dated eligible universe. Show risk, strengths, weaknesses, measured environmental coverage and separate signal readings.
 - [x] Verify manual and suggested blends, independent confirmation, holdings, a simulated close, a deposit and resume on desktop and phone. [Studio methods, screenshots and test receipt](reports/studio/README.md)
 

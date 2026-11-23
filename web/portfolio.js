@@ -12,6 +12,7 @@ import {
   esc,
   fmt,
   pct,
+  volatilityLabel,
   chf,
   toast,
 } from "./studio-core.js";
@@ -37,7 +38,9 @@ const section = (label, body) =>
   body +
   "</details>";
 const riskBand = () =>
-  state.profile.portfolio_check
+  state.profile.volatility_zone
+    ? volatilityLabel(state.profile.volatility_zone)
+    : state.profile.portfolio_check
     ? "Up to " + pct(state.profile.portfolio_check.allocation_ceiling)
     : state.profile.high == null
     ? pct(state.profile.low) + " and above"
@@ -136,6 +139,7 @@ export async function calculate() {
   const surface = root.querySelector("#solving");
   const result = await api("candidates");
   if (request !== calculation || !surface.isConnected) return;
+  if (result.volatility_zone) state.profile.volatility_zone = result.volatility_zone;
   Object.assign(state, {
     plans: result.plans,
     goalComparison: result.goal_comparison,
@@ -277,7 +281,7 @@ export function showMatches() {
       tiles([
         ["Modeled annual return, net", pct(p.net)],
         ["Modeled annual volatility", pct(p.vol)],
-        ["Your search limit", riskBand()],
+        [state.profile.volatility_zone ? "Your estimated zone" : "Your search limit", riskBand()],
       ]) +
       (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +
       '<div class="swipe-buttons"><button data-vote="no">Pass</button><button data-vote="yes" class="like" ' +

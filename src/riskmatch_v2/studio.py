@@ -61,6 +61,28 @@ def overview(book, day):
     }
 
 
+def _working_mandate(policy, account, day):
+    compact = {
+        k: account[k]
+        for k in (
+            "holdings",
+            "cash",
+            "value",
+            "settled_cash",
+            "day",
+            "prices_chf",
+            "stale_symbols",
+        )
+    }
+    if not account["portfolio_version"] and not account["value"]:
+        compact.update(
+            cash=policy["capital_chf"],
+            settled_cash=policy["capital_chf"],
+            value=policy["capital_chf"],
+        )
+    return policy | {"account": compact, "day": day}
+
+
 def dispatch(action, data, directory=None):
     directory = directory or ACCOUNTS
     if action == "bootstrap":
@@ -82,15 +104,18 @@ def dispatch(action, data, directory=None):
             saves.draft(directory, save_id, facts=data["facts"])
         return facts
     portfolio_check = data.get("portfolio_check") is True
+    derived = data.get("derive_volatility") is True
     if action == "route":
-        cards, answers = deck(data["answers"], portfolio_check=portfolio_check)
+        cards, answers = deck(
+            data["answers"], portfolio_check=portfolio_check, derived=derived
+        )
         if save_id:
             saves.draft(directory, save_id, answers=answers)
         return {"cards": cards, "answers": answers}
     if action == "calibrate":
         facts = intake(data["facts"])
         policy, profile = calibrate(
-            facts, data["answers"], portfolio_check=portfolio_check
+            facts, data["answers"], portfolio_check=portfolio_check, derived=derived
         )
         book = Ledger(directory, token) if token else Ledger.create(directory)
         day = book.latest_day() or MARKET_DAY
@@ -115,10 +140,16 @@ def dispatch(action, data, directory=None):
                 policy["blocked_reason"] = profile["blocked_reason"] = (
                     "The funded sleeve differs from this budget. Use a new simulation for a different opening budget."
                 )
+        if derived:
+            from .studio_allocation import apply_preference
+
+            _, profile["volatility_zone"] = apply_preference(
+                _working_mandate(policy, current, day)
+            )
         policy.update(
             studio_profile=profile,
             studio_intake=data["facts"],
-            studio_answers=deck(data["answers"], portfolio_check=portfolio_check)[1],
+            studio_answers={card["id"]: card["answer"] for card in profile["evidence"]},
         )
         version = book.save_mandate(policy, expected_version=current["mandate_version"])
         return {
@@ -161,7 +192,14 @@ def dispatch(action, data, directory=None):
         return overview(book, day)
     if data.get("version") != latest["version"]:
         raise ValueError("The mandate changed. Reopen your latest profile.")
-    from .studio_allocation import DAYS, blend, candidates, compare_goal, quotes
+    from .studio_allocation import (
+        DAYS,
+        apply_preference,
+        blend,
+        candidates,
+        compare_goal,
+        quotes,
+    )
 
     if action == "advance":
         new_day = next((d for d in DAYS if d > day), None)
@@ -199,29 +237,12 @@ def dispatch(action, data, directory=None):
         raise ValueError("Set a future goal date before calculating new matches.")
     a = book.account(day)
     opening = not a["portfolio_version"] and not a["value"]
-    compact = {
-        k: a[k]
-        for k in (
-            "holdings",
-            "cash",
-            "value",
-            "settled_cash",
-            "day",
-            "prices_chf",
-            "stale_symbols",
-        )
-    }
-    if opening:
-        compact.update(
-            cash=policy["capital_chf"],
-            settled_cash=policy["capital_chf"],
-            value=policy["capital_chf"],
-        )
-    working = policy | {"account": compact, "day": day}
+    working, zone = apply_preference(_working_mandate(policy, a, day))
     if action == "candidates":
         plans = candidates(working)
         return {
             "plans": [public_plan(x) for x in plans],
+            "volatility_zone": zone,
             "goal_comparison": compare_goal(working, plans),
             "day": day,
             "revision": a["revision"],

@@ -40,6 +40,13 @@ export const chf = (v) =>
     : "—";
 export const pct = (v) =>
   Number.isFinite(v) ? (100 * v).toFixed(1) + "%" : "—";
+export function volatilityLabel(zone) {
+  if (zone.low == null || zone.high == null) return "Undetermined";
+  if (zone.high === 0) return "0.0% · CHF cash";
+  return pct(zone.low) === pct(zone.high)
+    ? pct(zone.high)
+    : pct(zone.low) + "–" + pct(zone.high);
+}
 export function toast(message) {
   const el = document.getElementById("notice");
   el.textContent = message;
