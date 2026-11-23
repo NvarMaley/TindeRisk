@@ -57,7 +57,6 @@ function intake() {
         <p class="kicker">Investment brief</p>
         <h1>Your money.<br>Your terms.</h1>
         <p class="lede">Set aside what you need. We’ll use the rest to explore portfolios around your goal.</p>
-        <div class="intake-shot" role="img" aria-label="Miami waterfront at dusk"></div>
         <div class="budget-line"><span>Cash set aside</span><b id="reserve">—</b></div>
         <div class="budget-line"><span>Available to invest</span><b id="sleeve">—</b></div>
         <p class="muted" style="margin-top:12px">Fictional CHF account · research close 30 Oct 2026.</p>

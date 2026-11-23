@@ -4,6 +4,8 @@
 
 The entry scene leads to one investment brief, an adaptive card deck, a behavioural profile, the asset library and a portfolio shortlist. Confirming a draft opens a private fictional CHF account. The two supported entry points run the same frontend and Python engine.
 
+After the title sequence the lagoon stays behind the studio. The form, cards and library use translucent navy surfaces. [Desktop capture](glass-desktop.jpg) · [Mobile capture](glass-mobile.jpg)
+
 ## Open the studio
 
 From the repository root with Python 3.12, install the application and launch the local server.

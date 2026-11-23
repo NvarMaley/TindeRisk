@@ -259,3 +259,7 @@ Five required fields cover the starting budget, cash set aside, affordable loss,
 ### Client studio follow-up · CHF reserve and final split
 
 The financial brief keeps a five-field default. An optional annual CHF savings rate projects the reserve, accounting for withdrawals on their dates, and the terminal goal uses this value separately from the portfolio. The match preview shows each strategy's share and CHF equivalent. [Reserve and allocation method](reports/studio/README.md#chf-reserve-and-strategy-split)
+
+### Client studio follow-up · Lagoon and navy glass
+
+The lagoon artwork continues behind the studio at desktop and mobile aspect ratios. Translucent navy panels carry the brief, portfolio controls and asset library. [Desktop](reports/studio/glass-desktop.jpg) · [Mobile](reports/studio/glass-mobile.jpg)

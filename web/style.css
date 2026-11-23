@@ -11,14 +11,14 @@
 }
 :root {
   color-scheme: dark;
-  --ink: #110f20;
-  --surface: #211b34;
-  --rim: #554360;
+  --ink: #071823;
+  --surface: #142d3e;
+  --rim: #466778;
   --ice: #94e9fc;
   --pink: #ff97c1;
   --rose: #ff659f;
   --pearl: #fff6fa;
-  --muted: #c7b7cb;
+  --muted: #cbdeea;
 }
 * {
   box-sizing: border-box;
@@ -103,9 +103,9 @@ small,
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid #af8ab3;
+  border: 1px solid #86afc1;
   border-radius: 50%;
-  background: #21152bd9;
+  background: #0b2433dc;
   color: #ffe1ed;
 }
 .sound-toggle[aria-pressed="false"] { color: #cbbdcd; }
@@ -122,10 +122,28 @@ small,
   overflow-y: auto;
 }
 .studio-shell {
+  --lagoon: url(assets/lagoon-dusk.webp);
+  --glass: linear-gradient(145deg, rgb(14 40 56 / 88%), rgb(7 22 35 / 82%));
+  --glass-line: rgb(160 213 230 / 33%);
+  position: relative;
+  isolation: isolate;
   min-height: 100dvh;
+}
+.studio-shell::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
   background:
-    radial-gradient(ellipse at 85% 3%, #382140 0, transparent 42rem),
-    linear-gradient(135deg, #141223, #100e1b 70%);
+    linear-gradient(180deg, rgb(5 19 34 / 64%), rgb(8 23 36 / 35%) 48%, rgb(4 18 29 / 81%)),
+    var(--lagoon) center / cover no-repeat,
+    var(--ink);
+}
+@media (max-aspect-ratio: 4/5) {
+  .studio-shell {
+    --lagoon: url(assets/lagoon-dusk-mobile.webp);
+  }
 }
 .mast {
   display: flex;
@@ -133,8 +151,9 @@ small,
   justify-content: space-between;
   gap: 16px;
   padding: 14px clamp(16px, 5vw, 80px);
-  border-bottom: 1px solid #58465b77;
-  background: #171220b8;
+  border-bottom: 1px solid var(--glass-line);
+  background: rgb(6 22 34 / 79%);
+  backdrop-filter: blur(14px);
   flex-wrap: wrap;
 }
 .word {
@@ -170,13 +189,13 @@ small,
   padding: 0.5rem 0.9rem;
 }
 .nav button[aria-current="page"] {
-  background: #42253c;
+  background: #204459;
   border-color: #88516f;
   color: #ffd1e4;
 }
 .nav button:hover,
 .flat:hover {
-  background: #352a42;
+  background: #18394c;
 }
 .stage {
   max-width: 1220px;
@@ -193,8 +212,9 @@ small,
   margin-bottom: 12px;
 }
 .lede {
+  text-shadow: 0 1px 5px #071823;
   font-size: 1.04rem;
-  color: #e0cfdc;
+  color: #e0edf3;
   max-width: 65ch;
   margin-top: 12px;
 }
@@ -218,8 +238,8 @@ small,
 }
 .secondary,
 .danger {
-  background: #272039;
-  border-color: #69526f;
+  background: #142d3e;
+  border-color: #507587;
 }
 .danger {
   color: #ffb4bf;
@@ -233,8 +253,10 @@ small,
 }
 .panel,
 details.info {
-  background: linear-gradient(145deg, #282035, #1d182b);
-  border: 1px solid #514055;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px rgb(224 249 255 / 10%), 0 14px 34px rgb(2 15 24 / 21%);
   border-radius: 20px;
   padding: clamp(16px, 2.2vw, 28px);
 }
@@ -246,15 +268,20 @@ details.info {
   grid-template-columns: minmax(230px, 0.73fr) minmax(0, 1.4fr);
   gap: clamp(24px, 5vw, 70px);
 }
-.intake-shot {
-  position: relative;
+.intake-grid aside {
+  align-self: start;
+  padding: clamp(18px, 3vw, 30px);
   border-radius: 20px;
-  min-height: 180px;
-  margin-top: 24px;
-  background:
-    linear-gradient(0deg, #1b112d33, #2b203011),
-    url(assets/miami.jpg) 43% 59% / cover;
-  border: 1px solid #806078;
+  border: 1px solid var(--glass-line);
+  background: linear-gradient(135deg, rgb(6 25 39 / 82%), rgb(9 32 44 / 63%));
+  backdrop-filter: blur(12px);
+}
+.intake-grid h1 {
+  font-size: clamp(2.25rem, 4.1vw, 3.65rem);
+}
+.setup-form > .panel:has(.field-help[open]) {
+  position: relative;
+  z-index: 1;
 }
 .budget-line {
   display: flex;
@@ -262,7 +289,7 @@ details.info {
   gap: 12px;
   align-items: baseline;
   padding: 13px 0;
-  border-bottom: 1px solid #514055;
+  border-bottom: 1px solid #36576a;
 }
 .budget-line b {
   color: var(--ice);
@@ -307,7 +334,7 @@ details.info {
   place-items: center;
   min-width: 26px;
   min-height: 26px;
-  border: 1px solid #a880a0;
+  border: 1px solid #83a9ba;
   border-radius: 50%;
   color: var(--ice);
 }
@@ -319,9 +346,9 @@ details.info {
   right: 0;
   width: min(215px, 58vw);
   padding: .7rem;
-  border: 1px solid #a880a0;
+  border: 1px solid #83a9ba;
   border-radius: 12px;
-  background: #2b2037;
+  background: #112b3d;
   color: var(--pearl);
   box-shadow: 0 6px 18px #09061190;
   font-weight: 400;
@@ -335,8 +362,8 @@ select,
 textarea {
   width: 100%;
   min-width: 0;
-  background: #171321;
-  border: 1px solid #715971;
+  background: #0c2030;
+  border: 1px solid #608495;
   border-radius: 9px;
   color: var(--pearl);
   padding: 0.65rem 0.7rem;
@@ -381,7 +408,7 @@ input[type="range"] {
 .meter {
   height: 5px;
   border-radius: 5px;
-  background: #49374e;
+  background: #28485b;
   overflow: hidden;
   margin: 12px 0 20px;
 }
@@ -400,16 +427,16 @@ input[type="range"] {
   position: absolute;
   z-index: -1;
   inset: 12px 8px -6px;
-  background: #4b3052;
+  background: #244759;
   transform: rotate(1.4deg);
-  border: 1px solid #7b516c;
+  border: 1px solid #527282;
   border-radius: 26px;
 }
 .swipe-card {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #352542, #1b172b);
-  border: 1px solid #967598;
+  background: linear-gradient(160deg, #1b3c4f, #0a2636);
+  border: 1px solid #6893a5;
   border-radius: 26px;
   box-shadow: 0 20px 65px #07041155;
   touch-action: pan-y;
@@ -464,7 +491,7 @@ input[type="range"] {
 .art {
   height: clamp(90px, 18vh, 165px);
   background:
-    linear-gradient(0deg, #2e1d3e 1%, transparent 65%),
+    linear-gradient(0deg, #163348 1%, transparent 65%),
     url(assets/miami.jpg) center 54% / cover;
 }
 .art.b {
@@ -506,7 +533,7 @@ input[type="range"] {
 }
 .swipe-buttons button {
   border: 1px solid #755574;
-  background: #35283e;
+  background: #18384b;
   border-radius: 32px;
   display: inline-flex;
   align-items: center;
@@ -547,17 +574,16 @@ input[type="range"] {
   margin: 14px;
 }
 .flat {
-  color: #e0c6db;
-  border-color: #69536b;
+  color: #daedf6;
+  border-color: #50778b;
 }
 .reveal {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background:
-    linear-gradient(92deg, #201425 15%, #25172de8 50%, #29153544),
-    url(assets/miami.jpg) 60% 56% / cover;
-  border: 1px solid #846783;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-line);
   border-radius: 24px;
   padding: clamp(22px, 5vw, 55px);
 }
@@ -589,8 +615,8 @@ input[type="range"] {
   margin: 18px 0;
 }
 .tile {
-  background: #221c2e;
-  border: 1px solid #514056;
+  background: #102b3ddf;
+  border: 1px solid #50778b;
   border-radius: 16px;
   padding: 16px 18px;
 }
@@ -615,7 +641,7 @@ input[type="range"] {
 }
 .listrow {
   padding: 10px 0;
-  border-bottom: 1px solid #4a374d;
+  border-bottom: 1px solid #406374;
 }
 .listrow strong {
   display: block;
@@ -652,8 +678,8 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-color: #726078;
-  background: #271f34;
+  border-color: #577b8b;
+  background: #142d3e;
   color: #eedfee;
   font-size: 0.875rem;
 }
@@ -815,9 +841,6 @@ th {
   .poster,
   .grid2 {
     grid-template-columns: 1fr;
-  }
-  .intake-shot {
-    display: none;
   }
   .budget-line {
     padding: 7px 0;
@@ -1041,7 +1064,7 @@ th {
 .allocation-ring i {
   width: 67%;
   aspect-ratio: 1;
-  background: #241a30;
+  background: #112c3d;
   border-radius: 50%;
 }
 .compare-wrap {
