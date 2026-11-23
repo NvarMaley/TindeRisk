@@ -1,0 +1,38 @@
+[
+  {
+    "device": "desktop",
+    "answered": 22,
+    "explicit_decisions": 4,
+    "cherry_transitions": 20,
+    "swipe_sounds": 20,
+    "jazz_pauses_during_cards": 0,
+    "reduced_motion": false,
+    "profile": "Moderate",
+    "manual_and_suggested_blend": true,
+    "reserve_projection_and_chf_split": true,
+    "confirmed": true,
+    "pin_required_after_reload": true,
+    "goal_comparison": true,
+    "soundtrack_and_stable_swipes": true,
+    "simulated_closes": 2,
+    "cash_deposit_chf": 100
+  },
+  {
+    "device": "phone",
+    "answered": 22,
+    "explicit_decisions": 4,
+    "cherry_transitions": 20,
+    "swipe_sounds": 20,
+    "jazz_pauses_during_cards": 0,
+    "reduced_motion": true,
+    "profile": "Moderate",
+    "manual_and_suggested_blend": true,
+    "reserve_projection_and_chf_split": true,
+    "confirmed": true,
+    "pin_required_after_reload": true,
+    "goal_comparison": true,
+    "soundtrack_and_stable_swipes": true,
+    "simulated_closes": 2,
+    "cash_deposit_chf": 100
+  }
+]

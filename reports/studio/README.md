@@ -33,6 +33,8 @@ The brief scrolls inside the studio in both the standalone and Streamlit entry p
 
 A right vote plays a two-note chime and a left vote plays a dry clap over the continuing music. Each left or right vote dismisses the card, bounces the cherry logo and reveals the next card or the result. The reduced-motion setting shows a still cherry. [Watch a recorded swipe](cherry-swipe.webp)
 
+In the client calibration, guaranteed amounts and 50/50 outcomes have named buttons. The 15% decline card offers holding, reducing risk or reviewing the plan first. Its follow-up records why without treating a review as a decision to stay or sell. [Decision browser replay](decision-browser-check.json)
+
 ## From the first swipe to a match
 
 | Stage | What the client sees | How it works |

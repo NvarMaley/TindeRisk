@@ -119,13 +119,29 @@ def journey(url, browser, phone, report):
       }).observe(document.querySelector("#studio"),{childList: true, subtree: true});
     }""")
     answered = []
+    swiped = []
     while not page.get_by_role("button", name="Calculate my matches").count():
         card.wait_for(timeout=10000)
         key = card.get_attribute("data-card-id")
         assert key not in answered, key
         answered.append(key)
         approve = key in YES
-        if len(answered) == 1:
+        explicit = {
+            "G01": "certain",
+            "G02": "gamble",
+            "G03": "certain",
+            "D01": "reduce",
+        }
+        if key not in explicit:
+            swiped.append(key)
+        if key in explicit:
+            if key == "D01":
+                expect(
+                    page.get_by_role("button", name="Review the plan before acting")
+                ).to_be_visible()
+            expect(page.locator("[data-vote]")).to_have_count(0)
+            page.locator(f'[data-decision="{explicit[key]}"]').click()
+        elif len(answered) == 1:
             page.evaluate("""() => {
               window.mastAtSwipe = document.querySelector('.mast');
               window.mastBefore = window.mastAtSwipe.getBoundingClientRect().toJSON();
@@ -179,6 +195,11 @@ def journey(url, browser, phone, report):
             }""")
     expect(page.locator("#calculate")).to_be_enabled()
     profile = page.locator(".reveal h1").inner_text()
+    expect(
+        page.get_by_text(
+            "You would reduce the portfolio’s risk after the fall.", exact=True
+        )
+    ).to_be_visible()
     if report and not phone:
         page.screenshot(path=report / "profile.jpg", quality=82)
     page.locator("#library").click()
@@ -203,9 +224,9 @@ def journey(url, browser, phone, report):
     page.locator('[data-vote="yes"]').click()
     expect(page.locator(".remove")).to_have_count(2)
     cycles = page.evaluate("window.cherryVotes")
-    assert len(cycles) == len(answered) + 2, cycles
-    assert [c["direction"] for c in cycles[: len(answered)]] == [
-        "right" if k in YES else "left" for k in answered
+    assert len(cycles) == len(swiped) + 2, cycles
+    assert [c["direction"] for c in cycles[: len(swiped)]] == [
+        "right" if k in YES else "left" for k in swiped
     ]
     assert all(c["leaving"] and c["completed"] for c in cycles), cycles
     assert all(
@@ -267,6 +288,7 @@ def journey(url, browser, phone, report):
     return {
         "device": "phone" if phone else "desktop",
         "answered": len(answered),
+        "explicit_decisions": len(answered) - len(swiped),
         "cherry_transitions": len(cycles),
         "swipe_sounds": len(sounds),
         "jazz_pauses_during_cards": 0,
@@ -300,7 +322,7 @@ def main():
             receipt = [journey(url, browser, device, dest) for device in (False, True)]
             browser.close()
             if dest:
-                (dest / "browser-check.json").write_text(
+                (dest / "decision-browser-check.json").write_text(
                     json.dumps(receipt, indent=2) + "\n"
                 )
             print(receipt)

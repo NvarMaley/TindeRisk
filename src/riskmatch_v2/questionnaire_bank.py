@@ -339,6 +339,48 @@ def _follow_ups(index, known, *, form, horizon):
             yield AMBIGUITY[form % len(AMBIGUITY)]
 
 
+_DRAWDOWN_CHOICES = (
+    ("keep", "Je garde le portefeuille", "yes"),
+    ("reduce", "Je réduis le risque", "no"),
+    ("review", "Je revois le plan avant d’agir", "skip"),
+)
+_PORTFOLIO_CHOICES = (
+    ("portfolio_a", "Je choisis le portefeuille A", "no"),
+    ("portfolio_b", "Je choisis le portefeuille B", "yes"),
+)
+_CERTAINTY_CHOICES = (
+    ("certain", "Je choisis le montant certain", "yes"),
+    ("gamble", "Je choisis le pari", "no"),
+)
+_MIXED_CHOICES = (
+    ("retain_stake", "Je garde ma mise", "no"),
+    ("take_mixed_gamble", "J’accepte le pari", "yes"),
+)
+
+
+def decision_options(card_id):
+    """Named options for decisions where a generic Pass would be ambiguous."""
+    if card_id in {"D01", "D02"} or (card_id.startswith("R") and card_id[1:].isdigit()):
+        return _DRAWDOWN_CHOICES
+    if card_id.startswith("P") and card_id[1:].isdigit():
+        return _PORTFOLIO_CHOICES
+    if card_id.startswith(("G", "F")):
+        return _CERTAINTY_CHOICES
+    if card_id.startswith("L"):
+        return _MIXED_CHOICES
+    return ()
+
+
+def _canonical(answers):
+    return {
+        key: next(
+            (binary for value, _, binary in decision_options(key) if response == value),
+            response,
+        )
+        for key, response in answers.items()
+    }
+
+
 def next_card(answers, *, form=0, horizon=5, limit=MAX_CARDS):
     """Return the next prompt and active answers. A form controls study counterbalancing."""
     if (
@@ -348,6 +390,7 @@ def next_card(answers, *, form=0, horizon=5, limit=MAX_CARDS):
         or not 8 <= limit <= MAX_CARDS
     ):
         raise ValueError("Invalid research form or card limit.")
+    answers = _canonical(answers)
     anchor_next, anchors = pilot.next_card(answers)
     next_id = anchor_next.id if anchor_next else None
     active = {}
@@ -378,21 +421,30 @@ def assess(answers, **route):
     report = pilot.assess(active)
     if remaining is None and report["status"] == "en_cours":
         report["status"] = "limite_atteinte"
+    decisions = {
+        key: label
+        for key in active
+        for value, label, _ in decision_options(key)
+        if answers[key] == value
+    }
     follow_up_choices = {}
     for card in FOLLOW_UPS:
         if card.id in active:
             answer = active[card.id]
+            reading = {"yes": card.like, "no": card.passed, "skip": "Indéterminé."}[
+                answer
+            ]
+            if answers[card.id] == "review":
+                reading = "Réexaminer le plan avant d’agir. Le seuil de baisse reste à préciser."
             follow_up_choices[card.id] = {
                 "block": card.block,
                 "answer": answer,
-                "reading": {
-                    "yes": card.like,
-                    "no": card.passed,
-                    "skip": "Indéterminé.",
-                }[answer],
+                "reading": reading,
+                "decision": decisions.get(card.id),
             }
     return report | {
         "next": remaining.id if remaining else None,
         "extended_count": len(active),
         "follow_ups": follow_up_choices,
+        "decisions": decisions,
     }

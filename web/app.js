@@ -152,6 +152,12 @@ async function nextCard() {
     return;
   }
   const done = state.cards.filter((c) => c.id in state.answers).length;
+  const choices = card.choices
+    ? '<div class="decision-options" role="group" aria-labelledby="card-statement">' +
+      card.choices.map(([id, label]) =>
+        '<button class="secondary" data-decision="' + esc(id) + '">' + esc(label) + '</button>'
+      ).join("") + '</div>'
+    : '<div class="swipe-buttons"><button data-vote="no">Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div>';
   shell(
     "calibrate",
     '<div class="sweep"><div class="deck-head"><div><p class="kicker">Behavioural calibration</p><h2>Your move.</h2></div><span class="pill">' +
@@ -160,23 +166,45 @@ async function nextCard() {
       (100 * done) / state.cards.length +
       '%"></span></div><div class="swipepad"><article class="swipe-card" data-card-id="' +
       card.id +
-      '" tabindex="0" aria-label="Swipe to agree or disagree"><div class="art ' +
+      '" tabindex="0" aria-labelledby="card-statement"><div class="art ' +
       (done % 3 === 0 ? "a" : done % 3 === 1 ? "b" : "c") +
       '"></div><span class="swipe-mark" aria-hidden="true"></span><div class="card-body"><p class="kicker">' +
       esc(card.family) +
-      '</p><h1 class="statement">' +
+      '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
-      '</h1><p class="lede">Swipe right if this sounds like you. Swipe left if it doesn’t.</p></div></article></div><div class="swipe-buttons"><button data-vote="no">Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div><div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
+      '</h1><p class="lede">' +
+      (card.choices ? "Choose the action that best matches what you would do." : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      '</p></div></article></div>' + choices +
+      '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
   const answer = async (v) => {
-    state.answers[card.id] = v;
+    const previous = state.answers;
+    state.answers = { ...previous, [card.id]: v };
     if (card.id === "T03" && v === "yes") editing = "T01";
     if (card.id === "L05" && v === "yes") editing = "L01";
     if (card.id === "G04" && v === "no") editing = "G01";
-    await nextCard();
+    try {
+      await nextCard();
+    } catch (error) {
+      state.answers = previous;
+      throw error;
+    }
   };
   const stage = root.querySelector(".swipe-card");
-  swipes(stage, answer);
+  if (card.choices) {
+    root.querySelectorAll("[data-decision]").forEach(button => {
+      button.onclick = () => run(button, async () => {
+        const container = stage.closest("#stage");
+        if (container.inert) return;
+        container.inert = true;
+        try {
+          await answer(button.dataset.decision);
+        } finally {
+          container.inert = false;
+        }
+      });
+    });
+  } else swipes(stage, answer);
   stage.focus({ preventScroll: true });
   bind("#skip", () => answer("skip"));
   bind("#back", async () => {
@@ -278,11 +306,8 @@ function profile(animate = false) {
             '<div class="listrow"><small>' +
             esc(c.family) +
             " · " +
-            (c.answer === "yes"
-              ? "Like me"
-              : c.answer === "no"
-                ? "Not me"
-                : "Unsure") +
+            esc(c.choices?.find(([id]) => id === c.answer)?.[1] ||
+              ({yes:"Like me", no:"Not me", skip:"Unsure"}[c.answer] ?? c.answer)) +
             "</small><strong>" +
             esc(c.text) +
             "</strong><small>" +

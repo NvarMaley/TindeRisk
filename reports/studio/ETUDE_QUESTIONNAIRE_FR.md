@@ -1,6 +1,6 @@
 # Étude du questionnaire comportemental de RiskMatch
 
-Le studio contient **26 cartes réparties en 7 catégories**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **18 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Cette étude décrit le studio actuel, version de calcul **studio-1**. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
+Le studio contient **27 cartes réparties en 7 catégories**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **19 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Cette étude décrit le studio actuel, version de calcul **studio-1**. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
@@ -11,11 +11,21 @@ La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette ve
 - **Faire varier un élément à la fois.** Les trois arbitrages G gardent le même pari et changent le montant certain. Les paires L présentent le même résultat économique en solde final puis en gains ou pertes. La première construction s’inspire du critère moyenne–variance. La seconde reprend l’idée d’un point de référence et l’effet possible de la présentation des résultats. [Markowitz, 1952](https://doi.org/10.1111/j.1540-6261.1952.tb01525.x) · [Kahneman et Tversky, 1979](https://www.jstor.org/stable/1914185)
 - **Distinguer la volonté de prendre un risque de la capacité de le supporter.** Vendre pour payer une facture, à cause de l’inconfort ou par anticipation de nouvelles baisses peut relever de trois motifs différents. Le budget et la perte financièrement supportable sont recueillis dans le formulaire. La souplesse et les préférences de suivi aident à lire le profil. [CFA Institute, construction de portefeuille](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/basics-of-portfolio-planning-and-construction)
 
-Les 26 cartes comportementales de la banque V2 ont été reformulées à la première personne pour le swipe. **Oui** signifie que la proposition correspond au client. **Non** indique qu’elle ne lui correspond pas. **Incertain** permet de signaler qu’il ne souhaite pas trancher. Dans un arbitrage binaire entre un montant certain et un pari, le studio code non comme acceptation du pari. Les situations sont hypothétiques. Le barème et les bandes sont des hypothèses de conception sans validation psychométrique sur des participants.
+Les 26 cartes d’origine ont été reformulées pour le swipe. Le studio propose désormais aussi des choix explicites sur G01–G03 et D01, ainsi qu’une relance D06. **Oui** signifie que la proposition correspond au client. **Non** indique qu’elle ne lui correspond pas. **Incertain** permet de signaler qu’il ne souhaite pas trancher. Dans un arbitrage binaire entre un montant certain et un pari, le studio code non comme acceptation du pari. Les situations sont hypothétiques. Le barème et les bandes sont des hypothèses de conception sans validation psychométrique sur des participants.
 
-## Les 26 cartes
+## Choix explicites en service
 
-Les énoncés ci-dessous sont des traductions fidèles des propositions anglaises affichées dans le studio. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.
+| Carte | Proposition et choix affichés | Effet sur le profil |
+|---|---|---|
+| **G01, G02, G03** | Sur 1 000 CHF fictifs pendant un an, choisir le montant certain (1 020, 1 000 ou 1 040 CHF selon la carte) ou une chance sur deux de recevoir 900 CHF ou 1 200 CHF. | La certitude et le pari sont nommés directement. Les points et les bornes restent ceux de la grille ci-dessous. |
+| **D01** | Le portefeuille perd 15 %. Choisir **Garder le portefeuille**, **Réduire le risque** ou **Revoir le plan avant d’agir**. | Garder donne 100 au domaine du maintien. Réduire ouvre les cartes D02–D04 sur le besoin de cash, l’inconfort et les perspectives. Revoir le plan ouvre D06 et laisse le domaine du maintien sans score. |
+| **D06** | « Je reverrais le plan surtout pour vérifier si mon objectif reste atteignable. » Cette carte apparaît après le choix de revoir le plan. | Like identifie la vérification de l’objectif comme motif. Pass garde le motif ouvert. Incertain enregistre une absence de position nette. Aucun point de maintien. |
+
+Le choix **Incertain** reste disponible. Les choix explicites sont conservés dans la sauvegarde. Les lignes historiques ci-dessous expliquent aussi le codage des réponses déjà enregistrées.
+
+## Grille des 26 cartes d’origine
+
+Les énoncés ci-dessous traduisent les propositions d’origine. Les libellés courants de quatre cartes figurent dans la section des choix explicites. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.
 
 ### Compréhension de l’incertitude
 

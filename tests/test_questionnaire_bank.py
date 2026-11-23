@@ -47,6 +47,15 @@ class QuestionnaireBankTests(unittest.TestCase):
             report["willingness"],
         )
 
+    def test_explicit_options_preserve_action_and_operate_ladders(self):
+        report = replay(
+            {"D01": "review", "G01": "certain", "G02": "certain", "P52": "portfolio_a"}
+        )
+        self.assertIn("revois le plan", report["decisions"]["D01"])
+        self.assertIsNone(report["scores"]["maintien"])
+        self.assertEqual(report["follow_ups"]["P52"]["answer"], "no")
+        self.assertIn("portefeuille A", report["follow_ups"]["P52"]["decision"])
+
     def test_partial_understanding_and_card_limits(self):
         report = replay({"C01": "skip", "C02": "no"})
         self.assertIsNone(report["willingness"])

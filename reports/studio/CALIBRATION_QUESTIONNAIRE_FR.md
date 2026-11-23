@@ -34,7 +34,7 @@ Les relances d’un bloc précisent sa lecture et **ne changent pas son poids da
 
 ## Diagnostic du questionnaire actuel
 
-Les 26 cartes actuelles ont une bonne structure de départ. Elles distinguent délibérément le discours, la décision sous incertitude et la réaction à une baisse. La validation de compréhension, le droit de répondre « incertain » et le contrôle des contradictions sont à conserver. Le problème principal vient de la **quantité d’information par carte**. Certaines relances recueillent une intention de revoir sa réponse sans résoudre le désaccord. D’autres demandent déjà au client comment afficher ou comparer un portefeuille avant de connaître son profil.
+Les 26 cartes d’origine ont une bonne structure de départ. Elles distinguent délibérément le discours, la décision sous incertitude et la réaction à une baisse. La validation de compréhension, le droit de répondre « incertain » et le contrôle des contradictions sont à conserver. Le problème principal vient de la **quantité d’information par carte**. Certaines relances recueillent une intention de revoir sa réponse sans résoudre le désaccord. D’autres demandent déjà au client comment afficher ou comparer un portefeuille avant de connaître son profil.
 
 | Ce que dit le code actuel | Effet possible | Choix pour le pilote |
 |---|---|---|
@@ -47,7 +47,7 @@ Les 26 cartes actuelles ont une bonne structure de départ. Elles distinguent d�
 
 Deux distinctions évitent de surinterpréter le résultat. Premièrement, hésiter face à un pari mélange perception du risque, préférence pour la certitude et sensibilité aux pertes. Deuxièmement, une différence entre deux formulations est une **observation ponctuelle**. Les paris du pilote sont hypothétiques. Une meilleure couverture de situations améliore la lisibilité du profil et les contrôles internes. La précision psychométrique demande des données de participants, une mesure répétée et une validation sur des décisions pertinentes. [Holt et Laury, rôle des montants et des incitations](https://pubs.aeaweb.org/doi/10.1257/000282802762024700) · [CFA Institute, profil financier et comportemental](https://rpc.cfainstitute.org/research/reports/investment-risk-profiling)
 
-La [grille complète des 26 cartes actuellement en service](ETUDE_QUESTIONNAIRE_FR.md) détaille déjà leurs énoncés, branchements, réponses et effets. Le tableau qui suit donne l’équivalent complet pour le **pilote**.
+La [grille complète des cartes en service et de leur codage historique](ETUDE_QUESTIONNAIRE_FR.md) détaille déjà leurs énoncés, branchements, réponses et effets. Le tableau qui suit donne l’équivalent complet pour le **pilote**.
 
 ## Énoncés et réponses du pilote
 

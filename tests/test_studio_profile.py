@@ -82,6 +82,29 @@ class Calibration(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Set aside more cash"):
             intake(old | {"expense": 15000, "reserve_rate": -1})
 
+    def test_named_choices_and_review_are_preserved(self):
+        legacy = answers(BASE)
+        named = legacy | {
+            "G01": "certain",
+            "G02": "gamble",
+            "G03": "certain",
+            "D01": "reduce",
+        }
+        _, previously = calibrate(intake(FACTS), legacy)
+        _, reduced = calibrate(intake(FACTS), named)
+        self.assertEqual(reduced["score"], previously["score"])
+        self.assertIn("discomfort", reduced["readings"][0]["detail"])
+        cards, active = deck(named | {"D01": "review", "D06": "yes"})
+        self.assertNotIn("D03", active)
+        self.assertIn("D06", {card["id"] for card in cards})
+        _, reviewed = calibrate(intake(FACTS), active)
+        self.assertIsNone(reviewed["domains"]["Holding through discomfort"])
+        self.assertIn("goal is still reachable", reviewed["readings"][0]["detail"])
+        self.assertEqual(
+            next(c for c in reviewed["evidence"] if c["id"] == "D01")["answer"],
+            "review",
+        )
+
     def test_insufficient_and_uncovered_evidence(self):
         m, p = calibrate(intake(FACTS), answers(set()))
         self.assertIsNone(p["score"])
