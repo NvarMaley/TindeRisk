@@ -17,6 +17,7 @@ Les 26 cartes d’origine ont été reformulées pour le swipe. Le studio propos
 
 | Carte | Proposition et choix affichés | Effet sur le profil |
 |---|---|---|
+| **G00** | « Souhaitez-vous essayer trois mini-scénarios d’investissement avec de l’argent fictif ? » Boutons **Faire les exemples** et **Passer les exemples**. Les 1 000 CHF constituent la mise fictive de chaque exemple. | Ouvre les arbitrages G01–G03 lorsque la compréhension est établie. G00 n’attribue aucun point. Passer ces exemples peut laisser le score comportemental indéterminé. Les comparaisons de portefeuilles restent accessibles si la compréhension est établie. |
 | **G01, G02, G03** | Sur 1 000 CHF fictifs pendant un an, choisir le montant certain (1 020, 1 000 ou 1 040 CHF selon la carte) ou une chance sur deux de recevoir 900 CHF ou 1 200 CHF. | La certitude et le pari sont nommés directement. Les points et les bornes restent ceux de la grille ci-dessous. |
 | **D01** | Le portefeuille perd 15 %. Choisir **Garder le portefeuille**, **Réduire le risque** ou **Revoir le plan avant d’agir**. | Garder donne 100 au domaine du maintien. Réduire ouvre les cartes D02–D04 sur le besoin de cash, l’inconfort et les perspectives. Revoir le plan ouvre D06 et laisse le domaine du maintien sans score. |
 | **D06** | « Je reverrais le plan surtout pour vérifier si mon objectif reste atteignable. » Cette carte apparaît après le choix de revoir le plan. | Like identifie la vérification de l’objectif comme motif. Pass garde le motif ouvert. Incertain enregistre une absence de position nette. Aucun point de maintien. |
@@ -42,9 +43,13 @@ Ces cartes apportent **zéro point** aux catégories. Le score global et ses com
 
 La zone est une sensibilité au modèle sur des choix fictifs. Elle peut dépasser les scénarios montrés dans les cartes lorsque les estimations historiques de rendement poussent les allocations vers des actifs plus volatils. L’application signale cette extrapolation. Une validation sur des choix supplémentaires et des hypothèses de marché hors échantillon reste ouverte. [Code de calibration](../../src/riskmatch_v2/studio_profile.py) · [Moteur de portefeuille](../../src/riskmatch_v2/studio_allocation.py)
 
+## Relecture bilingue du studio
+
+Les cartes actives ont été relues avec leurs branchements. G00 demande l’accord pour faire une simulation. Les cartes de cadrage distinguent explicitement « ni gain ni perte » du pari. Après une baisse, les relances reprennent le choix de réduire l’investissement et clarifient ses motifs. Les cartes de portefeuille précisent l’horizon d’un an. Le codage des réponses, les calculs et les seuils sont conservés. [Formulations anglaises du studio](../../src/riskmatch_v2/studio_profile.py) · [Traductions françaises](../../web/translations.js)
+
 ## Grille des 26 cartes d’origine
 
-Les énoncés ci-dessous traduisent les propositions d’origine. Les libellés courants de quatre cartes figurent dans la section des choix explicites. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.
+Les énoncés ci-dessous traduisent les propositions d’origine. Les choix explicites actuels figurent plus haut. Pour les autres reformulations, les liens de la relecture bilingue donnent les libellés en service. Les cartes sont regroupées ici par catégorie. L’ordre de présentation complet est **C01, C02, T01, T02, G00, G01, G02, G03, G04, T03, L00, L01, L02, L03, L04, L05, D01, D02, D03, D04, D05, H01, H02, S01, S02, S03**.
 
 ### Compréhension de l’incertitude
 

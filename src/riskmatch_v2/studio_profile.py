@@ -11,29 +11,29 @@ from .risk_review import POLICY
 # original yes/no coding so its conditional branches and gamble bounds still apply.
 STATEMENTS = {
     "C01": "Even on a fair coin toss, I could lose this round.",
-    "C02": "After three wins, I could still lose the next independent toss.",
+    "C02": "Even after winning three coin tosses in a row, I could lose the next toss.",
     "T01": "With my bills covered, I would accept big swings in my investments.",
-    "T02": "A temporary CHF 2,000 loss on CHF 10,000 would change my last answer.",
-    "G00": "I can set aside CHF 1,000 for a year and compare two fictional offers.",
-    "G04": "I stand by my choices, even though they point in different directions.",
+    "T02": "Seeing a CHF 10,000 investment temporarily fall to CHF 8,000 would change my answer about accepting large swings.",
+    "G00": "Would you like to try three short investment examples with fictional money?",
+    "G04": "I want to keep my previous choices as they are.",
     "T03": "I would like to reconsider my answer about big swings.",
     "L00": "When judging a loss, I first think about the amount I paid.",
     "L01": "I would keep CHF 1,000 for sure over an equal chance of CHF 900 or CHF 1,100.",
-    "L02": "I would take zero gain over a 50/50 chance of losing or gaining CHF 100.",
+    "L02": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 100 and a 50% chance of gaining CHF 100.",
     "L03": "I would keep CHF 2,000 for sure over an equal chance of CHF 1,800 or CHF 2,200.",
-    "L04": "I would take no change over a 50/50 chance of losing or gaining CHF 200.",
+    "L04": "I would prefer no gain or loss to a bet with a 50% chance of losing CHF 200 and a 50% chance of gaining CHF 200.",
     "L05": "I would like to revisit the same choice expressed in two different ways.",
     "D01": "After a 15% fall, I would consider selling.",
-    "D02": "I would sell after that fall to pay a bill.",
-    "D03": "Even with my bills covered, the discomfort would make me sell.",
-    "D04": "I would sell because I expect prices to fall further.",
+    "D02": "I would reduce my investment after that fall because I need cash to pay a bill.",
+    "D03": "Even if I did not need the money, the stress of that fall would make me reduce my investment.",
+    "D04": "I would reduce my investment because I think prices will keep falling.",
     "D06": "I would review the plan mainly to check whether my goal is still reachable.",
-    "D05": "I would compare a portfolio that explicitly reduces exposure to a shock.",
+    "D05": "I would compare my portfolio with one designed to limit losses during a sharp market fall.",
     "H01": "I could move my goal date if reaching it took longer.",
     "H02": "I could accept a smaller final amount.",
     "S01": "I like checking the value of my investments frequently.",
     "S02": "Between scheduled reviews, a risk alert would be enough for me.",
-    "S03": "In a blend, I want to follow each strategy separately.",
+    "S03": "If I combine several investment strategies, I want to track each one separately.",
 }
 for key in ("G01", "G02", "G03"):
     g = CARDS[key]["gamble"]
@@ -87,6 +87,11 @@ def _binary(answers):
 
 
 def _choice_row(key):
+    if key == "G00":
+        return {
+            "help": "Each example starts with a pretend CHF 1,000. You will compare a guaranteed amount with two equally likely outcomes. No real money is needed.",
+            "choices": [("yes", "Try the examples"), ("no", "Skip the examples")],
+        }
     ids = CHOICE_IDS.get(key)
     if not ids:
         return {}
@@ -169,6 +174,13 @@ def deck(answers, *, portfolio_check=False, derived=False):
             "family": families[k],
             "help": GIST[families[k]],
             **_choice_row(k),
+            **(
+                {
+                    "help": "Your answers to the guaranteed-versus-uncertain examples were inconsistent in the model. Choose whether to keep them or go back."
+                }
+                if k == "G04"
+                else {}
+            ),
         }
         for k in active
     ]
@@ -186,7 +198,7 @@ def deck(answers, *, portfolio_check=False, derived=False):
             rows.append(
                 {
                     "id": key,
-                    "text": "Which portfolio would you choose for your investable money?",
+                    "text": "Imagine investing for one year. Which of these two portfolios would you choose?",
                     "family": "Portfolio trade-off"
                     if derived
                     else "Portfolio cross-check",
