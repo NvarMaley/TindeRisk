@@ -275,3 +275,7 @@ The contenders screen now compares the desired return, the required return and t
 ### Client studio follow-up · Optional rates
 
 New briefs omit planned spending. Existing briefs with a planned amount can edit or clear it. The help bubbles distinguish savings interest on reserved CHF from the desired yearly return on invested money.
+
+### Client studio follow-up · Questionnaire study
+
+The French study documents all 26 behavioural cards, the eight common prompts, the conditional route and the effect of each answer. It traces the three-domain score and volatility bands to the current implementation. [French study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md)

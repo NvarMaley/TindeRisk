@@ -1,5 +1,5 @@
 {
-  "tracked_count": 326,
+  "tracked_count": 327,
   "files": {
     ".gitignore": "software, configuration and environment",
     ".streamlit/config.toml": "software, configuration and environment",
@@ -148,6 +148,7 @@
     "reports/econometrie/analyse.png": "research chart, fictional screenshot or project artwork",
     "reports/econometrie/results.json": "parameters, metadata and research evidence",
     "reports/studio/ALLOCATION.md": "documentation and notebooks",
+    "reports/studio/ETUDE_QUESTIONNAIRE_FR.md": "documentation and notebooks",
     "reports/studio/README.md": "documentation and notebooks",
     "reports/studio/account.jpg": "research chart, fictional screenshot or project artwork",
     "reports/studio/asset.jpg": "research chart, fictional screenshot or project artwork",
