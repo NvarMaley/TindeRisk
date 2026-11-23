@@ -159,7 +159,7 @@ function shortList() {
               esc(k) +
               '" aria-label="Remove ' +
               esc(names()[k]) +
-              '">×</button></div>',
+              '">Remove</button></div>',
           )
           .join("")
       : '<p class="muted">Keep a card to add it here.</p>') +
@@ -237,7 +237,7 @@ export function showMatches() {
         ["Your inferred band", riskBand()],
       ]) +
       (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +
-      '<div class="swipe-buttons"><button data-vote="no"><b>×</b> Pass</button><button data-vote="yes" class="like" ' +
+      '<div class="swipe-buttons"><button data-vote="no">Pass</button><button data-vote="yes" class="like" ' +
       (p.valid ? "" : "disabled") +
       '><b>♥</b> Keep</button></div><p class="muted">Return and volatility are historical estimates. Swipe the card or use the buttons.</p>' +
       evidence(p)

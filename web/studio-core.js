@@ -136,9 +136,10 @@ export function shell(page, body) {
         ...(state.funded ? [["Portfolio", "tracking"]] : []),
       ]
     : [];
+  if (state.token) links.push(["Lock save", "lock"]);
   root.innerHTML =
     '<div class="studio-shell"><header class="mast"><button class="word" data-go="' +
-    (state.profile ? "profile" : "intake") +
+    (state.profile ? "profile" : state.token ? "intake" : "saves") +
     '" aria-label="RiskMatch home"><img src="./assets/cherry.png" alt=""><span>Risk<i>Match</i></span></button><nav class="nav" aria-label="Studio">' +
     links
       .map(
@@ -194,7 +195,7 @@ export function swipes(card, fn) {
     card.style.setProperty("--tilt", delta / 17 + "deg");
     card.style.setProperty("--mark", alpha);
     if (badge) {
-      badge.textContent = delta < 0 ? "×" : "♥";
+      badge.textContent = delta < 0 ? "" : "♥";
       badge.style.color = delta < 0 ? "#90e5ff" : "#ffa7cf";
     }
   };

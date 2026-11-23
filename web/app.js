@@ -20,11 +20,10 @@ import { calculate, showMatches, showTracking } from "./portfolio.js";
 let editing = null,
   calibrating = false;
 const storeKey = "riskmatch-studio-dossier-v1";
-function remember(token) {
-  try {
-    if (token) sessionStorage.setItem(storeKey, token);
-    else sessionStorage.removeItem(storeKey);
-  } catch {}
+let legacyToken = "";
+function clearLegacy() {
+  legacyToken = "";
+  try { sessionStorage.removeItem(storeKey); } catch {}
 }
 function field(label, name, help, control, attrs = "") {
   return `<div class="field" ${attrs}>
@@ -164,7 +163,7 @@ async function nextCard() {
       esc(card.family) +
       '</p><h1 class="statement">' +
       esc(card.text) +
-      '</h1><p class="lede">Swipe right if this sounds like you. Swipe left if it doesn’t.</p></div></article></div><div class="swipe-buttons"><button data-vote="no"><b aria-hidden="true">×</b> Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div><div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
+      '</h1><p class="lede">Swipe right if this sounds like you. Swipe left if it doesn’t.</p></div></article></div><div class="swipe-buttons"><button data-vote="no">Not me</button><button class="like" data-vote="yes"><b aria-hidden="true">♥</b> Like me</button></div><div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
   const answer = async (v) => {
     state.answers[card.id] = v;
@@ -196,7 +195,6 @@ async function finishProfile() {
       answers: state.answers,
     });
     Object.assign(state, result, { plans: [], kept: [], draft: null });
-    remember(state.token);
     profile(true);
   } finally {
     calibrating = false;
@@ -292,7 +290,7 @@ function profile(animate = false) {
         )
         .join("") +
       "</details>" +
-      '<details class="info"><summary>My saved simulation</summary><div class="actions"><button id="export" class="flat">Export my dossier</button><button id="delete" class="danger">Delete my dossier</button></div></details><div class="error" role="alert"></div>',
+      '<details class="info"><summary>My saved simulation</summary><div class="actions"><button id="export" class="flat">Export my dossier</button></div></details><div class="error" role="alert"></div>',
   );
   bind("#calculate", calculate);
   bind("#library", library);
@@ -316,13 +314,7 @@ function profile(animate = false) {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   });
-  bind("#delete", async () => {
-    if (!confirm("Delete this fictional dossier and its simulated holdings?"))
-      return;
-    await api("delete");
-    remember("");
-    location.reload();
-  });
+
 }
 function library() {
   shell("library", '<div id="library-root"></div>');
@@ -330,29 +322,72 @@ function library() {
     back: () => profile(),
   });
 }
+function pinInput(name, label) {
+  return `<label class="save-field">${label}<input name="${name}" type="password"
+    inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required></label>`;
+}
+function showSaves(saves, selected = saves.length ? saves[0].id : "new") {
+  const creating = selected === "new";
+  shell("saves", `<div class="sweep"><div class="panel save-panel">
+    <p class="kicker">RiskMatch studio</p>
+    <h1>Choose your save.</h1>
+    <form id="save-form">
+      <label class="save-field">Save
+        <select name="slot">
+          ${saves.map(save => `<option value="${esc(save.id)}"${save.id === selected ? " selected" : ""}>${esc(save.name)}</option>`).join("")}
+          <option value="new"${creating ? " selected" : ""}>New save</option>
+        </select>
+      </label>
+      ${creating ? `<label class="save-field">Save name<input name="name" maxlength="40" required></label>
+        ${pinInput("pin", "Choose a four-digit code")}
+        ${pinInput("confirmation", "Confirm your code")}
+        ${legacyToken ? '<label class="legacy-save"><input type="checkbox" name="import" checked> Bring over my previous local dossier</label>' : ""}`
+        : pinInput("pin", "Four-digit code")}
+      <div class="error" role="alert"></div>
+      <button class="primary" type="submit">${creating ? "Create save" : "Unlock save"}</button>
+    </form>
+  </div></div>`);
+  const form = root.querySelector("#save-form");
+  form.elements.slot.onchange = () => {
+    showSaves(saves, form.elements.slot.value);
+    root.querySelector("#save-form select").focus({ preventScroll: true });
+  };
+  form.onsubmit = event => {
+    event.preventDefault();
+    run(form.querySelector("button[type=submit]"), async () => {
+      const values = new FormData(form);
+      const pin = values.get("pin");
+      const result = creating
+        ? await api("create_save", {name: values.get("name"), pin, confirmation: values.get("confirmation"),
+            ...(values.has("import") ? {legacy_token:legacyToken} : {})})
+        : await api("unlock_save", {id:selected, pin});
+      state.token = result.access;
+      Object.assign(state, await api("resume"));
+      if (values.has("import")) clearLegacy();
+      if (state.profile) profile();
+      else if (state.facts.capital) await nextCard();
+      else intake();
+    });
+  };
+}
+async function lockSave() {
+  await api("lock_save");
+  Object.assign(state, {token:"", version:0, profile:null, facts:{}, answers:{}, cards:[],
+    funded:false, plans:[], kept:[], seen:[], index:0, revision:0, day:"", preview:null, draft:null});
+  editing = null;
+  showSaves(await api("list_saves"));
+}
 Object.assign(nav, {
   profile,
   intake,
   library,
+  lock: lockSave,
+  saves: async () => showSaves(await api("list_saves")),
   tracking: showTracking,
   matches: () => (state.plans.length ? showMatches() : calculate()),
 });
+try { legacyToken = sessionStorage.getItem(storeKey) || ""; } catch {}
 showIntro(root, {
-  prepare: async () => {
-    await api("bootstrap");
-    let token = "";
-    try {
-      token = sessionStorage.getItem(storeKey) || "";
-    } catch {}
-    if (token) {
-      state.token = token;
-      try {
-        Object.assign(state, await api("resume"));
-      } catch {
-        remember("");
-        state.token = "";
-      }
-    }
-  },
-  onDone: () => (state.profile ? profile() : intake()),
+  prepare: () => api("list_saves"),
+  onDone: (list) => showSaves(list, legacyToken ? "new" : undefined),
 });

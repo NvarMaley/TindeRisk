@@ -3,8 +3,10 @@
 import argparse
 import json
 from pathlib import Path
+from uuid import uuid4
 
 from playwright.sync_api import expect, sync_playwright
+from studio_browser import create_named_save, unlock_named_save
 
 
 def scroll_down(page, phone):
@@ -69,6 +71,8 @@ def exercise(browser, url, embedded, phone):
     start.click()
     expect(jazz).to_have_js_property("paused", False)
     expect(cues).to_have_js_property("paused", False)
+    name = "Interaction " + uuid4().hex[:10]
+    create_named_save(view, name)
     expect(view.locator("#brief")).to_be_visible(timeout=15000)
     assert jazz.evaluate("a=>a.currentTime>0 && a.duration>40 && !a.paused")
     assert cues.evaluate("a=>a.currentTime>2 && a.paused")
@@ -92,7 +96,9 @@ def exercise(browser, url, embedded, phone):
     assert options.evaluate("a => !a.open")
     expect(view.locator("#brief :required")).to_have_count(5)
     assert not view.locator('#brief option[value="exclude_chevron"]').count()
-    reserve_help = view.locator('summary[aria-label="Help with Cash to set aside · CHF"]')
+    reserve_help = view.locator(
+        'summary[aria-label="Help with Cash to set aside · CHF"]'
+    )
     reserve_help.click()
     expect(view.locator("#help-protected")).to_be_visible()
     reserve_help.click()
@@ -121,6 +127,7 @@ def exercise(browser, url, embedded, phone):
     page.reload()
     expect(sound).to_have_attribute("aria-pressed", "false")
     start.click()
+    unlock_named_save(view, name)
     expect(view.locator("#brief")).to_be_visible(timeout=15000)
     assert jazz.evaluate("a=>a.paused") and cues.evaluate("a=>a.paused")
     page.close()

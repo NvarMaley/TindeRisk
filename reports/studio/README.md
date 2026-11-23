@@ -17,6 +17,12 @@ python -m riskmatch_v2.studio --port 8766
 
 Open [the client studio](http://127.0.0.1:8766/). Streamlit users can run `python -m streamlit run app/questionnaire.py`. The archived section 13 walkthrough is available at `?view=research` on the Streamlit service.
 
+## Named local saves
+
+After the title, choose **New save**, enter a name and confirm a four-digit code twice. The selector lists save names on this installation. Unlock a save to resume its brief, calibration or portfolio. **Lock save** returns to the selector, and reloading requires the code again. A legacy dossier from the same browser can be imported into a new named save.
+
+The local save registry stores salted PIN hashes and applies a five-minute delay after five failed attempts. This is a shared local simulation. Give saves fictional names. The selector shows names; dossier contents require unlocking.
+
 ## Sound and navigation
 
 The lagoon starts a quiet original 16-bar jazz instrumental on arrival when the browser permits audible autoplay. When the browser requires a gesture, normal interaction automatically retries playback with sound enabled by default. **Press to start** triggers the title sequence. The score runs at 91 BPM, with electric piano, bass, a reed melody and brushed percussion. A splash accompanies the cherry and two soft impacts land with the title. The music loops through the studio. The speaker button on the intro and in the header remembers the mute setting. The app keeps the loop running across navigation, swipes and tab visibility changes. The browser or operating system can suspend media. Reduced motion skips the timed title effects.
