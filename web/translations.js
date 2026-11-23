@@ -280,6 +280,8 @@ export const french = Object.freeze({
   "If I combine several investment strategies, I want to track each one separately.": "Si je combine plusieurs stratégies d’investissement, je souhaite suivre chacune séparément.",
   "Imagine investing for one year. Which of these two portfolios would you choose?": "Imaginez que vous investissez pendant un an. Lequel de ces deux portefeuilles choisiriez-vous ?",
   "Each example starts with a pretend CHF 1,000. You will compare a guaranteed amount with two equally likely outcomes. No real money is needed.": "Dans chaque exemple, vous partez de 1 000 CHF fictifs. Vous comparez un montant garanti à deux résultats possibles de même probabilité. Vous n’avez besoin d’aucun argent réel.",
+  "Choose what you would do after the simulated fall.": "Choisissez ce que vous feriez après cette baisse fictive.",
+  "This example uses fictional money. Each of the two possible outcomes has a 50% chance.": "Cet exemple utilise de l’argent fictif. Chacun des deux résultats possibles a 50 % de chances de se produire.",
   "Try the examples": "Faire les exemples",
   "Skip the examples": "Passer les exemples",
   "Your answers to the guaranteed-versus-uncertain examples were inconsistent in the model. Choose whether to keep them or go back.": "Vos réponses aux exemples de montant garanti ou incertain se contredisent selon le modèle. Vous pouvez les garder ou revenir en arrière.",

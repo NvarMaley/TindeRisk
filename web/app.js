@@ -19,6 +19,7 @@ import {
 } from "./studio-core.js";
 import { calculate, showMatches, showTracking } from "./portfolio.js";
 
+const retiredCards = new Set(["G00", "G04", "T03", "L05"]);
 let editing = null,
   calibrating = false;
 const storeKey = "riskmatch-studio-dossier-v1";
@@ -175,16 +176,13 @@ async function nextCard() {
       '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
       '</h1><p class="lede">' +
-      (card.choices ? esc(card.id.startsWith("V") || card.id === "G00" ? card.help : "Choose the action that best matches what you would do.") : card.id === "G04" ? esc(card.help) : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      (card.choices ? esc(card.help) : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
       '</p></div></article></div>' + choices +
       '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
   const answer = async (v) => {
     const previous = state.answers;
     state.answers = { ...previous, [card.id]: v };
-    if (card.id === "T03" && v === "yes") editing = "T01";
-    if (card.id === "L05" && v === "yes") editing = "L01";
-    if (card.id === "G04" && v === "no") editing = "G01";
     try {
       await nextCard();
     } catch (error) {
@@ -361,9 +359,9 @@ function profile(animate = false) {
             esc(c.text) +
             "</strong><small>" +
             esc(c.help) +
-            '</small><button class="flat review" data-id="' +
-            c.id +
-            '">Revisit</button></div>',
+            "</small>" +
+            (retiredCards.has(c.id) ? "" : '<button class="flat review" data-id="' + esc(c.id) + '">Revisit</button>') +
+            "</div>",
         )
         .join("") +
       "</details>" +
