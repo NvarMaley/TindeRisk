@@ -1,6 +1,6 @@
 # Étude du questionnaire comportemental de RiskMatch
 
-Le studio contient **27 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles conditionnelles**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **19 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-2** ajoute une vérification séparée pour la recherche de portefeuilles. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
+Le studio contient **27 cartes de calibration réparties en 7 catégories**, puis **2 comparaisons de portefeuilles et une relance conditionnelle**. **8 cartes forment le tronc commun** (C01, T01, G00, L00, D01, H01, S01 et S03). Les **19 autres** sont conditionnelles. Une correction peut modifier le parcours et retirer les réponses aux cartes qui deviennent inactives. Le score comportemental conserve son barème. La version **studio-3** dérive la tranche indicative à partir des choix de portefeuille et des allocations calculées. La banque de recherche d’origine comprend aussi 15 cartes économiques. Le studio recueille ces informations dans un formulaire séparé et simplifié. [Code du studio](../../src/riskmatch_v2/studio_profile.py) · [Branchements](../../src/riskmatch_v2/interview.py) · [Banque de recherche](../02-questionnaire/CARDS.md)
 
 La [proposition de calibration](CALIBRATION_QUESTIONNAIRE_FR.md) audite cette version et présente les 18 cartes du pilote de recherche.
 
@@ -25,25 +25,22 @@ Le choix **Incertain** reste disponible. Les choix explicites sont conservés da
 
 ## Vérification sur des choix de portefeuille
 
-Lorsque la compréhension de base est établie, deux cartes terminent le parcours. Le joueur choisit avant de voir son score et dispose aussi de « Aucun des deux, garder les CHF » et « Incertain ». Chaque option représente deux résultats fictifs en CHF sur un an, chacun à 50 %, à frais et accès aux fonds identiques.
+Lorsque la compréhension de base est établie, les comparaisons terminent le parcours avant l’affichage du score. Le joueur peut aussi sélectionner « Aucun des deux, garder les CHF » ou « Incertain ». Les options représentent deux résultats fictifs en CHF sur un an, chacun à 50 %, avec les mêmes frais et le même accès aux fonds.
 
-| Carte | Portefeuille A | Portefeuille B |
-|---|---|---|
-| **V01** | −2 % ou +6 % | −5 % ou +11 % |
-| **V02** | −2 % ou +6 % | −12 % ou +20 % |
+| Carte | Portefeuille A | Portefeuille B | Présentation | Seuil d’aversion γ |
+|---|---|---|---|---:|
+| **V01** | −2 % ou +6 % | −5 % ou +11 % | Comparaison de départ | 4,17 |
+| **V02** | −2 % ou +6 % | −12 % ou +20 % | Deuxième comparaison | 1,67 |
+| **V03** | −2 % ou +6 % | −4 % ou +12 % | Après deux A. B garde la volatilité de V01 et offre un rendement espéré plus élevé. | 8,33 |
+| **V04** | −2 % ou +6 % | −13 % ou +19 % | Après deux B. B garde la volatilité de V02 et offre un rendement espéré plus faible. | 0,83 |
 
-Les deux comparaisons ne changent **ni le score ni la catégorie**. Le profil distingue la tranche indicative du questionnaire, l’accord ou l’écart avec les scénarios et le plafond retenu pour la recherche. Dans le modèle à deux résultats, l’écart-type vaut la moitié de l’écart entre eux. A correspond à 4 %, B dans V01 à 8 % et B dans V02 à 16 %. Ces nombres servent de bornes prudentes de recherche. Ils ne sont pas des seuils psychométriques ni des estimations de rendements réels.
+Chaque scénario fournit une moyenne μ et un écart-type σ. Avec deux résultats équiprobables, σ vaut la moitié de leur écart. On utilise les rendements en décimal. Dans le modèle moyenne–variance, l’utilité vaut `μ − γ × σ² / 2`. Le seuil `γ* = 2 × (μB − μA) / (σB² − σA²)` indique où A et B ont la même utilité. **A fixe une borne basse pour γ et B une borne haute.** Deux choix compatibles suffisent à estimer un intervalle, éventuellement ouvert vers le haut. B dans V01 et A dans V02 donnent par exemple **γ ∈ [1,67 ; 4,17]**. Des bornes incompatibles ou moins de deux choix A/B conduisent à « à confirmer » et la recherche se limite aux CHF. Un choix explicite de garder les CHF ou une capacité de perte à zéro oriente également vers les CHF.
 
-| Choix | Plafond proposé par les scénarios |
-|---|---|
-| B sur les deux cartes | 16 %. |
-| B dans V01, A ou Incertain dans V02 | 8 %. Le cas incertain est affiché. |
-| A ou Incertain dans V01, A, B ou Incertain dans V02 | 4 %. A suivi de B ou toute réponse incertaine est signalé à confirmer. |
-| Au moins un choix « Garder les CHF », ou capacité de perte à zéro | 0 %. |
+Le moteur maximise ensuite cette même utilité aux bornes disponibles et sur une valeur intermédiaire de γ, avec les estimations annuelles du modèle CHF, les frais, la réserve, le budget de perte, les exclusions et les contraintes d’exécution. Quand γ n’a pas de borne haute, la solution à la limite est évaluée en CHF et le point de sensibilité utilise deux fois la borne basse. Chaque exemple est arrondi en positions entières et vérifié. Le minimum et le maximum des volatilités vérifiées forment la zone affichée. L’extrémité haute guide les autres stratégies et la recherche garde des options plus calmes. Le moteur recalcule avec le compte utilisé pour la comparaison et la composition.
 
-Le moteur retient le plus petit plafond entre ce repère et celui issu du score. Il cherche alors entre **0 et ce plafond**, sans imposer une volatilité minimale à quelqu’un parce que le questionnaire le classe « Modéré » ou « Offensif ». La capacité de perte en CHF et les autres contraintes continuent de s’appliquer. Les profils déjà établis restent lisibles. Recalibrer un ancien dossier lui fait suivre la nouvelle vérification.
+Ces cartes apportent **zéro point** aux catégories. Le score global et ses composantes décrivent les réponses, et le profil signale si la personne choisit la fluctuation la plus large de V02 mais déclare qu’elle vendrait par inconfort après une baisse. Le dossier conserve les choix et les bornes. Les profils établis sous **studio-1** ou **studio-2** restent lisibles et une nouvelle calibration dans le studio applique la méthode actuelle.
 
-Ce contrôle améliore la cohérence interne et rend les désaccords visibles. Pour mesurer si le profil prédit des préférences, il reste à comparer les sorties avec des décisions supplémentaires que ni le score ni la règle de plafond n’ont utilisées. [Code de calibration](../../src/riskmatch_v2/studio_profile.py)
+La zone est une sensibilité au modèle sur des choix fictifs. Elle peut dépasser les scénarios montrés dans les cartes lorsque les estimations historiques de rendement poussent les allocations vers des actifs plus volatils. L’application signale cette extrapolation. Une validation sur des choix supplémentaires et des hypothèses de marché hors échantillon reste ouverte. [Code de calibration](../../src/riskmatch_v2/studio_profile.py) · [Moteur de portefeuille](../../src/riskmatch_v2/studio_allocation.py)
 
 ## Grille des 26 cartes d’origine
 

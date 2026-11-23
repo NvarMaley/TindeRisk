@@ -13,6 +13,7 @@ import {
   esc,
   fmt,
   pct,
+  volatilityLabel,
   toast,
 } from "./studio-core.js";
 import { calculate, showMatches, showTracking } from "./portfolio.js";
@@ -140,7 +141,7 @@ function intake() {
   };
 }
 async function nextCard() {
-  const data = await api("route", { answers: state.answers, portfolio_check: true });
+  const data = await api("route", { answers: state.answers, derive_volatility: true });
   state.cards = data.cards;
   state.answers = data.answers;
   const card =
@@ -173,7 +174,7 @@ async function nextCard() {
       '</p><h1 class="statement" id="card-statement">' +
       esc(card.text) +
       '</h1><p class="lede">' +
-      (card.choices ? esc(card.family === "Portfolio cross-check" ? card.help : "Choose the action that best matches what you would do.") : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
+      (card.choices ? esc(card.family === "Portfolio trade-off" ? card.help : "Choose the action that best matches what you would do.") : "Swipe right if this sounds like you. Swipe left if it doesn’t.") +
       '</p></div></article></div>' + choices +
       '<div class="below"><button class="flat" id="back">Back</button><button class="flat" id="skip">Unsure</button></div></div>',
   );
@@ -224,7 +225,7 @@ async function finishProfile() {
     const result = await api("calibrate", {
       facts: state.facts,
       answers: state.answers,
-      portfolio_check: true,
+      derive_volatility: true,
     });
     Object.assign(state, result, { plans: [], kept: [], draft: null, goalComparison: null });
     profile(true);
@@ -240,6 +241,19 @@ function profile(animate = false) {
   }
   const f = p.facts;
   const check = p.portfolio_check;
+  const zone = p.volatility_zone;
+  const rangeMessage = {
+    needs_confirmation: "Revisit your portfolio choices to establish an aversion range. The search stays in CHF cash in the meantime.",
+    unavailable: "The model could not verify a volatility range on this account. The search checks a CHF cash option.",
+    cash_preferred: "You selected CHF cash in a portfolio comparison.",
+    cash_capacity: "Your stated loss capacity permits only CHF cash.",
+  };
+  const aversion = p.aversion;
+  const gamma = aversion?.state === "estimated"
+    ? (aversion.gamma_high == null
+      ? "γ ≥ " + aversion.gamma_low.toFixed(2)
+      : "γ " + aversion.gamma_low.toFixed(2) + "–" + aversion.gamma_high.toFixed(2))
+    : "";
   const allocation = check ? (check.allocation_ceiling === 0
     ? "The portfolio search will stay in CHF cash."
     : "The portfolio search uses up to " + pct(check.allocation_ceiling) + " modeled annual volatility, with calmer options included.") : "";
@@ -252,7 +266,9 @@ function profile(animate = false) {
       "</p><h1>" +
       esc(p.band) +
       '</h1><p class="lede">' +
-      (p.score == null
+      (zone
+        ? (p.score == null ? "Your behavioural score is undetermined." : "Your behavioural profile reflects the way you answered the calibration cards.")
+        : p.score == null
         ? "The answers need another look before the model can estimate a risk range."
         : (check ? "Provisional questionnaire range: " : "Your choices suggest a ") +
           (p.high == null
@@ -269,6 +285,16 @@ function profile(animate = false) {
         ["Protected cash", "CHF " + fmt(f.reserve_chf)],
         ["Horizon", p.horizon_years + " years"],
       ]) +
+      (zone ? `<div class="panel"><h3>Estimated annual volatility</h3>
+        <p class="lede">${esc(volatilityLabel(zone))}</p>
+        <p class="muted">${esc(rangeMessage[zone.state] || "Derived from your portfolio choices and checked against your account constraints on " + zone.as_of + ". Calmer options are available.")}</p>
+        ${gamma ? `<p class="muted">Risk aversion · ${esc(gamma)}</p>` : ""}
+        ${p.stress_conflict ? '<p class="warning">You chose wider swings and also said discomfort could lead you to sell after a fall. Compare a calmer match and its modeled loss in CHF.</p>' : ""}
+        ${zone.high > aversion.highest_tested_volatility
+          ? `<p class="warning">The upper end exceeds the ${pct(aversion.highest_tested_volatility)} volatility covered by your answered comparisons. Treat this part of the range as an extrapolation from historical model inputs.</p>`
+          : ""}
+        ${p.evidence.some(card => card.id === "V01") ? '<button class="flat review" data-id="V01">Revisit portfolio choices</button>' : ""}
+        </div>` : "") +
       (check ? '<div class="panel"><h3>Portfolio cross-check</h3><p>' + esc(check.status) +
         '</p><p class="lede">' + esc(allocation) +
         '</p><p class="muted">The two fictional choices guide the search and leave your questionnaire score intact.</p></div>' : "") +
@@ -292,7 +318,7 @@ function profile(animate = false) {
         )
         .join("") +
       "</div></div>" +
-      '<details class="info"><summary>How the score and risk range were estimated</summary><p class="lede">Three domains receive equal weight when interpretable. Higher scores indicate greater willingness to take risk. The thresholds are 20, 40, 60 and 80 out of 100. A like can indicate caution or risk tolerance depending on the proposition. These are theoretical tendencies from fictional decisions. A volatility range is a model estimate, not a maximum loss.</p>' +
+      '<details class="info"><summary>How the score and risk range were estimated</summary><p class="lede">Three domains receive equal weight when interpretable. Higher scores indicate greater willingness to take risk. The thresholds for the profile labels are 20, 40, 60 and 80 out of 100. A like can indicate caution or risk tolerance depending on the proposition. These are theoretical tendencies from fictional decisions. The volatility estimate describes how much returns may fluctuate. Losses can exceed it.</p>' +
       tiles(
         Object.entries(p.domains).map(([k, v]) => [
           k,

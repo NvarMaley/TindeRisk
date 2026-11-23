@@ -131,8 +131,9 @@ def journey(url, browser, phone, report):
             "G02": "gamble",
             "G03": "certain",
             "D01": "reduce",
-            "V01": "wider",
-            "V02": "wider",
+            "V01": "wider" if phone else "lower",
+            "V02": "lower",
+            "V03": "wider",
         }
         if key not in explicit:
             swiped.append(key)
@@ -197,7 +198,14 @@ def journey(url, browser, phone, report):
             }""")
     expect(page.locator("#calculate")).to_be_enabled()
     profile = page.locator(".reveal h1").inner_text()
-    expect(page.get_by_role("heading", name="Portfolio cross-check")).to_be_visible()
+    zone_panel = page.get_by_role(
+        "heading", name="Estimated annual volatility"
+    ).locator("..")
+    expect(zone_panel).to_be_visible()
+    expect(zone_panel).to_contain_text("Derived from your portfolio choices")
+    expect(zone_panel).to_contain_text("Risk aversion · γ")
+    zone = zone_panel.locator(".lede").inner_text()
+    assert "%" in zone and ("V03" in answered) != phone
     expect(
         page.get_by_text(
             "You would reduce the portfolio’s risk after the fall.", exact=True
@@ -215,6 +223,9 @@ def journey(url, browser, phone, report):
     page.locator("#calculate").click()
     expect(page.locator(".candidate")).to_be_visible(timeout=30000)
     expect(jazz).to_have_js_property("volume", 0.40)
+    expect(
+        page.get_by_text("Your estimated zone", exact=True).locator("..")
+    ).to_contain_text(zone)
     page.locator("#goal-comparison > summary").click()
     expect(page.get_by_role("heading", name="What the goal would take")).to_be_visible()
     expect(page.get_by_role("heading", name="What fits your profile")).to_be_visible()
@@ -224,6 +235,7 @@ def journey(url, browser, phone, report):
         page.screenshot(path=report / "contender.jpg", quality=82)
     page.locator('[data-vote="yes"]').click()
     expect(page.locator(".remove")).to_have_count(1)
+    page.locator(".reel").get_by_role("button", name="Cash reserve").click()
     page.locator('[data-vote="yes"]').click()
     expect(page.locator(".remove")).to_have_count(2)
     cycles = page.evaluate("window.cherryVotes")
@@ -292,7 +304,8 @@ def journey(url, browser, phone, report):
         "device": "phone" if phone else "desktop",
         "answered": len(answered),
         "explicit_decisions": len(answered) - len(swiped),
-        "portfolio_cross_check": True,
+        "estimated_volatility_zone": zone,
+        "adaptive_portfolio_card": "V03" in answered,
         "cherry_transitions": len(cycles),
         "swipe_sounds": len(sounds),
         "jazz_pauses_during_cards": 0,
@@ -323,10 +336,10 @@ def main():
         try:
             browser = p.chromium.launch(channel="chrome")
             url = f"http://127.0.0.1:{server.server_port}"
-            receipt = [journey(url, browser, device, dest) for device in (False, True)]
+            receipt = [journey(url, browser, device, None) for device in (False, True)]
             browser.close()
             if dest:
-                (dest / "decision-browser-check.json").write_text(
+                (dest / "volatility-browser-check.json").write_text(
                     json.dumps(receipt, indent=2) + "\n"
                 )
             print(receipt)
