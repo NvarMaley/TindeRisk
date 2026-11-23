@@ -21,6 +21,8 @@ Press to start plays a quiet original 16-bar jazz instrumental at 91 BPM, with e
 
 The brief scrolls inside the studio in both the standalone and Streamlit entry points. [Mouse, touch and sound replay](interaction-check.json)
 
+Each left or right vote dismisses the card, bounces the cherry logo and reveals the next card or the result. The reduced-motion setting shows a still cherry. [Watch a recorded swipe](cherry-swipe.webp)
+
 ## From the first swipe to a match
 
 | Stage | What the client sees | How it works |

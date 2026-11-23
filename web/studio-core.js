@@ -204,21 +204,32 @@ export function swipes(card, fn) {
     paint(0, 0);
   };
   async function choose(value) {
-    if (flight) return;
+    if (flight || !card.isConnected) return;
+    if (root.querySelector('[data-vote="' + value + '"]')?.disabled) {
+      await fn(value); // Let the portfolio explain why this choice is unavailable.
+      return;
+    }
     flight = true;
-    paint(value === "yes" ? 100 : -100, 1);
-    card.classList.add(value === "yes" ? "fly-yes" : "fly-no");
-    await new Promise((r) =>
-      setTimeout(
-        r,
-        matchMedia("(prefers-reduced-motion: reduce)").matches ? 10 : 225,
-      ),
-    );
+    const stage = card.closest("#stage");
+    const pad = card.closest(".swipepad");
+    const cherry = document.createElement("div");
+    cherry.className = "swipe-cherry";
+    cherry.dataset.direction = value === "yes" ? "right" : "left";
+    cherry.setAttribute("aria-hidden", "true");
+    cherry.innerHTML = '<img src="./assets/cherry.png" alt="" draggable="false">';
+    stage.inert = true;
     try {
-      await fn(value);
+      paint(value === "yes" ? 100 : -100, 1);
+      card.classList.add(value === "yes" ? "fly-yes" : "fly-no");
+      pad.append(cherry);
+      const logo = cherry.firstElementChild;
+      await Promise.all(logo.getAnimations().map(animation => animation.finished));
+      if (card.isConnected) await fn(value);
     } catch (e) {
-      toast(e.message);
+      if (card.isConnected) toast(e.message);
     } finally {
+      cherry.remove();
+      stage.inert = false;
       if (card.isConnected) {
         card.classList.remove("fly-yes", "fly-no");
         flight = false;
