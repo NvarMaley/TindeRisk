@@ -206,7 +206,7 @@ def journey(url, browser, phone, report):
         page.locator(".profile-note").filter(has_text="Risk aversion · γ")
     ).to_be_visible()
     zone = (
-        page.get_by_text("Estimated annual volatility", exact=True)
+        page.get_by_text("Annual volatility ceiling", exact=True)
         .locator("..")
         .locator("strong")
         .inner_text()
@@ -230,7 +230,7 @@ def journey(url, browser, phone, report):
     expect(page.locator(".candidate")).to_be_visible(timeout=30000)
     expect(jazz).to_have_js_property("volume", 0.40)
     expect(
-        page.get_by_text("Your estimated zone", exact=True).locator("..")
+        page.get_by_text("Your search limit", exact=True).locator("..")
     ).to_contain_text(zone)
     page.locator("#goal-comparison > summary").click()
     expect(page.get_by_role("heading", name="What the goal would take")).to_be_visible()

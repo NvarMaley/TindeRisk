@@ -344,3 +344,7 @@ Two guaranteed-versus-uncertain cards compare CHF 1,030 and CHF 1,070 with the s
 ## 24 November 2026 — Five behavioural blocks
 
 The studio presents a profile score, five explained block scores, category definitions, questionnaire evidence and the mean–variance formula. The return–risk trade-off has the largest weight. The ambiguity item is optional. A questionnaire restart preserves the saved brief and portfolio. [Study](reports/studio/ETUDE_QUESTIONNAIRE_FR.md#profil-en-cinq-blocs)
+
+## 24 November 2026 — Anchor portfolio risk to accepted scenarios
+
+The 4%, 8% or 16% ceiling comes directly from the accepted scenario rather than an unbounded model sensitivity to risk aversion. The studio stabilises historical return inputs, checks whole holdings, deduplicates identical allocations and adds minimum volatility and a CHF buffer. [Allocation construction](reports/studio/README.md#volatility-targets-and-strategy-selection)

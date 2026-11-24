@@ -196,8 +196,14 @@ def dispatch(action, data, directory=None):
     if action == "resume":
         saved = saves.draft(directory, save_id) if save_id else {}
         restarting = saved.get("questionnaire_version") == latest["version"]
+        profile = None if restarting else policy["studio_profile"]
+        if profile is not None and policy.get("studio_preference") is not None:
+            from .studio_allocation import apply_preference
+
+            _, zone = apply_preference(policy | {"day": day})
+            profile = profile | {"volatility_zone": zone}
         return {
-            "profile": None if restarting else policy["studio_profile"],
+            "profile": profile,
             "version": latest["version"],
             "facts": saved.get("facts", policy["studio_intake"])
             if restarting
@@ -220,6 +226,7 @@ def dispatch(action, data, directory=None):
         raise ValueError("The mandate changed. Reopen your latest profile.")
     from .studio_allocation import (
         DAYS,
+        STUDIO_RISK_MODEL,
         apply_preference,
         blend,
         candidates,
@@ -248,6 +255,15 @@ def dispatch(action, data, directory=None):
         )
         return overview(book, day)
     if action == "confirm":
+        if policy.get("studio_preference") is not None:
+            draft = book.proposal(data["draft"])
+            if (
+                draft["status"] == "draft"
+                and draft["metadata"].get("risk_model") != STUDIO_RISK_MODEL
+            ):
+                raise ValueError(
+                    "This proposal was calculated before the risk update. Calculate your matches again."
+                )
         return {
             "version": book.confirm(data["draft"], day),
             "tracking": overview(book, day),
@@ -279,7 +295,7 @@ def dispatch(action, data, directory=None):
     if (
         not isinstance(selected, list)
         or not selected
-        or len(selected) > 8
+        or len(selected) > 10
         or len(set(selected)) != len(selected)
     ):
         raise ValueError("Choose distinct portfolios to combine.")

@@ -45,6 +45,16 @@ const riskBand = () =>
     : state.profile.high == null
     ? pct(state.profile.low) + " and above"
     : pct(state.profile.low) + " – " + pct(state.profile.high);
+function allHoldings(plan) {
+  if (!plan.holdings?.length) return "";
+  const entries = plan.holdings.map((holding) =>
+    `<tr><th scope="row">${esc(holding.symbol)}</th><td>${esc(holding.asset_class)}</td><td>${fmt(holding.units)}</td><td>${chf(holding.value_chf)}</td><td>${pct(holding.weight)}</td></tr>`
+  ).join("");
+  return section("All holdings", `<div class="allocation-table"><table>
+    <thead><tr><th scope="col">Ticker or issue</th><th scope="col">Asset class</th><th scope="col">Units</th><th scope="col">Value in CHF</th><th scope="col">Weight</th></tr></thead>
+    <tbody>${entries}<tr><th scope="row">CHF cash</th><td>Cash</td><td>—</td><td>${chf(plan.cash_chf)}</td><td>${pct(plan.weights["CHF cash"])}</td></tr></tbody>
+  </table></div>`);
+}
 function evidence(p) {
   const env = p.esg;
   const ranges = p.estimated_return_range.map(pct).join(" – ");
@@ -64,6 +74,7 @@ function evidence(p) {
           pct,
         ),
     ) +
+    allHoldings(p) +
     section(
       "Goal, model sensitivity & cost",
       tiles([
@@ -282,9 +293,11 @@ export function showMatches() {
         ["Modeled annual return, net", pct(p.net)],
         ["Modeled annual volatility", pct(p.vol)],
         ...(state.profile.behaviour_blocks ? [["Modeled change in a 2008-style shock", chf(p.loss_2008_chf)]] : []),
-        [state.profile.volatility_zone ? "Your estimated zone" : "Your search limit", riskBand()],
+        ["Your search limit", riskBand()],
       ]) +
-      (p.valid ? "" : '<p class="warning">' + esc(p.reason) + "</p>") +
+      (p.valid ? (state.profile.volatility_zone?.high > 0
+        ? '<p class="muted">' + esc(pct(Math.max(0, state.profile.volatility_zone.high - p.vol))) + ' below the volatility ceiling.</p>'
+        : "") : '<p class="warning">' + esc(p.reason) + "</p>") +
       '<div class="swipe-buttons"><button data-vote="no"><b aria-hidden="true">×</b> Pass</button><button data-vote="yes" class="like" ' +
       (p.valid ? "" : "disabled") +
       '><b>♥</b> Keep</button></div><p class="muted">Return and volatility are historical estimates. Swipe the card or use the buttons.</p>' +
