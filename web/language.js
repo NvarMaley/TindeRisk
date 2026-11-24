@@ -21,6 +21,8 @@ function translate(text) {
       .replace(/^CHF (.+) guaranteed$/, "CHF $1 garantis")
       .replace(/^50\/50 chance of CHF (.+) or CHF (.+)$/, "CHF $1 ou CHF $2 · 50 % chacun")
       .replace(/^(\d+(?:\.\d+)?) years$/, "$1 ans")
+      .replace(/^Up to (.+)$/, "Jusqu’à $1")
+      .replace(/^([\d.]+)% below the volatility ceiling\.$/, "$1 points de pourcentage sous le plafond de volatilité.")
       .replace(/^Match score (.+)$/, "Score de compatibilité $1")
       .replace(/^Goal comparison ·/, "Comparaison avec l’objectif ·")
       .replace(/^(Comparaison avec l’objectif · .+) needed ·/, "$1 requis ·")

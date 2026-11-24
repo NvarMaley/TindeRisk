@@ -1261,3 +1261,8 @@ th {
   .profile-block-score { font-size: .8rem; }
   .profile-hero h1 { letter-spacing: -.045em; }
 }
+.allocation-table { overflow-x: auto; }
+.allocation-table table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.allocation-table :is(th, td) { padding: .45rem .6rem; border-bottom: 1px solid #9dc2dc4a; white-space: nowrap; }
+.allocation-table :is(th, td):nth-child(n+3) { text-align: right; }
+.allocation-table :is(th, td):nth-child(-n+2) { text-align: left; }

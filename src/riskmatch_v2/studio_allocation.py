@@ -12,9 +12,11 @@ import numpy as np
 
 from .matching.engine import DAYS, FEE, _goal
 from .options.scoring import scale
+from .studio_profile import tested_target
 
 ROOT = Path(__file__).resolve().parents[2]
 CASH = "CHF cash"
+STUDIO_RISK_MODEL = "anchored-risk-v1"
 TITLES = {
     "preference": (
         "Your risk trade-off",
@@ -43,6 +45,14 @@ TITLES = {
     "reference": (
         "The classic",
         "A 60/40 equity–Treasury ETF reference scaled within the sleeve",
+    ),
+    "minimum_risk": (
+        "Minimum volatility",
+        "Minimise modeled volatility while investing half the sleeve",
+    ),
+    "cash_buffer": (
+        "Risky sleeve + CHF buffer",
+        "Split the risk trade-off allocation in half and hold the balance in CHF",
     ),
     "cash": ("Cash reserve", "Retain the investable sleeve in CHF"),
     "goal_scenario": (
@@ -80,6 +90,26 @@ def _data():
     pack["usd"][bonds] = 85 + (seed[bonds] % 3000) / 100.0  # A unit is USD 100 face.
     pack["move"] = ((seed % 1001) - 500) / 100000.0
     return pack
+
+
+@lru_cache(maxsize=1)
+def _planning_returns():
+    data = _data()
+    returns = data["mu"].copy()
+    references = {
+        "Individual stock": "SPY",
+        "Equity ETF": "SPY",
+        "Direct Treasury": "IEF",
+        "Treasury ETF": "IEF",
+        "Gold (GLD)": "GLD",
+    }
+    for asset_class, benchmark in references.items():
+        mask = data["classes"] == asset_class
+        if mask.any():
+            low, high = np.quantile(returns[mask], (0.1, 0.9), axis=0)
+            anchor = data["mu"][data["index"][benchmark]]
+            returns[mask] = 0.90 * anchor + 0.10 * np.clip(returns[mask], low, high)
+    return returns
 
 
 def _tape(day):
@@ -120,6 +150,7 @@ class _Session:
     def __init__(self, m):
         self.m = m
         self.d = _data()
+        self.mu = _planning_returns() if m.get("anchored_risk") else self.d["mu"]
         a = m.get("account") or {}
         self.day = a.get("day") or m.get("day") or DAYS[0]
         self.budget = _number(a.get("value", m["capital_chf"]), "investable balance")
@@ -211,9 +242,18 @@ class _Session:
                 if high is not None
                 else 0.899
             )
+            if self.m.get("anchored_risk"):
+                for fraction in np.linspace(shrink, 0, 21):
+                    weights = full * fraction
+                    valid, _ = self.evaluate(
+                        self.rounded(weights), key, {}, detail=False
+                    )
+                    if valid:
+                        return weights
+                return None
             return full * shrink
         w = cp.Variable(len(ix), nonneg=True)
-        mu = self.d["mu"][ix]
+        mu = self.mu[ix]
         previous = self.held * self.prices / self.budget
         outside = float(previous[~allow].sum())
         fee = FEE * (cp.norm1(w - previous[ix]) + outside)
@@ -244,6 +284,9 @@ class _Session:
             objective = -cp.norm(risk_exposures(0))
         elif gamma is not None:
             objective = net - (gamma / 2) * cp.sum_squares(risk_exposures(0))
+        elif key == "minimum_risk":
+            limits.append(cp.sum(w) == 0.50)
+            objective = -cp.norm(risk_exposures(0))
         elif key == "robust":
             worst = cp.Variable()
             limits.append(worst <= mu.T @ w - fee / self.years)
@@ -319,24 +362,37 @@ class _Session:
         keys = ["return", "robust", "diversified", "defensive", "reference"]
         if self.m.get("prefer_lower_emissions"):
             keys.insert(3, "carbon")
-        allocations = {key: self.solve(key) for key in keys}
+        anchored = self.m.get("anchored_risk")
+        if anchored:
+            keys.insert(1, "minimum_risk")
+        allocations = {
+            key: self.checked_weights(key) if anchored else self.solve(key)
+            for key in keys
+        }
         if (gamma := self.m.get("preference_gamma")) is not None:
+            preference = self.checked_weights("preference", gamma=gamma)
             allocations = {
-                "preference": self.preference_weights(gamma),
+                "preference": preference,
                 **allocations,
                 "cash": np.zeros(self.n),
             }
+            if anchored and preference is not None:
+                weights = preference * 0.5
+                if self.evaluate(
+                    self.rounded(weights), "cash_buffer", {}, detail=False
+                )[0]:
+                    allocations["cash_buffer"] = weights
         return allocations
 
-    def preference_weights(self, gamma):
+    def checked_weights(self, key, *, gamma=None):
         # Whole positions can break a binding CHF loss limit. Retry with
         # small buffers and check against the original constraints each time.
         for margin in (0.0, 0.005, 0.02):
-            weights = self.solve("preference", gamma=gamma, loss_margin=margin)
+            weights = self.solve(key, gamma=gamma, loss_margin=margin)
             if weights is None:
                 return None
             units = self.rounded(weights)
-            valid, _ = self.evaluate(units, "preference", {}, detail=False)
+            valid, _ = self.evaluate(units, key, {}, detail=False)
             if valid:
                 return weights
         return None
@@ -391,7 +447,7 @@ class _Session:
     def evaluate(self, units, key, parts, detail=True):
         nav, cash, fee, dol, w = self.amounts(units)
         risk = self.sigma(w)
-        projections = (w @ self.d["mu"]).tolist()
+        projections = (w @ self.mu).tolist()
         # Comparable annual estimate includes a one-time transition cost amortised over the horizon.
         rate = float(projections[0] - fee / max(0.01, self.budget) / self.years)
         moves = dol @ self.d["shocks"]
@@ -506,7 +562,9 @@ class _Session:
             )
         risks = [
             f"The 2008 scenario changes this allocation by CHF {stress:+,.0f}.",
-            "The return estimate uses historical averages. Selecting from thousands of assets can inflate it.",
+            "Planning returns are pulled towards broad asset-class references. They remain historical scenarios."
+            if self.m.get("anchored_risk")
+            else "The return estimate uses historical averages. Selecting from thousands of assets can inflate it.",
         ]
         if rate < self.target:
             risks.append("The estimated return falls below your desired annual return.")
@@ -523,6 +581,7 @@ class _Session:
             env_label = "Lower-intensity objective on measured issuers"
         return {
             "id": key,
+            "risk_model": STUDIO_RISK_MODEL if self.m.get("anchored_risk") else None,
             "name": title,
             "subtitle": subtitle,
             "valid": not reason,
@@ -555,6 +614,16 @@ class _Session:
             "score_label": "Model comparison · 75 observed points rescaled to 100",
             "weights": classes,
             "top": top,
+            "holdings": [
+                {
+                    "symbol": self.d["symbols"][i],
+                    "asset_class": str(self.d["classes"][i]),
+                    "units": int(units[i]),
+                    "value_chf": float(dol[i]),
+                    "weight": float(w[i]),
+                }
+                for i in ordered
+            ],
             "targets": {self.d["symbols"][i]: int(units[i]) for i in selected},
             "strengths": strengths,
             "risks": risks,
@@ -648,6 +717,7 @@ def _allocation_inputs(mandate):
         "mode",
         "target_return",
         "preference_gamma",
+        "anchored_risk",
         "exclusions",
         "exclude_chevron",
         "prefer_lower_emissions",
@@ -675,61 +745,35 @@ def _prepare(mandate):
     return _prepared(_allocation_inputs(mandate))
 
 
-@lru_cache(maxsize=16)
-def _preference_volatilities(serialized, lower, upper):
-    session = _Session(json.loads(serialized))
-    if session.reason:
-        return ()
-    # Utility-maximising variance is nonincreasing in gamma before rounding.
-    # Include an interior sensitivity and verify every example as whole units.
-    middle = (lower + upper) / 2 if upper is not None else 2 * lower
-    volatilities = []
-    for gamma in (lower, middle, upper):
-        weights = (
-            session.preference_weights(gamma)
-            if gamma is not None
-            else np.zeros(session.n)
-        )
-        if weights is None:
-            return ()
-        units = session.rounded(weights)
-        valid, _ = session.evaluate(units, "preference", {}, detail=False)
-        if not valid:
-            return ()
-        volatilities.append(session.sigma(session.amounts(units)[-1]))
-    return tuple(volatilities)
-
-
 def apply_preference(mandate):
-    """Derive a modeled volatility zone using the current constrained account."""
+    """Anchor the volatility ceiling to choices actually shown to the client."""
     preference = mandate.get("studio_preference")
     if preference is None:
         return mandate, None
     state = preference["state"]
     lower, upper = preference["gamma_low"], preference["gamma_high"]
-    low = high = None
+    high = None
     gamma = None
     if state == "estimated":
-        unconstrained_volatility = mandate | {"low": 0, "high": None}
-        points = _preference_volatilities(
-            _allocation_inputs(unconstrained_volatility), lower, upper
+        high = preference.get("target_volatility") or tested_target(
+            mandate.get("studio_answers", {})
         )
-        if points:
-            low, high = min(points), max(points)
+        if high:
             gamma = (lower + upper) / 2 if upper is not None else 2 * lower
         else:
-            state = "unavailable"
+            state, high = "needs_confirmation", None
     elif state in ("cash_preferred", "cash_capacity"):
-        low = high = 0.0
+        high = 0.0
     working = mandate | {
         "low": 0,
         "high": high or 0.0,
         "mode": "minimum" if not high else "target_band",
         "preference_gamma": gamma,
+        "anchored_risk": True,
     }
     return working, {
         "state": state,
-        "low": low,
+        "low": 0.0 if high is not None else None,
         "high": high,
         "as_of": working.get("day", DAYS[0]),
     }
@@ -739,6 +783,7 @@ def candidates(mandate):
     """Produce checked alternatives, keeping infeasible candidates explicitly marked."""
     s, allocations = _prepare(mandate)
     cards = []
+    seen_holdings = set()
     for key, w in allocations.items():
         card = s.evaluate(
             s.rounded(w) if w is not None else np.zeros(s.n, dtype=int), key, {key: 1.0}
@@ -749,6 +794,11 @@ def candidates(mandate):
                 score=None,
                 reason="No continuous solution under this strategy and mandate.",
             )
+        if card["valid"] and mandate.get("anchored_risk"):
+            holdings = frozenset(card["targets"].items())
+            if holdings in seen_holdings:
+                continue
+            seen_holdings.add(holdings)
         cards.append(card)
     return cards
 

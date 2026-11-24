@@ -114,6 +114,16 @@ def _choice_row(key):
     return {"text": text, "choices": options, "help": help_text}
 
 
+def tested_target(answers):
+    """Use the widest accepted scenario, with the steady option as the baseline."""
+    accepted = [
+        (outcomes[choice == "wider"][1] - outcomes[choice == "wider"][0]) / 200
+        for key, outcomes in COMPARISON_OUTCOMES.items()
+        if (choice := answers.get(key)) in ("lower", "wider")
+    ]
+    return max(accepted, default=0.0)
+
+
 def _aversion(active, cash_only):
     lower, upper = 0.0, None
     evidence = []
@@ -145,6 +155,7 @@ def _aversion(active, cash_only):
         "gamma_high": upper if state == "estimated" else None,
         "evidence": evidence,
         "highest_tested_volatility": tested_volatility,
+        "target_volatility": tested_target(active) if state == "estimated" else None,
     }
 
 
@@ -475,18 +486,24 @@ def calibrate(facts, answers, *, portfolio_check=False, derived=False, blocks=Fa
             and block_results[0]["score"] != 100
             and aversion["state"] == "estimated"
         ):
-            aversion.update(state="needs_confirmation", gamma_low=None, gamma_high=None)
+            aversion.update(
+                state="needs_confirmation",
+                gamma_low=None,
+                gamma_high=None,
+                target_volatility=None,
+            )
         policy.update(
             low=0,
             high=0,
             mode="minimum",
             studio_preference={
-                k: aversion[k] for k in ("state", "gamma_low", "gamma_high")
+                k: aversion[k]
+                for k in ("state", "gamma_low", "gamma_high", "target_volatility")
             },
         )
         cap_note = (
             "Portfolio choices bound risk aversion in a mean–variance model. "
-            "The range depends on the modeled returns, the account and its financial limits."
+            "The accepted examples set the volatility ceiling. The financial limits also apply."
         )
 
     def observation(key, yes, no):

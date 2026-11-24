@@ -56,7 +56,7 @@ The investment budget is allocated at the final match. The blend screen shows sh
 
 [French questionnaire study](ETUDE_QUESTIONNAIRE_FR.md) documents every active proposition. The [separate research pilot](CALIBRATION_QUESTIONNAIRE_FR.md) audits the current deck and tests 18 anchors, with a [French catalogue of 126 research cards](BANQUE_ADAPTATIVE_FR.md) and a separate adaptive router.
 
-The **portfolio trade-offs** ask two fictional CHF choices. They bound risk aversion using mean–variance utility. The dated engine evaluates constrained, whole-position portfolios at representative values of that interval and displays their modeled volatility range. The behavioural score describes the profile and can flag disagreement with a reported reaction to a fall. Financial limits and the CHF cash option remain available and the profile flags estimates above the examples. Older dossiers use their recorded policy until recalibration. [French study with card text and thresholds](ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille) · [Desktop and mobile replay](volatility-browser-check.json)
+The **portfolio trade-offs** ask two fictional CHF choices. They bound risk aversion using mean–variance utility. The dated engine caps volatility at the widest fictional example accepted, then checks each strategy again with whole positions. The behavioural score describes the profile and can flag disagreement with a reported reaction to a fall. Financial limits and the CHF cash option remain available and the profile flags estimates above the examples. Older dossiers use their recorded policy until recalibration. [French study with card text and thresholds](ETUDE_QUESTIONNAIRE_FR.md#vérification-sur-des-choix-de-portefeuille) · [Desktop and mobile replay](volatility-browser-check.json)
 
 ### Reading a behavioural score
 
@@ -100,3 +100,24 @@ Choose English or French on the opening scene. The header selector applies the p
 ## Behavioural profile
 
 The studio presents five separate scores, the saved questionnaire responses by block, and the sources of the portfolio risk estimate. A restart begins a new questionnaire while retaining the saved brief and any recorded portfolio. [Scoring and questions](ETUDE_QUESTIONNAIRE_FR.md#profil-en-cinq-blocs)
+
+## Volatility targets and strategy selection
+
+The full dated universe comprises 3,255 stocks, 10 equity ETFs, two Treasury ETFs, 54 direct Treasury lots and GLD. CHF cash is a separate holding. Client restrictions and affordability narrow the universe. Volatility is proportional to the invested fraction when the remaining capital is modelled as CHF cash and the same risky portfolio is kept. The whole-lot and cost checks can alter this relationship. [Markowitz, portfolio selection](https://finance.martinsewell.com/capm/Markowitz1952.pdf) · [Tobin, liquidity preference](https://doi.org/10.2307/2296205)
+
+| Strategy | Construction |
+|---|---|
+| Risk trade-off | Maximise modeled net return minus the variance penalty, within the chosen ceiling. |
+| Return seeker | Maximise planning net return within the ceiling. |
+| Minimum volatility | Minimise risk with 50% invested before whole-position rounding. |
+| All-weather | Maximise the weakest of three modeled return estimates and check a second covariance estimate. |
+| Spread the risk | Penalise concentration and account for the required return. |
+| Shock shelter | Penalise the largest modeled scenario loss and check the CHF loss budget. |
+| The classic | Scale a 60/40 SPY/IEF reference with CHF cash. |
+| Risky sleeve + CHF buffer | Halve the risky weights from the trade-off strategy and hold the remainder in CHF. |
+| Cash reserve | Hold the investable sleeve in CHF. |
+| Carbon lens, optional | Favour issuers with measured lower carbon intensity. |
+
+The display removes allocations with identical whole holdings. The accepted examples cap annual volatility at 4%, 8% or 16% in the current questionnaire. The highest sampled volatility never sets the ceiling. A goal-only comparison may show the risk needed beyond the personal ceiling and cannot be booked as a match. Older saved derived profiles use the anchored rule when reopened. Pending proposals from the old model require recalculation.
+
+The planning model uses a 90% weight on the broad reference for the asset class (SPY, IEF or GLD) and 10% on the individual historical estimate winsorised to the class's 10th and 90th percentiles. This applies to each model variant. It is a design assumption pending out-of-sample validation. The asset library retains its original historical statistics. The allocation detail lists each selected position and its weight in the investable sleeve.

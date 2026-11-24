@@ -260,6 +260,35 @@ class Calibration(unittest.TestCase):
                 self.assertEqual(profile["aversion"]["state"], state)
                 self.assertIsNone(profile["aversion"]["gamma_high"])
 
+    def test_two_wider_choices_cap_full_universe_and_tame_extreme_returns(self):
+        answers_wider = answers(BASE) | {"V01": "wider", "V02": "wider"}
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            saved = dispatch(
+                "calibrate",
+                {"facts": FACTS, "answers": answers_wider, "derive_volatility": True},
+                root,
+            )
+            account = {key: saved[key] for key in ("token", "version")}
+            bundle = dispatch("candidates", account, root)
+            self.assertEqual(bundle["volatility_zone"]["high"], 0.16)
+            self.assertEqual(saved["profile"]["aversion"]["gamma_low"], 0)
+            valid = {plan["id"]: plan for plan in bundle["plans"] if plan["valid"]}
+            self.assertEqual(len(valid), 9)
+            self.assertIn("minimum_risk", valid)
+            self.assertIn("cash_buffer", valid)
+            self.assertTrue(all(plan["eligible"] == 3322 for plan in valid.values()))
+            self.assertTrue(all(plan["vol"] <= 0.16 for plan in valid.values()))
+            self.assertLess(valid["cash_buffer"]["vol"], valid["preference"]["vol"])
+            self.assertLess(max(plan["net"] for plan in valid.values()), 0.20)
+            for plan in valid.values():
+                self.assertEqual(plan["positions"], len(plan["holdings"]))
+                self.assertAlmostEqual(
+                    sum(h["weight"] for h in plan["holdings"])
+                    + plan["weights"]["CHF cash"],
+                    1.0,
+                )
+
     def test_portfolio_choices_derive_and_constrain_the_live_matches(self):
         baseline = answers(BASE) | {"V01": "wider", "V02": "lower"}
         with TemporaryDirectory() as folder:
@@ -273,9 +302,7 @@ class Calibration(unittest.TestCase):
             profile = saved["profile"]
             zone = profile["volatility_zone"]
             self.assertEqual(zone["state"], "estimated")
-            self.assertGreater(zone["high"], zone["low"])
-            self.assertGreater(zone["low"], 0)
-            self.assertLessEqual(zone["high"], 1)
+            self.assertEqual((zone["low"], zone["high"]), (0, 0.08))
             restored = dispatch("resume", account, root)["profile"]
             self.assertEqual(restored["volatility_zone"], zone)
             self.assertEqual(restored["aversion"], profile["aversion"])

@@ -1,4 +1,4 @@
-import { esc, fmt, pct } from "./studio-core.js";
+import { esc, fmt, pct, volatilityLabel } from "./studio-core.js";
 
 const categories = [
   ["Very cautious", "Prefers stability and accepts limited fluctuations."],
@@ -54,12 +54,9 @@ export function profileView(profile, saveName, animate) {
   const { evidence, score, band, facts, volatility_zone: zone, aversion } = profile;
   const blocks = profile.behaviour_blocks;
   const category = categories.find(([label]) => label === band);
-  const zoneText = zone?.low != null && zone?.high != null
-    ? zone.high === 0 ? "0.0% · CHF cash" : pct(zone.low) === pct(zone.high)
-      ? pct(zone.high) : pct(zone.low) + "–" + pct(zone.high)
-    : !zone && profile.low != null
-      ? profile.high == null ? pct(profile.low) + "+" : pct(profile.low) + "–" + pct(profile.high)
-      : "Undetermined";
+  const zoneText = zone ? volatilityLabel(zone) : profile.low != null
+    ? profile.high == null ? pct(profile.low) + "+" : pct(profile.low) + "–" + pct(profile.high)
+    : "Undetermined";
   const otherAnswers = blocks ? evidence.filter(card => !blocks.some(block => block.cards.includes(card.id))) : evidence;
   const downside = profile.readings.find(reading => reading.name === "Downside response");
   const gamma = aversion?.state === "estimated"
@@ -87,13 +84,13 @@ export function profileView(profile, saveName, animate) {
     ${blocks ? `<div class="profile-results"><h2>Your results by block</h2>${blockRows(blocks, evidence)}</div>`
       : '<p class="profile-note">Restart the questionnaire to obtain the five block scores.</p>'}
     <div class="profile-facts">
-      <div><span>Estimated annual volatility</span><strong>${esc(zoneText)}</strong></div>
+      <div><span>Annual volatility ceiling</span><strong>${esc(zoneText)}</strong></div>
       <div><span>Investment sleeve</span><strong>CHF ${fmt(facts.capital_chf)}</strong></div>
       <div><span>Horizon</span><strong>${profile.horizon_years} years</strong></div>
     </div>
     ${gamma ? `<p class="profile-note">Risk aversion · ${esc(gamma)}</p>` : ""}
     ${zone?.state === "needs_confirmation" ? '<p class="warning">The answers need another look before the model can estimate a risk range.</p>' : ""}
-    ${zone?.high > aversion?.highest_tested_volatility ? '<p class="warning">The estimated range goes beyond the volatility covered by your answers.</p>' : ""}
+    ${zone?.high > 0 ? '<p class="profile-note">The ceiling comes from the widest scenario you accepted. A match can use less risk when its strategy or your constraints call for it.</p>' : ""}
     ${profile.stress_conflict ? '<p class="warning">Compare a calmer match and its modeled loss in CHF.</p>' : ""}
     ${profile.blocked_reason ? `<p class="warning">${esc(profile.blocked_reason)}</p>` : ""}
     <div class="actions profile-actions">
@@ -113,7 +110,7 @@ export function profileView(profile, saveName, animate) {
       : '<p>This saved profile uses the previous scoring method. Restart to use the five-block method.</p>'}
       <p>The risk model compares expected return μ and variance σ². At the indifference point between A and B:</p>
       <p class="profile-formula"><code>γ* = 2(μB − μA) / (σB² − σA²)</code></p>
-      <p>Choosing the steadier portfolio gives a lower bound on γ. Choosing the wider portfolio gives an upper bound. The model checks the resulting portfolios against the financial constraints to estimate volatility.</p>
+      <p>Choosing the steadier portfolio gives a lower bound on γ. Choosing the wider portfolio gives an upper bound. The accepted scenarios set the volatility ceiling. Each final portfolio is checked again against that ceiling and your financial constraints.</p>
     </details>
     ${otherAnswers.length ? `<details class="profile-answers">
       <summary>${blocks ? "Other questionnaire answers" : "Questions and your answers"}</summary><ul>${evidenceRows(otherAnswers)}</ul>

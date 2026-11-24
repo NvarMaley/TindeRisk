@@ -43,6 +43,7 @@ export const pct = (v) =>
 export function volatilityLabel(zone) {
   if (zone.low == null || zone.high == null) return "Undetermined";
   if (zone.high === 0) return "0.0% · CHF cash";
+  if (zone.low === 0) return "Up to " + pct(zone.high);
   return pct(zone.low) === pct(zone.high)
     ? pct(zone.high)
     : pct(zone.low) + "–" + pct(zone.high);
