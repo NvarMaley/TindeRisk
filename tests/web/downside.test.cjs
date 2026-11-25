@@ -1,0 +1,9 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+test('Downside report renders frontier and does not leak stale save response',async()=>{
+ const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',value:'',checked:false});return nodes.get(id);};const ctx={document:{getElementById:$},window:{RM:{language:'fr'}}};vm.runInNewContext(fs.readFileSync(path.resolve(__dirname,'../../apps/web/downside.js'),'utf8'),ctx);
+ const view=ctx.window.DownsideView;const form=()=>{for(const [k,v] of Object.entries({'down-scope':'core','down-currency':'USD','down-alpha':'95','down-mar':'0','down-cap':'65','down-cost':'10','down-bench':'spy'}))$(k).value=v;};
+ let release;view.mount(()=>new Promise(r=>release=r),null);form();const pending=$('down-run').onclick();view.clear();release({status:'infeasible',reason:'fixture'});await pending;assert.doesNotMatch($('downside-panel').innerHTML,/fixture/);
+ const r={status:'experimental',asset_count:2,observations:40,currency:'USD',start:'2020-01-01',end:'2023-12-31',alpha:.95,mar_annual:0,mar_monthly:0,tail_observation_equivalent:2,unverified_mandate_constraints:[],models:{minimum_cvar:{status:'optimal'}},frontier:[{status:'optimal',cvar:.01,period_mean:.02},{status:'optimal',cvar:.02,period_mean:.03}],infeasible_target_test:'infeasible',benchmark:'spy',scenario_sensitivity:[],holdout:{train_months:32,test_months:8,tail_observation_equivalent:.4,rows:[]},cost_bps:10};
+ view.mount(async()=>r,null);form();await $('down-run').onclick();assert.match($('downside-panel').innerHTML,/Frontière efficiente baissière/);assert.match($('downside-panel').innerHTML,/CDaR optimise le drawdown additif/);
+ ctx.window.RM.language='en';view.render();assert.match($('downside-panel').innerHTML,/Downside efficient frontier/);
+});

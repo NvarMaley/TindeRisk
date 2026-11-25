@@ -1,0 +1,12 @@
+{
+  "version": "sec-nport-targets-v1",
+  "reviewed_on": "2026-11-24",
+  "note": "Verified filing-index identity examples, not complete historical holdings. SEC accepted timestamps must be retained; no daily backfill.",
+  "targets": [
+    {"ticker":"SHY","cik":"1100663","series_id":"S000004357","sample_accession":"000207169126001288","report_date":"2025-11-30","accepted_et":"2026-01-27T11:35:56","index":"https://www.sec.gov/Archives/edgar/data/1100663/000207169126001288/0002071691-26-001288-index.htm"},
+    {"ticker":"IEF","cik":"1100663","series_id":"S000004358","sample_accession":"000207169126001299","report_date":"2025-11-30","accepted_et":"2026-01-27T11:36:05","index":"https://www.sec.gov/Archives/edgar/data/1100663/000207169126001299/0002071691-26-001299-index.htm"},
+    {"ticker":"TLT","cik":"1100663","series_id":"S000004360","sample_accession":"000207169126008193","report_date":"2026-02-28","accepted_et":"2026-04-22T11:55:07","index":"https://www.sec.gov/Archives/edgar/data/1100663/000207169126008193/0002071691-26-008193-index.htm"},
+    {"ticker":"TIP","cik":"1100663","series_id":"S000004363","sample_accession":"000207169126007347","report_date":"2026-01-31","accepted_et":"2026-03-27T11:44:07","index":"https://www.sec.gov/Archives/edgar/data/1100663/000207169126007347/0002071691-26-007347-index.htm"},
+    {"ticker":"BIL","cik":"1064642","series_id":"S000017326","sample_accession":"000141036826089537","report_date":"2026-06-30","accepted_et":"2026-08-28T12:27:46","index":"https://www.sec.gov/Archives/edgar/data/1064642/000141036826089537/0001410368-26-089537-index.htm"}
+  ]
+}

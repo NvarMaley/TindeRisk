@@ -1,5 +1,0 @@
-{
-  "COMM": {"issuer": "COMMSCOPE HOLDING CO INC", "date": "2026-01-14", "type": "rename", "symbol": "VISN", "source": "https://www.sec.gov/Archives/edgar/data/1517228/000119312526014078/d749492d8k.htm"},
-  "DAY": {"issuer": "DAYFORCE INC", "date": "2026-02-04", "type": "cash_exit", "usd_per_share": 70.0, "source": "https://www.dayforce.com/who-we-are/newsroom/thoma-bravo-completes-acquisition-of-dayforce"},
-  "CFLT": {"issuer": "CONFLUENT INC", "date": "2026-03-17", "type": "cash_exit", "usd_per_share": 31.0, "source": "https://newsroom.ibm.com/2026-03-17-IBM-Completes-Acquisition-of-Confluent,-Making-Real-Time-Data-the-Engine-of-Enterprise-AI-and-Agents"}
-}

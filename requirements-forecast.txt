@@ -1,0 +1,6 @@
+# Advanced CPU forecast candidates; install in the isolated project environment.
+joblib==1.5.0
+threadpoolctl==3.6.0
+scikit-learn==1.6.1
+xgboost==3.1.2 ; platform_system != "Linux"
+xgboost-cpu==3.1.2 ; platform_system == "Linux"

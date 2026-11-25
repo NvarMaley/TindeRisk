@@ -1,0 +1,9 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+test('Long-only report scoped to save and renders strategy rationale',async()=>{
+ const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',value:'',checked:false});return nodes.get(id);};const ctx={document:{getElementById:$},window:{RM:{language:'fr'}}};vm.runInNewContext(fs.readFileSync(path.resolve(__dirname,'../../apps/web/long-only.js'),'utf8'),ctx);
+ const view=ctx.window.LongOnlyView;const form=()=>{for(const [k,v] of Object.entries({'lo-scope':'cohort','lo-currency':'USD','lo-cap':'5','lo-turn':'35','lo-cost':'10','lo-frequency':'monthly','lo-core':'60'}))$(k).value=v;};
+ let release;view.mount(()=>new Promise(r=>release=r),null);form();const pending=$('lo-run').onclick();view.clear();release({status:'experimental',fixture:true});await pending;assert.doesNotMatch($('long-only-panel').innerHTML,/fixture/);
+ const r={status:'experimental',asset_count:2,train_months:32,test_months:8,first:'2023-01-01',last:'2023-12-31',currency:'USD',membership_dates:8,factor_score_rows:10,fundamental_rows:5,unverified_mandate_constraints:[],strategies:{active_long_only:{status:'unavailable',reason:'fixture'}},current_targets:{active_long_only:{rationale:{as_of:'2023-12-31',eligible_assets:2},holdings:[]}},registry:{active_long_only:{signal:'rolling alpha'}},benchmark:{net:{cagr:.1}}};
+ view.mount(async()=>r,null);form();await $('lo-run').onclick();assert.match($('long-only-panel').innerHTML,/Stratégies passives et actives/);assert.match($('long-only-panel').innerHTML,/rolling alpha/);assert.match($('long-only-panel').innerHTML,/fixture/);
+ ctx.window.RM.language='en';view.render();assert.match($('long-only-panel').innerHTML,/Latest target, not executed/);
+});
