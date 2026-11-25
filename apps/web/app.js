@@ -410,7 +410,22 @@ function showPortfolio(){
     more.onclick=()=>{showFullDeck=true;showPortfolio();};$("portfolio").append(more);return;
   }
   const fit=p?.worst_scenario?`<p>${fr?"Scénario le plus défavorable":"Worst scenario"} · ${esc(p.worst_scenario.replaceAll("_"," "))}. ${fr?"Perte simulée":"Simulated loss"} ${pct(p.stress_loss)} / ${pct(mandate.max_stress_loss)} ${fr?"autorisés":"limit"}.</p>`:"";
-  $("portfolio").innerHTML=p?"<article>"+detail(p)+fit+`<p class="muted">${swipes.length+1} / ${portfolios.length} · ${shortlist.length} ${fr?"retenues":"retained"}</p></article>`:portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
+  if(!p){
+    $("portfolio").innerHTML=portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
+    return;
+  }
+  const count=swipes.length+1,model=strategyName(p.name);
+  const title=esc(model);
+  const annual=p.metrics.cagr;
+  const narrative=strategyDescription(p.name);
+  $("portfolio").innerHTML=`<article class="voyage-card">
+    <div class="voyage-cover" data-colour="${count%3}"><img src="./assets/cherry.png" alt=""><span>${fr?"Stratégie":"Strategy"} ${count} / ${portfolios.length}</span></div>
+    <div class="voyage-face"><h2>${title}</h2>${narrative?`<p>${esc(narrative)}</p>`:""}
+    <dl><div><dt>${fr?"Sur un an, en moyenne¹":"Average annual growth¹"}</dt><dd>${Number.isFinite(annual)?pct(annual):"—"}</dd></div>
+    <div><dt>${fr?"Perte en scénario de stress":"Loss in a stress scenario"}</dt><dd>${money(p.stress_usd,"USD")}</dd></div></dl>
+    <small>${fr?"¹ Rendement annualisé sur la période testée.":"¹ Compound annual growth over the test period."}</small></div>
+    <details class="voyage-reveal"><summary>${fr?"Explorer la composition et les résultats":"Explore holdings and results"}</summary>${detail(p)}${fit}</details></article>`;
+
 }
 function strategyVerdict(choice, portfolio){
   const dialog=$("strategy-verdict");
@@ -482,7 +497,7 @@ function compare(){
   const stored=savedBlend?.signature===signature?savedBlend:null;
   allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation fictive.":"Synthetic simulation.")}</p>`;
   if(stored?.paperConfirmed){
-    const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
+    allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
   }
   const inputs=shortlist.map(p=>{
     const label=document.createElement("label");label.className="allocation-row";label.textContent=strategyName(p.name)+" (%) ";
@@ -529,7 +544,7 @@ function compare(){
         await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
         if(!confirm.isConnected||requestRevision!==revision)return;
         savedBlend={signature,budgets:result.budgets,paperConfirmed:true};changed();
-        confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
+        allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
       });output.append(confirm);
     });allocation.append(button);
   }
