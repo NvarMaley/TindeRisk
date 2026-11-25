@@ -63,12 +63,24 @@ document.addEventListener("pointerdown",event=>{
 // The home example illustrates budget arithmetic independently of a saved mandate.
 (() => {
   const slider=document.getElementById("home-share");
+  const answers=document.querySelectorAll("[data-guide-choice]");
+  let chosen=null;
+  for(const button of answers)button.addEventListener("click",()=>{
+    chosen=button.dataset.guideChoice;
+    for(const other of answers)other.setAttribute("aria-pressed",String(other===button));
+    update();
+  });
   function update(){
+    if(chosen)document.getElementById("guide-reaction").textContent=window.RM.t(chosen==="steady"?"guideSteady":"guideVariableResult");
     const share=Number(slider.value);
     const fmt=new Intl.NumberFormat(window.RM.language==="fr"?"fr-CH":"en-US");
     const label=n=>n+" % · "+fmt.format(100*n)+" USD";
     document.getElementById("home-first").textContent=label(share);
     document.getElementById("home-second").textContent=label(100-share);
+    const equity=(share*.2+(100-share)*.8);
+    document.getElementById("guide-pie").style.setProperty("--equity",equity+"%");
+    document.getElementById("guide-equity").textContent=label(equity);
+    document.getElementById("guide-bonds").textContent=label(100-equity);
     slider.setAttribute("aria-valuetext",label(share));
   }
   slider.addEventListener("input",update);
