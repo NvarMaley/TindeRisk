@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from riskmatch.prototype import ClientProfile, cards, score, candidates
 from riskmatch.matching import allocate, research_report
 from riskmatch import historical_matches
+from riskmatch import personalized_matches
 from riskmatch.profiling.mandate import validate_mandate, SCHEMA_VERSION
 from riskmatch.behavioral.discovery import session as discovery_session, score as discovery_score
 from riskmatch.market_data.security_master import universe_report
@@ -55,7 +56,7 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path == "/api/cards":
             return self.respond(cards())
         if self.path == "/api/health":
-            return self.respond({"status": "ok", "mode": "simulation", "client_flow": 28})
+            return self.respond({"status": "ok", "mode": "simulation", "client_flow": 29})
         return super().do_GET()
 
     def do_POST(self):
@@ -66,10 +67,15 @@ class Handler(SimpleHTTPRequestHandler):
             data = json.loads(self.rfile.read(length))
             if self.path == "/api/matching/prepare":
                 raw=data["mandate"]
-                if not validate_mandate(raw)["demo_eligible"] or raw["as_of"]<"2026-11-25":
+                if not validate_mandate(raw)["personalized_eligible"] or raw["as_of"]<"2026-11-25":
                     raise ValueError("demoUnavailable")
-                rows,_,_=historical_matches.catalog(ROOT)
-                return self.respond({"status":"ready","count":len(rows)})
+                with personalized_matches.LOCK:
+                    data=personalized_matches.market_data(ROOT.resolve())
+                return self.respond({"status":"ready","count":len(personalized_matches.KEYS),
+                                     "universe_size":len(data[0])})
+            if self.path == "/api/match-allocations/goal":
+                from riskmatch.selection.goals import compare_allocations
+                return self.respond(compare_allocations(ROOT,data))
             if self.path == "/api/matching/goals":
                 from riskmatch.selection.goals import assess
                 return self.respond(assess(ROOT,data))
@@ -87,6 +93,13 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.respond(research_report(ROOT))
             if self.path in ("/api/matching/cards", "/api/match-allocations/evaluate", "/api/match-allocations/optimize"):
                 raw = data['mandate']
+                if raw.get('schema_version') == SCHEMA_VERSION:
+                    if self.path == "/api/matching/cards":
+                        return self.respond(personalized_matches.run(ROOT,raw,data.get("aversion"),data.get("style","000"))["cards"])
+                    if personalized_matches.is_version(data.get("version")):
+                        return self.respond(personalized_matches.blend(
+                            ROOT,raw,data["version"],data["names"],data.get("budgets"),
+                            self.path.endswith("/optimize")))
                 if raw.get('schema_version') == SCHEMA_VERSION:
                     report = validate_mandate(raw)
                     if not report['demo_eligible']:

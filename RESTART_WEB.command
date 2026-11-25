@@ -28,7 +28,7 @@ nohup .venv/bin/python -u apps/api/server.py </dev/null >>.run/web.log 2>&1 &
 pid=$!
 printf '%s\n' "$pid" >.run/web.pid
 for attempt in {1..120}; do
-  if curl --noproxy '*' --silent --fail --max-time 1 http://127.0.0.1:3000/api/health | .venv/bin/python -c 'import json,sys; assert json.load(sys.stdin).get("client_flow")==28' 2>/dev/null; then
+  if curl --noproxy '*' --silent --fail --max-time 1 http://127.0.0.1:3000/api/health | .venv/bin/python -c 'import json,sys; assert json.load(sys.stdin).get("client_flow")==29' 2>/dev/null; then
     echo "RiskMatch ready: http://127.0.0.1:3000/"
     open http://127.0.0.1:3000/
     exit 0

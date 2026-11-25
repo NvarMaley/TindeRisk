@@ -205,8 +205,14 @@ def score(seed, currency, responses, confidence=None, locales=None):
         if a and b:
             framing_checked+=1
             if a!=b:framing.append(pair)
+    # A/B refers to canonical options after reversing the randomized display.
+    def preference(ids, second):
+        votes = [1 if decisions[k] == second else -1 for k in ids if decisions.get(k)]
+        return "2" if sum(votes)>0 else "1" if sum(votes)<0 else "0"
+    style = (preference(["P03","P07"], "B") + preference(["P04"], "A") +
+             preference(["P02","P06"], "B"))
     counts=Counter(responses.values())
-    return dict(version=VERSION,score=round_score(1+29*prudent/n) if n/total>=.7 else None,
+    return dict(version=VERSION,style_profile=style,score=round_score(1+29*prudent/n) if n/total>=.7 else None,
                 coverage=n/total,answered=n,total_scored=total,prudent_fraction=prudent/n if n else None,
                 sensitivity=[round_score(1+29*prudent/total),round_score(1+29*(prudent+total-n)/total)],
                 counts={**{k:counts[k] for k in CHOICES},"unpresented":len(cards)-len(responses)},

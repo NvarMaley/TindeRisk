@@ -69,10 +69,11 @@ function page(name) {
   if (name==="saves") document.dispatchEvent(new Event("riskmatch:saves"));
   changed();
 }
+const canMatch = report => report?.personalized_eligible ?? report?.demo_eligible;
 document.querySelectorAll("[data-page]").forEach(button => button.onclick = handle(async () => {
   if(!sessionUnlocked)throw Error("saveRequired");
   if (button.dataset.page==="explore" && !mandate) throw Error("mandateRequired");
-  if (button.dataset.page==="explore" && fullMandate && !mandateReport?.demo_eligible) throw Error("demoUnavailable");
+  if (button.dataset.page==="explore" && fullMandate && !canMatch(mandateReport)) throw Error("demoUnavailable");
   if(button.dataset.page==="explore"&&!pendingDeck&&!portfolios.length&&(!cards.length||index<cards.length)){
     page("discovery");await showCard();return;
   }
@@ -108,7 +109,7 @@ function renderMandateReport(){
   let comparison="";
   if(mandateReport)comparison=`<h3>${esc(t("compareBefore"))}</h3><p>${esc(t("effectiveStress"))}: ${pct(mandateReport.effective_stress_limit)} → ${pct(r.effective_stress_limit)} · ${esc(t("goalCount"))}: ${mandateReport.goals.length} → ${r.goals.length} · ${esc(t("capital"))}: ${esc(money(fullMandate.capital,fullMandate.currency))} → ${esc(cash(p.capital))}</p><p>${esc(t("mandateGoals"))}: ${esc(mandateReport.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${money(g.target_nominal_base,mandateReport.currency)})`).join(" · "))} → ${esc(r.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${cash(g.target_nominal_base)})`).join(" · "))}</p>`;
   const messages=(items,cls)=>items.map(k=>`<p class="${cls}">• ${esc(diagnostic(k))}</p>`).join("");
-  area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${r.demo_eligible&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(r.demo_eligible&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
+  area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${canMatch(r)&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(canMatch(r)&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.personalized_reasons??r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
   area.hidden=false;
   $("confirm-mandate").onclick=handle(confirmMandate);
 }
@@ -118,11 +119,11 @@ async function confirmMandate(){
   const keepDiscovery=Boolean(fullMandate&&fullMandate.currency===pendingMandate.currency&&cards.length);
   fullMandate=pendingMandate;mandateReport=pendingReport;pendingMandate=null;pendingReport=null;
   mandate={capital:fullMandate.capital,years:mandateReport.horizon_years,max_stress_loss:mandateReport.effective_stress_limit,currency:fullMandate.currency};
-  historicalDeck=true;savedBlend=null;deckAversion=null;pendingDeck=null;deckRequest=null;portfolios=[]; swipes=[]; shortlist=[]; confirmed.clear(); if(!keepDiscovery)resetDiscovery();
+  historicalDeck=true;savedBlend=null;deckAversion=null;deckStyle="000";pendingDeck=null;deckRequest=null;portfolios=[]; swipes=[]; shortlist=[]; confirmed.clear(); if(!keepDiscovery)resetDiscovery();
   $("mandate-report").hidden=true;
   changed();page("discovery");await showCard();changed();
-  if(mandateReport.demo_eligible&&fullMandate.as_of>="2026-11-25"){
-    // Warm the shared historical catalogue while the user answers Discovery.
+  if(canMatch(mandateReport)&&fullMandate.as_of>="2026-11-25"){
+    // Load the common market inputs while the user answers Discovery.
     api("matching/prepare",{mandate:fullMandate}).catch(e=>{
       if(e.message==="serverOutdated"&&sessionUnlocked){errorKey=e.message;$("error").textContent=diagnostic(errorKey);}
     });
@@ -164,8 +165,8 @@ async function showCard() {
     const dimensions=r.dimensions?`<div class="mandate-summary discovery-summary">${Object.entries(r.dimensions).map(([key,v])=>`<div><b>${esc(t(key))}</b><p>${v.canonical_b_fraction===null?esc(t("noValue")):pct(v.canonical_b_fraction)} · ${v.answered}/${v.total}</p><small>${esc(t(key+"_explain"))}</small></div>`).join("")}</div>`:"";
     const confidence=r.dimensions?`<label><span>${esc(t("confidenceOptional"))}</span><select id="discovery-confidence"><option value="">${esc(t("noValue"))}</option>${[1,2,3,4,5].map(v=>`<option value="${v}" ${v===discoveryConfidence?"selected":""}>${v}/5</option>`).join("")}</select></label>`:"";
     const audit=r.dimensions?`<p>${esc(t("coverage"))}: ${r.answered}/${r.total_scored} · ${esc(t("unsure"))}: ${r.counts.unsure} · ${esc(t("skip"))}: ${r.counts.skip} · ${esc(t("inconsistencies"))}: ${r.inconsistencies.length}/${r.pairs_checked} · ${esc(t("framingDifferences"))}: ${r.framing_differences.length}/${r.framing_pairs_checked}</p><p class="muted">${esc(t("scoreMethod"))}</p>`:"<p>"+esc(t("inconsistencies"))+": "+r.inconsistencies.length+"</p>";
-    const blocked=fullMandate&&(!mandateReport?.demo_eligible||fullMandate.as_of<"2026-11-25");
-    const blocker=blocked?`<p class="mandate-conflict">${esc(t(!mandateReport?.demo_eligible?"demoUnavailable":"matchingDateUnavailable"))}</p>`:"";
+    const blocked=fullMandate&&(!canMatch(mandateReport)||fullMandate.as_of<"2026-11-25");
+    const blocker=blocked?`<p class="mandate-conflict">${esc(t(!canMatch(mandateReport)?"demoUnavailable":"matchingDateUnavailable"))}</p>`:"";
     $("result").innerHTML='<article><h2>'+esc(r.score===null?t("scoreUnavailable"):r.score+" / 30")+'</h2><p>'+esc(t("scoreExplanation"))+' '+esc(t("coverage"))+': '+pct(r.coverage)+'. '+esc(t("sensitivity"))+': '+r.sensitivity.join("–")+'. '+esc(t("scoreLimit"))+'</p><details><summary>'+esc(t("profileDetails"))+'</summary>'+audit+dimensions+confidence+'</details><p class="muted">'+esc(t("discoverySeparate"))+'</p>'+blocker+'<button class="primary" id="next">'+esc(t(blocked?"reviseMandate":"exploreAllocations"))+'</button></article>';
     if(r.dimensions)$("discovery-confidence").onchange=handle(async event=>{discoveryConfidence=event.target.value?Number(event.target.value):null;scoreReport=null;changed();await showCard();});
     $("next").onclick=handle(async()=>{if(!mandate)throw Error("mandateRequired");if(blocked){page("mandate");return;}page("explore");await loadPortfolios();});
@@ -277,9 +278,10 @@ function finishDiscoveryDrag(event,send){
 cardStage.addEventListener("pointerup",event=>finishDiscoveryDrag(event,true));
 cardStage.addEventListener("pointercancel",event=>finishDiscoveryDrag(event,false));
 cardStage.addEventListener("lostpointercapture",event=>finishDiscoveryDrag(event,false));
+let deckStyle="000";
 let historicalDeck=true, savedBlend=null,deckAversion=null,showFullDeck=false,pendingDeck=null;
 async function fetchDeck(raw){
-  try{return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion}) : api("candidates",raw));}
+  try{return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle}) : api("candidates",raw));}
   catch(e){if(historicalDeck&&e.message==="Not found")throw Error("serverOutdated");throw e;}
 }
 let deckRequest=null;
@@ -305,7 +307,8 @@ async function loadPortfolios(){
   }
 }
 async function loadPortfoliosInternal(){
-  if(fullMandate&&!mandateReport?.demo_eligible)throw Error("demoUnavailable");
+  if(fullMandate&&!canMatch(mandateReport))throw Error("demoUnavailable");
+  if(fullMandate&&mandateReport?.personalized_eligible===true&&(scoreReport?.score===null||(!scoreReport&&deckAversion===null)))throw Error("scoreUnavailable");
   if(fullMandate&&fullMandate.as_of<"2026-11-25")throw Error("matchingDateUnavailable");
   const signature=JSON.stringify(fullMandate||mandate),epoch=sessionEpoch;
   const current=()=>sessionEpoch===epoch&&signature===JSON.stringify(fullMandate||mandate);
@@ -316,8 +319,8 @@ async function loadPortfoliosInternal(){
     portfolios=restored;swipes=pendingDeck.swipes.slice();shortlist=portfolios.filter((_,i)=>swipes[i]==="like");savedBlend=pendingDeck.savedBlend;pendingDeck=null;changed();
     showPortfolio();return;
   }
-  if(!portfolios.length || (scoreReport&&deckAversion!==scoreReport.score)){
-    if(scoreReport)deckAversion=scoreReport.score;
+  if(!portfolios.length || (scoreReport&&(deckAversion!==scoreReport.score||deckStyle!==(scoreReport.style_profile||"000")))){
+    if(scoreReport){deckAversion=scoreReport.score;deckStyle=scoreReport.style_profile||"000";}
     const deck=await fetchDeck(fullMandate||mandate);
     if(!current())throw Error("sessionChanged");
     portfolios=deck;
@@ -362,16 +365,22 @@ function detail(p){
   const fr=window.RM.language==="fr";
   const metrics=[["cagr",p.metrics.cagr],["vol",p.metrics.vol],["drawdown",p.metrics.drawdown],["stress",p.stress_loss]];
   const positions=Object.entries(p.weights).filter(([,v])=>Math.abs(v)>1e-7).sort((a,b)=>b[1]-a[1]);
-  return `<div class="strategy-title"><h2>${esc(strategyName(p.name))}</h2><span class="simulation-tag">${fr?"Simulation historique":"Historical simulation"}</span></div>
+  const holdingRows=rows=>rows.map(([k,v])=>`<div><p><span>${esc(t(k))}</span><strong>${pct(v)}</strong></p><div class="bar"><i style="width:${Math.max(0,Math.min(100,100*v))}%"></i></div></div>`).join("");
+  return `<div class="strategy-title"><h2>${esc(strategyName(p.name))}</h2><span class="simulation-tag">${p.personalized?(fr?"Construit pour ton mandat":"Built for your mandate"):(fr?"Simulation historique":"Historical simulation")}</span></div>
   ${strategyDescription(p.name)?`<p>${esc(strategyDescription(p.name))}</p>`:""}
   <div class="stats">${metrics.map(([key,value])=>`<div><b>${pct(value)}</b>${esc(t(key))}</div>`).join("")}</div>
+  ${p.exposures?`<p>${Object.entries(p.exposures).filter(([,w])=>w>.0001).map(([k,w])=>esc(t(k))+" "+pct(w)).join(" · ")}</p><p>${fr?"Nombre de positions":"Holdings"} · ${p.style_holdings}</p>${p.income_preference_unmeasured?`<p>${fr?"Les distributions de revenu ne sont pas mesurées.":"Income distributions are unmeasured."}</p>`:""}${p.equivalent_methods?.length?`<details><summary>${fr?"Méthodes de composition similaire":"Methods with similar holdings"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}`:""}
   ${wealthChart(p.metrics.nav)}
   <p>${esc(t("stressLoss"))} : ${money(p.stress_usd,"USD")} · ${esc(t("es"))} : ${pct(p.metrics.es95_monthly)}</p>
-  <h3>${fr?"Composition du portefeuille":"Portfolio composition"}</h3><div class="holdings-list">${positions.map(([k,v])=>`<div><p><span>${esc(t(k))}</span><strong>${pct(v)}</strong></p><div class="bar"><i style="width:${Math.max(0,Math.min(100,100*v))}%"></i></div></div>`).join("")}</div>
+  <h3>${fr?"Composition du portefeuille":"Portfolio composition"}</h3><div class="holdings-list">${holdingRows(positions.slice(0,15))}${positions.length>15?`<details><summary>${fr?"Voir toutes les positions":"View all holdings"} (${positions.length})</summary>${holdingRows(positions.slice(15))}</details>`:""}</div>
+  ${p.personalized?`<p class="muted">${fr?"Univers admissible":"Eligible universe"} : ${p.eligible_assets}/${p.universe_size} · ${fr?"Rendement estimé":"Estimated return"} : ${pct(p.expected_return)} · ${fr?"Volatilité estimée":"Estimated volatility"} : ${pct(p.estimated_volatility)}</p>
+  ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}</p>`).join("")}</details>`:""}
+  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La performance historique est calculée sur des pondérations estimées avant la période de test.":"Historical performance uses weights estimated before the test period."}</p>`:""}
   <details class="strategy-method"><summary>${fr?"Période et hypothèses":"Period and assumptions"}</summary><p class="muted">${esc(t(p.period))} · ${esc(t(p.costs))}</p></details>`;
 }
 function showPortfolio(){
   const p=portfolios[swipes.length],fr=window.RM.language==="fr";
+  $("reject").textContent=fr?"✕ Pas de match":"✕ No match";$("like").textContent="♥ Match";
   for(const id of ["like","reject","skip"])$(id).disabled=!p;
   $("undo").disabled=!swipes.length;
   if(historicalDeck&&p&&swipes.length>=12&&!showFullDeck){
@@ -384,7 +393,18 @@ function showPortfolio(){
   const fit=p?.worst_scenario?`<p>${fr?"Scénario le plus défavorable":"Worst scenario"} · ${esc(p.worst_scenario.replaceAll("_"," "))}. ${fr?"Perte simulée":"Simulated loss"} ${pct(p.stress_loss)} / ${pct(mandate.max_stress_loss)} ${fr?"autorisés":"limit"}.</p>`:"";
   $("portfolio").innerHTML=p?"<article>"+detail(p)+fit+`<p class="muted">${swipes.length+1} / ${portfolios.length} · ${shortlist.length} ${fr?"retenues":"retained"}</p></article>`:portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
 }
-function swipe(choice){if(!sessionUnlocked||(historicalDeck&&swipes.length>=12&&!showFullDeck))return;const p=portfolios[swipes.length];if(!p)return;swipes.push(choice);if(choice==="like"){shortlist.push(p);savedBlend=null;}showPortfolio();changed();}
+function strategyVerdict(choice, portfolio){
+  const dialog=$("strategy-verdict");
+  if(typeof dialog?.showModal!=="function")return;
+  const fr=window.RM.language==="fr",matched=choice==="like";
+  dialog.dataset.matched=String(matched);
+  $("verdict-title").textContent=matched?"MATCH !":fr?"PAS DE MATCH":"NO MATCH";
+  $("verdict-strategy").textContent=strategyName(portfolio.name);
+  $("verdict-next").textContent=fr?"Continuer":"Continue";
+  $("verdict-next").onclick=()=>dialog.close();
+  dialog.showModal();
+}
+function swipe(choice){if($("strategy-verdict")?.open||!sessionUnlocked||(historicalDeck&&swipes.length>=12&&!showFullDeck))return;const p=portfolios[swipes.length];if(!p)return;swipes.push(choice);if(choice==="like"){shortlist.push(p);savedBlend=null;}showPortfolio();changed();if(choice==="like"||choice==="dislike")strategyVerdict(choice,p);}
 $("like").onclick=()=>swipe("like");$("reject").onclick=()=>swipe("dislike");$("skip").onclick=()=>swipe("skip");
 $("undo").onclick=()=>{if(!sessionUnlocked||pendingDeck)return;if(swipes.pop()==="like"){const undone=shortlist.pop();confirmed.delete(undone.name);}showPortfolio();changed();};
 function compare(){
@@ -431,8 +451,8 @@ function compare(){
   updateTotal();allocation.append(total);
   const output=document.createElement("div");
   let revision=0;
-  for(const optimized of [false,true]){
-    const button=document.createElement("button");button.textContent=optimized?(fr?"Optimiser le risque":"Optimize risk"):(fr?"Calculer mon allocation":"Evaluate allocation");
+  for(const optimized of (shortlist[0].personalized?[false,true,"goal"]:[false,true])){
+    const button=document.createElement("button");button.textContent=optimized==="goal"?(fr?"Comparer selon mon objectif prioritaire":"Compare for my priority goal"):optimized?(fr?"Optimiser le risque":"Optimize risk"):(fr?"Calculer mon allocation":"Evaluate allocation");
     button.onclick=handle(async()=>{
       const requestRevision=++revision;
       output.replaceChildren();
@@ -440,14 +460,18 @@ function compare(){
       if(!optimized&&Math.abs(inputs.reduce((s,i)=>s+Number(i.value),0)-100)>1e-6)throw Error(fr?"Les allocations doivent totaliser 100 %.":"Allocations must total 100%.");
       output.textContent=t("allocationLoading");
       let result;
-      try{result=await api("match-allocations/"+(optimized?"optimize":"evaluate"),{mandate:fullMandate||mandate,names:shortlist.map(p=>p.name),budgets:inputs.map(i=>Number(i.value)/100),version:shortlist[0].version});}
+      try{result=await api("match-allocations/"+(optimized==="goal"?"goal":optimized?"optimize":"evaluate"),{mandate:fullMandate||mandate,names:shortlist.map(p=>p.name),budgets:inputs.map(i=>Number(i.value)/100),version:shortlist[0].version});}
       catch(e){if(allocation.isConnected&&revision===requestRevision)output.textContent=diagnostic(e.message);throw e;}
       if(!allocation.isConnected||revision!==requestRevision)return;
       if(optimized)inputs.forEach((input,i)=>{input.value=result.budgets[shortlist[i].name]*100;});
       updateTotal();
       savedBlend={signature,budgets:result.budgets};changed();
       output.innerHTML=detail({...result,name:fr?"Portefeuille combiné":"Combined portfolio",period:result.period||"36 synthetic out-of-calibration months"})+`<h3>${fr?"Contributions au risque":"Risk contributions"}</h3>`+Object.entries(result.risk_contributions).map(([name,value])=>`<p>${esc(t(name))}: ${pct(value)}</p>`).join("");
-      if(result.reference_metrics)output.insertAdjacentHTML("beforeend",`<p>60/40 · CAGR ${pct(result.reference_metrics.cagr)} · ${esc(t("vol"))} ${pct(result.reference_metrics.vol)}</p>`);
+      if(result.comparison){
+        const labels=fr?["Mon choix","Variance minimale","Objectif prioritaire"]:["My choice","Minimum variance","Priority goal"];
+        output.insertAdjacentHTML("beforeend",`<h3>${fr?"Comparaison des répartitions":"Allocation comparison"}</h3><p>${result.tested_budgets} ${fr?"répartitions testées":"allocations tested"}</p><table><thead><tr><th></th>${labels.map(label=>`<th>${label}</th>`).join("")}</tr></thead><tbody>${shortlist.map(p=>`<tr><th>${esc(strategyName(p.name))}</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.budgets[p.name])}</td>`).join("")}</tr>`).join("")}<tr><th>Stress</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.stress_loss)}</td>`).join("")}</tr>${result.comparison.goal.goals.map((g,i)=>`<tr><th>${esc(t(g.objective_id))} · ${fr?"Probabilité / déficit":"Probability / deficit"}</th>${Object.values(result.comparison).map(row=>`<td>${row.goals[i].probability==null?"—":pct(row.goals[i].probability)} / ${money(row.goals[i].expected_deficit,"USD")}</td>`).join("")}</tr>`).join("")}</tbody></table>`);
+      }
+      if(result.reference_metrics)output.insertAdjacentHTML("beforeend",`<p>${result.benchmark?esc(strategyName(result.benchmark)):"60/40"} · CAGR ${pct(result.reference_metrics.cagr)} · ${esc(t("vol"))} ${pct(result.reference_metrics.vol)}</p>`);
       if(result.overlap?.length)output.insertAdjacentHTML("beforeend",`<p>${fr?"Positions communes":"Shared holdings"} · ${result.overlap.map(esc).join(", ")}</p>`);
       if(Number.isFinite(result.additional_transfer_fee_fraction))output.insertAdjacentHTML("beforeend",`<p>${fr?"Somme des frais de transfert supplémentaires rapportés aux valeurs mensuelles":"Sum of extra transfer fees relative to monthly NAV"} · ${pct(result.additional_transfer_fee_fraction)} · ${fr?"Turnover annualisé":"Annualized turnover"} ${pct(result.additional_transfer_turnover)}</p>`);
       if(result.correlations&&shortlist.length>1){
@@ -480,7 +504,7 @@ function compare(){
       if(!goals.isConnected||rev!==revision)return;
       const moneyValue=v=>v==null?"—":Number(v).toFixed(0);
       const probability=v=>v==null?"—":pct(v);
-      goalOutput.innerHTML=`<p>${fr?"Simulation conditionnelle · 1 000 trajectoires · référence 60/40":"Conditional simulation · 1,000 paths · 60/40 reference"}</p><table><thead><tr><th>${fr?"Objectif":"Objective"}</th><th>${fr?"Probabilité":"Probability"}</th><th>${fr?"Déficit attendu USD":"Expected deficit USD"}</th><th>${fr?"Prob. référence":"Reference probability"}</th></tr></thead><tbody>${r.matched.goals.map((g,i)=>`<tr><td>${esc(t(g.objective_id))} · ${esc(g.due_date)}</td><td>${probability(g.probability)}</td><td>${moneyValue(g.expected_deficit)}</td><td>${probability(r.reference.goals[i]?.probability)}</td></tr>`).join("")}</tbody></table><p class="muted">${esc(r.warning)}</p>`;
+      goalOutput.innerHTML=`<p>${fr?"Simulation conditionnelle · 1 000 trajectoires":"Conditional simulation · 1,000 paths"}</p><table><thead><tr><th>${fr?"Objectif":"Objective"}</th><th>${fr?"Probabilité":"Probability"}</th><th>${fr?"Déficit attendu USD":"Expected deficit USD"}</th><th>${fr?"Prob. référence":"Reference probability"}</th></tr></thead><tbody>${r.matched.goals.map((g,i)=>`<tr><td>${esc(t(g.objective_id))} · ${esc(g.due_date)}</td><td>${probability(g.probability)}</td><td>${moneyValue(g.expected_deficit)}</td><td>${probability(r.reference.goals[i]?.probability)}</td></tr>`).join("")}</tbody></table><p>${esc(strategyName(r.benchmark||"60/40"))} · ${r.training_months} ${fr?"mois historiques":"historical months"}</p><p class="muted">${esc(r.warning)}</p>`;
     });goals.append(goalButton,goalOutput);area.append(goals);
   }
   if(activePage==="matches"&&historicalDeck){
@@ -563,7 +587,7 @@ document.addEventListener("riskmatch:language",()=>{
 
 // Serialize only the synthetic simulation, not passwords or computed market data.
 function simulationSnapshot() {
-  return {version:1,mandate,fullMandate,answers,index,swipes:pendingDeck?.swipes??swipes,historicalDeck,savedBlend:pendingDeck?.savedBlend??savedBlend,deckAversion,deckIds:pendingDeck?.deckIds??portfolios.map(p=>[p.name,p.version]),activePage:lastSimulationPage,discoverySeed,discoveryVersion,discoveryCurrency,discoveryConsent,responseLocales,discoveryConfidence};
+  return {version:1,mandate,fullMandate,answers,index,swipes:pendingDeck?.swipes??swipes,historicalDeck,savedBlend:pendingDeck?.savedBlend??savedBlend,deckAversion,deckStyle,deckIds:pendingDeck?.deckIds??portfolios.map(p=>[p.name,p.version]),activePage:lastSimulationPage,discoverySeed,discoveryVersion,discoveryCurrency,discoveryConsent,responseLocales,discoveryConfidence};
 }
 function clearSimulation(){
   historicalDeck=true;savedBlend=null;deckAversion=null;showFullDeck=false;pendingDeck=null;deckRequest=null;
@@ -603,10 +627,11 @@ async function restoreSimulation(snapshot){
     nextCards=restored.cards;discoverySeed=restored.seed;discoveryVersion=restored.version;discoveryCurrency=restored.currency;discoveryConsent=true;
   }else if(nextIndex>0){nextCards=await api("cards");discoveryConsent=true;}
   historicalDeck=snapshot.historicalDeck??!snapshot.swipes.length;
+  deckStyle=snapshot.deckStyle||"000";
   deckAversion=snapshot.deckAversion??null;
   const needDeck=snapshot.swipes.length||["explore","compare","matches"].includes(snapshot.activePage);
   let nextPortfolios=[];
-  if(needDeck&&(!fullMandate||mandateReport.demo_eligible)){
+  if(needDeck&&(!fullMandate||(canMatch(mandateReport)&&(deckAversion!==null||mandateReport.personalized_eligible===undefined)))){
     try{nextPortfolios=await fetchDeck(fullMandate||nextMandate);}
     catch(e){
       if(!historicalDeck||!["serverOutdated","networkError"].includes(e.message))throw e;
@@ -633,7 +658,8 @@ async function restoreSimulation(snapshot){
   else{window.MandateForm.reset();const f=$("form");f.querySelector('[name="currency"]').value="USD";f.elements.capital.value=mandate.capital;f.elements.cash.value=mandate.capital;f.elements.loss_capacity_amount.value=mandate.capital*mandate.max_stress_loss;f.elements.stress_loss.value=mandate.max_stress_loss*100;f.elements.loss_budget.value=mandate.max_stress_loss*100;}
   const target=["home","mandate","discovery","universe","sources","explore","compare","matches"].includes(snapshot.activePage)?snapshot.activePage:"home";
   if(pendingDeck)return "home";
-  return fullMandate&&!mandateReport.demo_eligible&&["explore","compare","matches"].includes(target)?"mandate":target;
+  if(fullMandate&&mandateReport?.personalized_eligible===true&&deckAversion===null&&["explore","matches"].includes(target))return "discovery";
+  return fullMandate&&!canMatch(mandateReport)&&["explore","compare","matches"].includes(target)?"mandate":target;
 }
 async function enterSavedStudio(target){
   setSaveSession(true);

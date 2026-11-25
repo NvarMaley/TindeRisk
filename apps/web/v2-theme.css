@@ -369,3 +369,23 @@ input { color: var(--pearl); background: #0c2535; border: 1px solid var(--rim); 
     to { opacity: 1; translate: 0 0; }
   }
 }
+
+/* A native modal keeps the next strategy out of the keyboard sequence. */
+#strategy-verdict[open]{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;overflow:hidden;display:grid;place-items:center;text-align:center;color:#fff;background:radial-gradient(ellipse at 50% 44%,#296f72 0,#104552 45%,#061f33 100%)}
+#strategy-verdict::backdrop{background:#092a37}
+.verdict-sea{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.verdict-sea i{position:absolute;left:-45vw;top:60%;width:190vw;height:190vw;border-radius:44%;background:linear-gradient(125deg,#58dec6aa,#3c8eaa99);animation:verdict-wave 8s linear infinite}
+.verdict-sea i:nth-child(2){top:65%;border-radius:42%;background:#72f5d550;animation-duration:12s;animation-direction:reverse}
+.verdict-sea i:nth-child(3){top:72%;background:#165b7d99;animation-delay:-3s}
+.verdict-content{position:relative;display:grid;justify-items:center;gap:1rem;padding:1.5rem}
+.verdict-content img{height:clamp(5rem,22vh,13rem);filter:drop-shadow(0 1rem 1.5rem #032b38);animation:verdict-cherry .85s cubic-bezier(.2,.85,.28,1.2) both}
+.verdict-content strong{font:900 clamp(3rem,13vw,11rem)/.95 "Archivo Black",sans-serif;letter-spacing:-.055em;color:#fff2ec;text-shadow:0 .055em #a62b5a;animation:verdict-type .55s ease-out both}
+.verdict-content span{font-size:clamp(1rem,3vw,1.6rem)}
+.verdict-content button{margin-top:1rem;color:#123946;background:#edfff8}
+#strategy-verdict[data-matched="false"]{background:#183a49}
+#strategy-verdict[data-matched="false"] .verdict-sea{display:none}
+#strategy-verdict[data-matched="false"] strong{font-size:clamp(2rem,9vw,6rem);text-shadow:none}
+@keyframes verdict-wave{to{transform:rotate(360deg)}}
+@keyframes verdict-cherry{from{transform:translateY(35vh) rotate(-24deg) scale(.35);opacity:0}65%{transform:translateY(-2vh) rotate(9deg) scale(1.08)}to{transform:none;opacity:1}}
+@keyframes verdict-type{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#strategy-verdict *{animation:none}}

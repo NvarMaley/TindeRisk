@@ -109,7 +109,12 @@ def cards(root, profile, aversion=None, goals=()):
 
 def blend(root,profile,names,budgets,optimized):
     rows,split,reference = catalog(root)
-    eligible = {p['name'] for p in cards(root,profile)}
+    return blend_rows(profile,names,budgets,optimized,rows,split,reference,VERSION,PERIOD,COSTS)
+
+
+def blend_rows(profile,names,budgets,optimized,rows,split,reference,version,period,costs):
+    eligible = {name for name, (_, shocks, _) in rows.items()
+                if max(0., -min(shocks.values())) <= profile.max_stress_loss + 1e-10}
     if not isinstance(names,list) or not names or len(names)!=len(set(names)) or not set(names)<=eligible:
         raise ValueError('Ineligible or stale selection')
     paths = np.column_stack([rows[k][2] for k in names])
@@ -143,7 +148,7 @@ def blend(root,profile,names,budgets,optimized):
     denom=np.sqrt(np.outer(sleeve_cov.diagonal(),sleeve_cov.diagonal()))
     correlations=np.divide(sleeve_cov,denom,out=np.zeros_like(sleeve_cov),where=denom>0)
     overlap=[a for a in weights if sum(v*rows[k][0][a]>1e-8 for k,v in zip(names,alpha))>1]
-    return dict(status='historical_research',version=VERSION,period=PERIOD,costs=COSTS,
+    return dict(status='historical_research',version=version,period=period,costs=costs,
                 budgets=dict(zip(names,alpha.tolist())),weights=weights,metrics=metrics(net[:,None],[1]),
                 allocation_metrics_version="net-sleeve-transfer-v1",
                 additional_transfer_fee_fraction=float(fees.sum()),additional_transfer_turnover=float(turnover.mean()*12),

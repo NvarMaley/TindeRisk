@@ -233,11 +233,40 @@ class Evidence:
             call("matching/prepare", {"mandate": self.mandate})
             cards = call("matching/cards", {"mandate": self.mandate, "aversion": self.aversion})
             assert len(cards) >= 2
+            alternative_score = 1 if self.aversion > 15 else 30
+            alternative = call("matching/cards", {"mandate": self.mandate, "aversion": alternative_score})
+            first_utility = next(c for c in cards if "mean_variance_utility" in [c["name"], *c.get("equivalent_methods", [])])
+            other_utility = next(c for c in alternative if "mean_variance_utility" in [c["name"], *c.get("equivalent_methods", [])])
+            assert first_utility["version"] != other_utility["version"]
+            assert first_utility["weights"] != other_utility["weights"]
+            import copy
+            restricted = copy.deepcopy(self.mandate)
+            restricted["constraints"]["allowed_assets"] = ["treasury", "cash"]
+            restricted["constraints"]["max_asset_weight"]["value"] = .25
+            restricted["constraints"]["volatility"]["value"] = .07
+            restricted["constraints"]["stress_loss"]["value"] = .08
+            treasury = call("matching/cards", {"mandate": restricted, "aversion": 27})
+            assert treasury
+            for candidate in treasury:
+                assert candidate["stress_loss"] <= .08 + 1e-8
+                assert candidate["estimated_volatility"] <= .07 + 1e-7
+                assert all(value <= .25 + 1e-8 for value in candidate["weights"].values())
+                assert all(value <= 1e-8 for name, value in candidate["weights"].items()
+                           if name not in {"BIL", "SHY", "IEF", "TLT", "TIP", "USD cash"})
+            import pandas as pd
+            display(pd.DataFrame({"Original risk score": {
+                "score": self.aversion, "stress": first_utility["stress_loss"],
+                "volatility": first_utility["estimated_volatility"], "cash": first_utility["weights"]["USD cash"]},
+                "Alternative risk score": {
+                "score": alternative_score, "stress": other_utility["stress_loss"],
+                "volatility": other_utility["estimated_volatility"], "cash": other_utility["weights"]["USD cash"]}}))
             self.selection = {"mandate": self.mandate, "version": cards[0]["version"],
                               "names": [c["name"] for c in cards[:2]], "budgets": [.6, .4]}
             manual = call("match-allocations/evaluate", self.selection)
             optimized = call("match-allocations/optimize", self.selection)
-            for result in (manual, optimized):
+            goal_mix = call("match-allocations/goal", self.selection)
+            assert goal_mix["comparison"]["goal"]["score"] >= goal_mix["comparison"]["manual"]["score"]
+            for result in (manual, optimized, goal_mix):
                 assert abs(sum(result["weights"].values()) - 1) < 1e-7
                 assert result["stress_loss"] <= .20 + 1e-8
             import pandas as pd
