@@ -1,0 +1,9 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+test('Hierarchical report cannot cross saves and renders dendrogram',async()=>{
+ const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',value:'',checked:false});return nodes.get(id);};const ctx={document:{getElementById:$},window:{RM:{language:'fr'}}};vm.runInNewContext(fs.readFileSync(path.resolve(__dirname,'../../apps/web/hierarchical.js'),'utf8'),ctx);
+ const view=ctx.window.HierarchicalView;const form=()=>{for(const [k,v] of Object.entries({'hier-scope':'core','hier-currency':'USD','hier-linkage':'average','hier-clusters':'2','hier-cap':'65','hier-budget':'equal_asset','hier-cost':'10'}))$(k).value=v;};
+ let release;view.mount(()=>new Promise(r=>release=r),null);form();const pending=$('hier-run').onclick();view.clear();release({status:'infeasible',reason:'fixture'});await pending;assert.doesNotMatch($('hierarchical-panel').innerHTML,/fixture/);
+ const row={id:'A',ticker:'A',cluster:1,weight:.5,risk_share:.5};const report={status:'experimental',asset_count:2,observations:40,currency:'USD',start:'2020-01-01',end:'2023-12-31',shrinkage:.2,unverified_mandate_constraints:[],cluster_count:2,tree:{order:[0,1],links:[[0,1,.6,2]],cluster_labels:[1,2],labels:['A','B'],duplicate_pair_count:0},clusters:[{id:1,size:1},{id:2,size:1}],models:{risk_parity:{status:'optimal',top_weights:[row],holdings:[row],cluster_weights:[.5,.5],cluster_risk_shares:[.5,.5]}},sensitivity:[],holdout:{train_months:32,test_months:8,rows:[]},stress:{},cost_bps:10};
+ view.mount(async()=>report,null);form();await $('hier-run').onclick();assert.match($('hierarchical-panel').innerHTML,/Dendrogramme de corrélation/);assert.match($('hierarchical-panel').innerHTML,/Contributions|contributions/);
+ ctx.window.RM.language='en';view.render();assert.match($('hierarchical-panel').innerHTML,/Correlation dendrogram/);
+});

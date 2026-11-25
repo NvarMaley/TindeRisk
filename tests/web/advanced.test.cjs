@@ -1,0 +1,9 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+test('Advanced report is save-scoped and renders resampling trade-off',async()=>{
+ const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',value:'',checked:false});return nodes.get(id);};const ctx={document:{getElementById:$},window:{RM:{language:'fr'}}};vm.runInNewContext(fs.readFileSync(path.resolve(__dirname,'../../apps/web/advanced.js'),'utf8'),ctx);
+ const view=ctx.window.AdvancedView;const form=()=>{for(const [k,v] of Object.entries({'adv-scope':'core','adv-currency':'USD','adv-cap':'65','adv-lambda':'3','adv-penalty':'.1','adv-cost':'10','adv-draws':'8','adv-scale':'1','adv-dro':'.25','adv-eta':'.03','adv-fraction':'50','adv-floor':'1'}))$(k).value=v;};
+ let release;view.mount(()=>new Promise(r=>release=r),null);form();const pending=$('adv-run').onclick();view.clear();release({status:'infeasible',reason:'fixture'});await pending;assert.doesNotMatch($('advanced-panel').innerHTML,/fixture/);
+ const r={status:'experimental',asset_count:2,observations:40,currency:'USD',start:'2020-01-01',end:'2023-12-31',configuration:{draws:8,max_weight:.65,cost_bps:10},block_months:3,seed:17,mean_half_width_quantiles:[0,.01,.02,.03],covariance_radius:.02,wasserstein_radius:.03,unverified_mandate_constraints:[],models:{robust_utility:{status:'optimal'}},resampled_utility_frontier:[{lambda:1,volatility:.1,expected_return:.2},{lambda:3,volatility:.08,expected_return:.1}],sensitivity:[],holdout:{train_months:32,test_months:8,rows:[]}};
+ view.mount(async()=>r,null);form();await $('adv-run').onclick();assert.match($('advanced-panel').innerHTML,/Compromis utilité rééchantillonnée/);assert.match($('advanced-panel').innerHTML,/Wasserstein/);
+ ctx.window.RM.language='en';view.render();assert.match($('advanced-panel').innerHTML,/Resampled utility trade-off/);
+});

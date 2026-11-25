@@ -1,0 +1,11 @@
+root,price_unit,usd_per_price_unit,outright_tick,usd_per_tick,reference_review_date,source
+ES,index points,50,0.25,12.5,2026-11-24,https://www.cmegroup.com/content/dam/cmegroup/education/files/a-traders-guide-to-futures.pdf
+NQ,index points,20,0.25,5.0,2026-11-24,https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.contractSpecs.html
+RTY,index points,50,0.1,5.0,2026-11-24,https://www.cmegroup.com/education/courses/learn-about-e-mini-russell-2000-futures/introduction-to-e-mini-russell-2000
+ZT,points per 100 face,2000,0.00390625,7.8125,2026-11-24,https://www.cmegroup.com/trading/interest-rates/basics-of-us-treasury-futures.html
+ZF,points per 100 face,1000,0.0078125,7.8125,2026-11-24,https://www.cmegroup.com/trading/interest-rates/basics-of-us-treasury-futures.html
+ZN,points per 100 face,1000,0.015625,15.625,2026-11-24,https://www.cmegroup.com/trading/interest-rates/basics-of-us-treasury-futures.html
+ZB,points per 100 face,1000,0.03125,31.25,2026-11-24,https://www.cmegroup.com/trading/interest-rates/basics-of-us-treasury-futures.html
+CL,USD per barrel,1000,0.01,10.0,2026-11-24,https://www.cmegroup.com/education/courses/introduction-to-futures/calculating-futures-contract-profit-or-loss
+GC,USD per troy ounce,100,0.1,10.0,2026-11-24,https://www.cmegroup.com/markets/metals/precious/gold/specs
+6S,USD per CHF,125000,5e-05,6.25,2026-11-24,https://www.cmegroup.com/markets/fx/g10/swiss-franc/specs
