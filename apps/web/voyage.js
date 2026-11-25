@@ -59,3 +59,19 @@ document.addEventListener("pointerdown",event=>{
   document.body.append(ring);
   setTimeout(()=>ring.remove(),850);
 },{passive:true});
+
+// The home example illustrates budget arithmetic independently of a saved mandate.
+(() => {
+  const slider=document.getElementById("home-share");
+  function update(){
+    const share=Number(slider.value);
+    const fmt=new Intl.NumberFormat(window.RM.language==="fr"?"fr-CH":"en-US");
+    const label=n=>n+" % · "+fmt.format(100*n)+" USD";
+    document.getElementById("home-first").textContent=label(share);
+    document.getElementById("home-second").textContent=label(100-share);
+    slider.setAttribute("aria-valuetext",label(share));
+  }
+  slider.addEventListener("input",update);
+  document.addEventListener("riskmatch:language",update);
+  update();
+})();
