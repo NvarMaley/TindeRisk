@@ -97,7 +97,7 @@ document.addEventListener("pointerdown",event=>{
       entry.target.classList.add("atlas-enter");
       reveal.unobserve(entry.target);
     }
-  },{rootMargin:"0px 0px -6% 0px",threshold:.08});
+  },{rootMargin:"0px 0px -8% 0px",threshold:0});
   const sections=Array.from(atlas.querySelectorAll(":scope > section"));
   const links=Array.from(atlas.querySelectorAll(".atlas-nav a"));
   const mark=()=>{
@@ -111,7 +111,7 @@ document.addEventListener("pointerdown",event=>{
   const position=new IntersectionObserver(mark,{rootMargin:"-40% 0px -57% 0px"});
   for(const section of sections){
     position.observe(section);
-    for(const node of section.querySelectorAll("h2,.atlas-savings ol,.atlas-savings li,.atlas-choice,.atlas-flow li,#guide-pie,.atlas-key,.atlas-readout dt,.atlas-readout dd")){
+    for(const node of section.querySelectorAll("h2,.atlas-savings ol,.atlas-choice,.atlas-flow li,#guide-pie,.atlas-key,.atlas-readout dt,.atlas-readout dd")){
       if(node.parentElement.matches(".atlas-flow,.atlas-savings ol")){
         const index=Array.from(node.parentElement.children).indexOf(node);
         node.style.setProperty("--beat",Math.min(index*110,330)+"ms");
@@ -119,4 +119,56 @@ document.addEventListener("pointerdown",event=>{
       reveal.observe(node);
     }
   }
+
+  // A decorative cherry rolls along the chapter edge as the reader scrolls.
+  const rider=document.createElement("div");
+  rider.className="atlas-rider";
+  rider.setAttribute("aria-hidden","true");
+  rider.innerHTML='<img src="./assets/cherry.png" alt="">';
+  for(let index=0;index<9;index++){
+    const fruit=document.createElement("img");
+    fruit.src="./assets/cherry.png";fruit.alt="";fruit.className="atlas-fragment";
+    const angle=index*2*Math.PI/9;
+    fruit.style.setProperty("--dx",Math.cos(angle)*100+"px");
+    fruit.style.setProperty("--dy",Math.sin(angle)*100+"px");
+    fruit.style.setProperty("--spin",(index*83-180)+"deg");
+    rider.append(fruit);
+  }
+  atlas.append(rider);
+  const motion=matchMedia("(prefers-reduced-motion: reduce)");
+  let frame=0,lastChapter=-1,finished=false;
+  function follow(){
+    frame=0;
+    if(!atlas.getClientRects().length){rider.hidden=true;return;}
+    mark();
+    if(motion.matches){rider.hidden=true;return;}
+    const rect=atlas.getBoundingClientRect();
+    const line=innerHeight*.65;
+    const distance=Math.max(0,Math.min(rect.height-65,line-rect.top));
+    const visible=rect.top<line&&rect.bottom>line;
+    rider.hidden=!visible;
+    if(!visible)return;
+    const chapter=sections.reduce((n,section,i)=>section.getBoundingClientRect().top<=line?i:n,0);
+    const progress=Math.max(0,Math.min(1,distance/Math.max(1,rect.height-65)));
+    rider.style.setProperty("--travel",distance+"px");
+    rider.style.setProperty("--roll",progress*1440+"deg");
+    if(chapter!==lastChapter){
+      lastChapter=chapter;
+      rider.classList.remove("atlas-hop");
+      rider.firstElementChild.getBoundingClientRect();
+      rider.classList.add("atlas-hop");
+    }
+    const finale=sections[sections.length-1].getBoundingClientRect();
+    const reached=finale.top<line&&line-finale.top>Math.min(finale.height*.4,innerHeight*.3);
+    if(reached&&!finished){finished=true;rider.classList.add("atlas-burst");}
+    else if(!reached&&finished){finished=false;rider.classList.remove("atlas-burst");}
+  }
+  function schedule(){if(!frame)frame=requestAnimationFrame(follow);}
+  window.addEventListener("scroll",schedule,{passive:true});
+  window.addEventListener("resize",schedule);
+  motion.addEventListener("change",schedule);
+  position.observe(atlas);
+  const visibility=new IntersectionObserver(schedule);
+  visibility.observe(atlas);
+  schedule();
 })();

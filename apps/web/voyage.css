@@ -142,6 +142,19 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 
 /* Scroll chapters float over the original photograph. Only text gets a local scrim. */
 .home-atlas .atlas-nav{position:sticky;top:.5rem;z-index:4;justify-content:center;gap:.3rem;width:fit-content;max-width:100%;margin:auto;padding:.35rem;border:1px solid #bcf6e93a;border-radius:2rem;background:#092737ed;backdrop-filter:blur(14px)}
+.home-atlas{position:relative}
+.atlas-rider{position:absolute;top:0;right:-3.2rem;width:3rem;height:3rem;transform:translateY(var(--travel,0px));pointer-events:none;z-index:5}
+.atlas-rider[hidden]{display:none}
+.atlas-rider img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 7px #1e102c8a)}
+.atlas-rider>img:first-child{transform:rotate(var(--roll,0deg))}
+.atlas-hop>img:first-child{animation:cherry-hop .8s cubic-bezier(.25,.7,.35,1)}
+.atlas-fragment{opacity:0}
+.atlas-burst>img:first-child{opacity:0}
+.atlas-burst .atlas-fragment{animation:cherry-burst 1.5s ease-out both}
+@keyframes cherry-hop{0%{translate:0 -65px;scale:.8 1.15}48%{translate:0 0;scale:1.25 .75}68%{translate:0 -23px;scale:.92 1.08}85%{translate:0 0;scale:1.1 .9}100%{translate:0 0;scale:1}}
+@keyframes cherry-burst{0%{opacity:1;transform:scale(.5)}22%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--spin)) scale(.28)}}
+@media(max-width:850px){.atlas-rider{right:0; width:1.8rem;height:1.8rem;z-index:0;opacity:.8}.home-atlas>section{padding-right:1.6rem}}
+@media(prefers-reduced-motion:reduce){.atlas-rider{display:none!important}}
 .atlas-nav a{padding:.4rem .8rem;border-radius:2rem;text-decoration:none}
 .atlas-nav a[aria-current=location]{background:#acf1dd;color:#092c37}
 .home-atlas>section{position:relative;isolation:isolate;min-height:78svh;padding-block:clamp(4rem,13vh,9rem);border:0;scroll-margin-top:5rem}
@@ -164,7 +177,7 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
   .home-atlas .atlas-nav{top:.25rem;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;width:100%;box-sizing:border-box;scrollbar-width:thin}.atlas-nav a{white-space:nowrap;font-size:.8rem;padding:.35rem .5rem}
 }
 @media(prefers-reduced-motion:no-preference){
-  .atlas-enter{animation:chapter-rise .75s cubic-bezier(.19,.8,.22,1) both;animation-delay:var(--beat,0ms)}
+  .atlas-enter{animation:chapter-rise .65s cubic-bezier(.19,.8,.22,1) backwards;animation-delay:var(--beat,0ms)}
   .atlas-enter#guide-pie{animation-name:chapter-turn}
   .atlas-savings ol{position:relative;border-left-color:transparent}
   .atlas-savings ol::before{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--foam);transform-origin:top}
