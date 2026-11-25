@@ -74,7 +74,7 @@
     return g?text(g[1],g[2]):"";
   }
   function loader(){
-    return `<div class="j-loader" role="status"><div class="j-orbit"><i></i><i></i><img src="./assets/cherry.png" alt=""></div><h2>${text("Building your portfolios","Tes portefeuilles prennent forme")}</h2><p>${text("We use your goals, risk limits and available assets to calculate the cards.","Tes objectifs, tes limites de perte et les actifs disponibles servent à calculer tes cartes.")}</p><output data-elapsed></output></div>`;
+    return `<div class="j-loader" role="status"><div class="j-orbit"><i></i><i></i><img src="./assets/cherry.png" alt=""></div><h2>${text("Building your portfolios","Tes portefeuilles prennent forme")}</h2><p>${text("We replay each method at past decision dates and check your limits. The first calculation for a broad mandate can take over a minute.","Nous recalculons chaque méthode aux dates historiques et vérifions tes limites. Pour un mandat large, le premier calcul peut dépasser une minute.")}</p><output data-elapsed></output></div>`;
   }
   function selectPoint(fig,i){
     fig.querySelector("select").selectedIndex=i;

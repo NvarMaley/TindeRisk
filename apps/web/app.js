@@ -119,6 +119,8 @@ function renderMandateReport(){
   if(mandateReport)comparison=`<h3>${esc(t("compareBefore"))}</h3><p>${esc(t("effectiveStress"))}: ${pct(mandateReport.effective_stress_limit)} → ${pct(r.effective_stress_limit)} · ${esc(t("goalCount"))}: ${mandateReport.goals.length} → ${r.goals.length} · ${esc(t("capital"))}: ${esc(money(fullMandate.capital,fullMandate.currency))} → ${esc(cash(p.capital))}</p><p>${esc(t("mandateGoals"))}: ${esc(mandateReport.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${money(g.target_nominal_base,mandateReport.currency)})`).join(" · "))} → ${esc(r.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${cash(g.target_nominal_base)})`).join(" · "))}</p>`;
   const messages=(items,cls)=>items.map(k=>`<p class="${cls}">• ${esc(diagnostic(k))}</p>`).join("");
   area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${canMatch(r)&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(canMatch(r)&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.personalized_reasons??r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
+  if(r.personalized_eligible && r.dynamic_overlay_available===false)
+    area.insertAdjacentHTML("beforeend","<p>"+esc(t("dynamicUnavailableMandate"))+"</p>");
   area.hidden=false;
   $("confirm-mandate").onclick=handle(confirmMandate);
 }
@@ -290,7 +292,16 @@ cardStage.addEventListener("lostpointercapture",event=>finishDiscoveryDrag(event
 let deckStyle="000";
 let historicalDeck=true, savedBlend=null,deckAversion=null,showFullDeck=false,pendingDeck=null;
 async function fetchDeck(raw){
-  try{return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle}) : api("candidates",raw));}
+  try{
+    if(raw.schema_version==="2.0.0"){
+      const health=await api("health");
+      if(health.matching_engine!=="personalized-v3")throw Error("serverOutdated");
+      const deck=await api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle});
+      if(!Array.isArray(deck)||deck.some(c=>!c.personalized||!c.version?.startsWith("personalized-v3:")))throw Error("serverOutdated");
+      return deck;
+    }
+    return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle}) : api("candidates",raw));
+  }
   catch(e){if(historicalDeck&&e.message==="Not found")throw Error("serverOutdated");throw e;}
 }
 let deckRequest=null;
@@ -390,11 +401,12 @@ function detail(p){
   ${window.Journey?.goals(p.goal_projection)||""}
   <details><summary>${fr?"Comment lire les chiffres ?":"How do I read the numbers?"}</summary><dl>${metrics.map(([key,value],i)=>`<dt>${esc(t(key))} · ${pct(value)}</dt><dd>${(fr?["Croissance annuelle moyenne composée sur la période testée.","Amplitude habituelle des fluctuations, ramenée à une année.","Plus grand recul entre un sommet et le point bas suivant.","Perte estimée dans le choc le plus défavorable testé."]:["Compound annual growth over the test period.","Typical fluctuations expressed on an annual scale.","Largest historical fall from a previous high.","Estimated loss under the worst shock tested."])[i]}</dd>`).join("")}</dl><p>${fr?"Perte moyenne pendant les 5 % de mois les plus défavorables":"Average loss across the worst 5% of months"} · ${pct(p.metrics.es95_monthly)}</p></details>
   <details><summary>${fr?"Voir les placements":"View holdings"} (${positions.length})</summary><div class="holdings-list">${holdingRows(positions)}</div></details>
+  ${p.sensitivity_ranks?`<p>${fr?"Rang selon la priorité donnée à la sécurité":"Rank by emphasis on safety"} · ${p.sensitivity_ranks.join(" / ")}. ${fr?"Comparaison entre moins de poids, ton réglage et plus de poids pour la sécurité (±10 points).":"Less emphasis, your setting, and more emphasis (±10 percentage points)."}</p>`:""}
   ${p.income_preference_unmeasured?`<p>${fr?"Les versements de revenu ne sont pas mesurés.":"Income distributions are unmeasured."}</p>`:""}
-  ${p.equivalent_methods?.length?`<details><summary>${fr?"Autres méthodes proches":"Similar methods"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}
+  ${p.equivalent_methods?.length?`<details><summary>${fr?"Méthodes aux poids actuels proches · la courbe représente uniquement la méthode affichée":"Similar current holdings · the chart represents the displayed method only"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}
   ${p.personalized?`<p class="muted">${fr?"Univers admissible":"Eligible universe"} : ${p.eligible_assets}/${p.universe_size} · ${fr?"Rendement estimé":"Estimated return"} : ${pct(p.expected_return)} · ${fr?"Volatilité estimée":"Estimated volatility"} : ${pct(p.estimated_volatility)}</p>
-  ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}</p>`).join("")}</details>`:""}
-  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La performance historique est calculée sur des pondérations estimées avant la période de test.":"Historical performance uses weights estimated before the test period."}</p>`:""}
+  ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"} · ${p.development_months} ${fr?"mois de données rééchantillonnés":"months of resampled history"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}${g.window_probabilities?.every(Number.isFinite)?` · ${fr?"Probabilité sur chacune des deux moitiés de l’historique":"Probability using each half of the history"} ${g.window_probabilities.map(pct).join(" / ")}`:""}</p>`).join("")}</details>`:""}
+  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La courbe suit cette méthode réestimée chaque trimestre, avec un mois de délai. Les actions sont sélectionnées à chaque date. La liste des ETF est rétrospective et les dates de publication des rendements sont incomplètes.":"The curve re-estimates this method quarterly with a one-month lag. Stock membership is dated; the ETF list is retrospective and return publication dates are incomplete."}</p>`:""}
   <details class="strategy-method"><summary>${fr?"Période et hypothèses":"Period and assumptions"}</summary><p class="muted">${esc(t(p.period))} · ${esc(t(p.costs))}</p></details>`;
 }
 function showPortfolio(){
@@ -517,7 +529,7 @@ function compare(){
   const output=document.createElement("div");
   let revision=0;
   for(const optimized of (shortlist[0].personalized?[false,true,"goal"]:[false,true])){
-    const button=document.createElement("button");button.textContent=optimized==="goal"?(fr?"Comparer selon mon objectif prioritaire":"Compare for my priority goal"):optimized?(fr?"Optimiser le risque":"Optimize risk"):(fr?"Calculer mon allocation":"Evaluate allocation");
+    const button=document.createElement("button");button.textContent=optimized==="goal"?(fr?"Comparer selon mon objectif prioritaire":"Compare for my priority goal"):optimized?(fr?"Minimiser les fluctuations historiques":"Minimize historical volatility"):(fr?"Calculer mon allocation":"Evaluate allocation");
     button.onclick=handle(async()=>{
       const requestRevision=++revision;
       output.replaceChildren();
@@ -574,6 +586,11 @@ function compare(){
   }
   if(activePage==="matches"&&historicalDeck){
     const dynamic=document.createElement("article");
+    if(fullMandate && mandateReport?.dynamic_overlay_available===false){
+      dynamic.textContent=t("dynamicUnavailableMandate");
+      area.append(dynamic);
+      return;
+    }
     dynamic.innerHTML=`<h2>${fr?"Gestion dynamique":"Dynamic management"}</h2><p>${fr?"Comparer 10 politiques sur les mêmes rendements historiques du portefeuille sélectionné.":"Compare 10 policies on the same historical returns of the selected portfolio."}</p>`;
     const run=document.createElement("button"), result=document.createElement("div");
     const costLabel=document.createElement("label"),costInput=document.createElement("input");

@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0.0",
   "currency": "USD",
-  "as_of": "2026-11-24",
-  "horizon_date": "2036-11-24",
+  "as_of": "2026-11-25",
+  "horizon_date": "2036-11-25",
   "chf_per_usd": null,
   "inflation": 0.02,
   "capital": 100000,
@@ -17,7 +17,7 @@
   "withdrawal_monthly": 0,
   "loss_capacity_amount": 20000,
   "dated_flows": [],
-  "goals": [{"objective_id": "OBJ10", "due_date": "2036-11-24", "amount": 240000, "currency": "USD", "basis": "nominal", "priority": 3, "shortfall_penalty": 1, "funding": true}],
+  "goals": [{"objective_id": "OBJ10", "due_date": "2036-11-25", "amount": 240000, "currency": "USD", "basis": "nominal", "priority": 3, "shortfall_penalty": 1, "funding": true}],
   "knowledge": {"equity": "basic", "treasury": "basic", "futures": "none", "leverage": "none", "short": "none"},
   "experience": {"equity": "limited", "treasury": "limited", "futures": "none", "leverage": "none", "short": "none"},
   "constraints": {

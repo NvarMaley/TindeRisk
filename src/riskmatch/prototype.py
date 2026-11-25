@@ -1,6 +1,7 @@
 """Shared research prototype. All returns are synthetic, never investment advice."""
 from dataclasses import dataclass
 import numpy as np
+from riskmatch.analytics.tail_risk import empirical
 
 ASSETS = ("US equities", "US Treasuries", "US REIT", "USD cash")
 VERSION = "synthetic-v1"
@@ -87,10 +88,9 @@ def metrics(returns, weights):
     r = returns @ np.asarray(weights)
     nav = np.r_[1, np.cumprod(1+r)]
     dd = nav / np.maximum.accumulate(nav) - 1
-    losses = np.sort(-r)
-    tail_n = max(1, int(np.ceil(.05*len(r))))
+    tail = empirical(-r, .95)
     return dict(cagr=float(nav[-1]**(12/len(r))-1), vol=float(r.std(ddof=1)*np.sqrt(12)),
-                drawdown=float(dd.min()), es95_monthly=float(losses[-tail_n:].mean()),
+                drawdown=float(dd.min()), es95_monthly=tail["es"],
                 nav=[float(x) for x in nav])
 
 

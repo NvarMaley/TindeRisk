@@ -22,8 +22,7 @@ References:
 The frozen common USD monthly total-return panel has 575 instruments (549
 stocks and 26 ETFs/ETPs) and 100 continuous months ending December 2025.
 The broad catalogue has 1,474 records, including instruments with incompatible
-or insufficient common history. The model consumes the common forecast
-vector, dated factor scores, membership, market caps, historical returns
+or insufficient common history. The current candidate panel uses the common archive identifiers, dated factor scores, membership, market caps, historical returns
 and macro data. The server caches these common inputs in memory. No raw
 dataset is duplicated in Git or fetched during a client session.
 
@@ -40,23 +39,16 @@ Every supported full mandate now generates its own weights:
    evaluate the entire eligible set. Matrix-heavy optimizers retain eligible
    ETFs and up to the 64-asset market-cap-ranked working set. This controls
    numerical cost; it is not an exhaustive search of all subsets.
-5. Fit shrinkage covariance and a regularized expected-return vector. Current
-   regularized utility and Black–Litterman targets may use the dated common
-   forecast vector, combined with historical means; historical segments use
-   only earlier returns. Other methods keep their own estimators and signals.
+5. Fit shrinkage covariance and regularized trailing means. The same estimator is used for current and historical targets. Factor and macro rules use their dated signals.
 6. Apply funded budget, bounds, hard stress and volatility checks. The
    directly constrained utility candidate solves a quadratic objective with
    scenario inequalities. Other strategy targets may be blended with a
    feasible defensive reference to respect modeled limits. The overlay is a
    feasible adjustment, rather than a globally optimal constrained solution
    for every individual strategy.
-7. Fit historical targets separately at the development and holdout origins.
-   Simulate monthly fixed-target rebalancing with 10 bp modeled costs and
-   chronological separation. Current weights are constructed at the archive
-   end; the card's holdout performance represents the earlier fitted rule,
-   not a replay of the current weights over past data.
+7. Refit historical targets quarterly on the preceding available monthly window. Historical stocks come from dated membership in the return archive including names outside the current panel. Use a one-month execution delay, rebalance monthly, charge 10 bp on traded securities, and carry holdings across the development/holdout boundary. Unpriced held instruments or an infeasible dated target disqualify the historical path. Coverage therefore also depends on data quality.
 8. Assess each candidate on 256 common six-month block-bootstrap scenarios
-   from development returns, using actual dated goals and contribution
+   from development returns, with two additional half-window sensitivity estimates, using actual dated goals and contribution
    schedules. Rank using estimated return, funding shortfall and stress fit.
    Objective-specific simulated scores cover preservation, withdrawal coverage
    (when modeled), conservative, balanced, growth, inflation, excess return

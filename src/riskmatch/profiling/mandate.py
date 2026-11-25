@@ -336,5 +336,10 @@ def validate_mandate(payload):
         "demo_eligible": not conflicts and not demo_reasons,
         "personalized_eligible": not conflicts and not personalized_reasons,
         "personalized_reasons": personalized_reasons,
+        "dynamic_overlay_available": not (
+            conflicts or personalized_reasons or payload["dated_flows"]
+            or "cash" not in allowed
+            or any(hard(k) and limits[k]["value"] < 1 for k in ("volatility", "max_asset_weight"))
+        ),
         "risk_willingness": "not_measured", "risk_required": "not_estimated",
     }

@@ -15,7 +15,7 @@ import numpy as np
 from scipy.optimize import linprog
 from threadpoolctl import threadpool_limits
 
-from riskmatch.backtesting.baselines import simulate
+from riskmatch.backtesting.mandate_replay import replay
 from riskmatch.backtesting.walk_models import REGISTRY, SIGNED, fit_models
 from riskmatch.optimization.mean_variance_report import aligned, category, regularized_mean
 from riskmatch.profiling.mandate import validate_mandate, add_month
@@ -25,7 +25,7 @@ from riskmatch.simulation.stress_report import scenario_matrix
 from riskmatch.strategies.alternative_report import macro_signals
 from riskmatch.strategies.long_only_report import load_signals, verified_pit
 
-VERSION = "personalized-v2"
+VERSION = "personalized-v3"
 AS_OF = date(2026, 11, 25)
 KEYS = tuple(k for k in REGISTRY if k not in SIGNED)
 LOCK = Lock()
@@ -144,15 +144,27 @@ def adapt_target(weights, reference, upper, shocks, stress_limit, covariance, vo
         return weights
     if reference is None:
         return None
+    direction = weights - reference
+    stress_start = shocks @ reference
+    stress_slope = shocks @ direction
+    variance_start = reference @ covariance @ reference
+    linear = 2 * (reference @ covariance @ direction)
+    quadratic = direction @ covariance @ direction
+    # On this line segment risk is quadratic and scenario P&L is linear.
+    # Compute the coefficients once instead of multiplying a large matrix at every step.
     lo, hi = 0., 1.
     for _ in range(45):
         fraction = (lo + hi) / 2
-        trial = reference + fraction * (weights - reference)
-        if valid_weights(trial, upper, shocks, stress_limit, covariance, vol_limit):
+        trial = reference + fraction * direction
+        variance = variance_start + fraction * (linear + fraction * quadratic)
+        feasible = (trial.min() >= -1e-8 and np.all(trial <= upper + 1e-8)
+                    and np.min(stress_start + fraction * stress_slope) >= -stress_limit - 1e-10
+                    and variance <= vol_limit**2 + 1e-9)
+        if feasible:
             lo = fraction
         else:
             hi = fraction
-    result = reference + lo * (weights - reference)
+    result = reference + max(0., lo - 1e-9) * direction
     return result if valid_weights(result, upper, shocks, stress_limit, covariance, vol_limit) else None
 
 
@@ -176,7 +188,7 @@ def construct(data, mandate, report, aversion, end, origin):
         covariance[np.ix_(active, active)] = LedoitWolf().fit(
             np.column_stack([x, rf])[:, active]).covariance_ * 12
     reference = defensive_reference(bounds, shock_matrix, covariance, loss, vol_limit)
-    forecast = np.array([a["expected_return"] for a in assets]) if end == len(returns) else None
+    forecast = None  # identical trailing estimator at historical and current decisions
     fitted = fit_models(KEYS, x[-60:], rf[-60:], assets, upper, origin, signals,
                         optimizer_limit=64, market_caps=caps.get(origin), lam=lam, seed=24,
                         macro=macro.get(origin), forecast=forecast)
@@ -197,8 +209,10 @@ def construct(data, mandate, report, aversion, end, origin):
         preferred_reference = reference if reference is not None and valid_weights(
             reference, bounds, shock_matrix, preferred, covariance, vol_limit) else None
         if preferred_reference is not None:
-            selected = adapt_target(selected, preferred_reference, bounds, shock_matrix,
-                                    preferred, covariance, vol_limit)
+            preferred_target = adapt_target(selected, preferred_reference, bounds, shock_matrix,
+                                            preferred, covariance, vol_limit)
+            if preferred_target is not None:
+                selected = preferred_target
         # Numerical cleanup is checked again after normalization.
         selected = np.maximum(selected, 0.)
         selected /= selected.sum()
@@ -240,6 +254,9 @@ def construct(data, mandate, report, aversion, end, origin):
                         candidates["constrained_utility"] = adjusted
             if "constrained_utility" not in candidates:
                 diagnostics["constrained_utility"] = result.get("reason", "Constrained solve unavailable")
+    for key in ("defensive_reference", "constrained_utility"):
+        if key not in candidates:
+            diagnostics.setdefault(key, "No feasible defensive reference or funded optimization subset")
     return candidates, diagnostics, scenarios, covariance, int(np.count_nonzero(upper)), lam, risk_weight
 
 
@@ -298,20 +315,14 @@ def _run(root, encoded, aversion, style):
     report = validate_mandate(mandate)
     data = market_data(root)
     assets, intervals, x, rf, data_version, first, split, origins, _, _, _, labels = data
-    # Three independently estimated targets, each before its evaluation interval.
-    development, _, _, _, _, _, _ = construct(data, mandate, report, aversion, first, origins[0])
-    holdout, _, _, _, _, _, _ = construct(data, mandate, report, aversion, split, origins[1])
+    history, failures = replay(root, data, mandate, report, aversion, construct, AS_OF)
     current, unavailable, scenarios, covariance, eligible_count, lam, risk_weight = construct(
         data, mandate, report, aversion, len(x), origins[2])
     assets_with_cash = labels + ["USD cash"]
-    panel = np.column_stack([x, rf])
     date_rows = intervals[first:]
-    shared = development.keys() & holdout.keys() & current.keys()
+    shared = history.keys() & current.keys()
     benchmark = "defensive_reference" if "defensive_reference" in shared else next(iter(sorted(shared)), None)
-    reference = np.concatenate([
-        simulate(panel[i:j], intervals[i:j], weights[benchmark], cost_bps=10)["returns"]
-        for i, j, weights in ((first, split, development), (split, len(x), holdout))
-    ]) if benchmark else np.array([])
+    reference = np.array(history[benchmark]["returns"]) if benchmark else np.array([])
     from riskmatch.analytics.factor_report import factor_report
     from riskmatch.analytics.forecast_batch import batch_report
     input_version = hashlib.sha256(json.dumps([
@@ -328,17 +339,18 @@ def _run(root, encoded, aversion, style):
         raise ValueError("Research scenario horizon exceeds 50 years")
     indices = bootstrap_indices(split-first, months, paths=256, block=6, seed=25)
     cash_paths = rf[first:split][indices]
-    current_mean = regularized_mean(x[-60:], [a["expected_return"] for a in assets])
+    half = (split-first)//2
+    windows = [bootstrap_indices(half, months, paths=256, block=6, seed=25) + offset
+               for offset in (0, split-first-half)]
+    current_mean = regularized_mean(x[-60:])
     expected_returns = np.r_[current_mean, float(np.mean(rf[-60:]) * 12)]
     rows, cards = {}, []
     for name, w in current.items():
-        if name not in development or name not in holdout:
-            unavailable[name] = "No comparable chronological development and holdout result"
+        if name not in history:
+            unavailable[name] = failures.get(name, "No comparable dated historical path")
             continue
-        # Fixed target within each segment, monthly self-financing rebalancing.
-        dev = simulate(panel[first:split], intervals[first:split], development[name], cost_bps=10)
-        test = simulate(panel[split:], intervals[split:], holdout[name], cost_bps=10)
-        returns = np.r_[dev["returns"], test["returns"]]
+        path = history[name]
+        returns = np.array(path["returns"])
         holdings = dict(zip(assets_with_cash, w.tolist()))
         stresses = {key: float(shock @ w) for key, shock in scenarios.items()}
         stress = max(0., -min(stresses.values()))
@@ -348,7 +360,11 @@ def _run(root, encoded, aversion, style):
         goal_summary = [{k: goal[k] for k in ("objective_id", "priority", "probability",
                                               "expected_deficit", "target", "funding")}
                         for goal in projection["goals"]]
-        for summary, goal in zip(goal_summary, projection["goals"]):
+        window_goals = [evaluate(mandate, returns[idx], rf[first:split][idx], report=report)["goals"]
+                        for idx in windows]
+        for j, (summary, goal) in enumerate(zip(goal_summary, projection["goals"])):
+            probabilities = [g[j]["probability"] for g in window_goals]
+            summary["window_probabilities"] = probabilities
             summary["objective_fit"] = objective_fit(goal, lam)
             summary["limitations"] = goal["limitations"]
         measured = [g for g in goal_summary if g["objective_fit"] is not None]
@@ -357,21 +373,21 @@ def _run(root, encoded, aversion, style):
         rows[name] = (holdings, stresses, returns)
         cards.append({"name": name, "version": version, "weights": holdings,
                       "period": f"{intervals[split][0]} – {intervals[-1][1]} · USD",
-                      "costs": "10 bp modeled transactions; monthly fixed-target rebalancing",
+                      "costs": "10 bp on securities traded; quarterly signals, one-month execution lag",
                       "stress_loss": stress, "stress_usd": stress * mandate["capital"],
                       "metrics": metrics(returns[split-first:, None], [1]),
                       "worst_scenario": min(stresses, key=stresses.get),
                       "expected_return": estimate, "estimated_volatility": vol,
-                      "development_turnover": float(dev["annual_one_way_turnover"]),
+                      "development_turnover": float(12*np.mean(path["turnover"][:split-first])),
                       "development_return": float(12 * returns[:split-first].mean()),
                       "eligible_assets": eligible_count, "universe_size": len(assets),
-                      "model_as_of": str(intervals[-1][1]), "goal_projection_paths": 256,
-                      "forecast_source": "Shrinkage of common dated forecast and historical means; historical tests use past-only fallback",
+                      "model_as_of": str(intervals[-1][1]), "goal_projection_paths": 256, "development_months": split-first,
+                      "forecast_source": "Regularized trailing monthly returns at each decision",
                       "goal_projection": goal_summary,
                       "weighted_target_penalty": projection["weighted_target_penalty"],
                       "objective_fit": fit,
                       "risk_aversion_parameter": lam, "personalized": True,
-                      "research_warning": "Retrospective common cohort; holdout targets fitted before holdout, not current weights."})
+                      "research_warning": "Quarterly refit with dated stock membership; retrospective ETF list and unverified release times."})
     # Goal return is a preference, not a guaranteed constraint.
     required = [g["required_return"]["annual_return"] for g in report["goals"]
                 if g["required_return"].get("annual_return") is not None]
@@ -418,6 +434,7 @@ def _run(root, encoded, aversion, style):
             card["fit_score"] += .08 * float(np.mean(style_terms))
         card["soft_constraint_penalty"] = penalty
         card["fit_risk_weight"] = risk_weight
+        card["risk_growth_difference"] = safety - growth
     cards.sort(key=lambda c: (-c["fit_score"], c["name"]))
     for card in cards:
         card["pareto"] = not any(other["stress_loss"] <= card["stress_loss"] and
@@ -445,6 +462,12 @@ def _run(root, encoded, aversion, style):
         else:
             alias["equivalent_methods"].append(card["name"])
     cards = distinct
+    for shift in (-.10, 0., .10):
+        effective_shift = np.clip(risk_weight+shift, 0., 1.) - risk_weight
+        ranked = sorted(cards, key=lambda c: (-(c["fit_score"] + effective_shift *
+                                                c["risk_growth_difference"]), c["name"]))
+        for rank, card in enumerate(ranked, start=1):
+            card.setdefault("sensitivity_ranks", []).append(rank)
     return {"version": version, "cards": cards, "rows": rows, "split": split-first,
             "reference": reference, "benchmark": benchmark, "cash": rf[first:], "dates": [str(b) for _, b in date_rows],
             "unavailable": unavailable, "data_version": data_version, "covariance": covariance,
@@ -471,6 +494,8 @@ def blend(root, mandate, version, names, budgets, optimized):
         raise ValueError("No feasible personalized strategies")
     validated = validate_mandate(mandate)
     profile = ClientProfile(mandate["capital"], validated["horizon_years"], validated["effective_stress_limit"])
+    if not isinstance(names, list) or any(not isinstance(k, str) or k not in {c["name"] for c in context["cards"]} for k in names):
+        raise ValueError("Ineligible or stale selection")
     result = blend_rows(profile, names, budgets, optimized, context["rows"], context["split"],
                         context["reference"], version, context["cards"][0]["period"],
                         "10 bp modeled trades and additional sleeve transfers")

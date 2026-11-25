@@ -46,6 +46,8 @@
     guideSteady:["Both options have the same average gain of 200 USD. Here you chose certainty. Several answers are needed to explore whether that preference holds in other situations.", "Les deux options ont le même gain moyen de 200 USD. Ici, tu as préféré la certitude. Plusieurs réponses permettent d’explorer si cette préférence se retrouve dans d’autres situations."],
     guideVariableResult:["Both options have the same average gain of 200 USD. Here you accepted a possible loss for a larger possible gain. Your financial ability to absorb losses is assessed separately.", "Les deux options ont le même gain moyen de 200 USD. Ici, tu as accepté une perte possible pour viser un gain plus élevé. Ta capacité financière à absorber cette perte est évaluée séparément."],
 
+    matchingArchiveUnavailable:["The verified local market archive is required to calculate portfolios on this installation.","Cette installation a besoin de l’archive de marché vérifiée pour calculer les portefeuilles."],
+    dynamicUnavailableMandate:["Your allocation and goal projections are available. The dynamic cash simulation cannot model all of your cash limits or dated flows.","Tu peux composer ton allocation et projeter tes objectifs. La simulation dynamique en liquidités ne couvre pas toutes tes limites de placement ou tes opérations datées."],
     serverOutdated:["RiskMatch is using an older server. Restart with RESTART_WEB.command to enable the latest features.","RiskMatch utilise un ancien serveur. Redémarre avec RESTART_WEB.command pour activer les dernières fonctionnalités."],
     deckChanged:["The saved strategy list has changed. Your saved choices are preserved.","La liste des stratégies a changé. Tes choix sauvegardés sont conservés."],
     myMatches:["My Matches","Mes Matches"],
@@ -112,7 +114,7 @@
     compare:["Compare portfolios","Comparer les portefeuilles"], compareShortlist:["Compare shortlist →","Comparer la shortlist →"], compareHelp:["Simulation shortlist only. Your choice does not trigger an order.","Shortlist de simulation uniquement. Le choix ne déclenche aucun ordre."],
     mandateRequired:["Validate your mandate first.","Validez d'abord le mandat."], scoreUnavailable:["Score unavailable","Score indisponible"],
     scoreExplanation:["30 = strong risk aversion.","30 = forte aversion au risque."], coverage:["Coverage","Couverture"], sensitivity:["Sensitivity","Sensibilité"],
-    scoreLimit:["Unvalidated score, independent of the mandate and λ.","Score non validé, indépendant du mandat et de λ."],
+    scoreLimit:["This experimental score influences the ranking and portfolio weights. Your financial loss limit still applies.","Ce score expérimental influence le classement et les pondérations. Ta capacité financière de perte reste une limite."],
     inconsistencies:["Inconsistencies","Incohérences"], exploreAllocations:["Explore allocations →","Explorer les allocations →"],
     cagr:["Simulated CAGR","CAGR simulé"], vol:["Volatility","Volatilité"], drawdown:["Drawdown","Drawdown"], stress:["Hypothetical stress","Stress hypothétique"],
     stressLoss:["Stress loss","Perte stress"], es:["Monthly ES","ES mensuel"], end:["End of compatible candidates. Shortlist","Fin des candidats compatibles. Shortlist"],

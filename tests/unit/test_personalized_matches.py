@@ -44,3 +44,50 @@ def test_mandate_asset_filter_and_preference_version():
     assert fingerprint(mandate, 1, "data") != fingerprint(amended, 1, "data")
     amended["constraints"]["max_issuer_weight"]["value"] = .2
     assert not validate_mandate(amended)["personalized_eligible"]
+
+
+def test_card_tail_loss_uses_fractional_worst_month_and_free_cash_trades():
+    from riskmatch.prototype import metrics
+    from riskmatch.backtesting.walk_forward import execute
+
+    sample = np.r_[-.10, -.02, np.zeros(23)]
+    assert np.isclose(metrics(sample[:, None], [1])["es95_monthly"], .084)
+    holdings = np.array([0., 100_000.])
+    funded, _, fee = execute(holdings, [0., 1.], .001)
+    assert fee == 0 and np.isclose(funded.sum(), 100_000.)
+    invested, _, fee = execute(funded, [.5, .5], .001)
+    assert np.isclose(fee, .001*invested[0])
+
+
+def test_historical_membership_lag_and_unpriced_holding(monkeypatch):
+    from datetime import date, timedelta
+    from riskmatch.backtesting import mandate_replay as module
+
+    days = [date(2024,1,1)+timedelta(days=30*i) for i in range(10)]
+    intervals = list(zip(days,days[1:]))
+    spy = dict(id="SPY", ticker="SPY", category="equity_etf", instrument="1", source="etf")
+    old = dict(id="OLD", ticker="OLD", category="stock", instrument="2", source="stock_monthly")
+    assets = [spy,old]
+    panel = np.zeros((9,2))
+    panel[5,1] = np.nan
+    stamp = np.full((9,2),np.datetime64("NaT"))
+    caps = {day:{"2":1.} for day in days[:6]}
+    monkeypatch.setattr(module,"archive",lambda *args:(assets,panel,stamp,None,None,caps))
+    decisions = []
+
+    def construct(sample,mandate,report,aversion,end,origin):
+        decisions.append((origin,[a["ticker"] for a in sample[0]],len(sample[2])))
+        weights = np.zeros(len(sample[0])+1)
+        weights[-1] = 1
+        risky = weights.copy()
+        risky[-1] = 0
+        risky[-2] = 1
+        return {"cash":weights, "risky":risky}, {}
+
+    data = ([spy],intervals,None,np.zeros(9),"test",4,7)
+    mandate = {"constraints":{"allowed_assets":["equity","cash"]}}
+    history, failures = module.replay(None,data,mandate,{},15,construct,days[-1])
+    assert decisions == [(days[3],["SPY","OLD"],3),(days[6],["SPY"],6)]
+    assert np.allclose(history["cash"]["returns"],0)
+    assert "risky" not in history
+    assert "missing observed return" in failures["risky"]
