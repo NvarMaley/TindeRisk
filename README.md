@@ -62,7 +62,7 @@ One notebook with 27 numbered chapters, a navigable table of contents, reproduci
 
 Generate the local executed historical review copy with `.venv/bin/python scripts/execute_notebook.py --historical --save-outputs`. It is saved in `data/reports/RiskMatch_V3_professeur.ipynb` and requires the original local research archives. The public source notebook contains portable synthetic results. See the [reproduction guide](notebooks/README.md).
 
-The prototype uses a local Python standard-library HTTP server and HTML/CSS/JS. No Node web dependencies are required. React/FastAPI remain planned. The complete structural mandate and experimental 60-card bank (30 per session) are implemented, with exploratory score, coverage, sensitivity and separate dimensions. Six predefined USD allocations remain a stress-only demonstration, with synthetic metrics, shortlist and paper selection. Horizon and financial goals are collected but do not yet change allocation construction. Market feasibility, human behavioral validation, real data, optimizers and costs remain planned.
+The prototype uses a local Python standard-library HTTP server and HTML/CSS/JS. No Node web dependencies are required. The full-mandate Match route constructs individualized funded USD candidates using the common research panel, dated constraints and behavioral risk preferences. Historical performance, scenario losses, goal projections and the chosen sleeve allocation are computed by the shared quantitative engine. See [personalized construction methodology](docs/PERSONALIZED_MATCHING.md) for data, model and acceptance limitations.
 
 ## Publish on GitHub
 

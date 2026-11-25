@@ -20,8 +20,8 @@ REGISTRY={'equal_weight':'Capped equal weight',**{k:k.replace('_',' ').title() f
 TUNABLE={'mean_variance_utility','black_litterman','capm_utility','ewma_utility'}
 
 
-def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=None,lam=3.,seed=23,macro=None):
-    """Fit all requested models on the same preceding matrix; no current forecast vector."""
+def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=None,lam=3.,seed=23,macro=None,forecast=None):
+    """Fit models on preceding returns; optional forecast only for a current-date target."""
     n=len(assets);u=np.asarray(u,float);ids=[a['id'] for a in assets];spy=next(i for i,a in enumerate(assets) if a['ticker']=='SPY');out={};membership,scores,books=signals
     if u.sum()<1-1e-9:return {k:{'status':'unavailable','reason':'Insufficient dated eligible capacity'} for k in keys}
     candidates=np.flatnonzero(u>0);stocks=[i for i in candidates if assets[i]['source']=='stock_monthly'];etfs=[i for i in candidates if i not in stocks]
@@ -31,7 +31,10 @@ def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=N
     else:idx=candidates
     local=x[:,idx];cap=u[idx];reference=proportional_cap(np.ones(len(idx))/len(idx),cap)[0] if cap.sum()>=1-1e-9 else None
     # Compute shared estimation only on the earlier training matrix.
-    mu=regularized_mean(local);cov=LedoitWolf().fit(local).covariance_*12;rfa=float(np.mean(rf)*12);asset_subset=[assets[i] for i in idx];b=x[:,spy]
+    if forecast is not None:
+        forecast=np.asarray(forecast,float)
+        if forecast.shape!=(n,) or not np.isfinite(forecast).all():raise ValueError('Invalid dated forecast vector')
+    mu=regularized_mean(local,forecast[idx] if forecast is not None else None);cov=LedoitWolf().fit(local).covariance_*12;rfa=float(np.mean(rf)*12);asset_subset=[assets[i] for i in idx];b=x[:,spy]
     engine=None;tree=None;unc=None
     def result(w):return {'status':'computed','weights':w}
     def unpack(r):

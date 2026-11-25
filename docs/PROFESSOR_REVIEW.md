@@ -9,7 +9,7 @@ derived data and requires redistribution-rights review before submission.
 
 ## Chapter-by-chapter cross-check
 
-All 63 representative requests below returned HTTP 200 when the actual
+All 65 representative requests below returned HTTP 200 when the actual
 server handler, including JSON serialization, ran in-process. The notebook
 also executes a portable numerical fixture for each chapter. The last column
 counts the identified chapter tickets within its own checklist section.
@@ -47,7 +47,7 @@ and carry implementations.
 | 22 Futures | Archived ten-family research, rolling/expiry limitations; Research / Futures | 0/11 |
 | 23 Walk-forward | Frozen common evaluation, benchmark paths and locked metrics; Research / Backtesting | 0/14 |
 | 24 Stress/MC | Stress comparison, five-model selected projection, quantiles, deficits and sensitivity; Research / Stress and Monte Carlo | 0/12 |
-| 25 Matching | Research comparison, 21 eligible cards, 60/40 and optimized sleeve budgets, joint goal projection; Strategies / My Matches | 0/28 |
+| 25 Matching | Personalized construction on the common 575-instrument panel, 48 variants for each of two risk scores and 31 for the constrained Treasury mandate, manual and optimized budgets, joint goal projection; Strategies / My Matches | 0/28 |
 | 26 Dynamic | 10 policies plus static and drift, costs, funded ledgers, robustness; My Matches | 0/11 |
 | 27 Integration | Reconciled twelve-file paper export, manifest and content hashes; My Matches / Export | 5/15 |
 
@@ -74,7 +74,7 @@ reproduction step involving the build scripts and original data entitlements.
 
 ## Technical tests and outstanding requirements
 
-- Python unit tests: 176 passed, 5 subtests passed.
+- Python unit tests: 178 passed, 5 subtests passed.
 - Browser JavaScript tests: 35 passed.
 - Notebook: all 83 code cells ran in both portable and local historical
   mode through IPython, with complete saved outputs.

@@ -1,5 +1,10 @@
 # RiskMatch Explore — Portfolio Matching
 
+Current full-mandate matching uses the [personalized construction engine](PERSONALIZED_MATCHING.md).
+It replaces the shared five-ETF deck as the normal client route, while
+preserving that deck for legacy research. The specification below describes
+the intended complete research workflow and outstanding acceptance criteria.
+
 ## Pipeline
 1. Generate candidates from mandate, strategies and construction methods in the A–Z guide. Retain versioned models, data and assumptions.
 2. Filter hard constraints (liquidity, concentration, leverage, derivatives, financial capacity, currency, horizon). If required risk is incompatible, explain the funding gap and offer to reconsider horizon, contributions or goal; never raise risk automatically.

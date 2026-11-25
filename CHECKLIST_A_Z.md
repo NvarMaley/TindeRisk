@@ -8,7 +8,14 @@ Consolidation evidence (2026-11-25): [method specifications](docs/METHOD_SPECIFI
 
 Client experience consolidation (2026-11-25): [client flow and coverage](docs/CLIENT_FLOW.md). Separate client and research navigation, visible objective selection within mandate, loading/retry states, catalog warming, server-version-aware restart and actual local handler smoke tests. Formal model/data approval gates remain unchanged.
 
-Academic review (2026-11-25): [chapter-by-chapter review](docs/PROFESSOR_REVIEW.md). All 27 chapters have executed portable fixtures and local historical evidence cells. The generated local review notebook has 83 executed code cells and includes 63 successful in-process API requests, all 11 objective cases and four complete asset-level archive integrity checks. Formal tickets retain their prerequisite and acceptance status.
+Personalized construction (2026-11-25): [methodology and limitations](docs/PERSONALIZED_MATCHING.md).
+The full-mandate client route now constructs funded candidates on the common
+575-instrument monthly panel, with mandate-specific eligible assets, risk
+preferences, hard stress/bound checks, chronological evaluation and goal
+projections. The deck's version binds all subsequent allocations and exports.
+Formal research and acceptance gates remain open where independent evidence is required.
+
+Academic review (2026-11-25): [chapter-by-chapter review](docs/PROFESSOR_REVIEW.md). All 27 chapters have executed portable fixtures and local historical evidence cells. The generated local review notebook has 83 executed code cells and includes 65 successful in-process API requests, including contrasting personalized mandates, all 11 objective cases and four complete asset-level archive integrity checks. Formal tickets retain their prerequisite and acceptance status.
 
 To display the next executable tasks: `.venv/bin/python scripts/task_dependencies.py --ready`.
 

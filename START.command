@@ -12,7 +12,7 @@ start_service() {
   if [[ -f ".run/$name.pid" ]] && kill -0 "$( < ".run/$name.pid" )" 2>/dev/null; then
     if [[ "$name" = web ]]; then
       # The existing process may still use Python code from a previous version.
-      if ! curl --noproxy '*' --silent --fail --max-time 2 http://127.0.0.1:3000/api/health | .venv/bin/python -c 'import json,sys; assert json.load(sys.stdin).get("client_flow")==28' 2>/dev/null; then
+      if ! curl --noproxy '*' --silent --fail --max-time 2 http://127.0.0.1:3000/api/health | .venv/bin/python -c 'import json,sys; assert json.load(sys.stdin).get("client_flow")==29' 2>/dev/null; then
         ./RESTART_WEB.command
         return
       fi

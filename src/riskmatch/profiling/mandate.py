@@ -16,7 +16,7 @@ OBJECTIVES = {
 }
 KNOWLEDGE = {"none", "basic", "advanced"}
 EXPERIENCE = {"none", "limited", "experienced"}
-ASSETS = {"equity", "treasury", "reit", "cash", "futures"}
+ASSETS = {"equity", "treasury", "reit", "cash", "futures", "commodity_etp"}
 LIMITS = ("stress_loss", "loss_budget", "volatility", "max_asset_weight", "max_issuer_weight",
           "max_sector_weight", "max_turnover", "max_cost", "min_liquidity", "gross_limit", "net_min", "net_max")
 
@@ -303,6 +303,26 @@ def validate_mandate(payload):
         demo_reasons.append("demo_universe_restrictions_unmodeled")
     if raw_constraints["tax_assumption"] == "after_tax_required" or raw_constraints["fx_hedge"] in {"partial", "full"}:
         demo_reasons.append("demo_tax_fx_unmodeled")
+    personalized_reasons = []
+    if currency != "USD":
+        personalized_reasons.append("demo_usd_only")
+    supported = {"stress_loss", "loss_budget", "volatility", "max_asset_weight",
+                 "gross_limit", "net_min", "net_max"}
+    if any(limits[k]["value"] is not None and limits[k]["mode"] == "hard"
+           for k in LIMITS if k not in supported):
+        personalized_reasons.append("demo_hard_constraints_unmodeled")
+    if (raw_constraints["esg_exclusions"].strip() or
+            raw_constraints["tax_assumption"] == "after_tax_required" or
+            raw_constraints["fx_hedge"] in {"partial", "full"}):
+        personalized_reasons.append("demo_tax_fx_unmodeled")
+    hard = lambda k: limits[k]["mode"] == "hard" and limits[k]["value"] is not None
+    if ((hard("gross_limit") and limits["gross_limit"]["value"] < 1) or
+            (hard("net_min") and limits["net_min"]["value"] > 1) or
+            (hard("net_max") and limits["net_max"]["value"] < 1)):
+        personalized_reasons.append("funded_budget_infeasible")
+    if any(limits[k]["mode"] == "soft" and limits[k]["value"] is not None
+           for k in LIMITS if k not in {"volatility", "max_asset_weight"}):
+        warnings.append("soft_constraints_unmodeled")
     return {
         "schema_version": SCHEMA_VERSION, "status": "conflicts" if conflicts else "structurally_valid",
         "currency": currency, "as_of": start.isoformat(), "horizon_date": end.isoformat(),
@@ -314,5 +334,7 @@ def validate_mandate(payload):
         "goals": goal_results, "combined_required_return": combined,
         "conflicts": conflicts, "warnings": warnings, "demo_reasons": demo_reasons,
         "demo_eligible": not conflicts and not demo_reasons,
+        "personalized_eligible": not conflicts and not personalized_reasons,
+        "personalized_reasons": personalized_reasons,
         "risk_willingness": "not_measured", "risk_required": "not_estimated",
     }
