@@ -87,3 +87,36 @@ document.addEventListener("pointerdown",event=>{
   document.addEventListener("riskmatch:language",update);
   update();
 })();
+
+// Observe each visual independently so a long mobile chapter reveals at reading pace.
+(() => {
+  const atlas=document.querySelector(".home-atlas");
+  if(!atlas||!("IntersectionObserver" in window))return;
+  const reveal=new IntersectionObserver(entries=>{
+    for(const entry of entries)if(entry.isIntersecting){
+      entry.target.classList.add("atlas-enter");
+      reveal.unobserve(entry.target);
+    }
+  },{rootMargin:"0px 0px -6% 0px",threshold:.08});
+  const sections=Array.from(atlas.querySelectorAll(":scope > section"));
+  const links=Array.from(atlas.querySelectorAll(".atlas-nav a"));
+  const mark=()=>{
+    const readingLine=innerHeight*.42;
+    const current=sections.reduce((last,item)=>item.getBoundingClientRect().top<=readingLine?item:last,sections[0]);
+    for(const link of links){
+      if(link.hash==="#"+current.id)link.setAttribute("aria-current","location");
+      else link.removeAttribute("aria-current");
+    }
+  };
+  const position=new IntersectionObserver(mark,{rootMargin:"-40% 0px -57% 0px"});
+  for(const section of sections){
+    position.observe(section);
+    for(const node of section.querySelectorAll("h2,.atlas-savings ol,.atlas-savings li,.atlas-choice,.atlas-flow li,#guide-pie,.atlas-key,.atlas-readout dt,.atlas-readout dd")){
+      if(node.parentElement.matches(".atlas-flow,.atlas-savings ol")){
+        const index=Array.from(node.parentElement.children).indexOf(node);
+        node.style.setProperty("--beat",Math.min(index*110,330)+"ms");
+      }
+      reveal.observe(node);
+    }
+  }
+})();
