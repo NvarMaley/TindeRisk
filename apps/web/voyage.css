@@ -1,7 +1,7 @@
 /* Lagoon edition. Broad photographic scenes alternate with quiet editorial pages. */
 :root{--paper:#ffe9d6;--rose:#ffc1d1;--abyss:#082332;--foam:#a1f0db;--type-display:Archivo,system-ui,sans-serif;--type-italic:Georgia,"Times New Roman",serif}
 body{overflow-x:clip;background:var(--abyss)}
-body::before{background:radial-gradient(ellipse at 85% 10%,#234758 0,transparent 48%),#092631}
+body::before{background:linear-gradient(180deg,rgb(5 19 34 / 52%),rgb(8 23 36 / 22%) 48%,rgb(4 18 29 / 66%)),var(--lagoon) center/cover no-repeat,var(--ink)}
 .workspace-header{display:none}
 main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 .mast{padding:12px clamp(16px,4vw,70px);background:#082532;border:0;box-shadow:0 1px #a2ddd62e;position:relative;z-index:3}
@@ -92,3 +92,26 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 #compare .research-module{border-radius:0;border:0;border-top:1px solid #8ec2bb66;background:transparent;box-shadow:none}
 #compare .research-module>summary{font:italic clamp(1.4rem,2.8vw,2.65rem)/1.1 var(--type-italic);padding:1.2rem 0;color:var(--paper)}
 @media(max-width:760px){#saves:not([hidden]),#mandate:not([hidden]){grid-template-columns:minmax(0,1fr)}}
+
+/* The same uninterrupted lagoon runs behind each stop on the journey. */
+#home .horizon-poster,.port-photo{background:transparent;overflow:visible}
+.port-photo::before,.horizon-moon i{display:none}
+.port-arrival{min-height:clamp(280px,54svh,620px)}.port-photo img{filter:drop-shadow(0 1rem 1.2rem #26162d80)}
+.horizon-copy h1 em,.port-arrival h1 em{font:inherit;letter-spacing:inherit;color:#ffb5d4;transform:skewX(-9deg);transform-origin:left}
+.horizon-copy,.port-arrival h1,.scene-title h1,.scene-title p{text-shadow:0 3px 18px #061623bd}
+#saves .save-panel{padding:clamp(16px,3vw,38px);box-sizing:border-box;background:linear-gradient(125deg,#082334e8,#0c2b39ce);border-radius:2.5rem .4rem 2.5rem .4rem}
+.scene-title,#mandate .scene-title,#discovery .scene-title,#explore .scene-title,#matches .scene-title{background:transparent;border-radius:0;padding-inline:0}
+#mandate .scene-title{min-height:0;padding-block:2rem}
+#mandate #form,#portfolio>.voyage-card,#matches #match-allocation>article{backdrop-filter:blur(12px)}
+#mandate #form,#matches #match-allocation>article{background:linear-gradient(110deg,#092838ec,#102b39da);padding:clamp(1rem,3vw,2rem);border-radius:1.6rem .35rem}
+#portfolio>.voyage-card{background:linear-gradient(115deg,#102d3be8,#13273beb);color:var(--pearl);transition:transform .23s cubic-bezier(.2,.85,.4,1)}
+#portfolio>.voyage-card[data-drag]{transition:none;user-select:none}
+.voyage-face h2,.voyage-face p,.voyage-face dl,.voyage-face small{color:#f8f3ee}.voyage-face dd{font:700 clamp(1.45rem,3vw,2.6rem)/1.2 DM,sans-serif;color:#ffb5d4}
+.voyage-card[data-drag]::after{content:attr(data-verdict);position:absolute;top:1.1rem;right:1.1rem;background:#aeefd8;color:#0e3834;font:bold 1.3rem DM,sans-serif;letter-spacing:-.04em;border:2px solid currentColor;padding:.3rem .85rem;border-radius:100vw;transform:rotate(6deg);pointer-events:none}
+.voyage-card[data-drag=pass]::after{background:#ffbad2;color:#58233b;transform:rotate(-6deg)}
+.voyage-itinerary,.j-route{background:linear-gradient(90deg,#082231d9,#08223199);padding-inline:1rem}
+.tide-canvas{opacity:.65}
+.water-touch{position:fixed;width:2.5rem;aspect-ratio:1;border:1px solid #c8ffed;box-shadow:0 0 0 4px #d6fff24a,inset 0 0 8px #e9fff944;z-index:8;border-radius:50%;pointer-events:none;animation:water-touch .8s ease-out both}
+@keyframes water-touch{from{opacity:.85;transform:translate(-50%,-50%) scale(.2,.1)}to{opacity:0;transform:translate(-50%,-50%) scale(2.6,1)}}
+@media(max-width:760px){.port-arrival{min-height:180px}.horizon-copy{width:100%}.port-photo img{right:3%}#saves:not([hidden]){gap:.3rem}}
+@media(prefers-reduced-motion:reduce){.water-touch{display:none}}

@@ -450,12 +450,18 @@ deckSurface.addEventListener("pointerdown",event=>{
 deckSurface.addEventListener("pointermove",event=>{
   if(strategyDrag?.id!==event.pointerId)return;
   const {article,x,y}=strategyDrag,dx=event.clientX-x;
-  if(Math.abs(event.clientY-y)>Math.abs(dx)+15){article.style.transform="";strategyDrag=null;return;}
-  if(Math.abs(dx)>12){deckSurface.setPointerCapture(event.pointerId);article.style.transform=`translateX(${dx*.35}px) rotate(${Math.max(-6,Math.min(6,dx/22))}deg)`;}
+  if(Math.abs(event.clientY-y)>Math.abs(dx)+15){article.style.transform="";delete article.dataset.drag;strategyDrag=null;return;}
+  if(Math.abs(dx)>12){
+    deckSurface.setPointerCapture(event.pointerId);
+    article.dataset.drag=dx>0?"like":"pass";
+    article.dataset.verdict=dx>0?"♥ Match":window.RM.language==="fr"?"✕ Passer":"✕ Pass";
+    if(!window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+      article.style.transform=`translateX(${Math.max(-130,Math.min(130,dx*.48))}px) rotate(${Math.max(-8,Math.min(8,dx/18))}deg)`;
+  }else{delete article.dataset.drag;article.style.transform="";}
 });
 function finishStrategyDrag(event){
   if(strategyDrag?.id!==event.pointerId)return;
-  const {article,x,y}=strategyDrag;strategyDrag=null;article.style.transform="";
+  const {article,x,y}=strategyDrag;strategyDrag=null;article.style.transform="";delete article.dataset.drag;
   const dx=event.clientX-x;
   if(event.type==="pointerup"&&Math.abs(dx)>65&&Math.abs(dx)>1.4*Math.abs(event.clientY-y)&&article.isConnected)swipe(dx>0?"like":"dislike");
 }

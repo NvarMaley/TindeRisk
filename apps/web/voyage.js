@@ -48,3 +48,14 @@
   reduced.addEventListener("change",wake);document.addEventListener("visibilitychange",wake);
   window.addEventListener("resize",wake);
 })();
+
+document.addEventListener("pointerdown",event=>{
+  if(!event.isPrimary||event.button!==0||document.body.dataset.opening==="true"||
+    matchMedia("(prefers-reduced-motion: reduce)").matches||
+    event.target.closest("input,select,textarea,dialog"))return;
+  const ring=document.createElement("i");
+  ring.className="water-touch";ring.setAttribute("aria-hidden","true");
+  ring.style.left=event.clientX+"px";ring.style.top=event.clientY+"px";
+  document.body.append(ring);
+  setTimeout(()=>ring.remove(),850);
+},{passive:true});
