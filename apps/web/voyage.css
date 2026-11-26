@@ -8,6 +8,18 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 .mast .word{padding:3px 0}.mast .client-nav>button{border-radius:100vw}
 .mast .word .brand-cherry{width:38px;height:38px;object-fit:contain;flex:none;margin-right:5px;filter:drop-shadow(0 3px 5px #160e36aa);transition:transform .2s ease}
 .mast .word:hover .brand-cherry{transform:rotate(-8deg) scale(1.08)}
+.mandate-field{position:relative;min-width:0;align-self:stretch;padding-right:28px}
+.mandate-field label{display:block;min-width:0}
+.mandate-field label.mandate-check{display:flex}
+.field-optional{font-size:.72rem;opacity:.8;font-weight:400}
+.field-info{position:absolute;right:0;top:0;z-index:2}
+.field-info[open]{z-index:5}
+.field-info summary{display:grid;place-items:center;width:23px;height:23px;border:1px solid #87cbd8;border-radius:50%;color:#b8f4ff;font-weight:700;cursor:pointer;list-style:none;background:#102c40}
+.field-info summary::-webkit-details-marker{display:none}
+.field-info p{position:absolute;right:0;top:26px;width:min(260px,75vw);padding:12px;margin:0;border:1px solid #87cbd8;border-radius:12px;background:#102c40;color:#effbff;box-shadow:0 8px 24px #0007;font-size:.86rem;line-height:1.45}
+.mandate-trace dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.mandate-trace dl div{padding:8px 0;border-bottom:1px solid #50758750}
+.mandate-trace dt{font-size:.82rem;opacity:.8}.mandate-trace dd{margin:5px 0 0;font-weight:650;overflow-wrap:anywhere}
 #error:empty{display:none}
 .page:not([hidden]){animation:scene-in .55s ease both}
 @keyframes scene-in{from{opacity:.3;translate:0 9px}to{opacity:1;translate:0}}

@@ -102,7 +102,10 @@ $("form").onsubmit = handle(async event => {
   event.preventDefault();
   if(!sessionUnlocked)throw Error("saveRequired");
   const payload=window.MandateForm.payload();
-  if(Array.isArray(payload.goals)&&!payload.goals.length)throw Error("chooseGoalsRequired");
+  if(Array.isArray(payload.goals)&&!payload.goals.length){
+    document.querySelector?.(".goal-picker")?.scrollIntoView({behavior:"smooth",block:"center"});
+    throw Error("chooseGoalsRequired");
+  }
   const report=await api("mandate/preview",payload);
   if(JSON.stringify(payload)!==JSON.stringify(window.MandateForm.payload()))return;
   pendingMandate=payload;pendingReport=report;renderMandateReport();
@@ -110,6 +113,22 @@ $("form").onsubmit = handle(async event => {
 });
 const diagnostic=key=>{const [head,...tail]=key.split(":");return t(head)+(tail.length?": "+t(tail.join(":")):"");};
 const money=(amount,currency)=>amount===null||amount===undefined?t("noValue"):new Intl.NumberFormat(window.RM.language==="fr"?"fr-CH":"en-US",{style:"currency",currency,maximumFractionDigits:0}).format(amount);
+function mandateTrace(p,r){
+  if(!p?.constraints||!r)return "";
+  const fr=window.RM.language==="fr", c=p.constraints, cash=v=>money(v,p.currency);
+  const list=rows=>`<dl>${rows.map(([key,val])=>`<div><dt>${esc(t(key))}</dt><dd>${esc(val)}</dd></div>`).join("")}</dl>`;
+  const amounts=keys=>keys.map(k=>[k,cash(p[k])]);
+  const supported=new Set(["stress_loss","loss_budget","volatility","max_asset_weight","gross_limit","net_min","net_max"]);
+  const limits=Object.entries(c).filter(([,v])=>v&&typeof v==="object"&&v.value!=null).map(([k,v])=>[k,pct(v.value)+" · "+t(v.mode)+" · "+(supported.has(k)&&(v.mode==="hard"||["volatility","max_asset_weight"].includes(k))?(fr?"Appliqué":"Applied"):(fr?"Non modélisé":"Not modeled"))]);
+  const goals=p.goals.map(g=>`<p><strong>${esc(t(g.objective_id))}</strong> · ${esc(g.due_date)} · ${g.amount==null?esc(t("noValue")):esc(money(g.amount,g.currency))} · ${esc(t(g.basis))} · ${esc(t("priority"))} ${g.priority}/5 · ${esc(t("shortfall_penalty"))} ${g.shortfall_penalty} · ${g.funding?(fr?"À financer":"Funded obligation"):(fr?"Préférence":"Preference")}</p>`).join("");
+  return `<details class="mandate-trace"><summary>${fr?"Comment mon mandat a été pris en compte":"How my mandate was used"}</summary>
+    <h3>${fr?"Construction et contrôle du risque":"Construction and risk checks"}</h3>${list([...amounts(["capital","loss_capacity_amount"]),["currency",p.currency],["as_of",p.as_of],["horizon_date",p.horizon_date],["effectiveStress",pct(r.effective_stress_limit)],["allowed_assets",c.allowed_assets.map(t).join(", ")],...limits])}
+    <h3>${fr?"Objectifs et projection":"Goals and projection"}</h3>${goals}${list([...amounts(["contribution_monthly","withdrawal_monthly"]),["inflation",p.inflation==null?t("noValue"):pct(p.inflation)],["chf_per_usd",p.chf_per_usd??t("noValue")]])}
+    ${p.dated_flows.map(f=>`<p>${esc(f.date)} · ${esc(t(f.kind))} · ${esc(cash(f.amount))}</p>`).join("")}
+    <h3>${fr?"Contrôle de la situation financière":"Financial feasibility checks"}</h3>${list([...amounts(["cash","investments","other_assets","debt","reserve","income_monthly","spending_monthly"]),["netWorth",cash(r.net_worth)],["investableWealth",cash(r.investable_wealth)],["monthlySurplus",cash(r.monthly_surplus)]])}
+    <h3>${fr?"Expérience et restrictions déclarées":"Declared experience and restrictions"}</h3>${list([...Object.keys(p.knowledge).map(k=>[k,t(p.knowledge[k])+" / "+t(p.experience[k])]),...["allow_short","allow_leverage","allow_derivatives"].map(k=>[k,c[k]?(fr?"Autorisé":"Allowed"):(fr?"Refusé":"Disallowed")]),["tax_assumption",t(c.tax_assumption)],["fx_hedge",t(c.fx_hedge)],["esg_exclusions",c.esg_exclusions||"—"]])}
+    <p class="muted">${fr?"Les connaissances et autorisations servent aux contrôles du mandat. Les portefeuilles proposés restent financés et sans positions vendeuses. Le patrimoine illiquide et les dettes servent au bilan ; ils ne sont pas investis directement.":"Knowledge and permissions are used in mandate checks. Matched portfolios remain funded and long-only. Illiquid assets and debts inform the balance sheet and are not invested directly."}</p></details>`;
+}
 function renderMandateReport(){
   if(!pendingReport)return;
   const r=pendingReport, p=pendingMandate, area=$("mandate-report");
@@ -121,6 +140,7 @@ function renderMandateReport(){
   area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${canMatch(r)&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(canMatch(r)&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.personalized_reasons??r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
   if(r.personalized_eligible && r.dynamic_overlay_available===false)
     area.insertAdjacentHTML("beforeend","<p>"+esc(t("dynamicUnavailableMandate"))+"</p>");
+  area.innerHTML+=mandateTrace(p,r);
   area.hidden=false;
   $("confirm-mandate").onclick=handle(confirmMandate);
 }
@@ -513,7 +533,7 @@ function compare(){
   const allocation=document.createElement("article");
   const signature=JSON.stringify([fullMandate||mandate,shortlist[0].version,shortlist.map(p=>p.name)]);
   const stored=savedBlend?.signature===signature?savedBlend:null;
-  allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation fictive.":"Synthetic simulation.")}</p>`;
+  allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
   if(stored?.paperConfirmed){
     allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
   }
