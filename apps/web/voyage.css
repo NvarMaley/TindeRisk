@@ -6,6 +6,8 @@ body::before{background:linear-gradient(180deg,rgb(5 19 34 / 52%),rgb(8 23 36 / 
 main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 .mast{padding:12px clamp(16px,4vw,70px);background:#082532;border:0;box-shadow:0 1px #a2ddd62e;position:relative;z-index:3}
 .mast .word{padding:3px 0}.mast .client-nav>button{border-radius:100vw}
+.mast .word .brand-cherry{width:38px;height:38px;object-fit:contain;flex:none;margin-right:5px;filter:drop-shadow(0 3px 5px #160e36aa);transition:transform .2s ease}
+.mast .word:hover .brand-cherry{transform:rotate(-8deg) scale(1.08)}
 #error:empty{display:none}
 .page:not([hidden]){animation:scene-in .55s ease both}
 @keyframes scene-in{from{opacity:.3;translate:0 9px}to{opacity:1;translate:0}}
