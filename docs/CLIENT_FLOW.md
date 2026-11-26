@@ -18,7 +18,7 @@ See [personalized construction](PERSONALIZED_MATCHING.md). The common market inp
 are warmed during Discovery; each client receives a newly constructed versioned deck.
 The client sees loading, empty and retry states.
 
-The local server version marker is `client_flow: 29`. Starting the existing launcher detects the obsolete process and invokes the project-specific restart script on the host. An outdated server does not discard saved choices or simulate missing endpoints.
+The local server version marker is `client_flow: 30`. Starting the existing launcher detects the obsolete process and invokes the project-specific restart script on the host. An outdated server does not discard saved choices or simulate missing endpoints.
 
 ## Local verification (2026-11-25)
 
@@ -28,4 +28,4 @@ the result by mandate and aversion; the historical notebook exercises
 two risk scores and a restricted Treasury mandate, plus allocation,
 goal assessment, dynamic report and ZIP export.
 
-The research handler smoke run returned 200 for universe, sources, snapshot, returns, statistics catalogue, forecast/risk/factor/tail universe, baselines, mean–variance, Black–Litterman, hierarchical, downside, advanced, long-only, alternative, Treasury, archived futures, walk-forward, stress, matching research and improvement. Some audits took 10–31 seconds; their results are distinct from investability approval. Browser interaction tests cover the client workflow. Actual local HTTP/browser verification requires restarting on the host because this environment cannot bind or connect to loopback sockets.
+The research handler smoke run returned 200 for universe, sources, snapshot, returns, statistics catalogue, forecast/risk/factor/tail universe, baselines, mean–variance, Black–Litterman, hierarchical, downside, advanced, long-only, alternative, Treasury, archived futures, walk-forward, stress, matching research and improvement. Some audits took 10–31 seconds; their results are distinct from investability approval. Browser interaction tests cover the client workflow. A new full mandate checks the backend engine version before accepting any cards. Local verification on 26 November used the corrected loopback server, the treasury-only and cash-only cases, and the reconciled paper export.

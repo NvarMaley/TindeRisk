@@ -1,5 +1,6 @@
 """Research-only dynamic allocation between a matched portfolio and USD cash."""
 import numpy as np
+from riskmatch.analytics.tail_risk import empirical
 
 VERSION = "dynamic-v1"
 POLICIES = ("hmm", "bayesian", "risk_budget", "stochastic", "multi_period",
@@ -110,7 +111,7 @@ def simulate(returns,cash,dates,start,capital,policy,weights,stress_limit,stress
                          drift=float(np.max(abs(target-previous))),trade=bool(trade),
                          stress_estimate=float(executed[:-1].sum()*stress_loss),
                          annual_volatility=float(np.std(trailing,ddof=1)*np.sqrt(12)),
-                         expected_shortfall_estimate=float(-np.sort(trailing)[:max(1,int(np.ceil(.05*len(trailing))))].mean()),
+                         expected_shortfall_estimate=empirical(-trailing, .95)["es"],
                          concentration=float(max(executed)),cash_reserve=float(executed[-1]),
                          weights=executed.tolist(),proposed_weights=target.tolist(),model=policy,
                          turnover=notional/(opening+flow),return_=r))
@@ -118,5 +119,5 @@ def simulate(returns,cash,dates,start,capital,policy,weights,stress_limit,stress
     return dict(status="computed",ledger=rows,fees=fees,ending=float(holdings.sum()),
                 cagr=float(nav[-1]**(12/len(r))-1),volatility=float(r.std(ddof=1)*np.sqrt(12)) if len(r)>1 else 0.,
                 drawdown=float((nav/np.maximum.accumulate(nav)-1).min()),
-                expected_shortfall=float(np.sort(r)[:max(1,int(np.ceil(.05*len(r))))].mean()*-1),
+                expected_shortfall=empirical(-r, .95)["es"],
                 annual_turnover=turnover*12/len(r),nav=nav.tolist())

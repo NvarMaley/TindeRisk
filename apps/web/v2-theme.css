@@ -389,3 +389,26 @@ input { color: var(--pearl); background: #0c2535; border: 1px solid var(--rim); 
 @keyframes verdict-cherry{from{transform:translateY(35vh) rotate(-24deg) scale(.35);opacity:0}65%{transform:translateY(-2vh) rotate(9deg) scale(1.08)}to{transform:none;opacity:1}}
 @keyframes verdict-type{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#strategy-verdict *{animation:none}}
+
+.j-route{margin:1rem auto 2rem;padding-block:.65rem;border-block:1px solid #8fe0d53d;color:#ddfff6;letter-spacing:.04em}
+.j-route[hidden]{display:none}
+.j-route ol{list-style:none;margin:0;padding:0;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.j-route li{font-size:.84rem;opacity:.67}.j-route li+li:before{content:"∿";margin-right:.5rem;color:#ffa4bd}.j-route [aria-current=step]{color:#ffbdd1;opacity:1;font-weight:800}
+#home .grid{display:flex;flex-wrap:wrap;gap:1.8rem;border-top:1px solid #9de5df55}#home .grid article{flex:1 1 12rem;background:none;border:none;box-shadow:none;padding:1rem 0}
+#portfolio>article{position:relative;touch-action:pan-y;border-radius:clamp(1rem,4vw,3rem) .7rem 3rem .7rem;background:linear-gradient(150deg,#113744f5,#0b2935f5 55%,#193544f5);box-shadow:0 20px 60px #00192375;animation:j-arrive .46s ease-out}
+.j-composition,.j-timeline,.j-map,.j-goal{margin:1.3rem 0;padding:1.2rem 0;border-top:1px solid #aadad647;color:#eefaf6}
+.j-composition figcaption,.j-timeline figcaption,.j-goal figcaption,.j-map figcaption{font-size:clamp(1.2rem,3vw,1.7rem);font-weight:750;line-height:1.15}
+.j-composition,.j-goal{display:grid;grid-template-columns:minmax(105px,.7fr) minmax(145px,1.3fr);align-items:center;gap:1rem}
+.j-composition figcaption,.j-goal figcaption{grid-column:1/-1}
+.j-ring{border-radius:50%;width:min(100%,170px);aspect-ratio:1;display:grid;place-items:center;margin:auto;transform:rotate(-12deg)}
+.j-ring output{transform:rotate(12deg);width:73%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#10303c;border-radius:50%;padding:5%;box-sizing:border-box}
+.j-ring strong,.j-goal strong{font-size:clamp(1.25rem,3vw,2rem)}.j-ring small{line-height:1.1}
+.j-legend button{display:flex;align-items:center;gap:.5rem;width:100%;background:none;border:0;color:inherit;text-align:left;padding:.4rem}.j-legend b{margin-left:auto}.j-legend i,.j-dots i{border-radius:50%;width:.7rem;height:.7rem;flex:none}.j-legend [aria-pressed=true]{text-decoration:underline}
+.j-switch{display:flex;gap:.4rem;margin:.8rem 0}.j-switch button{font-size:.85rem;padding:.4rem .8rem;border-radius:2rem}.j-switch [aria-pressed=true]{background:#a2e9da;color:#0d3038}
+.j-plot svg,.j-map svg{width:100%;max-height:225px;display:block}.j-timeline input{width:100%;accent-color:#ffabc4}.j-timeline output,.j-map output,.j-map small{display:block}.j-map circle{cursor:pointer}.j-timeline label,.j-map small{font-size:.86rem}
+.j-dots{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;max-width:170px}.j-dots i{width:100%;height:auto;aspect-ratio:1;background:#55636e}.j-dots i.hit{background:#8ce2cf}
+.j-loader{text-align:center;display:grid;justify-items:center;padding:clamp(2rem,8vw,5rem) 1rem;background:radial-gradient(ellipse,#25616880,transparent 68%)}.j-loader p{max-width:36ch}.j-orbit{position:relative;width:9rem;aspect-ratio:1;display:grid;place-items:center}.j-orbit img{width:54%;animation:j-float 2.5s ease-in-out infinite alternate}.j-orbit i{position:absolute;inset:0;border:2px solid #81dac666;border-top-color:#ffadcb;border-radius:50% 44%;animation:j-spin 4s linear infinite}.j-orbit i+i{inset:9%;animation-direction:reverse;animation-duration:3s}
+@keyframes j-spin{to{transform:rotate(360deg)}}@keyframes j-float{to{transform:translateY(-7px) rotate(7deg)}}@keyframes j-arrive{from{opacity:.25;transform:translateY(14px) rotate(-.7deg)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#portfolio>article,.j-orbit i,.j-orbit img{animation:none}}
+.j-range{margin:1.3rem 0;padding:1rem 0;border-block-start:1px solid #aadad647}.j-range figcaption{font-weight:750}.j-range svg{width:100%;height:58px}
+#explore:has(#portfolio>article)>.buttons{position:sticky;bottom:.5rem;z-index:2;width:fit-content;max-width:100%;margin:1rem auto;padding:.4rem .6rem;border-radius:2rem;background:#092b38f5;box-shadow:0 4px 16px #04192088}

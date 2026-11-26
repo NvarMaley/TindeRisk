@@ -19,7 +19,9 @@ from riskmatch.optimization.mean_variance import MeanVariance,Constraints,VERSIO
 
 
 def aligned(root,as_of,currency,scope):
-    upstream=returns_report(root,as_of);folder=Path(root)/'data/processed/returns'/upstream['return_id'];manifest=batch_report(root,as_of)
+    upstream=returns_report(root,as_of)
+    if not upstream.get('return_id'):raise ValueError('matchingArchiveUnavailable')
+    folder=Path(root)/'data/processed/returns'/upstream['return_id'];manifest=batch_report(root,as_of)
     if scope=='cohort':
         if manifest.get('status')!='complete' or not manifest.get('common_monthly',{}).get('count'):raise ValueError('Chapter 8 common vector unavailable')
         v=json.loads((Path(root)/'data/processed/forecasts'/manifest['run_id']/'common_monthly_total_return.json').read_text());assets=v['assets'];end=date.fromisoformat(v['as_of'])

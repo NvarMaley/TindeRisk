@@ -7,6 +7,15 @@ cell errors, 1,496 rendered checklist entries and full historical responses
 from the same server handlers used by the web app. The copy contains local
 derived data and requires redistribution-rights review before submission.
 
+## Matching update, 26 November 2026
+
+The table below records the previous engine. The dated replay now refits quarterly,
+enforces a one-month execution lag and prices traded securities separately from cash.
+HTTP verification produced 35 distinct cards on the standard mandate, five on the
+restricted Treasury mandate and one for cash alone. The manual, variance and goal
+allocations succeeded in all three cases. The standard paper export reconciled.
+The historical notebook replay completed all 83 code cells.
+
 ## Chapter-by-chapter cross-check
 
 All 65 representative requests below returned HTTP 200 when the actual

@@ -19,7 +19,7 @@ def test_balance_sheet_and_cash_flows(mandate):
     assert r["investable_wealth"] == 130000
     assert r["monthly_surplus"] == 2500
     assert r["goals"][0]["zero_return_gap"] == 20000
-    assert r["next_withdrawal"] == "2036-11-24"
+    assert r["next_withdrawal"] == mandate["goals"][0]["due_date"]
     assert r["goals"][0]["required_return"]["annual_return"] > 0
     assert r["combined_required_return"]["status"] == "calculated"
     assert r["demo_eligible"]

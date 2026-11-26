@@ -45,9 +45,18 @@ const handle = fn => async (...args) => {
   try { errorKey = ""; $("error").textContent = ""; await fn(...args); }
   catch (e) { if(e.message==="sessionChanged")return; errorKey = e.message; $("error").textContent = diagnostic(errorKey); }
 };
+function renderJourneyRoute(){
+  const route=$("journey-route");
+  if(!route)return;
+  const steps=[["mandate","navMandate"],["discovery","navDiscovery"],["explore","navExplore"],["matches","myMatches"]];
+  route.hidden=!sessionUnlocked||!steps.some(([name])=>activePage===name);
+  if(!route.hidden)route.innerHTML="<ol>"+steps.map(([name,key])=>`<li ${name===activePage?'aria-current="step"':""}>${esc(t(key))}</li>`).join("")+"</ol>";
+}
+document.addEventListener("riskmatch:language",renderJourneyRoute);
 function page(name) {
   if(!sessionUnlocked && name!=="saves")name="saves";
   activePage = name;
+  renderJourneyRoute();
   if(name!=="saves")lastSimulationPage=name;
   document.querySelectorAll(".page").forEach(x => x.hidden = x.id!==name);
   document.querySelectorAll("[data-page]").forEach(x => x.classList.toggle("active", x.dataset.page===name));
@@ -110,6 +119,8 @@ function renderMandateReport(){
   if(mandateReport)comparison=`<h3>${esc(t("compareBefore"))}</h3><p>${esc(t("effectiveStress"))}: ${pct(mandateReport.effective_stress_limit)} → ${pct(r.effective_stress_limit)} · ${esc(t("goalCount"))}: ${mandateReport.goals.length} → ${r.goals.length} · ${esc(t("capital"))}: ${esc(money(fullMandate.capital,fullMandate.currency))} → ${esc(cash(p.capital))}</p><p>${esc(t("mandateGoals"))}: ${esc(mandateReport.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${money(g.target_nominal_base,mandateReport.currency)})`).join(" · "))} → ${esc(r.goals.map(g=>`${t(g.objective_id)} (${g.due_date}, ${cash(g.target_nominal_base)})`).join(" · "))}</p>`;
   const messages=(items,cls)=>items.map(k=>`<p class="${cls}">• ${esc(diagnostic(k))}</p>`).join("");
   area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${canMatch(r)&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(canMatch(r)&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.personalized_reasons??r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
+  if(r.personalized_eligible && r.dynamic_overlay_available===false)
+    area.insertAdjacentHTML("beforeend","<p>"+esc(t("dynamicUnavailableMandate"))+"</p>");
   area.hidden=false;
   $("confirm-mandate").onclick=handle(confirmMandate);
 }
@@ -281,7 +292,16 @@ cardStage.addEventListener("lostpointercapture",event=>finishDiscoveryDrag(event
 let deckStyle="000";
 let historicalDeck=true, savedBlend=null,deckAversion=null,showFullDeck=false,pendingDeck=null;
 async function fetchDeck(raw){
-  try{return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle}) : api("candidates",raw));}
+  try{
+    if(raw.schema_version==="2.0.0"){
+      const health=await api("health");
+      if(health.matching_engine!=="personalized-v3")throw Error("serverOutdated");
+      const deck=await api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle});
+      if(!Array.isArray(deck)||deck.some(c=>!c.personalized||!c.version?.startsWith("personalized-v3:")))throw Error("serverOutdated");
+      return deck;
+    }
+    return await (historicalDeck ? api("matching/cards",{mandate:raw,aversion:deckAversion,style:deckStyle}) : api("candidates",raw));
+  }
   catch(e){if(historicalDeck&&e.message==="Not found")throw Error("serverOutdated");throw e;}
 }
 let deckRequest=null;
@@ -290,6 +310,12 @@ async function loadPortfolios(){
   $("portfolio").textContent=t("matchingLoading");
   $("portfolio").setAttribute?.("aria-busy","true");
   for(const id of ["like","reject","skip","undo"])$(id).disabled=true;
+  let clock;
+  if(window.Journey && activePage==="explore"&&!portfolios.length){
+    $("portfolio").innerHTML=window.Journey.loader();
+    const display=$("portfolio").querySelector("[data-elapsed]"),start=Date.now();
+    clock=setInterval(()=>{if(display.isConnected)display.textContent=Math.floor((Date.now()-start)/1000)+" s";},1000);
+  }
   const task=loadPortfoliosInternal();
   deckRequest=task;
   try{await task;}
@@ -302,6 +328,7 @@ async function loadPortfolios(){
     }
     throw e;
   }finally{
+    if(clock)clearInterval(clock);
     if(deckRequest===task)deckRequest=null;
     if(!deckRequest)$("portfolio").setAttribute?.("aria-busy","false");
   }
@@ -351,7 +378,7 @@ function strategyDescription(name){
     robust_utility:["Accounts for uncertainty in model estimates.","Prend en compte l’incertitude des estimations du modèle."],
     core_satellite:["Combines a reference core allocation with active strategies.","Combine une allocation centrale de référence et des stratégies actives."]
   };
-  return descriptions[name]?.[fr?1:0]||"";
+  return window.Journey?.method(name)||descriptions[name]?.[fr?1:0]||"";
 }
 function wealthChart(nav){
   if(!Array.isArray(nav)||nav.length<2||nav.some(x=>!Number.isFinite(x)))return "";
@@ -368,14 +395,18 @@ function detail(p){
   const holdingRows=rows=>rows.map(([k,v])=>`<div><p><span>${esc(t(k))}</span><strong>${pct(v)}</strong></p><div class="bar"><i style="width:${Math.max(0,Math.min(100,100*v))}%"></i></div></div>`).join("");
   return `<div class="strategy-title"><h2>${esc(strategyName(p.name))}</h2><span class="simulation-tag">${p.personalized?(fr?"Construit pour ton mandat":"Built for your mandate"):(fr?"Simulation historique":"Historical simulation")}</span></div>
   ${strategyDescription(p.name)?`<p>${esc(strategyDescription(p.name))}</p>`:""}
-  <div class="stats">${metrics.map(([key,value])=>`<div><b>${pct(value)}</b>${esc(t(key))}</div>`).join("")}</div>
-  ${p.exposures?`<p>${Object.entries(p.exposures).filter(([,w])=>w>.0001).map(([k,w])=>esc(t(k))+" "+pct(w)).join(" · ")}</p><p>${fr?"Nombre de positions":"Holdings"} · ${p.style_holdings}</p>${p.income_preference_unmeasured?`<p>${fr?"Les distributions de revenu ne sont pas mesurées.":"Income distributions are unmeasured."}</p>`:""}${p.equivalent_methods?.length?`<details><summary>${fr?"Méthodes de composition similaire":"Methods with similar holdings"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}`:""}
-  ${wealthChart(p.metrics.nav)}
-  <p>${esc(t("stressLoss"))} : ${money(p.stress_usd,"USD")} · ${esc(t("es"))} : ${pct(p.metrics.es95_monthly)}</p>
-  <h3>${fr?"Composition du portefeuille":"Portfolio composition"}</h3><div class="holdings-list">${holdingRows(positions.slice(0,15))}${positions.length>15?`<details><summary>${fr?"Voir toutes les positions":"View all holdings"} (${positions.length})</summary>${holdingRows(positions.slice(15))}</details>`:""}</div>
+  <p>${fr?"Dans le scénario de perte le plus sévère testé, ton capital baisse de":"In the worst loss scenario tested, your capital falls by"} <strong>${money(p.stress_usd,"USD")}</strong> (${pct(p.stress_loss)}).</p>
+  ${window.Journey?.timeline(p.metrics.nav)||wealthChart(p.metrics.nav)}
+  ${window.Journey?.composition(p)||""}
+  ${window.Journey?.goals(p.goal_projection)||""}
+  <details><summary>${fr?"Comment lire les chiffres ?":"How do I read the numbers?"}</summary><dl>${metrics.map(([key,value],i)=>`<dt>${esc(t(key))} · ${pct(value)}</dt><dd>${(fr?["Croissance annuelle moyenne composée sur la période testée.","Amplitude habituelle des fluctuations, ramenée à une année.","Plus grand recul entre un sommet et le point bas suivant.","Perte estimée dans le choc le plus défavorable testé."]:["Compound annual growth over the test period.","Typical fluctuations expressed on an annual scale.","Largest historical fall from a previous high.","Estimated loss under the worst shock tested."])[i]}</dd>`).join("")}</dl><p>${fr?"Perte moyenne pendant les 5 % de mois les plus défavorables":"Average loss across the worst 5% of months"} · ${pct(p.metrics.es95_monthly)}</p></details>
+  <details><summary>${fr?"Voir les placements":"View holdings"} (${positions.length})</summary><div class="holdings-list">${holdingRows(positions)}</div></details>
+  ${p.sensitivity_ranks?`<p>${fr?"Rang selon la priorité donnée à la sécurité":"Rank by emphasis on safety"} · ${p.sensitivity_ranks.join(" / ")}. ${fr?"Comparaison entre moins de poids, ton réglage et plus de poids pour la sécurité (±10 points).":"Less emphasis, your setting, and more emphasis (±10 percentage points)."}</p>`:""}
+  ${p.income_preference_unmeasured?`<p>${fr?"Les versements de revenu ne sont pas mesurés.":"Income distributions are unmeasured."}</p>`:""}
+  ${p.equivalent_methods?.length?`<details><summary>${fr?"Méthodes aux poids actuels proches · la courbe représente uniquement la méthode affichée":"Similar current holdings · the chart represents the displayed method only"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}
   ${p.personalized?`<p class="muted">${fr?"Univers admissible":"Eligible universe"} : ${p.eligible_assets}/${p.universe_size} · ${fr?"Rendement estimé":"Estimated return"} : ${pct(p.expected_return)} · ${fr?"Volatilité estimée":"Estimated volatility"} : ${pct(p.estimated_volatility)}</p>
-  ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}</p>`).join("")}</details>`:""}
-  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La performance historique est calculée sur des pondérations estimées avant la période de test.":"Historical performance uses weights estimated before the test period."}</p>`:""}
+  ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"} · ${p.development_months} ${fr?"mois de données rééchantillonnés":"months of resampled history"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}${g.window_probabilities?.every(Number.isFinite)?` · ${fr?"Probabilité sur chacune des deux moitiés de l’historique":"Probability using each half of the history"} ${g.window_probabilities.map(pct).join(" / ")}`:""}</p>`).join("")}</details>`:""}
+  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La courbe suit cette méthode réestimée chaque trimestre, avec un mois de délai. Les actions sont sélectionnées à chaque date. La liste des ETF est rétrospective et les dates de publication des rendements sont incomplètes.":"The curve re-estimates this method quarterly with a one-month lag. Stock membership is dated; the ETF list is retrospective and return publication dates are incomplete."}</p>`:""}
   <details class="strategy-method"><summary>${fr?"Période et hypothèses":"Period and assumptions"}</summary><p class="muted">${esc(t(p.period))} · ${esc(t(p.costs))}</p></details>`;
 }
 function showPortfolio(){
@@ -391,7 +422,22 @@ function showPortfolio(){
     more.onclick=()=>{showFullDeck=true;showPortfolio();};$("portfolio").append(more);return;
   }
   const fit=p?.worst_scenario?`<p>${fr?"Scénario le plus défavorable":"Worst scenario"} · ${esc(p.worst_scenario.replaceAll("_"," "))}. ${fr?"Perte simulée":"Simulated loss"} ${pct(p.stress_loss)} / ${pct(mandate.max_stress_loss)} ${fr?"autorisés":"limit"}.</p>`:"";
-  $("portfolio").innerHTML=p?"<article>"+detail(p)+fit+`<p class="muted">${swipes.length+1} / ${portfolios.length} · ${shortlist.length} ${fr?"retenues":"retained"}</p></article>`:portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
+  if(!p){
+    $("portfolio").innerHTML=portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
+    return;
+  }
+  const count=swipes.length+1,model=strategyName(p.name);
+  const title=esc(model);
+  const annual=p.metrics.cagr;
+  const narrative=strategyDescription(p.name);
+  $("portfolio").innerHTML=`<article class="voyage-card">
+    <div class="voyage-cover" data-colour="${count%3}"><img src="./assets/cherry.png" alt=""><span>${fr?"Stratégie":"Strategy"} ${count} / ${portfolios.length}</span></div>
+    <div class="voyage-face"><h2>${title}</h2>${narrative?`<p>${esc(narrative)}</p>`:""}
+    <dl><div><dt>${fr?"Sur un an, en moyenne¹":"Average annual growth¹"}</dt><dd>${Number.isFinite(annual)?pct(annual):"—"}</dd></div>
+    <div><dt>${fr?"Perte en scénario de stress":"Loss in a stress scenario"}</dt><dd>${money(p.stress_usd,"USD")}</dd></div></dl>
+    <small>${fr?"¹ Rendement annualisé sur la période testée.":"¹ Compound annual growth over the test period."}</small></div>
+    <details class="voyage-reveal"><summary>${fr?"Explorer la composition et les résultats":"Explore holdings and results"}</summary>${detail(p)}${fit}</details></article>`;
+
 }
 function strategyVerdict(choice, portfolio){
   const dialog=$("strategy-verdict");
@@ -405,6 +451,33 @@ function strategyVerdict(choice, portfolio){
   dialog.showModal();
 }
 function swipe(choice){if($("strategy-verdict")?.open||!sessionUnlocked||(historicalDeck&&swipes.length>=12&&!showFullDeck))return;const p=portfolios[swipes.length];if(!p)return;swipes.push(choice);if(choice==="like"){shortlist.push(p);savedBlend=null;}showPortfolio();changed();if(choice==="like"||choice==="dislike")strategyVerdict(choice,p);}
+let strategyDrag=null;
+const deckSurface=$("portfolio");
+deckSurface.addEventListener("pointerdown",event=>{
+  if(event.button!==0||!event.isPrimary||activePage!=="explore"||event.target.closest("button,summary,details,input,select,label,a"))return;
+  const article=event.target.closest("article");
+  if(!article||$("like").disabled)return;
+  strategyDrag={article,id:event.pointerId,x:event.clientX,y:event.clientY};
+});
+deckSurface.addEventListener("pointermove",event=>{
+  if(strategyDrag?.id!==event.pointerId)return;
+  const {article,x,y}=strategyDrag,dx=event.clientX-x;
+  if(Math.abs(event.clientY-y)>Math.abs(dx)+15){article.style.transform="";delete article.dataset.drag;strategyDrag=null;return;}
+  if(Math.abs(dx)>12){
+    deckSurface.setPointerCapture(event.pointerId);
+    article.dataset.drag=dx>0?"like":"pass";
+    article.dataset.verdict=dx>0?"♥ Match":window.RM.language==="fr"?"✕ Passer":"✕ Pass";
+    if(!window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+      article.style.transform=`translateX(${Math.max(-130,Math.min(130,dx*.48))}px) rotate(${Math.max(-8,Math.min(8,dx/18))}deg)`;
+  }else{delete article.dataset.drag;article.style.transform="";}
+});
+function finishStrategyDrag(event){
+  if(strategyDrag?.id!==event.pointerId)return;
+  const {article,x,y}=strategyDrag;strategyDrag=null;article.style.transform="";delete article.dataset.drag;
+  const dx=event.clientX-x;
+  if(event.type==="pointerup"&&Math.abs(dx)>65&&Math.abs(dx)>1.4*Math.abs(event.clientY-y)&&article.isConnected)swipe(dx>0?"like":"dislike");
+}
+for(const event of ["pointerup","pointercancel","lostpointercapture"])deckSurface.addEventListener(event,finishStrategyDrag);
 $("like").onclick=()=>swipe("like");$("reject").onclick=()=>swipe("dislike");$("skip").onclick=()=>swipe("skip");
 $("undo").onclick=()=>{if(!sessionUnlocked||pendingDeck)return;if(swipes.pop()==="like"){const undone=shortlist.pop();confirmed.delete(undone.name);}showPortfolio();changed();};
 function compare(){
@@ -416,7 +489,7 @@ function compare(){
   researchButton.onclick=handle(async()=>{
     const r=await api("matching/research",{});
     if(r.status!=="experimental"){researchOutput.textContent=r.reason;return;}
-    researchOutput.innerHTML=`<p>${fr?"Comparaison historique exploratoire, sans validation indépendante":"Exploratory historical comparison, without independent validation"} · ${esc(r.reference)} · ${r.holdout_months} ${fr?"mois":"months"}</p><table><thead><tr><th>${fr?"Stratégie":"Strategy"}</th><th>CAGR</th><th>${fr?"Volatilité":"Volatility"}</th><th>Drawdown</th><th>${fr?"Excès annualisé":"Annualized excess"}</th></tr></thead><tbody>${r.strategies.map(s=>`<tr><td>${esc(s.strategy)}</td><td>${pct(s.holdout_cagr)}</td><td>${pct(s.holdout_volatility)}</td><td>${pct(s.holdout_drawdown)}</td><td>${pct(s.holdout_excess_annual)}</td></tr>`).join("")}</tbody></table>`;
+    researchOutput.innerHTML=(window.Journey?.map(r.strategies.map(s=>({title:strategyName(s.strategy),metrics:{vol:s.holdout_volatility,cagr:s.holdout_cagr}})))||"")+`<p>${fr?"Comparaison historique exploratoire, sans validation indépendante":"Exploratory historical comparison, without independent validation"} · ${esc(r.reference)} · ${r.holdout_months} ${fr?"mois":"months"}</p><table><thead><tr><th>${fr?"Stratégie":"Strategy"}</th><th>CAGR</th><th>${fr?"Volatilité":"Volatility"}</th><th>Drawdown</th><th>${fr?"Excès annualisé":"Annualized excess"}</th></tr></thead><tbody>${r.strategies.map(s=>`<tr><td>${esc(s.strategy)}</td><td>${pct(s.holdout_cagr)}</td><td>${pct(s.holdout_volatility)}</td><td>${pct(s.holdout_drawdown)}</td><td>${pct(s.holdout_excess_annual)}</td></tr>`).join("")}</tbody></table>`;
   });research.append(researchButton,researchOutput);if(activePage==="compare")area.append(research);
   const variants=document.createElement("button");
   variants.textContent=fr?"Comparer les variantes du modèle":"Compare model variants";
@@ -433,12 +506,16 @@ function compare(){
     }
     area.append(empty);return;
   }
+  if(activePage==="matches" && window.Journey && shortlist.length>1){
+    const landscape=document.createElement("div");
+    landscape.innerHTML=window.Journey.map(shortlist.map(p=>({...p,title:strategyName(p.name)})));area.append(landscape);
+  }
   const allocation=document.createElement("article");
   const signature=JSON.stringify([fullMandate||mandate,shortlist[0].version,shortlist.map(p=>p.name)]);
   const stored=savedBlend?.signature===signature?savedBlend:null;
   allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation fictive.":"Synthetic simulation.")}</p>`;
   if(stored?.paperConfirmed){
-    const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
+    allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
   }
   const inputs=shortlist.map(p=>{
     const label=document.createElement("label");label.className="allocation-row";label.textContent=strategyName(p.name)+" (%) ";
@@ -452,7 +529,7 @@ function compare(){
   const output=document.createElement("div");
   let revision=0;
   for(const optimized of (shortlist[0].personalized?[false,true,"goal"]:[false,true])){
-    const button=document.createElement("button");button.textContent=optimized==="goal"?(fr?"Comparer selon mon objectif prioritaire":"Compare for my priority goal"):optimized?(fr?"Optimiser le risque":"Optimize risk"):(fr?"Calculer mon allocation":"Evaluate allocation");
+    const button=document.createElement("button");button.textContent=optimized==="goal"?(fr?"Comparer selon mon objectif prioritaire":"Compare for my priority goal"):optimized?(fr?"Minimiser les fluctuations historiques":"Minimize historical volatility"):(fr?"Calculer mon allocation":"Evaluate allocation");
     button.onclick=handle(async()=>{
       const requestRevision=++revision;
       output.replaceChildren();
@@ -485,7 +562,7 @@ function compare(){
         await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
         if(!confirm.isConnected||requestRevision!==revision)return;
         savedBlend={signature,budgets:result.budgets,paperConfirmed:true};changed();
-        confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
+        allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
       });output.append(confirm);
     });allocation.append(button);
   }
@@ -504,11 +581,16 @@ function compare(){
       if(!goals.isConnected||rev!==revision)return;
       const moneyValue=v=>v==null?"—":Number(v).toFixed(0);
       const probability=v=>v==null?"—":pct(v);
-      goalOutput.innerHTML=`<p>${fr?"Simulation conditionnelle · 1 000 trajectoires":"Conditional simulation · 1,000 paths"}</p><table><thead><tr><th>${fr?"Objectif":"Objective"}</th><th>${fr?"Probabilité":"Probability"}</th><th>${fr?"Déficit attendu USD":"Expected deficit USD"}</th><th>${fr?"Prob. référence":"Reference probability"}</th></tr></thead><tbody>${r.matched.goals.map((g,i)=>`<tr><td>${esc(t(g.objective_id))} · ${esc(g.due_date)}</td><td>${probability(g.probability)}</td><td>${moneyValue(g.expected_deficit)}</td><td>${probability(r.reference.goals[i]?.probability)}</td></tr>`).join("")}</tbody></table><p>${esc(strategyName(r.benchmark||"60/40"))} · ${r.training_months} ${fr?"mois historiques":"historical months"}</p><p class="muted">${esc(r.warning)}</p>`;
+      goalOutput.innerHTML=(window.Journey?.goals(r.matched.goals)||"")+(window.Journey?r.matched.goals.map(window.Journey.range).join(""):"")+`<p>${fr?"Simulation conditionnelle · 1 000 trajectoires":"Conditional simulation · 1,000 paths"}</p><table><thead><tr><th>${fr?"Objectif":"Objective"}</th><th>${fr?"Probabilité":"Probability"}</th><th>${fr?"Déficit attendu USD":"Expected deficit USD"}</th><th>${fr?"Prob. référence":"Reference probability"}</th></tr></thead><tbody>${r.matched.goals.map((g,i)=>`<tr><td>${esc(t(g.objective_id))} · ${esc(g.due_date)}</td><td>${probability(g.probability)}</td><td>${moneyValue(g.expected_deficit)}</td><td>${probability(r.reference.goals[i]?.probability)}</td></tr>`).join("")}</tbody></table><p>${esc(strategyName(r.benchmark||"60/40"))} · ${r.training_months} ${fr?"mois historiques":"historical months"}</p><p class="muted">${esc(r.warning)}</p>`;
     });goals.append(goalButton,goalOutput);area.append(goals);
   }
   if(activePage==="matches"&&historicalDeck){
     const dynamic=document.createElement("article");
+    if(fullMandate && mandateReport?.dynamic_overlay_available===false){
+      dynamic.textContent=t("dynamicUnavailableMandate");
+      area.append(dynamic);
+      return;
+    }
     dynamic.innerHTML=`<h2>${fr?"Gestion dynamique":"Dynamic management"}</h2><p>${fr?"Comparer 10 politiques sur les mêmes rendements historiques du portefeuille sélectionné.":"Compare 10 policies on the same historical returns of the selected portfolio."}</p>`;
     const run=document.createElement("button"), result=document.createElement("div");
     const costLabel=document.createElement("label"),costInput=document.createElement("input");

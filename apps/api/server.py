@@ -56,7 +56,7 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path == "/api/cards":
             return self.respond(cards())
         if self.path == "/api/health":
-            return self.respond({"status": "ok", "mode": "simulation", "client_flow": 29})
+            return self.respond({"status": "ok", "mode": "simulation", "client_flow": 30, "matching_engine": personalized_matches.VERSION})
         return super().do_GET()
 
     def do_POST(self):

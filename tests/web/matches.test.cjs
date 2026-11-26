@@ -29,7 +29,7 @@ test("liked cards feed manual and optimized budgets, confirmation and the local 
   await button("Evaluate allocation").onclick();
   assert.deepEqual(requests.at(-1).body.budgets,[.6,.4]);
   assert.equal(run("simulationSnapshot().savedBlend.budgets.AAA"),.6);
-  await button("Optimize risk").onclick();
+  await button("Minimize historical volatility").onclick();
   assert.equal(labels[0].children[0].value,30);
   const output=panel.children.at(-1);await output.children.at(-1).onclick();
   assert.equal(requests.at(-1).url,"/api/match-allocations/evaluate");
@@ -70,4 +70,14 @@ test("outdated matching server does not prevent restoring a save or erase its ch
   await vm.runInContext("loadPortfolios()",ctx);
   assert.equal(vm.runInContext("shortlist[0].name",ctx),"A");
   assert.equal(vm.runInContext("pendingDeck",ctx),null);
+});
+
+test("full mandate rejects a legacy deck even when HTTP succeeds",async()=>{
+  const el={addEventListener(){},classList:{toggle(){}}};
+  const ctx={document:{getElementById:()=>el,querySelectorAll:()=>[],addEventListener(){}},
+    window:{RM:{t:k=>k}},fetch:async url=>({ok:true,json:async()=>url.endsWith("health")
+      ?{matching_engine:"personalized-v3"}:[{version:"historical-usd-v1"}]})};
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(__dirname,"../../apps/web/app.js"),"utf8"),ctx);
+  await assert.rejects(vm.runInContext('fetchDeck({schema_version:"2.0.0"})',ctx),/serverOutdated/);
 });
