@@ -111,5 +111,3 @@ with allocation:
         st.session_state.confirmed_allocation = reference
     if st.session_state.get("confirmed_allocation") == reference:
         st.success("Allocation simulée confirmée pour le mandat B.")
-        st.download_button("Télécharger les positions", positions.to_csv().encode("utf-8"),
-                           file_name="riskmatch-portefeuille-simule.csv", mime="text/csv")
