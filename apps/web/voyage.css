@@ -186,3 +186,29 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
   @keyframes chapter-rise{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:none}}
   @keyframes chapter-turn{from{opacity:0;transform:rotate(-32deg) scale(.78)}to{opacity:1;transform:none}}
 }
+
+.strategy-explanation { border-bottom: 1px solid #ffffff24; }
+.strategy-method > summary, .strategy-deck-list > summary { cursor: pointer; }
+.strategy-explanation .strategy-method > summary { color: var(--foam); }
+.strategy-method code { white-space: normal; overflow-wrap: anywhere; }
+.strategy-deck-list { margin-block: 1rem; }
+
+#strategy-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 1.5rem 2rem;
+  align-items: start;
+}
+#strategy-library details, .catalogue-glossary {
+  border-bottom: 1px solid #8ec2bb55;
+  padding: .75rem 0;
+}
+#strategy-library summary, .catalogue-glossary summary {
+  cursor: pointer;
+  color: var(--foam);
+}
+#strategy-library code { white-space: normal; overflow-wrap: anywhere; }
+#methodology-stages { max-width: 75ch; padding-inline-start: 2rem; }
+#methodology-stages li { padding-inline-start: .5rem; margin-block: 1.5rem; }
+#methodology-stages li::marker { color: var(--foam); font-weight: 700; }
+.research-tool-help { max-width: 75ch; }

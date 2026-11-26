@@ -81,3 +81,38 @@ test("full mandate rejects a legacy deck even when HTTP succeeds",async()=>{
   vm.runInContext(fs.readFileSync(path.join(__dirname,"../../apps/web/app.js"),"utf8"),ctx);
   await assert.rejects(vm.runInContext('fetchDeck({schema_version:"2.0.0"})',ctx),/serverOutdated/);
 });
+
+test("Explore explains the method, source and mandate fit for each returned card",()=>{
+  const ids=new Map();
+  const get=id=>{
+    if(!ids.has(id))ids.set(id,{addEventListener(){},classList:{toggle(){}}});
+    return ids.get(id);
+  };
+  const ctx={document:{getElementById:get,querySelectorAll:()=>[],addEventListener(){}},
+    window:{RM:{language:"fr",t:k=>k}}};
+  vm.createContext(ctx);
+  for(const script of ["strategy-methods.js","app.js"]){
+    vm.runInContext(fs.readFileSync(path.join(__dirname,"../../apps/web",script),"utf8"),ctx);
+  }
+  vm.runInContext(`
+    mandate={capital:10000,max_stress_loss:.2};
+    portfolios=[
+      {name:"minimum_variance", personalized:true, model_as_of:"2025-12-31", fit_risk_weight:.6,
+        stress_loss:.08, stress_usd:800, weights:{SPY:1}, metrics:{cagr:.04}},
+      {name:"factor_value", personalized:true, stress_loss:.1, stress_usd:1000, weights:{SPY:1}, metrics:{cagr:.05}},
+    ];
+    showPortfolio();
+  `,ctx);
+  let html=get("portfolio").innerHTML;
+  assert.match(html,/Comment ça marche et pourquoi cette carte/);
+  assert.match(html,/min wᵀΣw/);
+  assert.match(html,/2025-12-31/);
+  assert.match(html,/8\.0% pour une limite de 20\.0%/);
+  assert.match(html,/Stratégies proposées pour ce mandat/);
+  assert.match(html,/Factor Value/);
+  vm.runInContext('window.RM.language="en"; swipes=["skip"]; showPortfolio()',ctx);
+  html=get("portfolio").innerHTML;
+  assert.match(html,/high book equity relative to market value/);
+  assert.match(html,/Dated stock factor scores/);
+  assert.doesNotMatch(html,/min wᵀΣw/);
+});
