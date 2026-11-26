@@ -361,24 +361,46 @@ function strategyName(name){
   return name.replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase());
 }
 function strategyDescription(name){
-  const fr=window.RM.language==="fr";
-  const descriptions={
-    minimum_variance:["Seeks the lowest estimated portfolio volatility.","Recherche la volatilité estimée la plus faible."],
-    risk_parity:["Balances the contribution of each asset to total risk.","Équilibre la contribution de chaque actif au risque global."],
-    black_litterman:["Combines market equilibrium with investment views to construct an allocation.","Combine l’équilibre du marché et des anticipations pour construire une allocation."],
-    mean_reversion:["Uses departures from historical averages to form contrarian positions.","Exploite les écarts aux moyennes historiques pour prendre des positions contrariennes."],
-    cross_sectional_momentum:["Favors assets with stronger prior relative performance.","Favorise les actifs ayant les meilleures performances relatives passées."],
-    time_series_momentum:["Adjusts exposure according to historical trends.","Adapte les expositions aux tendances historiques."],
-    maximum_sharpe:["Seeks the best estimated excess return per unit of volatility.","Recherche le meilleur excès de rendement estimé par unité de volatilité."],
-    mean_variance_utility:["Balances expected return against portfolio variance.","Arbitre entre rendement attendu et variance du portefeuille."],
-    minimum_cvar:["Aims to reduce the average loss in adverse tail scenarios.","Vise à réduire la perte moyenne dans les scénarios extrêmes."],
-    volatility_target:["Adjusts exposure toward a target volatility.","Ajuste l’exposition en fonction d’une volatilité cible."],
-    equal_weight:["Allocates equal capital to eligible holdings.","Répartit le capital de manière égale entre les actifs admissibles."],
-    all_weather:["Diversifies across asset exposures under different economic conditions.","Diversifie les expositions sous différentes conditions économiques."],
-    robust_utility:["Accounts for uncertainty in model estimates.","Prend en compte l’incertitude des estimations du modèle."],
-    core_satellite:["Combines a reference core allocation with active strategies.","Combine une allocation centrale de référence et des stratégies actives."]
-  };
-  return window.Journey?.method(name)||descriptions[name]?.[fr?1:0]||"";
+  const lang=window.RM.language==="fr"?1:0;
+  return window.StrategyMethods?.methods[name]?.[lang] || window.Journey?.method(name) || "";
+}
+function strategyExplanation(p){
+  const fr=window.RM.language==="fr", lang=fr?1:0;
+  const catalog=window.StrategyMethods, method=catalog?.methods[p.name];
+  const limit=mandate?.max_stress_loss;
+  const historical=Number.isFinite(p.fit_risk_weight);
+  const stress=Number.isFinite(limit)&&Number.isFinite(p.stress_loss)
+    ? (fr?"Pire perte parmi les chocs testés ":"Worst loss across the tested shocks ")+pct(p.stress_loss)
+      +(fr?" pour une limite de ":" against a limit of ")+pct(limit)+"."
+    : "";
+  const fit=p.personalized
+    ? (fr?"Les poids tiennent compte des actifs autorisés et des plafonds du mandat. Le classement combine sécurité, rendement estimé et projections de tes objectifs quand elles sont mesurables. Tes préférences de simplicité et d’activité peuvent aussi intervenir.":"Weights account for permitted assets and position caps. Ranking combines safety, estimated return and projections for goals that can be measured. Your preferences for simplicity and activity can also affect the ranking.")
+    : historical
+      ? (fr?"Cette allocation historique passe le filtre de perte en stress. Son classement utilise la perte simulée et le rendement de la période de développement.":"This historical allocation passes the stress-loss filter. Its ranking uses simulated loss and the return from the development period.")
+      : (fr?"Cette allocation de démonstration passe le filtre de perte sur un choc prédéfini.":"This demo allocation passes the loss filter on a predefined shock.");
+  const scenario=p.worst_scenario
+    ? (fr?"Choc le plus défavorable ":"Worst shock ")+t(p.worst_scenario)+".":"";
+  const riskWeight=historical?(fr?"Poids de la sécurité dans le compromis de base ":"Safety weight in the base tradeoff ")+pct(p.fit_risk_weight)+".":"";
+  const softPenalty=p.soft_constraint_penalty>0
+    ? (fr?"Un dépassement de préférence de volatilité ou de poids réduit le score.":"Exceeding a volatility or position-weight preference reduces the score."):"";
+  const source=method?catalog.sources[method[3]||"returns"][lang]:"";
+  const cutoff=p.model_as_of?(fr?" Dernière observation du panel ":" Last observation in the panel ")+p.model_as_of+".":"";
+  const formula=method?.[2];
+  const formulaGuide=fr
+    ?"Dans les formules, w désigne les poids, r le rendement mensuel, R le rendement estimé, Rf le taux de référence des liquidités, σ la volatilité Σ la matrice des mouvements communs (covariances) et λ le coefficient de pénalisation du risque."
+    :"In the formulas, w denotes weights, r monthly return, R estimated return, Rf the cash-rate proxy, σ volatility Σ the covariance matrix and λ the risk penalty coefficient.";
+  return `<details class="strategy-method"><summary>${fr?"Comment ça marche et pourquoi cette carte ?":"How does it work and why am I seeing this card?"}</summary>
+    ${method?`<h3>${fr?"Règle de construction":"Construction rule"}</h3><p>${esc(method[lang])}</p>`:""}
+    ${formula?`<p><strong>${fr?"Formule de la règle":"Rule in formula form"}</strong><br><code>${esc(formula)}</code></p>`:""}
+    ${formula&&/[Σσλ]/.test(formula)?`<p class="muted">${formulaGuide}</p>`:""}
+    ${source?`<h3>${fr?"Données utilisées":"Data used"}</h3><p>${esc(source+cutoff)}</p>`:""}
+    ${p.personalized?`<p>${fr?"Le moteur peut rapprocher les poids de l’allocation défensive pour respecter le mandat. Les poids affichés sont les poids finaux après ces vérifications.":"The engine can move weights toward the defensive allocation to satisfy the mandate. The displayed weights are the final weights after these checks."}</p>`:""}
+    <h3>${fr?"Pourquoi elle apparaît":"Why it appears"}</h3><p>${esc([stress,scenario,fit,riskWeight,softPenalty].filter(Boolean).join(" "))}</p>
+  </details>`;
+}
+function strategyDeckList(fr){
+  return `<details class="strategy-deck-list"><summary>${fr?"Stratégies proposées pour ce mandat":"Strategies offered for this mandate"} (${portfolios.length})</summary>
+    <ol>${portfolios.map(p=>`<li>${esc(strategyName(p.name))}</li>`).join("")}</ol></details>`;
 }
 function wealthChart(nav){
   if(!Array.isArray(nav)||nav.length<2||nav.some(x=>!Number.isFinite(x)))return "";
@@ -388,13 +410,13 @@ function wealthChart(nav){
   const title=fr?"Évolution historique, capital de départ = 100":"Historical performance, starting value = 100";
   return `<figure class="wealth-chart"><figcaption>${esc(title)}</figcaption><svg viewBox="0 0 600 180" role="img" aria-label="${esc(title)}"><path d="M24 152H576 M24 88H576 M24 24H576" stroke="currentColor" opacity=".18" fill="none"/><path d="${path}" fill="none" stroke="#95e8df" stroke-width="3" stroke-linejoin="round"/><circle cx="${xy.at(-1)[0]}" cy="${xy.at(-1)[1]}" r="4" fill="#ff97c1"/></svg><div><span>100</span><strong>${(100*nav.at(-1)).toFixed(1)}</strong></div></figure>`;
 }
-function detail(p){
+function detail(p, explain=true){
   const fr=window.RM.language==="fr";
   const metrics=[["cagr",p.metrics.cagr],["vol",p.metrics.vol],["drawdown",p.metrics.drawdown],["stress",p.stress_loss]];
   const positions=Object.entries(p.weights).filter(([,v])=>Math.abs(v)>1e-7).sort((a,b)=>b[1]-a[1]);
   const holdingRows=rows=>rows.map(([k,v])=>`<div><p><span>${esc(t(k))}</span><strong>${pct(v)}</strong></p><div class="bar"><i style="width:${Math.max(0,Math.min(100,100*v))}%"></i></div></div>`).join("");
   return `<div class="strategy-title"><h2>${esc(strategyName(p.name))}</h2><span class="simulation-tag">${p.personalized?(fr?"Construit pour ton mandat":"Built for your mandate"):(fr?"Simulation historique":"Historical simulation")}</span></div>
-  ${strategyDescription(p.name)?`<p>${esc(strategyDescription(p.name))}</p>`:""}
+  ${explain?strategyExplanation(p):""}
   <p>${fr?"Dans le scénario de perte le plus sévère testé, ton capital baisse de":"In the worst loss scenario tested, your capital falls by"} <strong>${money(p.stress_usd,"USD")}</strong> (${pct(p.stress_loss)}).</p>
   ${window.Journey?.timeline(p.metrics.nav)||wealthChart(p.metrics.nav)}
   ${window.Journey?.composition(p)||""}
@@ -419,11 +441,11 @@ function showPortfolio(){
     $("portfolio").replaceChildren();
     const more=document.createElement("button");
     more.textContent=fr?"Voir les autres stratégies compatibles":"View remaining compatible strategies";
-    more.onclick=()=>{showFullDeck=true;showPortfolio();};$("portfolio").append(more);return;
+    more.onclick=()=>{showFullDeck=true;showPortfolio();};$("portfolio").append(more);
+    $("portfolio").insertAdjacentHTML("beforeend",strategyDeckList(fr));return;
   }
-  const fit=p?.worst_scenario?`<p>${fr?"Scénario le plus défavorable":"Worst scenario"} · ${esc(p.worst_scenario.replaceAll("_"," "))}. ${fr?"Perte simulée":"Simulated loss"} ${pct(p.stress_loss)} / ${pct(mandate.max_stress_loss)} ${fr?"autorisés":"limit"}.</p>`:"";
   if(!p){
-    $("portfolio").innerHTML=portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>":"<article>"+esc(t("matchingEmpty"))+"</article>";
+    $("portfolio").innerHTML=portfolios.length?"<article>"+esc(t("end"))+": "+shortlist.length+"</article>"+strategyDeckList(fr):"<article>"+esc(t("matchingEmpty"))+"</article>";
     return;
   }
   const count=swipes.length+1,model=strategyName(p.name);
@@ -436,7 +458,8 @@ function showPortfolio(){
     <dl><div><dt>${fr?"Sur un an, en moyenne¹":"Average annual growth¹"}</dt><dd>${Number.isFinite(annual)?pct(annual):"—"}</dd></div>
     <div><dt>${fr?"Perte en scénario de stress":"Loss in a stress scenario"}</dt><dd>${money(p.stress_usd,"USD")}</dd></div></dl>
     <small>${fr?"¹ Rendement annualisé sur la période testée.":"¹ Compound annual growth over the test period."}</small></div>
-    <details class="voyage-reveal"><summary>${fr?"Explorer la composition et les résultats":"Explore holdings and results"}</summary>${detail(p)}${fit}</details></article>`;
+    <div class="voyage-reveal strategy-explanation">${strategyExplanation(p)}</div>
+    <details class="voyage-reveal"><summary>${fr?"Explorer la composition et les résultats":"Explore holdings and results"}</summary>${detail(p,false)}</details></article>${strategyDeckList(fr)}`;
 
 }
 function strategyVerdict(choice, portfolio){
@@ -738,7 +761,7 @@ async function restoreSimulation(snapshot){
   portfolios=nextPortfolios;swipes=nextSwipes.slice();shortlist=portfolios.filter((_,i)=>swipes[i]==="like");confirmed.clear();scoreReport=null;
   if(fullMandate)window.MandateForm.restore(fullMandate);
   else{window.MandateForm.reset();const f=$("form");f.querySelector('[name="currency"]').value="USD";f.elements.capital.value=mandate.capital;f.elements.cash.value=mandate.capital;f.elements.loss_capacity_amount.value=mandate.capital*mandate.max_stress_loss;f.elements.stress_loss.value=mandate.max_stress_loss*100;f.elements.loss_budget.value=mandate.max_stress_loss*100;}
-  const target=["home","mandate","discovery","universe","sources","explore","compare","matches"].includes(snapshot.activePage)?snapshot.activePage:"home";
+  const target=["home","mandate","discovery","universe","sources","explore","compare","matches","strategy-catalogue","methodology"].includes(snapshot.activePage)?snapshot.activePage:"home";
   if(pendingDeck)return "home";
   if(fullMandate&&mandateReport?.personalized_eligible===true&&deckAversion===null&&["explore","matches"].includes(target))return "discovery";
   return fullMandate&&!canMatch(mandateReport)&&["explore","compare","matches"].includes(target)?"mandate":target;
