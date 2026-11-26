@@ -7,7 +7,9 @@ test("client navigation keeps technical research separate; mandate exposes objec
   assert.match(html,/<details class="research-nav"/);
   assert.match(form,/class="goal-picker"/);
   assert.match(form,/length:11/);
-  assert.match(form,/select\("currency",\["USD","CHF"\]\)/);
+  assert.match(form,/<input name="currency" type="hidden" value="USD">/);
+  assert.doesNotMatch(form,/section\("06","mandateKnowledge"/);
+  assert.match(form,/id="mandate-derivatives-experience" hidden/);
   assert.match(form,/form\.insertBefore\(goalPanel/);
   const mandate=html.match(/<section id="mandate"[\s\S]*?<\/section>/)[0];
   assert.doesNotMatch(mandate,/objectives-panel/);

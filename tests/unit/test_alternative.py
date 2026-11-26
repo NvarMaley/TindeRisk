@@ -46,3 +46,17 @@ def test_tactical_bounds_and_unsupported_data():
     w=target('tactical_allocation',h,u,assets,None,None)
     assert w[0]==pytest.approx(.8) and w[2]==pytest.approx(.2)
     with pytest.raises(ValueError,match='Unsupported'):target('managed_futures',h,u,assets,None,None)
+
+
+def test_momentum_can_run_with_no_treasury_reference_series():
+
+    assets = [
+        {"ticker": "SPY", "source": "etf_crsp_monthly", "category": "equity_etf"},
+        {"ticker": "ABC", "source": "stock_monthly", "category": "stock"},
+    ]
+    returns = np.tile([.01, .02], (36, 1))
+    caps = np.array([.65, .05])
+
+    weights = target("cross_sectional_momentum", returns, caps, assets, None, None)
+
+    np.testing.assert_allclose(weights, [0., .05])

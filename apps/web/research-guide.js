@@ -45,9 +45,14 @@
         "Pour les objectifs mesurables, le moteur construit 256 trajectoires à partir de blocs de six mois de rendements historiques et y applique tes flux. Le classement combine les pertes en stress, le rendement estimé, les résultats des objectifs et les préférences prises en charge. Il met en avant des allocations variées et regroupe les méthodes dont les poids finaux sont très proches."],
     ],
     [
-      ["Compare, combine and review", "Comparer, combiner et suivre"],
+      ["Compare and confirm an allocation", "Comparer et confirmer une allocation"],
       ["Keep the cards you want to compare. In My Matches, set your own split or test a lower-volatility or goal-focused split where available. RiskMatch combines the underlying holdings and recalculates the portfolio’s risk and results. Confirming saves a simulated choice. Results depend on the available history, costs and stress assumptions, and future losses can be larger.",
         "Garde les cartes que tu veux comparer. Dans Mes Matches, choisis ta répartition ou teste, selon les options disponibles, une répartition moins volatile ou orientée vers un objectif. RiskMatch combine les actifs détenus et recalcule le risque et les résultats du portefeuille. La confirmation enregistre un choix de simulation. Les résultats dépendent de l’historique disponible, des frais et des hypothèses de stress, et les pertes futures peuvent être plus importantes."],
+    ],
+    [
+      ["Follow the portfolio after confirmation", "Suivre le portefeuille après confirmation"],
+      ["With market quotes configured, My Matches values the simulated holdings from the first complete set of prices, then refreshes while the page is open. You can see performance and weight drift, keep the initial holdings or simulate a quarterly return to the target weights. Historical goal projections and management tests remain available.",
+        "Avec une API de cours configurée, Mes Matches valorise les positions simulées à partir du premier ensemble complet de cours et les actualise tant que la page est ouverte. Tu peux voir la performance et l’écart aux poids cibles, conserver les positions ou simuler un retour trimestriel aux poids cibles. Les projections d’objectifs et les tests historiques restent disponibles."],
     ],
   ];
   const tools = {

@@ -6,6 +6,13 @@ A collaborative quantitative US multi-asset research and development platform. R
 
 **Treasury-only fixed-income universe:** T-Bills, Treasury Notes, Treasury Bonds, TIPS and bond ETFs with verified exclusively Treasury exposure. No corporate debt, MBS, agencies, municipal debt or mixed bond ETFs. US equities, REITs, eligible futures and USD cash remain in scope. Treasury Curve (slope/curvature) replaces the original Credit factor, retaining 13 factors.
 
+## QARM II course demonstration
+
+[Open the Streamlit demonstration](https://nvarmaley.github.io/TindeRisk/) and
+compare two loss limits for a fictional investment mandate. The demonstration
+runs the project's constrained optimizer on reproducible synthetic returns.
+[Local launch and deployment instructions](apps/course_demo/README.md).
+
 ## User Experience
 
 1. Mandate: goals, investable wealth, horizon, cash flows, constraints, base currency and financial loss capacity.
@@ -75,3 +82,22 @@ notebook. The existing separate RiskMatch- repository was the V3 working source.
 ## Positioning
 
 Research and paper trading initially. Obtain independent model and applicable regulatory review (including Switzerland if offered there) before personalized real investment advice or execution. No guaranteed returns or incentives to increase risk.
+
+### Paper portfolio tracking
+
+Configure `APCA_API_KEY_ID` and `APCA_API_SECRET_KEY` in a local `.env` file using
+`.env.example` as a reference, or export them before starting the server.
+`ALPACA_DATA_FEED` defaults to `iex`. Use `sip` or `delayed_sip` only if your
+Alpaca account has access to that feed.
+
+In **My Matches**, confirm a historical or personalized allocation with
+market-traded holdings. For a previously confirmed local save, evaluate and
+confirm the allocation again to initialize tracking. Only symbols are sent
+to Alpaca. A complete set of quotes establishes the initial simulated holdings.
+The page shows the quote timestamps, position drift and value since the first
+complete valuation. It refreshes every minute while open. You can keep the
+original positions or select quarterly paper rebalancing. A due rebalance
+uses the first complete set of recent prices that the open page receives.
+The local save holds the positions, recent valuations and rebalance log.
+The tracked result reflects price changes, excluding dividends, corporate
+actions and trading costs.

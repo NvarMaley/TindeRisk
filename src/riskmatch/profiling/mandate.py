@@ -253,10 +253,13 @@ def validate_mandate(payload):
             conflicts.append(f"experience_required:{instrument}")
     if "futures" in allowed and not permissions["allow_derivatives"]:
         conflicts.append("derivatives_permission_required")
-    if limits["net_min"]["value"] is not None and limits["net_max"]["value"] is not None:
+    def hard(key):
+        return limits[key]["mode"] == "hard" and limits[key]["value"] is not None
+
+    if hard("net_min") and hard("net_max"):
         if limits["net_min"]["value"] > limits["net_max"]["value"]:
             conflicts.append("net_bounds_conflict")
-    if not permissions["allow_leverage"] and limits["gross_limit"]["value"] is not None:
+    if not permissions["allow_leverage"] and hard("gross_limit"):
         if limits["gross_limit"]["value"] < 1:
             conflicts.append("gross_limit_below_funded_budget")
     for key in ("esg_exclusions", "tax_assumption", "fx_hedge"):
@@ -315,7 +318,6 @@ def validate_mandate(payload):
             raw_constraints["tax_assumption"] == "after_tax_required" or
             raw_constraints["fx_hedge"] in {"partial", "full"}):
         personalized_reasons.append("demo_tax_fx_unmodeled")
-    hard = lambda k: limits[k]["mode"] == "hard" and limits[k]["value"] is not None
     if ((hard("gross_limit") and limits["gross_limit"]["value"] < 1) or
             (hard("net_min") and limits["net_min"]["value"] > 1) or
             (hard("net_max") and limits["net_max"]["value"] < 1)):
