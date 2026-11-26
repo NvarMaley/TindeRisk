@@ -56,6 +56,7 @@ document.addEventListener("riskmatch:language",renderJourneyRoute);
 function page(name) {
   if(!sessionUnlocked && name!=="saves")name="saves";
   activePage = name;
+  if(name!=="matches")window.PaperTracking?.unmount();
   renderJourneyRoute();
   if(name!=="saves")lastSimulationPage=name;
   document.querySelectorAll(".page").forEach(x => x.hidden = x.id!==name);
@@ -102,7 +103,10 @@ $("form").onsubmit = handle(async event => {
   event.preventDefault();
   if(!sessionUnlocked)throw Error("saveRequired");
   const payload=window.MandateForm.payload();
-  if(Array.isArray(payload.goals)&&!payload.goals.length)throw Error("chooseGoalsRequired");
+  if(Array.isArray(payload.goals)&&!payload.goals.length){
+    document.querySelector?.(".goal-picker")?.scrollIntoView({behavior:"smooth",block:"center"});
+    throw Error("chooseGoalsRequired");
+  }
   const report=await api("mandate/preview",payload);
   if(JSON.stringify(payload)!==JSON.stringify(window.MandateForm.payload()))return;
   pendingMandate=payload;pendingReport=report;renderMandateReport();
@@ -110,6 +114,36 @@ $("form").onsubmit = handle(async event => {
 });
 const diagnostic=key=>{const [head,...tail]=key.split(":");return t(head)+(tail.length?": "+t(tail.join(":")):"");};
 const money=(amount,currency)=>amount===null||amount===undefined?t("noValue"):new Intl.NumberFormat(window.RM.language==="fr"?"fr-CH":"en-US",{style:"currency",currency,maximumFractionDigits:0}).format(amount);
+function mandateTrace(p,r){
+  if(!p?.constraints||!r)return "";
+  const fr=window.RM.language==="fr", c=p.constraints, cash=v=>money(v,p.currency);
+  const list=rows=>`<dl>${rows.map(([key,val])=>`<div><dt>${esc(t(key))}</dt><dd>${esc(val)}</dd></div>`).join("")}</dl>`;
+  const amounts=keys=>keys.map(k=>[k,cash(p[k])]);
+  const construction=new Set(["stress_loss","loss_budget","volatility","max_asset_weight"]);
+  const exposure=new Set(["gross_limit","net_min","net_max"]);
+  const limits=Object.entries(c).filter(([k,v])=>v&&typeof v==="object"&&v.value!=null&&(k!=="loss_budget"||v.value!==c.stress_loss?.value)).map(([k,v])=>{
+    let effect=fr?"Bloque le calcul personnalisé":"Blocks personalized calculation";
+    if(v.mode==="soft"){
+      effect=["volatility","max_asset_weight"].includes(k)
+        ? (fr?"Agit sur le classement":"Affects ranking")
+        : (fr?"Sans effet sur les cartes":"Does not affect cards");
+    }else if(construction.has(k)){
+      effect=fr?"Construction et vérification des poids":"Construction and weight checks";
+    }else if(exposure.has(k)){
+      effect=fr?"Vérifié sur une exposition fixe de 100 %":"Checked against fixed 100% exposure";
+    }
+    return [k,pct(v.value)+" · "+t(v.mode)+" · "+effect];
+  });
+  const goals=p.goals.map(g=>`<p><strong>${esc(t(g.objective_id))}</strong> · ${esc(g.due_date)} · ${g.amount==null?esc(t("noValue")):esc(money(g.amount,g.currency))} · ${esc(t(g.basis))} · ${esc(t("priority"))} ${g.priority}/5 · ${esc(t("shortfall_penalty"))} ${g.shortfall_penalty} · ${g.funding?(fr?"À financer":"Funded obligation"):(fr?"Préférence":"Preference")}</p>`).join("");
+  return `<details class="mandate-trace"><summary>${fr?"Comment mon mandat a été pris en compte":"How my mandate was used"}</summary>
+    <h3>${fr?"Construction et contrôle du risque":"Construction and risk checks"}</h3>${list([...amounts(["capital","loss_capacity_amount"]),["currency",p.currency],["as_of",p.as_of],["horizon_date",p.horizon_date],["effectiveStress",pct(r.effective_stress_limit)],["allowed_assets",c.allowed_assets.map(t).join(", ")],...limits])}
+    <h3>${fr?"Objectifs et projection":"Goals and projection"}</h3>${goals}${list([...amounts(["contribution_monthly","withdrawal_monthly"]),["inflation",p.inflation==null?t("noValue"):pct(p.inflation)],["chf_per_usd",p.chf_per_usd??t("noValue")]])}
+    ${p.dated_flows.map(f=>`<p>${esc(f.date)} · ${esc(t(f.kind))} · ${esc(cash(f.amount))}</p>`).join("")}
+    <h3>${fr?"Contrôle de la situation financière":"Financial feasibility checks"}</h3>${list([...amounts(["cash","investments","other_assets","debt","reserve","income_monthly","spending_monthly"]),["netWorth",cash(r.net_worth)],["investableWealth",cash(r.investable_wealth)],["monthlySurplus",cash(r.monthly_surplus)]])}
+    <h3>${fr?"Expérience et restrictions déclarées":"Declared experience and restrictions"}</h3>${list([...[["short","allow_short"],["leverage","allow_leverage"],["futures","allow_derivatives"]].filter(([,key])=>c[key]).map(([k,key])=>[key,t(p.knowledge[k])+" / "+t(p.experience[k])]),["tax_assumption",t(c.tax_assumption)],["fx_hedge",t(c.fx_hedge)],["esg_exclusions",c.esg_exclusions||"—"]])}
+    <p class="muted">${fr?"Pour les permissions avancées, le moteur vérifie les connaissances et l’expérience correspondantes. Autoriser le levier ou la vente à découvert ne change pas les poids : les cartes sont financées sans levier ni positions vendeuses. L’autorisation des dérivés peut ouvrir l’accès à certains produits cotés sur matières premières. Les contrats à terme directs restent hors du calcul personnalisé.":"Advanced permissions are checked against the corresponding knowledge and experience. Allowing leverage or shorting does not change the weights: cards remain funded, unlevered and long-only. Derivatives permission can make certain commodity ETPs eligible. Direct futures remain outside personalized matching."}</p>
+    <p class="muted">${fr?"Le patrimoine, les dettes et le budget servent à vérifier le financement et la capacité de perte. Le taux de change saisi sert aux objectifs en devise étrangère ; la date du mandat détermine l’accès à l’archive locale.":"Assets, debts and budget are used to assess funding and loss capacity. The entered exchange rate is used for goals in a different currency; the mandate date determines access to the local archive."}</p></details>`;
+}
 function renderMandateReport(){
   if(!pendingReport)return;
   const r=pendingReport, p=pendingMandate, area=$("mandate-report");
@@ -121,6 +155,7 @@ function renderMandateReport(){
   area.innerHTML=`<article><h2>${esc(t("mandateReport"))}</h2><p class="mandate-status ${r.conflicts.length?"mandate-conflict":""}">${esc(t(r.conflicts.length?"structuralConflicts":"structuralValid"))}</p><div class="mandate-summary">${stats.map(([k,v])=>`<div><span>${esc(t(k))}</span><b>${esc(v)}</b></div>`).join("")}</div>${comparison}<h3>${esc(t("mandateGoals"))}</h3>${r.goals.map(g=>`<div class="mandate-row mandate-goal"><b>${esc(t(g.objective_id))} · ${esc(g.due_date)}</b><p>${esc(t("goal_amount"))}: ${esc(cash(g.target_nominal_base))} · ${esc(t("requiredReturn"))}: ${esc(result(g.required_return))} · ${esc(t("zeroReturnGap"))}: ${esc(cash(g.zero_return_gap))}</p></div>`).join("")}${messages(r.conflicts,"mandate-conflict")}${messages(r.warnings,"muted")}<div class="matching-readiness ${canMatch(r)&&p.as_of>="2026-11-25"?"":"mandate-conflict"}"><strong>${esc(t(canMatch(r)&&p.as_of>="2026-11-25"?"matchingReady":"matchingLimited"))}</strong>${messages(r.personalized_reasons??r.demo_reasons,"muted")}${p.as_of<"2026-11-25"?`<p>${esc(t("matchingDateUnavailable"))}</p>`:""}</div><p class="muted">${esc(t("riskNotMeasured"))}</p><button id="confirm-mandate" class="primary" ${r.conflicts.length?"disabled":""}>${esc(t("confirmMandate"))}</button></article>`;
   if(r.personalized_eligible && r.dynamic_overlay_available===false)
     area.insertAdjacentHTML("beforeend","<p>"+esc(t("dynamicUnavailableMandate"))+"</p>");
+  area.innerHTML+=mandateTrace(p,r);
   area.hidden=false;
   $("confirm-mandate").onclick=handle(confirmMandate);
 }
@@ -291,6 +326,7 @@ cardStage.addEventListener("pointercancel",event=>finishDiscoveryDrag(event,fals
 cardStage.addEventListener("lostpointercapture",event=>finishDiscoveryDrag(event,false));
 let deckStyle="000";
 let historicalDeck=true, savedBlend=null,deckAversion=null,showFullDeck=false,pendingDeck=null;
+let paperTracking=null;
 async function fetchDeck(raw){
   try{
     if(raw.schema_version==="2.0.0"){
@@ -506,6 +542,11 @@ $("undo").onclick=()=>{if(!sessionUnlocked||pendingDeck)return;if(swipes.pop()==
 function compare(){
   const area=$(activePage==="matches"?"match-allocation":"shortlist");area.replaceChildren();
   const fr=window.RM.language==="fr";
+  const trackingHost=activePage==="matches"&&window.PaperTracking?document.createElement("div"):null;
+  if(trackingHost){
+    area.append(trackingHost);
+    if(paperTracking)window.PaperTracking.mount(trackingHost,paperTracking,api,changed);
+  }
   const research=document.createElement("article");
   const researchButton=document.createElement("button");researchButton.textContent=fr?"Comparaison des stratégies":"Compare research strategies";
   const researchOutput=document.createElement("div");
@@ -536,7 +577,7 @@ function compare(){
   const allocation=document.createElement("article");
   const signature=JSON.stringify([fullMandate||mandate,shortlist[0].version,shortlist.map(p=>p.name)]);
   const stored=savedBlend?.signature===signature?savedBlend:null;
-  allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation fictive.":"Synthetic simulation.")}</p>`;
+  allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
   if(stored?.paperConfirmed){
     allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
   }
@@ -582,9 +623,17 @@ function compare(){
       const confirm=document.createElement("button");
       confirm.textContent=fr?"Confirmer cette simulation":"Confirm paper allocation";
       confirm.onclick=handle(async()=>{
-        await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
+        const evaluated=await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
         if(!confirm.isConnected||requestRevision!==revision)return;
-        savedBlend={signature,budgets:result.budgets,paperConfirmed:true};changed();
+        savedBlend={signature,budgets:result.budgets,paperConfirmed:true};
+        if(trackingHost&&/^(personalized-v3:|historical-usd-v1-)/.test(evaluated.version)){
+          const next=window.PaperTracking.capture(evaluated.weights,mandate.capital,paperTracking);
+          if(next){
+            paperTracking=next;
+            window.PaperTracking.mount(trackingHost,paperTracking,api,changed);
+          }
+        }
+        changed();
         allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
       });output.append(confirm);
     });allocation.append(button);
@@ -690,11 +739,13 @@ document.addEventListener("riskmatch:language",()=>{
   if(activePage==="compare")window.GoalsView?.render();
 });
 
-// Serialize only the synthetic simulation, not passwords or computed market data.
+// Store simulation and tracking results in the encrypted local save.
 function simulationSnapshot() {
-  return {version:1,mandate,fullMandate,answers,index,swipes:pendingDeck?.swipes??swipes,historicalDeck,savedBlend:pendingDeck?.savedBlend??savedBlend,deckAversion,deckStyle,deckIds:pendingDeck?.deckIds??portfolios.map(p=>[p.name,p.version]),activePage:lastSimulationPage,discoverySeed,discoveryVersion,discoveryCurrency,discoveryConsent,responseLocales,discoveryConfidence};
+  return {version:1,mandate,fullMandate,answers,index,swipes:pendingDeck?.swipes??swipes,historicalDeck,savedBlend:pendingDeck?.savedBlend??savedBlend,paperTracking,deckAversion,deckStyle,deckIds:pendingDeck?.deckIds??portfolios.map(p=>[p.name,p.version]),activePage:lastSimulationPage,discoverySeed,discoveryVersion,discoveryCurrency,discoveryConsent,responseLocales,discoveryConfidence};
 }
 function clearSimulation(){
+  window.PaperTracking?.unmount();
+  paperTracking=null;
   historicalDeck=true;savedBlend=null;deckAversion=null;showFullDeck=false;pendingDeck=null;deckRequest=null;
   window.GoalsView?.clear();
   window.BaselinesView?.clear();
@@ -754,13 +805,14 @@ async function restoreSimulation(snapshot){
   const stale=historicalDeck&&snapshot.swipes.length&&JSON.stringify(snapshot.deckIds)!==JSON.stringify(nextPortfolios.map(p=>[p.name,p.version]));
   const nextSwipes=stale?[]:snapshot.swipes;
   savedBlend=stale?null:snapshot.savedBlend||null;
+  paperTracking=snapshot.paperTracking||null;
   if(nextSwipes.length>nextPortfolios.length||nextSwipes.some(v=>!["like","dislike","skip"].includes(v)))throw Error("saveError");
   mandate=nextMandate;cards=nextCards;answers=nextAnswers;index=nextIndex;
   responseLocales=Object.fromEntries(Object.keys(nextAnswers).filter(id=>["en","fr"].includes(snapshot.responseLocales?.[id])).map(id=>[id,snapshot.responseLocales[id]]));
   discoveryConfidence=[1,2,3,4,5].includes(snapshot.discoveryConfidence)?snapshot.discoveryConfidence:null;
   portfolios=nextPortfolios;swipes=nextSwipes.slice();shortlist=portfolios.filter((_,i)=>swipes[i]==="like");confirmed.clear();scoreReport=null;
   if(fullMandate)window.MandateForm.restore(fullMandate);
-  else{window.MandateForm.reset();const f=$("form");f.querySelector('[name="currency"]').value="USD";f.elements.capital.value=mandate.capital;f.elements.cash.value=mandate.capital;f.elements.loss_capacity_amount.value=mandate.capital*mandate.max_stress_loss;f.elements.stress_loss.value=mandate.max_stress_loss*100;f.elements.loss_budget.value=mandate.max_stress_loss*100;}
+  else{window.MandateForm.reset();const f=$("form");f.querySelector('[name="currency"]').value="USD";f.elements.capital.value=mandate.capital;f.elements.cash.value=mandate.capital;f.elements.loss_capacity_amount.value=mandate.capital*mandate.max_stress_loss;f.elements.stress_loss.value=mandate.max_stress_loss*100;}
   const target=["home","mandate","discovery","universe","sources","explore","compare","matches","strategy-catalogue","methodology"].includes(snapshot.activePage)?snapshot.activePage:"home";
   if(pendingDeck)return "home";
   if(fullMandate&&mandateReport?.personalized_eligible===true&&deckAversion===null&&["explore","matches"].includes(target))return "discovery";

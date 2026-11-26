@@ -120,7 +120,17 @@ def sortino(x,upper,mar=0.,prob=None):
     n=len(u);L=max(1e-12,float(np.linalg.eigvalsh((d.T*p)@d)[-1]));projector=MeanVariance(mu,np.eye(n)*.01,0,Constraints(np.zeros(n),u));
     def variance(w):return float(p@np.minimum(d@w,0)**2)
     def gradient(w):return d.T@(p*np.minimum(d@w,0))
-    warm=projector.lp(-mu).x[:n];best=None
+    def linear_minimum(objective):
+        # On a funded, capped simplex, fill the least costly positions first.
+        order = np.argsort(objective, kind="stable")
+        caps = u[order]
+        remaining = 1. - np.r_[0., np.cumsum(caps[:-1])]
+        weights = np.empty(n)
+        weights[order] = np.clip(remaining, 0., caps)
+        return weights
+
+    warm = linear_minimum(-mu)
+    best = None
     def sub(k):
         nonlocal warm,best
         w=projector._project(warm);z=w.copy();t=1.;last=0
@@ -128,7 +138,12 @@ def sortino(x,upper,mar=0.,prob=None):
             q=projector._project(z-(gradient(z)-k*mu)/L)
             if np.max(abs(q-w))<2e-9 and i>5:w=q;break
             tn=(1+np.sqrt(1+4*t*t))/2;z=q+(t-1)/tn*(q-w);w=q;t=tn
-        g=gradient(w)-k*mu;oracle=projector.lp(g);gap=max(0.,float(g@(w-oracle.x[:n])));v=variance(w);e=float(mu@w);res=k*e-v;warm=w
+        g = gradient(w) - k * mu
+        gap = max(0., float(g @ (w - linear_minimum(g))))
+        v = variance(w)
+        e = float(mu @ w)
+        res = k * e - v
+        warm = w
         if e>0 and gap<2e-7 and (best is None or abs(res)<best[0]):best=(abs(res),w.copy(),v,e,gap,i)
         return res
     lo=0.;hi=max(variance(warm)/max(float(mu@warm),1e-10),1e-6);a=sub(lo);b=sub(hi)

@@ -43,7 +43,11 @@ def macro_signals(root,version,origins):
 
 
 def target(key,h,u,assets,macro,pair,diagnostics=None):
-    n=len(u);tick={a['ticker']:i for i,a in enumerate(assets)};spy=tick['SPY'];bil=tick['BIL'];ief=tick['IEF'];tip=tick['TIP'];shy=tick['SHY'];etf=np.array([a['source']=='etf_crsp_monthly' for a in assets]);equity=np.array([category(a)=='equity' for a in assets]);treasury=np.array([category(a)=='treasury' for a in assets]);s=rank_signal(h);vol=np.maximum(np.std(h[-36:],axis=0,ddof=1)*np.sqrt(12),.02)
+    n=len(u);tick={a['ticker']:i for i,a in enumerate(assets)};etf=np.array([a['source']=='etf_crsp_monthly' for a in assets]);equity=np.array([category(a)=='equity' for a in assets]);treasury=np.array([category(a)=='treasury' for a in assets]);s=rank_signal(h);vol=np.maximum(np.std(h[-36:],axis=0,ddof=1)*np.sqrt(12),.02)
+    def index(ticker):
+        if ticker not in tick:
+            raise ValueError(f"Missing reference return series: {ticker}")
+        return tick[ticker]
     def mix(e,band=None):
         requested=e
         if band is not None:
@@ -51,19 +55,21 @@ def target(key,h,u,assets,macro,pair,diagnostics=None):
             if lo>hi+1e-9:raise ValueError('No feasible allocation within strategic tilt band')
             e=float(np.clip(e,lo,hi))
             if diagnostics is not None:diagnostics.update({'requested_equity_weight':requested,'feasible_equity_weight':e,'tilt_band':list(band)})
-        a=np.zeros(n);b=np.zeros(n);a[spy]=1;b[ief]=1
-        if u[spy]<e:a=equity.astype(float)
-        if u[ief]<1-e:b=treasury.astype(float)
+        a, b = equity.astype(float), treasury.astype(float)
+        for sleeve, ticker, budget in ((a, "SPY", e), (b, "IEF", 1-e)):
+            if ticker in tick and u[tick[ticker]] >= budget:
+                sleeve[:] = 0.
+                sleeve[tick[ticker]] = 1.
         return capped(a,u,e)+capped(b,u,1-e)
     def winners():
         valid=np.flatnonzero(u>0);order=valid[np.argsort(s[valid],kind='stable')];raw=np.zeros(n);raw[order[-max(1,len(order)//3):]]=1;return capped(raw,u,min(1.,u[raw>0].sum()))
     def trend():
         raw=np.where(etf&(np.prod(1+h[-12:],axis=0)>1),1/vol,0);return capped(raw,u,min(1.,u[raw>0].sum()))
     if key=='long_short':return signed_rank(s,u)
-    if key=='market_neutral':return signed_rank(s,u,beta(h[-36:],h[-36:,spy]))
+    if key=='market_neutral':return signed_rank(s,u,beta(h[-36:],h[-36:,index("SPY")]))
     if key=='global_macro':
         if macro is None:raise ValueError('No prior growth and inflation vintage')
-        growth,infl=macro;rate=np.prod(1+h[-12:,bil])-1;return mix(.8 if growth>.02 and infl<.04 and rate<.05 else .3,(.3,.8))
+        growth,infl=macro;rate=np.prod(1+h[-12:,index("BIL")])-1;return mix(.8 if growth>.02 and infl<.04 and rate<.05 else .3,(.3,.8))
     if key=='cta_etf_proxy':
         raw=np.where(etf,np.sign(np.prod(1+h[-12:],axis=0)-1)/vol,0);w=raw/max(np.abs(raw).sum(),1e-12);w=np.sign(w)*np.minimum(abs(w),u);v=np.std(h[-36:]@w,ddof=1)*np.sqrt(12);return w*min(1,.1/max(v,1e-9))
     if key=='statistical_arbitrage':return pair_target(h,pair,u)
@@ -71,19 +77,22 @@ def target(key,h,u,assets,macro,pair,diagnostics=None):
     if key=='time_series_momentum':return trend()
     if key=='mean_reversion':
         trailing=np.prod(1+h[-3:],axis=0)-1;historical=np.array([np.prod(1+h[j-3:j],axis=0)-1 for j in range(max(3,len(h)-36),len(h)-2)]);z=(trailing-historical.mean(0))/np.maximum(historical.std(0),1e-8);raw=np.where((z<=-2)&(z>-4)&(h[-1]>-.15),-z,0);return capped(raw,u,min(1.,u[raw>0].sum()))
-    if key=='tactical_allocation':return mix(.6+.2*np.sign(s[spy]-s[ief]),(.4,.8))
+    if key=='tactical_allocation':return mix(.6+.2*np.sign(s[index("SPY")]-s[index("IEF")]),(.4,.8))
     if key=='volatility_target':
         w=mix(.6);v=np.std(h[-36:]@w,ddof=1)*np.sqrt(12);return w*min(1.,.1/max(v,1e-9))
     if key=='all_weather':
-        raw=np.zeros(n);raw[[spy,ief,tip,shy]]=1/vol[[spy,ief,tip,shy]];return capped(raw,u)
+        basket = [index(ticker) for ticker in ("SPY", "IEF", "TIP", "SHY")]
+        raw = np.zeros(n)
+        raw[basket] = 1 / vol[basket]
+        return capped(raw, u)
     if key=='multi_strategy':
         sleeves=np.array([winners(),trend(),mix(.6)]);sleeve_returns=h[-36:]@sleeves.T;cov=np.cov(sleeve_returns,rowvar=False)*12;v=np.maximum(np.sqrt(np.maximum(np.diag(cov),0)),.02);b=1/v;b/=b.sum()
         if diagnostics is not None:
             denom=float(b@cov@b);corr=cov/np.outer(v,v);diagnostics.update({'sleeves':['cross_sectional_momentum','time_series_momentum','strategic_60_40'],'budgets':b.tolist(),'correlation':corr.tolist(),'variance_contribution_shares':(b*(cov@b)/denom).tolist() if denom>1e-12 else None})
         return b@sleeves
-    if key=='regime_switching':return mix(.2 if filtered_probability(h[:,spy])>.5 else .7,(.2,.7))
+    if key=='regime_switching':return mix(.2 if filtered_probability(h[:,index("SPY")])>.5 else .7,(.2,.7))
     if key=='tail_hedge_proxy':
-        wealth=np.cumprod(1+h[-12:,spy]);dd=wealth[-1]/wealth.max()-1;return mix(.2 if dd<-.10 else .6)
+        wealth=np.cumprod(1+h[-12:,index("SPY")]);dd=wealth[-1]/wealth.max()-1;return mix(.2 if dd<-.10 else .6)
     raise ValueError('Unsupported execution data: no validated dated futures/roll, collateral or instrument carry history')
 
 

@@ -65,6 +65,9 @@ class Handler(SimpleHTTPRequestHandler):
             if not 0 < length < 65536:
                 raise ValueError("Invalid request size")
             data = json.loads(self.rfile.read(length))
+            if self.path == "/api/paper/quotes":
+                from riskmatch.market_data.paper_quotes import quotes
+                return self.respond(quotes(ROOT, data["symbols"]))
             if self.path == "/api/matching/prepare":
                 raw=data["mandate"]
                 if not validate_mandate(raw)["personalized_eligible"] or raw["as_of"]<"2026-11-25":

@@ -94,3 +94,14 @@ def test_multiple_priorities_and_catalog(mandate):
     r=validate_mandate(mandate)
     assert [g["priority_weight"] for g in r["goals"]] == [.75,.25]
     assert r["goals"][1]["required_return"]["status"] == "preference_only"
+
+
+def test_unmodeled_soft_exposure_limits_do_not_block_matching(mandate):
+    mandate["constraints"]["gross_limit"] = {"value": .8, "mode": "soft"}
+    mandate["constraints"]["net_min"] = {"value": .8, "mode": "soft"}
+    mandate["constraints"]["net_max"] = {"value": .4, "mode": "soft"}
+
+    report = validate_mandate(mandate)
+
+    assert report["personalized_eligible"]
+    assert "soft_constraints_unmodeled" in report["warnings"]
