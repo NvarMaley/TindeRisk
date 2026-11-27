@@ -282,6 +282,14 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
   max-width: 100%;
   overflow-x: auto;
 }
+.matches-live {
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid #73beaa77;
+  border-radius: 1.6rem .4rem;
+  background: linear-gradient(115deg, #133e40, #102b39);
+}
+.matches-live > header h2 { margin-top: 0; }
+.matches-live-body { min-width: 0; }
 @media (max-width: 600px) {
   #matches #match-allocation > article {
     overflow-wrap: anywhere;

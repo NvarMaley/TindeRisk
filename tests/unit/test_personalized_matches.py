@@ -53,6 +53,32 @@ def test_variance_penalty_scale():
     assert np.isclose(penalty, 1.83125)
 
 
+def test_matching_mean_does_not_shrink_treasuries_toward_equity():
+    from riskmatch.optimization.mean_variance_report import class_regularized_mean
+
+    assets = [{"category": kind} for kind in ("stock", "equity_etf", "treasury_etf", "treasury_etf")]
+    history = np.tile([.02, .04, -.02, 0.], (60, 1))
+    assert np.allclose(class_regularized_mean(history, assets), [.30, .42, -.18, -.06])
+
+
+def test_matching_report_distinguishes_research_and_incomplete_replay():
+    from riskmatch.personalized_matches import FUNDED_METHODS, RESEARCH_METHODS, comparison_report
+
+    assert len(FUNDED_METHODS) == 47
+    assert set(RESEARCH_METHODS) == {"passive_index", "maximum_sortino", "maximum_omega"}
+    assert "smart_beta_equal" not in FUNDED_METHODS
+    card = {"name": "minimum_variance", "equivalent_methods": ["inverse_variance"]}
+    unavailable = dict.fromkeys(set(FUNDED_METHODS) - {"minimum_variance", "inverse_variance"},
+                                "Target breaches a modeled hard constraint")
+    unavailable["equal_weight"] = "2021-02-26: missing observed return for a held security"
+    report = comparison_report({"cards": [card], "unavailable": unavailable, "market_reference": {}})
+    rows = {row["name"]: row for row in report["methods"]}
+    assert rows["equal_weight"]["status"] == "backtest_incomplete"
+    assert rows["passive_index"]["status"] == "research"
+    assert rows["inverse_variance"]["card"] == "minimum_variance"
+    assert rows["constrained_utility"]["status"] == "unavailable"
+
+
 def test_matching_catalog_exposes_only_panel_instruments_and_cash(monkeypatch, tmp_path):
     from riskmatch import personalized_matches
     from riskmatch.profiling.mandate import add_month
@@ -99,7 +125,7 @@ def test_historical_membership_lag_and_unpriced_holding(monkeypatch):
     panel[62,1] = np.nan
     stamp = np.full(panel.shape,np.datetime64("NaT"))
     caps = {day:{"2":1.} for day in days[:63]}
-    monkeypatch.setattr(module,"archive",lambda *args:(assets,panel,stamp,None,None,caps))
+    monkeypatch.setattr(module,"archive",lambda *args:(assets,panel,stamp,None,None,caps,{}))
     decisions = []
 
     def construct(sample,mandate,report,aversion,end,origin):
@@ -118,6 +144,41 @@ def test_historical_membership_lag_and_unpriced_holding(monkeypatch):
     assert np.allclose(history["cash"]["returns"],0)
     assert "risky" not in history
     assert "missing observed return" in failures["risky"]
+    assert "OLD" in failures["risky"]
+
+
+def test_merger_proceeds_are_accounted_for_once_without_a_sale(monkeypatch):
+    from datetime import timedelta
+    from riskmatch.backtesting import mandate_replay as module
+
+    days = [date(2020, 1, 1) + timedelta(days=30*i) for i in range(66)]
+    intervals = list(zip(days, days[1:]))
+    asset = dict(id="stock:1", ticker="OLD", category="stock", instrument="1", source="stock_monthly")
+    panel = np.zeros((65, 1))
+    panel[61, 0] = .12
+    panel[62:] = np.nan
+    stamps = np.full(panel.shape, np.datetime64("NaT"))
+    caps = {day: {"1": 1.} for day in days}
+    settlements = {0: (days[62] + timedelta(days=3), days[62])}
+    monkeypatch.setattr(module, "archive",
+                        lambda *args: ([asset], panel, stamps, None, None, caps, settlements))
+    decisions = []
+
+    def construct(sample, mandate, report, aversion, end, origin):
+        decisions.append((origin, len(sample[0])))
+        return {"risky": np.array([1., 0.] if sample[0] else [1.])}, {}
+
+    cash = np.zeros(65)
+    cash[62] = .002
+    data = ([asset], intervals, None, cash, "test", 61, 64)
+    constraints = {"allowed_assets": ["equity", "cash"],
+                   "max_asset_weight": {"mode": "hard", "value": 1.}}
+    history, failures = module.replay(None, data, {"constraints": constraints},
+                                      {}, 15, construct, days[-1], ())
+    assert not failures
+    assert decisions == [(days[60], 1), (days[63], 0)]
+    assert np.allclose(history["risky"]["returns"], [1.12/1.001-1, .002, 0., 0.])
+    assert np.allclose(history["risky"]["turnover"][1:], 0.)
 
 
 def test_matching_eligibility_filters_missing_late_and_unlisted_securities():

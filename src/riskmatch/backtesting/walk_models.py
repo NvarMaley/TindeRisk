@@ -20,7 +20,7 @@ REGISTRY={'equal_weight':'Capped equal weight',**{k:k.replace('_',' ').title() f
 TUNABLE={'mean_variance_utility','black_litterman','capm_utility','ewma_utility'}
 
 
-def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=None,lam=3.,seed=23,macro=None,forecast=None):
+def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=None,lam=3.,seed=23,macro=None,forecast=None,mean_estimates=None):
     """Fit models on preceding returns; optional forecast only for a current-date target."""
     n=len(assets);u=np.asarray(u,float);ids=[a['id'] for a in assets];spy=next(i for i,a in enumerate(assets) if a['ticker']=='SPY');out={};membership,scores,books=signals
     if u.sum()<1-1e-9:return {k:{'status':'unavailable','reason':'Insufficient dated eligible capacity'} for k in keys}
@@ -34,7 +34,8 @@ def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=N
     if forecast is not None:
         forecast=np.asarray(forecast,float)
         if forecast.shape!=(n,) or not np.isfinite(forecast).all():raise ValueError('Invalid dated forecast vector')
-    mu=regularized_mean(local,forecast[idx] if forecast is not None else None);cov=LedoitWolf().fit(local).covariance_*12;rfa=float(np.mean(rf)*12);asset_subset=[assets[i] for i in idx];b=x[:,spy]
+    mu=regularized_mean(local,forecast[idx] if forecast is not None else None) if mean_estimates is None else mean_estimates[idx]
+    cov=LedoitWolf().fit(local).covariance_*12;rfa=float(np.mean(rf)*12);asset_subset=[assets[i] for i in idx];b=x[:,spy]
     engine=None;tree=None;unc=None
     def result(w):return {'status':'computed','weights':w}
     def unpack(r):
@@ -72,7 +73,13 @@ def fit_models(keys,x,rf,assets,u,day,signals,*,optimizer_limit=64,market_caps=N
                     # Covariance of each candidate minus fixed external SPY, funded sum=1.
                     d=local-b[:,None];s=LedoitWolf().fit(d).covariance_*12;z=unpack(MeanVariance(np.zeros(len(idx)),s,0.,Constraints(np.zeros(len(idx)),cap)).solve())
                 elif key=='capm_utility':
-                    beta=(local-local.mean(0)).T@(b-b.mean())/((len(b)-1)*max(np.var(b,ddof=1),1e-12));m=rfa+beta*float(np.mean(b-rf)*12);z=unpack(MeanVariance(m,cov,rfa,Constraints(np.zeros(len(idx)),cap)).solve(return_weight=1.,variance_weight=lam))
+                    excess = local - rf[:, None]
+                    market = b - rf
+                    beta = (excess - excess.mean(0)).T @ (market - market.mean()) / (
+                        (len(market) - 1) * max(np.var(market, ddof=1), 1e-12))
+                    m = rfa + beta * float(market.mean() * 12)
+                    z = unpack(MeanVariance(m, cov, rfa, Constraints(np.zeros(len(idx)), cap)).solve(
+                        return_weight=1., variance_weight=lam))
                 elif key=='ewma_utility':
                     p=.94**np.arange(len(local)-1,-1,-1);p/=p.sum();m=p@local;d=local-m;s=(d.T*p)@d*12;z=unpack(MeanVariance(m*12,s,rfa,Constraints(np.zeros(len(idx)),cap)).solve(return_weight=1.,variance_weight=lam))
                 elif key=='black_litterman':

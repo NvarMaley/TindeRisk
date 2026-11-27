@@ -82,6 +82,9 @@ class Handler(SimpleHTTPRequestHandler):
             if self.path == "/api/match-allocations/goal":
                 from riskmatch.selection.goals import compare_allocations
                 return self.respond(compare_allocations(ROOT,data))
+            if self.path == "/api/match-allocations/return":
+                return self.respond(personalized_matches.blend(
+                    ROOT, data["mandate"], data["version"], data["names"], None, "return"))
             if self.path == "/api/matching/goals":
                 from riskmatch.selection.goals import assess
                 return self.respond(assess(ROOT,data))
@@ -101,7 +104,9 @@ class Handler(SimpleHTTPRequestHandler):
                 raw = data['mandate']
                 if raw.get('schema_version') == SCHEMA_VERSION:
                     if self.path == "/api/matching/cards":
-                        return self.respond(personalized_matches.run(ROOT,raw,data.get("aversion"),data.get("style","000"))["cards"])
+                        deck = personalized_matches.run(ROOT,raw,data.get("aversion"),data.get("style","000"))
+                        return self.respond(personalized_matches.comparison_report(deck)
+                                            if data.get("include_comparison") is True else deck["cards"])
                     if personalized_matches.is_version(data.get("version")):
                         return self.respond(personalized_matches.blend(
                             ROOT,raw,data["version"],data["names"],data.get("budgets"),

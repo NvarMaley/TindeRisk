@@ -60,3 +60,32 @@ def test_momentum_can_run_with_no_treasury_reference_series():
     weights = target("cross_sectional_momentum", returns, caps, assets, None, None)
 
     np.testing.assert_allclose(weights, [0., .05])
+
+
+def test_tail_hedge_measures_drawdown_from_the_opening_value():
+    assets = [
+        {"ticker": "SPY", "source": "etf_crsp_monthly", "category": "equity_etf"},
+        {"ticker": "IEF", "source": "etf_crsp_monthly", "category": "treasury_etf"},
+    ]
+    returns = np.zeros((36, 2))
+    returns[-12, 0] = -.15
+    caps = np.ones(2)
+    assert target("tail_hedge_proxy", returns, caps, assets, None, None) == pytest.approx([.2, .8])
+
+    returns[-1, 0] = .1
+    assert target("tail_hedge_proxy", returns, caps, assets, None, None) == pytest.approx([.6, .4])
+
+
+def test_multi_strategy_correlation_uses_actual_sleeve_volatility():
+    assets = [
+        {"ticker": "SPY", "source": "etf_crsp_monthly", "category": "equity_etf"},
+        {"ticker": "IEF", "source": "etf_crsp_monthly", "category": "treasury_etf"},
+    ]
+    returns = np.column_stack([np.tile([.001, .003], 18), np.full(36, -.01)])
+    diagnostics = {}
+    target("multi_strategy", returns, np.ones(2), assets, None, None, diagnostics)
+    assert np.diag(diagnostics["correlation"]) == pytest.approx([1., 1., 1.])
+
+    returns[:, 0] -= .01
+    target("multi_strategy", returns, np.ones(2), assets, None, None, diagnostics)
+    assert diagnostics["correlation"][1] == [None, None, None]

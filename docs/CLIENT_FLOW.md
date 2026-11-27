@@ -8,7 +8,7 @@ The local application keeps its existing logo and lagoon identity. The primary n
 | Risk profile | 02 | Behavioral questionnaire, summary and optional diagnostic detail. USD/deck limitations are disclosed before proceeding. |
 | Research catalogue | 03–11 | Universe, historical coverage, source audit, return/forecast/risk/factor analytics; technical controls remain under Research. |
 | Strategy construction and evaluation | 13–24 | The strategy catalogue explains each method. The notebook contains the technical experiments and comparisons. |
-| Strategy selection | 25 | Mandate-conditioned construction, stress and asset-cap validation, historical wealth, goal projections, positions, Like/Dislike and funded allocation. |
+| Strategy selection | 25 | Mandate-conditioned construction, stress and asset-cap validation, historical wealth, goal projections, positions, a featured shortlist and a full common-period comparison. |
 | Policy simulation and reporting | 26–27 | Confirmed Match, goal assessment, dynamic policies, reconciled simulation export and local encrypted saves. |
 
 Personalized Matching and the client Universe tab use the same dated USD universe. Listed securities require 60 consecutive monthly total returns before allocation. USD cash uses the Fama–French monthly risk-free proxy. Supported hard constraints
