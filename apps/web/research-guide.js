@@ -10,24 +10,27 @@
       "passive_index passive_etfs active_long_only smart_beta_equal smart_beta_factor smart_beta_fundamental factor_investing core_satellite factor_size factor_value factor_momentum factor_low_volatility factor_liquidity factor_quality factor_profitability_proxy factor_investment"],
     [["Trends and economic conditions", "Tendances et conditions économiques"],
       "cross_sectional_momentum time_series_momentum mean_reversion tactical_allocation all_weather multi_strategy regime_switching global_macro"],
-    [["Fixed demo allocations", "Allocations fixes de démonstration"],
-      ["Cash", "Conservative", "60/40", "1/N", "Growth", "Fixed income"]],
   ];
   const stages = [
     [
       ["Set the investment mandate", "Définir le mandat"],
-      ["Enter the capital you can invest, its intended use, the dates you will need it, and your deposits and withdrawals. RiskMatch checks funding and derives the working stress limit from the declared loss capacity and firm limits. For example, a 10% stress limit on USD 10,000 means the tested shocks must imply a loss of at most USD 1,000.",
-        "Indique le capital que tu peux investir, à quoi il servira, quand tu en auras besoin et les versements ou retraits prévus. RiskMatch vérifie le financement et détermine la limite de stress à partir de ta capacité de perte déclarée et des limites fermes. Par exemple, une limite de 10 % sur 10 000 USD signifie que les chocs testés doivent impliquer une perte d’au plus 1 000 USD."],
+      ["The mandate starts today by default and sets the calendar for goals and cash flows. The cards use a frozen market archive to make the simulation reproducible. They show both the mandate start and the last market observation used to estimate the weights.",
+        "Le mandat démarre par défaut aujourd’hui et fixe le calendrier des objectifs et des flux. Les cartes utilisent une archive de marché figée pour rendre la simulation reproductible. Elles affichent le départ du mandat et la dernière observation utilisée pour estimer les poids."],
     ],
     [
       ["Explore your risk preferences", "Explorer tes préférences de risque"],
-      ["The 30 Discovery cards pose decisions about gains, losses and uncertainty. With enough usable answers, the app estimates a risk-aversion score from 1 to 30. The engine combines that score with your horizon and goals to set the weight given to safety, within the mandate limits.",
-        "Les 30 cartes du questionnaire proposent des choix sur les gains, les pertes et l’incertitude. Avec suffisamment de réponses exploitables, l’application estime un score d’aversion au risque de 1 à 30. Le moteur combine ce score avec ton horizon et tes objectifs pour déterminer le poids donné à la sécurité, dans les limites du mandat."],
+      ["The 30 Discovery cards pose decisions about gains, losses and uncertainty. With enough usable answers, the app calculates a prudence index from 1 to 30. The engine combines that index with your horizon and goals to set the weight given to safety, within the mandate limits.",
+        "Les 30 cartes du questionnaire proposent des choix sur les gains, les pertes et l’incertitude. Avec suffisamment de réponses exploitables, l’application calcule un indice de prudence de 1 à 30. Le moteur combine cet indice avec ton horizon et tes objectifs pour déterminer le poids donné à la sécurité, dans les limites du mandat."],
     ],
     [
       ["Select eligible holdings and data", "Sélectionner les actifs et les données admissibles"],
-      ["Personalized matching uses a local archive of monthly total returns in USD. It starts from securities with a common return history, then filters by your permitted asset classes and applies position caps. Depending on the strategy, it also uses dated stock eligibility, company filings or macroeconomic data.",
-        "Le calcul personnalisé utilise une archive locale de rendements totaux mensuels en USD. Il part d’actifs disposant d’un historique commun, filtre selon les catégories autorisées et applique les plafonds de poids. Selon la stratégie, il utilise aussi la liste des actions admissibles à chaque date, des publications d’entreprises ou des données macroéconomiques."],
+      ["Personalized matching uses US stocks, equity ETFs and US Treasury ETFs with 60 consecutive monthly total returns in USD, plus a cash account. The mandate filters the permitted holdings and applies position caps. Depending on the strategy, dated stock eligibility, company filings or macroeconomic signals may also help determine the weights.",
+        "Le calcul personnalisé utilise des actions américaines, des ETF d’actions et des ETF du Trésor américain avec 60 mois consécutifs de rendement total en USD, ainsi qu’une poche de cash. Le mandat filtre les actifs autorisés et fixe les plafonds de position. Selon la stratégie, des publications d’entreprises ou des signaux macroéconomiques peuvent aussi intervenir."],
+    ],
+    [
+      ["Check the data behind each asset", "Vérifier les données de chaque actif"],
+      ["Universe lists the holdings whose series qualify for the shared portfolio panel. Each asset page gives the source, first and last observation, return type and role of its series. All strategies use the same calendar ending 31 December 2025. A missing month makes a security ineligible at that date. More recent prices remain available for research.",
+        "Univers présente les placements retenus dans le panel du portefeuille. Chaque fiche donne la source, les dates, le type de rendement et le rôle des séries. Toutes les stratégies utilisent le même calendrier arrêté au 31 décembre 2025. Un mois manquant rend le titre inadmissible à cette date. Les prix plus récents restent disponibles dans Recherche."],
     ],
     [
       ["Build and check candidate portfolios", "Construire et vérifier les portefeuilles"],
@@ -35,9 +38,14 @@
         "Chaque stratégie applique sa propre règle pour répartir le capital. Le moteur vérifie que les poids totalisent 100 %, puis teste la concentration, les pertes en stress et le plafond ferme de volatilité s’il existe. Il peut rapprocher une allocation d’un portefeuille défensif compatible. Une méthode peut être écartée si les données ou les contraintes empêchent de la calculer."],
     ],
     [
+      ["Distinguish asset research from portfolio inputs", "Distinguer les analyses par actif des données du moteur"],
+      ["The asset pages compare historical and estimated returns, volatility models such as GARCH, factor exposures and downside risk. These diagnostics are indicative. The personalized engine rebuilds its own inputs, including historical means, covariance and dated factor or macro signals for the methods that require them. Recent-signal methods such as momentum and EWMA are especially sensitive to the archive cutoff.",
+        "Les fiches comparent rendements observés et estimés, modèles de volatilité comme GARCH, expositions factorielles et risque de perte. Ces analyses sont indicatives. Le moteur reconstruit ses entrées, dont les moyennes historiques, les covariances et les signaux factoriels ou macro datés pour les méthodes qui en ont besoin. Momentum et EWMA sont particulièrement sensibles à la date de coupure."],
+    ],
+    [
       ["Replay the strategies on historical data", "Rejouer les stratégies dans le passé"],
-      ["The engine recalculates each method quarterly using returns preceding each decision, then applies the new weights one month later. The replay models a charge of 0.10% on the value of securities traded. A later test period shows how the rule behaved after the period used to develop and assess it.",
-        "Le moteur recalcule chaque méthode chaque trimestre avec les rendements antérieurs à la décision, puis applique les nouveaux poids un mois plus tard. Le test simule des frais de 0,10 % sur la valeur des titres échangés. Une période de test plus récente montre comment la règle s’est comportée après la période utilisée pour la mettre au point et l’évaluer."],
+      ["The engine recalculates each method quarterly using the same 60-month eligibility rule and the stock list at each decision. It applies new targets one month later and rebalances monthly. The replay models a charge of 0.10% on the value of securities traded. The comparable test runs from December 2023 through December 2025. The January 2021 to November 2023 development period supplies the goal projection blocks.",
+        "Le moteur recalcule chaque méthode chaque trimestre avec la même règle des 60 mois et la liste d’actions connue à chaque décision. Il applique les nouvelles cibles un mois plus tard et rééquilibre chaque mois. Le test simule des frais de 0,10 % sur la valeur des titres échangés. Le test commun couvre décembre 2023 à décembre 2025. Les projections d’objectifs utilisent les mois de développement, de janvier 2021 à novembre 2023."],
     ],
     [
       ["Project goals and rank the cards", "Projeter les objectifs et classer les cartes"],
@@ -54,27 +62,16 @@
       ["With market quotes configured, My Matches values the simulated holdings from the first complete set of prices, then refreshes while the page is open. You can see performance and weight drift, keep the initial holdings or simulate a quarterly return to the target weights. Historical goal projections and management tests remain available.",
         "Avec une API de cours configurée, Mes Matches valorise les positions simulées à partir du premier ensemble complet de cours et les actualise tant que la page est ouverte. Tu peux voir la performance et l’écart aux poids cibles, conserver les positions ou simuler un retour trimestriel aux poids cibles. Les projections d’objectifs et les tests historiques restent disponibles."],
     ],
+    [
+      ["Interpret the limitations of the results", "Interpréter les limites des résultats"],
+      ["The replay uses dated stock membership. Missing original publication timestamps and the retrospective ETF registry limit real-time interpretation. Requiring five years favors older, well-covered assets. Rare losses are hard to assess with 25 test months. The common expected return shrinks each security’s historical mean halfway toward the median, which can raise Treasury ETF estimates in an equity-heavy universe.",
+        "Le replay utilise les listes d’actions de l’époque. Les dates de publication manquantes et le registre rétrospectif des ETF limitent l’interprétation en temps réel. Exiger cinq ans favorise les titres anciens et bien couverts. Vingt-cinq mois de test donnent peu de recul sur les pertes rares. Le rendement estimé rapproche la moyenne de chaque titre à mi-chemin vers la médiane, ce qui peut relever les estimations des ETF du Trésor dans cet univers dominé par les actions."],
+    ],
   ];
-  const tools = {
-    objectives: ["Estimate how often a savings or funding target is reached in simulated paths and how much may be missing.", "Estime combien de trajectoires simulées atteignent un objectif d’épargne ou de financement, et quel montant peut manquer."],
-    baselines: ["Compare against simple reference portfolios such as cash, equal weights or a 60/40 mix.", "Compare avec des portefeuilles de référence simples, comme les liquidités, les poids égaux ou un portefeuille 60/40."],
-    "mean-variance": ["Try allocations that seek a given return or minimize fluctuations, subject to weight limits.", "Teste des allocations qui visent un rendement donné ou minimisent les fluctuations, sous réserve des plafonds de poids."],
-    "black-litterman": ["See how adding market assumptions changes estimated returns and portfolio weights.", "Observe comment des hypothèses de marché modifient les rendements estimés et les poids du portefeuille."],
-    hierarchical: ["Compare ways to spread risk among assets or groups that move together.", "Compare des façons de répartir le risque entre des actifs ou des groupes qui évoluent ensemble."],
-    downside: ["Compare methods that focus on the worst months and falls from a previous peak.", "Compare des méthodes qui se concentrent sur les pires mois et les reculs depuis un sommet."],
-    advanced: ["Test how allocations change when estimates are uncertain or when the rule favors diversification or compound growth.", "Teste comment les allocations changent quand les estimations sont incertaines ou que la règle favorise la diversification ou la croissance composée."],
-    "long-only": ["Compare strategies that buy assets, from passive funds to rules based on stock characteristics.", "Compare des stratégies qui achètent des actifs, des fonds passifs aux règles fondées sur les caractéristiques des actions."],
-    alternative: ["Explore trend, macroeconomic and other signals, including experimental strategies that may use short positions.", "Explore les signaux de tendance, les signaux macroéconomiques et d’autres règles, y compris des stratégies expérimentales qui peuvent utiliser des positions vendeuses."],
-    treasury: ["Explore US government bonds and how their values react to changes in interest rates.", "Explore les obligations d’État américaines et la réaction de leur valeur aux variations de taux."],
-    futures: ["Explore how contracts behave when exposure is carried from one expiry to the next.", "Explore le comportement des contrats à terme quand une exposition est reportée d’une échéance à la suivante."],
-    "walk-forward": ["Replay decisions in order and check how strategies behaved on later observations.", "Rejoue les décisions dans l’ordre et observe le comportement des stratégies sur des données ultérieures."],
-    "stress-mc": ["Apply specified market shocks or generate simulated return paths to see how outcomes vary.", "Applique des chocs de marché définis ou génère des trajectoires simulées pour observer la diversité des résultats."],
-  };
-
   function render() {
     const lang=window.RM.language==="fr"?1:0;
     const t=window.RM.t;
-    const {methods,sources}=window.StrategyMethods;
+    const {methods,sources,dependency}=window.StrategyMethods;
     const catalogue=document.getElementById("strategy-library");
     catalogue.innerHTML=groups.map(([title,names])=>{
       const keys=Array.isArray(names)?names:names.split(" ");
@@ -83,15 +80,13 @@
         return `<details><summary>${esc(strategyName(key))}</summary>
           <p>${esc(method[lang])}</p>
           ${method[2]?`<p><code>${esc(method[2])}</code></p>`:""}
-          <p class="muted"><strong>${esc(t("catalogueInputs"))}</strong> · ${esc(source[lang])}</p></details>`;
+          <p class="muted"><strong>${esc(t("catalogueInputs"))}</strong> · ${esc(source[lang])}</p>
+          <p><strong>${esc(lang?"Effet de la date des données":"Effect of the data cutoff")} · ${esc(dependency[key][lang])}</strong> ${esc(dependency[key][lang+2])}</p></details>`;
       }).join("");
       return `<section><h2>${esc(title[lang])}</h2>${entries}</section>`;
     }).join("");
     document.getElementById("methodology-stages").innerHTML=stages.map(([title,body])=>
       `<li><h2>${esc(title[lang])}</h2><p>${esc(body[lang])}</p></li>`).join("");
-    document.querySelectorAll(".research-tool-help").forEach(node=>{
-      node.textContent=tools[node.dataset.tool][lang];
-    });
   }
   document.addEventListener("riskmatch:language",render);
   render();

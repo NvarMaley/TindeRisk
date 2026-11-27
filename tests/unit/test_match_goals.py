@@ -7,6 +7,7 @@ from riskmatch.selection.goals import assess, REFERENCE_RUN, VERSION
 
 def test_match_goal_assessment_pairs_reference(tmp_path):
     m=json.loads((Path(__file__).resolve().parents[2]/"configs/mandate-example.json").read_text())
+    m["constraints"]["allowed_assets"].append("reit")
     m.update(as_of="2026-11-25",horizon_date="2027-11-25",contribution_monthly=0,withdrawal_monthly=0)
     m["goals"][0].update(due_date="2027-11-25",amount=100000)
     archive=tmp_path/"data/processed/walk_forward"

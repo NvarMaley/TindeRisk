@@ -3,6 +3,7 @@
 All candidates are reconstructed from the mandate and frozen data. Historical
 evaluation uses only information available at the start of each evaluation segment.
 """
+from collections import Counter
 from datetime import date
 from functools import lru_cache
 import hashlib
@@ -15,19 +16,34 @@ import numpy as np
 from scipy.optimize import linprog
 from threadpoolctl import threadpool_limits
 
-from riskmatch.backtesting.mandate_replay import replay
+from riskmatch.analytics.descriptive_report import client_catalog
+from riskmatch.backtesting.baseline_report import IDS, continuous_segments
+from riskmatch.backtesting.mandate_replay import (
+    ESTIMATION_MONTHS, EXECUTION_LAG_MONTHS, archive, eligible_indices, replay,
+)
+from riskmatch.backtesting.card_performance import card_performance
 from riskmatch.backtesting.walk_models import REGISTRY, SIGNED, fit_models
-from riskmatch.optimization.mean_variance_report import aligned, category, regularized_mean
+from riskmatch.optimization.mean_variance_report import category, regularized_mean
 from riskmatch.profiling.mandate import validate_mandate, add_month
 from riskmatch.prototype import ClientProfile, metrics
 from riskmatch.selection.sleeve_ledger import rebalance_paths
 from riskmatch.simulation.stress_report import scenario_matrix
-from riskmatch.strategies.alternative_report import macro_signals
-from riskmatch.strategies.long_only_report import load_signals, verified_pit
+from riskmatch.market_data.returns import returns_report
+from riskmatch.market_data.security_master import load_catalog
+from riskmatch.simulation.stress_mc import covariance_model
+from riskmatch.strategies.long_only_report import verified_pit
 
 VERSION = "personalized-v3"
+VARIANCE_PENALTY_SCALE = 13.3
 AS_OF = date(2026, 11, 25)
+DATA_END = date(2025, 12, 31)
+DEVELOPMENT_START = date(2020, 12, 31)
+HOLDOUT_START = date(2023, 11, 30)
+MATCHING_PROTOCOL = "usd-dated-membership-60-v1"
+MATCHING_INSTRUMENT_CATEGORIES = ("stock", "equity_etf", "treasury_etf")
 KEYS = tuple(k for k in REGISTRY if k not in SIGNED)
+OVERLAY_METHODS = ("defensive_reference", "constrained_utility")
+FUNDED_METHODS = (*KEYS, *OVERLAY_METHODS)
 LOCK = Lock()
 
 
@@ -41,30 +57,112 @@ def hard_limit(mandate, name, default):
 
 
 @lru_cache(maxsize=1)
-def market_data(root):
-    assets, intervals, returns, cash, version = aligned(root, AS_OF, "USD", "cohort")
-    if len(returns) < 60:
-        raise ValueError("Insufficient aligned historical observations")
-    first = max(36, int(len(returns) * .4))
-    split = int(len(returns) * .75)
-    origins = [intervals[first][0], intervals[split][0], intervals[-1][1]]
-    signals = load_signals(root, AS_OF, assets, origins, version)
-    macro = macro_signals(root, version, origins)
-    caps = {}
+def listed_funds(root, version):
+    _, instruments = load_catalog(root / "configs/universe_catalog.json")
     pit = verified_pit(root, version)
     with duckdb.connect() as db:
+        identifiers = dict(db.execute(
+            "select ticker,arg_max(instrument,observation_date) from read_parquet(?) "
+            "where observation_date<=? group by ticker",
+            [str(pit / "etf_daily_volume.parquet"), DATA_END]).fetchall())
+    funds = tuple((fund.security_id, fund.asset_class, fund.ticker,
+                   identifiers[fund.ticker], "etf_crsp_monthly")
+                  for fund in instruments if fund.asset_class in ("equity_etf", "treasury_etf")
+                  and fund.currency == "USD" and fund.ticker in identifiers
+                  and (fund.listing_date or fund.inception) <= DATA_END)
+    if len({fund[3] for fund in funds}) != len(funds):
+        raise ValueError("Duplicate ETF identity in the matching registry")
+    return funds
+
+
+def matching_calendar(root, version):
+    """Align the SPY valuation calendar and the monthly USD cash proxy."""
+    pit = verified_pit(root, version)
+    rf_path = pit / "fama_french.parquet"
+    report = json.loads((pit.parent / "report.json").read_text())
+    expected = next(row["file_hash"] for row in report["datasets"] if row["dataset"] == "fama_french")
+    with rf_path.open("rb") as stream:
+        if hashlib.file_digest(stream, "sha256").hexdigest() != expected:
+            raise ValueError("Cash proxy input hash mismatch")
+    with duckdb.connect() as db:
         rows = db.execute(
-            "select instrument,observation_date,market_cap_source_units from read_parquet(?) "
-            "where observation_date in (select unnest(?)) and market_cap_source_units>0",
-            [str(pit / "stock_membership.parquet"), origins]).fetchall()
-    for instrument, day, cap in rows:
-        caps.setdefault(day, {})[str(instrument)] = float(cap)
-    labels = [a["ticker"] for a in assets]
-    if len(set(labels)) != len(labels):
-        counts = {label: labels.count(label) for label in set(labels)}
-        labels = [label if counts[label] == 1 else f"{label} ({a['id']})"
-                  for label, a in zip(labels, assets)]
-    return assets, intervals, returns, cash, version, first, split, origins, signals, macro, caps, labels
+            "select start_date,end_date from read_parquet(?) where instrument=? "
+            "and start_date>=? and end_date<=? and isfinite(total_return) and total_return>=-1 "
+            "order by end_date",
+            [str(root / "data/processed/returns" / version / "etf_crsp_monthly.parquet"),
+             IDS[0], date(2015, 10, 30), DATA_END]).fetchall()
+        rates = db.execute(
+            "select observation_date,value from read_parquet(?) where instrument='RF' "
+            "and frequency='monthly' and observation_date<=? and isfinite(value) and value>=-1",
+            [str(rf_path), DATA_END]).fetchall()
+    monthly = {(day.year, day.month): rate for day, rate in rates}
+    if len(monthly) != len(rates) or len({b for _, b in rows}) != len(rows):
+        raise ValueError("Duplicate matching calendar or cash observation")
+    open_months = [(a, b) for a, b in rows if (b.year, b.month) in monthly
+                   and (b.year-a.year)*12+b.month-a.month == 1]
+    segments = continuous_segments(open_months)
+    if not segments or segments[-1][-1][1] != DATA_END:
+        raise ValueError("The matching calendar does not reach the frozen cutoff")
+    intervals = tuple(segments[-1])
+    cash = np.array([monthly[b.year, b.month] for _, b in intervals])
+    return intervals, cash
+
+
+@lru_cache(maxsize=1)
+def market_data(root):
+    root = Path(root).resolve()
+    version = returns_report(root, AS_OF).get("return_id")
+    if not version:
+        raise ValueError("Matching return archive unavailable")
+    intervals, cash = matching_calendar(root, version)
+    starts = [a for a, _ in intervals]
+    first, split = starts.index(DEVELOPMENT_START), starts.index(HOLDOUT_START)
+    if first < ESTIMATION_MONTHS + EXECUTION_LAG_MONTHS:
+        raise ValueError("Insufficient history to start the comparable replay")
+    origins = [starts[first], starts[split], DATA_END]
+    assets, panel, available, signals, macro, caps = archive(
+        root, intervals, first, listed_funds(root, version), version, AS_OF)
+    indices = eligible_indices(assets, panel[-ESTIMATION_MONTHS:],
+                               available[-ESTIMATION_MONTHS:], DATA_END, caps.get(DATA_END, {}))
+    with duckdb.connect() as db:
+        tickers = dict(db.execute(
+            "select instrument,snapshot_ticker from read_parquet(?)",
+            [str(verified_pit(root, version) / "stock_refresh_identity.parquet")]).fetchall())
+    selected = [assets[i].copy() for i in indices]
+    for asset in selected:
+        if asset["category"] == "stock":
+            asset["ticker"] = tickers.get(asset["instrument"]) or asset["ticker"]
+    if not any(asset["ticker"] == "SPY" for asset in selected):
+        raise ValueError("SPY reference unavailable on the matching window")
+    labels = [asset["ticker"] for asset in selected]
+    counts = Counter(labels)
+    labels = [label if counts[label] == 1 else f"{label} ({asset['id']})"
+              for label, asset in zip(labels, selected)]
+    return selected, intervals, panel[:, indices], cash, version, first, split, origins, signals, macro, caps, labels
+
+
+def matching_catalog(root, as_of):
+    root = Path(root).resolve()
+    assets, intervals, *_ = market_data(root)
+    catalog = client_catalog(root, as_of)
+    catalogue = {item["id"]: item for item in catalog["items"]}
+    first, last = intervals[-ESTIMATION_MONTHS][0].isoformat(), intervals[-1][1].isoformat()
+    items = []
+    for asset in assets:
+        item = catalogue.get(asset["id"])
+        if item is None:
+            # An archived constituent may be absent from the newer descriptive stock list.
+            item = {**asset, "name": asset["ticker"], "provider": "CRSP / DoltHub",
+                    "url": "https://www.crsp.org/", "series": [{
+                        "source": asset["source"], "instrument": asset["instrument"],
+                        "frequency": "monthly", "first": first, "last": last,
+                        "kinds": ["total_return"], "kind_dates": {
+                            "total_return": {"first": first, "last": last}},
+                    }]}
+        items.append({**item, "matching_source": asset["source"]})
+    items.append({**catalogue["cash"], "matching_source": "fama_french_rf"})
+    return {**catalog, "items": items, "matching_data_start": first,
+            "matching_data_end": last, "matching_months": ESTIMATION_MONTHS}
 
 
 def risk_preferences(mandate, report, aversion):
@@ -79,16 +177,14 @@ def risk_preferences(mandate, report, aversion):
     horizon = report["horizon_years"]
     risk_weight = float(np.clip(.25 + .5 * willingness + .15 * preference
                                 + .1 * (1 - min(horizon / 15, 1)), .05, .95))
-    return float(1 + 19 * risk_weight**2), risk_weight
+    return float(1 + VARIANCE_PENALTY_SCALE * risk_weight**2), risk_weight
 
 
 def bounds_for(assets, mandate, day, membership):
     allowed = set(mandate["constraints"]["allowed_assets"])
     cap = hard_limit(mandate, "max_asset_weight", 1.)
     upper = np.array([min(cap, .05 if a["category"] == "stock" else .65)
-                      if category(a) in allowed and
-                      (a["ticker"] not in {"USO", "CPER", "WEAT"} or
-                       mandate["constraints"]["allow_derivatives"]) and
+                      if a["category"] in MATCHING_INSTRUMENT_CATEGORIES and category(a) in allowed and
                       (a["category"] != "stock" or str(a["instrument"]) in membership.get(day, set()))
                       else 0. for a in assets])
     cash_cap = cap if "cash" in allowed else 0.
@@ -169,9 +265,9 @@ def adapt_target(weights, reference, upper, shocks, stress_limit, covariance, vo
 
 
 def construct(data, mandate, report, aversion, end, origin):
-    from sklearn.covariance import LedoitWolf
     assets, _, returns, cash, _, _, _, _, signals, macro, caps, _ = data
-    x, rf = returns[:end], cash[:end]
+    window = slice(end-ESTIMATION_MONTHS, end)
+    x, rf = returns[window], cash[window]
     upper, cash_cap = bounds_for(assets, mandate, origin, signals[0])
     bounds = np.r_[upper, cash_cap]
     loss = report["effective_stress_limit"]
@@ -185,13 +281,12 @@ def construct(data, mandate, report, aversion, end, origin):
     covariance = np.zeros((len(bounds), len(bounds)))
     active = np.flatnonzero(bounds > 0)
     if len(active):
-        covariance[np.ix_(active, active)] = LedoitWolf().fit(
-            np.column_stack([x, rf])[:, active]).covariance_ * 12
+        covariance[np.ix_(active, active)] = covariance_model(
+            np.column_stack([x, rf])[:, active])[3] * 12
     reference = defensive_reference(bounds, shock_matrix, covariance, loss, vol_limit)
-    forecast = None  # identical trailing estimator at historical and current decisions
-    fitted = fit_models(KEYS, x[-60:], rf[-60:], assets, upper, origin, signals,
+    fitted = fit_models(KEYS, x, rf, assets, upper, origin, signals,
                         optimizer_limit=64, market_caps=caps.get(origin), lam=lam, seed=24,
-                        macro=macro.get(origin), forecast=forecast)
+                        macro=macro.get(origin))
     candidates = {}
     diagnostics = {}
     for key, result in fitted.items():
@@ -234,8 +329,8 @@ def construct(data, mandate, report, aversion, end, origin):
                               np.flatnonzero(reference > 1e-9).tolist() + [len(upper)]))
         idx = np.array(selected, int)
         if len(idx) > 1 and bounds[idx].sum() >= 1-1e-9:
-            mean = np.r_[regularized_mean(x[-60:], forecast if forecast is not None else None),
-                         float(np.mean(rf[-60:])*12)]
+            mean = np.r_[regularized_mean(x),
+                         float(np.mean(rf)*12)]
             preferred = loss * (1-.55*risk_weight)
             effective = preferred if np.min(shock_matrix @ reference) >= -preferred else loss
             linear = [(key, shock[idx], -effective, 1.) for key, shock in scenarios.items()]
@@ -254,14 +349,15 @@ def construct(data, mandate, report, aversion, end, origin):
                         candidates["constrained_utility"] = adjusted
             if "constrained_utility" not in candidates:
                 diagnostics["constrained_utility"] = result.get("reason", "Constrained solve unavailable")
-    for key in ("defensive_reference", "constrained_utility"):
+    for key in OVERLAY_METHODS:
         if key not in candidates:
             diagnostics.setdefault(key, "No feasible defensive reference or funded optimization subset")
     return candidates, diagnostics, scenarios, covariance, int(np.count_nonzero(upper)), lam, risk_weight
 
 
 def fingerprint(mandate, aversion, data_version, style="000"):
-    payload = json.dumps([VERSION, data_version, mandate, aversion], sort_keys=True,
+    payload = json.dumps([VERSION, data_version, mandate, aversion, VARIANCE_PENALTY_SCALE,
+                          MATCHING_PROTOCOL, DATA_END.isoformat()], sort_keys=True,
                          separators=(",", ":"), allow_nan=False)
     return f"{VERSION}:{aversion}:{style}:{hashlib.sha256(payload.encode()).hexdigest()}"
 
@@ -315,7 +411,9 @@ def _run(root, encoded, aversion, style):
     report = validate_mandate(mandate)
     data = market_data(root)
     assets, intervals, x, rf, data_version, first, split, origins, _, _, _, labels = data
-    history, failures = replay(root, data, mandate, report, aversion, construct, AS_OF)
+    funds = listed_funds(root, data_version)
+    history, failures = replay(root, data, mandate, report, aversion, construct, AS_OF,
+                               funds)
     current, unavailable, scenarios, covariance, eligible_count, lam, risk_weight = construct(
         data, mandate, report, aversion, len(x), origins[2])
     assets_with_cash = labels + ["USD cash"]
@@ -323,10 +421,11 @@ def _run(root, encoded, aversion, style):
     shared = history.keys() & current.keys()
     benchmark = "defensive_reference" if "defensive_reference" in shared else next(iter(sorted(shared)), None)
     reference = np.array(history[benchmark]["returns"]) if benchmark else np.array([])
+    comparison = next((name for name in ("equal_weight", "defensive_reference") if name in shared), None)
+    comparison_returns = np.asarray(history[comparison]["returns"]) if comparison else None
     from riskmatch.analytics.factor_report import factor_report
-    from riskmatch.analytics.forecast_batch import batch_report
     input_version = hashlib.sha256(json.dumps([
-        data_version, factor_report(root, AS_OF).get("run_id"), batch_report(root, AS_OF).get("run_id")
+        data_version, factor_report(root, AS_OF).get("run_id"), funds
     ], sort_keys=True).encode()).hexdigest()
     version = fingerprint(mandate, aversion, input_version, style)
     from riskmatch.analytics.objectives import evaluate, bootstrap_indices
@@ -342,8 +441,8 @@ def _run(root, encoded, aversion, style):
     half = (split-first)//2
     windows = [bootstrap_indices(half, months, paths=256, block=6, seed=25) + offset
                for offset in (0, split-first-half)]
-    current_mean = regularized_mean(x[-60:])
-    expected_returns = np.r_[current_mean, float(np.mean(rf[-60:]) * 12)]
+    current_mean = regularized_mean(x[-ESTIMATION_MONTHS:])
+    expected_returns = np.r_[current_mean, float(np.mean(rf[-ESTIMATION_MONTHS:]) * 12)]
     rows, cards = {}, []
     for name, w in current.items():
         if name not in history:
@@ -373,16 +472,18 @@ def _run(root, encoded, aversion, style):
         rows[name] = (holdings, stresses, returns)
         cards.append({"name": name, "version": version, "weights": holdings,
                       "period": f"{intervals[split][0]} – {intervals[-1][1]} · USD",
-                      "costs": "10 bp on securities traded; quarterly signals, one-month execution lag",
+                      "costs": "10 bp on securities traded; quarterly target updates, monthly rebalancing, one-month execution lag",
                       "stress_loss": stress, "stress_usd": stress * mandate["capital"],
-                      "metrics": metrics(returns[split-first:, None], [1]),
+                      "metrics": metrics(returns[split-first:, None], [1], cash_returns=rf[split:]),
+                      "backtest": card_performance(returns, rf[first:], date_rows, split-first,
+                                                   benchmark_name=comparison, benchmark_returns=comparison_returns),
                       "worst_scenario": min(stresses, key=stresses.get),
                       "expected_return": estimate, "estimated_volatility": vol,
                       "development_turnover": float(12*np.mean(path["turnover"][:split-first])),
                       "development_return": float(12 * returns[:split-first].mean()),
                       "eligible_assets": eligible_count, "universe_size": len(assets),
-                      "model_as_of": str(intervals[-1][1]), "goal_projection_paths": 256, "development_months": split-first,
-                      "forecast_source": "Regularized trailing monthly returns at each decision",
+                      "model_as_of": str(intervals[-1][1]), "estimation_months": ESTIMATION_MONTHS, "goal_projection_paths": 256, "development_months": split-first,
+                      "forecast_source": "Regularized trailing 60 monthly returns at each decision",
                       "goal_projection": goal_summary,
                       "weighted_target_penalty": projection["weighted_target_penalty"],
                       "objective_fit": fit,
@@ -450,7 +551,7 @@ def _run(root, encoded, aversion, style):
             diverse.append(card)
         else:
             remaining.append(card)
-        card["methods_attempted"] = len(KEYS) + 2
+        card["methods_attempted"] = len(FUNDED_METHODS)
         card["methods_unavailable"] = len(unavailable)
     distinct = []
     for card in diverse + remaining:

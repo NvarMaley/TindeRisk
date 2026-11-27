@@ -61,8 +61,17 @@ def simulate(returns,intervals,weights,*,frequency='monthly',capital=100.,cost_b
     return {'frequency':frequency,'initial':initial,'ledger':ledger,'returns':twr,'final_nav':prev,'final_weights':ledger[-1]['closing_weights'],'total_fees':initial['fees']+sum(v['fee'] for v in ledger),'total_traded_notional':initial['traded_notional']+sum(v['traded_notional'] for v in ledger),'annual_one_way_turnover':sum(v['one_way_turnover'] for v in ledger)*12/len(x)}
 
 
+def annualized_excess_ratio(returns, reference):
+    """Monthly excess return divided by its volatility, annualized."""
+    excess = returns - reference
+    if len(excess) < 2:
+        return None
+    deviation = float(np.std(excess, ddof=1))
+    return float(excess.mean() / deviation * np.sqrt(12)) if deviation > 1e-12 else None
+
+
 def metrics(returns,reference):
     r=np.asarray(returns,float);rf=np.asarray(reference,float)
     if r.ndim!=1 or len(r)<2 or r.shape!=rf.shape or not np.isfinite(r).all() or not np.isfinite(rf).all() or np.any(r< -1):raise ValueError('Invalid metrics inputs')
-    nav=np.r_[1.,np.cumprod(1+r)];dd=nav/np.maximum.accumulate(nav)-1;vol=float(np.std(r,ddof=1)*np.sqrt(12));excess=r-rf;s=float(np.std(excess,ddof=1));rolling=[float(np.prod(1+r[i:i+12])-1) for i in range(len(r)-11)]
-    return {'cumulative':float(nav[-1]-1),'cagr':float(nav[-1]**(12/len(r))-1),'annual_volatility':vol,'max_drawdown':float(-dd.min()),'annual_excess_ratio':float(excess.mean()/s*np.sqrt(12)) if s>1e-12 else None,'worst_month':float(r.min()),'worst_12_months':min(rolling) if rolling else None,'monthly_es95':empirical(-r,.95)['es'] if len(r)>=100 else None,'drawdown':dd[1:].tolist()}
+    nav=np.r_[1.,np.cumprod(1+r)];dd=nav/np.maximum.accumulate(nav)-1;vol=float(np.std(r,ddof=1)*np.sqrt(12));rolling=[float(np.prod(1+r[i:i+12])-1) for i in range(len(r)-11)]
+    return {'cumulative':float(nav[-1]-1),'cagr':float(nav[-1]**(12/len(r))-1),'annual_volatility':vol,'max_drawdown':float(-dd.min()),'annual_excess_ratio':annualized_excess_ratio(r,rf),'worst_month':float(r.min()),'worst_12_months':min(rolling) if rolling else None,'monthly_es95':empirical(-r,.95)['es'] if len(r)>=100 else None,'drawdown':dd[1:].tolist()}

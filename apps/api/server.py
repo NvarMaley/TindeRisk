@@ -70,12 +70,15 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.respond(quotes(ROOT, data["symbols"]))
             if self.path == "/api/matching/prepare":
                 raw=data["mandate"]
-                if not validate_mandate(raw)["personalized_eligible"] or raw["as_of"]<"2026-11-25":
+                if (not validate_mandate(raw)["personalized_eligible"]
+                        or raw["as_of"] < personalized_matches.AS_OF.isoformat()):
                     raise ValueError("demoUnavailable")
                 with personalized_matches.LOCK:
                     data=personalized_matches.market_data(ROOT.resolve())
-                return self.respond({"status":"ready","count":len(personalized_matches.KEYS),
-                                     "universe_size":len(data[0])})
+                return self.respond({"status":"ready","count":len(personalized_matches.FUNDED_METHODS),
+                                     "universe_size":len(data[0]),
+                                     "model_as_of":personalized_matches.DATA_END.isoformat(),
+                                     "estimation_months":personalized_matches.ESTIMATION_MONTHS})
             if self.path == "/api/match-allocations/goal":
                 from riskmatch.selection.goals import compare_allocations
                 return self.respond(compare_allocations(ROOT,data))
@@ -220,6 +223,8 @@ class Handler(SimpleHTTPRequestHandler):
                 if self.path=="/api/statistics":
                     return self.respond(descriptive_report(ROOT,as_of))
                 if self.path=="/api/statistics/catalog":
+                    if data.get("scope") == "matching":
+                        return self.respond(personalized_matches.matching_catalog(ROOT, as_of))
                     return self.respond(client_catalog(ROOT,as_of))
                 if self.path=="/api/statistics/assets":
                     return self.respond(descriptive_assets(ROOT,data["source"],as_of))

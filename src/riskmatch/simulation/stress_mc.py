@@ -10,10 +10,18 @@ PERCENTILES=(5,25,50,75,95)
 
 
 def covariance_model(x):
-    x=np.asarray(x,float);m=x.mean(0);d=x-m;n=len(x)
-    # Shrink standardized covariance, then restore original marginal variances.
-    # This avoids injecting equity-sized noise into low-volatility cash.
-    sd=np.sqrt(np.sum(d*d,axis=0)/n);z=np.divide(d,sd,out=np.zeros_like(d),where=sd>1e-12);lw=LedoitWolf().fit(z);shrink=float(lw.shrinkage_);factor=d*np.sqrt((1-shrink)/n);noise=sd*np.sqrt(max(0,shrink));cov=factor.T@factor+np.diag(noise**2);return m,factor,noise,cov
+    x = np.asarray(x, float)
+    mean = x.mean(axis=0)
+    centered = x - mean
+    n = len(x)
+    # Shrink standardized covariance and restore the original marginal variances.
+    sd = np.sqrt(np.mean(centered**2, axis=0))
+    standardized = np.divide(centered, sd, out=np.zeros_like(centered), where=sd > 1e-12)
+    shrinkage = float(LedoitWolf().fit(standardized).shrinkage_)
+    factor = centered * np.sqrt((1 - shrinkage) / n)
+    noise = sd * np.sqrt(max(0., shrinkage))
+    covariance = np.einsum("ti,tj->ij", factor, factor) + np.diag(noise**2)
+    return mean, factor, noise, covariance
 
 
 def paths(x,months,count,model,seed=24,market=None,mean_shift=0.,vol_scale=1.,regime_stress=1.,df=5,block=6):

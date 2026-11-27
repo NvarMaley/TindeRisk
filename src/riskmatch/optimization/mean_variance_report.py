@@ -18,7 +18,7 @@ from riskmatch.profiling.mandate import validate_mandate
 from riskmatch.optimization.mean_variance import MeanVariance,Constraints,VERSION
 
 
-def aligned(root,as_of,currency,scope):
+def aligned(root,as_of,currency,scope,*,instrument_categories=None):
     upstream=returns_report(root,as_of)
     if not upstream.get('return_id'):raise ValueError('matchingArchiveUnavailable')
     folder=Path(root)/'data/processed/returns'/upstream['return_id'];manifest=batch_report(root,as_of)
@@ -30,6 +30,8 @@ def aligned(root,as_of,currency,scope):
     catalogue=client_catalog(root,as_of)['items'];lookup={a['id']:a for a in catalogue};by_ticker={a['ticker']:a for a in catalogue if a['category']!='stock'}
     for a in assets:
         meta=lookup.get(a['id']) or by_ticker.get(a.get('ticker')) or {};a['ticker']=meta.get('ticker',a.get('ticker',a['id']));a['category']=meta.get('category','unknown');a['name']=meta.get('name',a['ticker'])
+    if instrument_categories is not None:
+        assets = [asset for asset in assets if asset['category'] in instrument_categories]
     groups=defaultdict(list)
     for a in assets:groups[a['source']].append(str(a['instrument']))
     if 'etf_crsp_monthly' not in groups or '92027' not in groups['etf_crsp_monthly']:groups['etf_crsp_monthly'].append('92027')

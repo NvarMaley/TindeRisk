@@ -36,7 +36,7 @@
     "allow_short": false,
     "allow_leverage": false,
     "allow_derivatives": false,
-    "allowed_assets": ["equity", "treasury", "reit", "cash"],
+    "allowed_assets": ["equity", "treasury", "cash"],
     "esg_exclusions": "",
     "tax_assumption": "not_modeled",
     "fx_hedge": "undecided"
