@@ -2,6 +2,8 @@
 
 ## Parcours de présentation
 
+Le cas à présenter est celui d’un investisseur qui finance un objectif daté sous une limite de perte. La construction relie les contraintes du cours à une décision observable. Comparez une allocation de variance minimale avec une allocation qui donne la priorité à l’objectif, puis montrez l’effet sur le financement et la diversification. Le [README](../README.md) réunit le code, les accès Streamlit et les étapes de reproduction.
+
 1. **Mandat et profil.** Dans un nouveau carnet de simulation, chargez l’exemple du mandat. Confirmez-le puis répondez à Discovery. Le formulaire affiche les contraintes applicables et signale les horizons dépassant 50 ans pour la projection.
 2. **Construction.** Sélectionnez deux cartes pour comparer l’effet des budgets dans **Mes matchs**. Les positions en commun sont consolidées. Rendement estimé, volatilité et stress décrivent l’allocation finale. Le backtest décrit les décisions rejouées sur les dates historiques.
 3. **Résultat.** Confirmez la simulation. Lisez le capital restant, le gain net et la valeur actuelle. Le graphique marque les paiements programmés. Changer le taux d’actualisation change la valeur actuelle, avec les mêmes scénarios nominaux.
@@ -16,7 +18,7 @@ cell errors, 1,496 rendered checklist entries and full historical responses
 from the same server handlers used by the web app. The copy contains local
 derived data and requires redistribution-rights review before submission.
 
-## Client implementation, 27 November 2026
+## Client implementation, 28 November 2026
 
 The active mandate shows ten goals. Discovery uses 30 fixed cards, with 20
 feeding the prudence index and eight supporting experimental loss-aversion

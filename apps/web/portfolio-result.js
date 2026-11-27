@@ -19,10 +19,11 @@
   const e = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
   const pct = (value, fr) => Number.isFinite(value) ? new Intl.NumberFormat(fr?"fr-CH":"en-US",{style:"percent",maximumFractionDigits:2}).format(value) : "—";
   const usd = (value, fr) => Number.isFinite(value) ? new Intl.NumberFormat(fr?"fr-CH":"en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(value) : "—";
-  const shortDate = (value,fr) => {
+  const formatDate = (value,fr,full=false) => {
     const date=new Date(value+"T12:00:00Z");
-    return Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat(fr?"fr-CH":"en-US",{month:"short",year:"numeric",timeZone:"UTC"}).format(date) : "—";
+    return Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat(fr?"fr-CH":"en-US",{month:full?"long":"short",year:"numeric",timeZone:"UTC",...(full?{day:"numeric"}:{})}).format(date) : "—";
   };
+  const shortDate = (value,fr) => formatDate(value,fr);
   const language = fr => fr?0:1;
   const sector = (key,fr) => sectorLabels[key]?.[language(fr)] || (fr?"Secteur non renseigné":"Sector unavailable");
   const type = (key,fr) => typeLabels[key]?.[language(fr)] || key;
@@ -47,7 +48,7 @@
     const excluded=[...(constraints.excluded_companies||[]),...avoidedSectors];
     const trace=mandate&&report?`<h4>${pick("Mandat appliqué","Mandate applied")}</h4><dl class="rm-labeled">${[
       row(pick("Capital de départ","Starting capital"),money(mandate.capital)),
-      row(pick("Date cible","Target date"),mandate.horizon_date),
+      row(pick("Date cible","Target date"),formatDate(mandate.horizon_date,fr,true)),
       ...(mandate.contribution_monthly>0?[row(pick("Apport mensuel","Monthly contribution"),money(mandate.contribution_monthly))]:[]),
       ...(mandate.withdrawal_monthly>0?[row(pick("Retrait mensuel","Monthly withdrawal"),money(mandate.withdrawal_monthly))]:[]),
       row(pick("Plafond de perte en stress","Stress-loss limit"),percent(report.effective_stress_limit)),
@@ -74,7 +75,7 @@
     return `<section class="rm-result"><div class="rm-result-lead"><span class="rm-eyebrow">${pick("Allocation consolidée","Consolidated allocation")}</span>
       <h3>${pick("Ton portefeuille en un coup d’œil","Your portfolio at a glance")}</h3>
       <p>${pick("Les positions communes aux stratégies sont additionnées. Les poids ci-dessous décrivent le portefeuille entier.","Shared holdings are consolidated. The weights below describe the entire portfolio.")}</p>
-      <div class="rm-kpis">${card(pick("Rendement estimé","Estimated return"),percent(result.expected_return),pick("Moyenne annualisée des poids retenus","Annualized mean of the selected weights"))}
+      <div class="rm-kpis">${card(pick("Rendement estimé","Estimated return"),percent(result.expected_return),pick("Estimations annuelles des actifs, pondérées par leurs poids","Annual asset estimates weighted by portfolio weights"))}
       ${card(pick("Volatilité estimée","Estimated volatility"),percent(result.estimated_volatility),pick("Amplitude des fluctuations annuelles","Scale of annual fluctuations"))}
       ${card(pick("Perte en stress","Stress loss"),percent(result.stress_loss),money(result.stress_usd)+" · "+pick("pire scénario testé","worst scenario tested"))}</div></div>
       <div class="rm-result-grid"><article class="rm-subpanel"><h4>${pick("Répartition entre stratégies","Strategy budgets")}</h4><dl class="rm-labeled">${budgetRows}</dl>${trace}</article>
@@ -132,10 +133,10 @@
     const pv=rate?.terminal_quantiles;
     const benchmark=response.benchmark==="USD cash"?pick("cash USD","USD cash"):(response.benchmark||pick("référence","benchmark"));
     const qualitative=m.goals.some(g=>g.probability==null);
-    const dataRows=m.goals.map((g,i)=>`<tr><th scope="row">${e(title(g.objective_id))}<small>${e(g.due_date)}</small></th>
+    const dataRows=m.goals.map((g,i)=>`<tr><th scope="row">${e(title(g.objective_id))}<small>${e(formatDate(g.due_date,fr,true))}</small></th>
       <td>${money(g.target)}</td><td>${percent(g.probability)}${Number.isFinite(g.probability)?`<span class="rm-probability" aria-hidden="true"><i style="width:${100*g.probability}%"></i></span>`:""}</td><td>${money(g.expected_deficit)}</td><td>${percent(response.reference.goals[i]?.probability)}</td></tr>`).join("");
     return `<div class="rm-result-lead rm-forecast"><span class="rm-eyebrow">${pick("Scénarios sur ton horizon","Scenarios over your horizon")}</span>
-      <h3>${horizon?pick("À l’horizon du","At the horizon on")+" "+e(horizon):pick("Dans le futur","At your horizon")}</h3>
+      <h3>${horizon?pick("À l’horizon du","At the horizon on")+" "+e(formatDate(horizon,fr,true)):pick("Dans le futur","At your horizon")}</h3>
       <div class="rm-kpis">
         ${card(pick("Capital restant médian","Median remaining balance"),money(cap?.[1]),pick("Après les flux et objectifs payés","After flows and funded goals"))}
         ${card(pick("Gain net simulé moyen","Mean simulated net gain"),money(m.mean_net_gain),pick("Capital restant + sommes versées − capital et apports","Remaining balance + payments − capital and contributions"))}
