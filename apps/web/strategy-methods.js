@@ -24,7 +24,7 @@
     kelly: ["Seek compound growth by maximizing the average log of the capital multiplier in the historical months, with a minimum wealth floor in those scenarios.", "Cherche la croissance composée en maximisant le logarithme moyen du multiplicateur de capital sur les mois historiques, avec un plancher de capital dans ces scénarios.", "max (1/N) × Σₜ log(1 + rₜ)"],
     fractional_kelly: ["Take 25% of the Kelly allocation and 75% of a capped equal-weight allocation.", "Combine 25 % de l’allocation Kelly et 75 % d’une allocation à poids égaux plafonnés.", "w = 0.25 × wKelly + 0.75 × wEqual"],
     entropy_utility: ["Weigh return against risk and add a bonus for spreading capital across holdings.", "Arbitre entre rendement et risque et ajoute un bonus quand le capital est mieux réparti entre les actifs.", "max R − λσ²/2 + 0.01 H(w), H(w) = −Σᵢ wᵢ log(wᵢ)"],
-    passive_index: ["Use SPY alone to track the S&P 500 if a 100% position is allowed at the construction step.", "Utilise uniquement SPY pour suivre le S&P 500 si une position à 100 % est autorisée à la construction.", "wSPY = 100%", "universe"],
+    passive_index: ["Uses 100% SPY to track the S&P 500. Kept as a research reference because the personalized engine caps a single ETF at 65%.", "Suit le S&P 500 avec 100 % en SPY. Cette règle reste une référence de recherche, car le moteur personnalisé plafonne chaque ETF à 65 %.", "wSPY = 100%", "universe"],
     passive_etfs: ["Split capital evenly across eligible listed funds, respecting weight caps.", "Répartit le capital à parts égales entre les fonds cotés admissibles, en respectant les plafonds.", "w = 1/N before caps · avant plafonds", "universe"],
     active_long_only: ["Rank assets by the estimated part of their performance unexplained by SPY, using a regression over 36 months. Favor the highest positive scores, with capped equal weights as a fallback.", "Classe les actifs selon la part estimée de leur performance que SPY n’explique pas, par régression sur 36 mois. Favorise les meilleurs scores positifs et revient aux poids égaux plafonnés si le signal est insuffisant."],
     smart_beta_equal: ["Give every eligible asset the same starting weight and apply caps.", "Attribue le même poids de départ à tous les actifs admissibles, puis applique les plafonds.", "w = 1/N before caps · avant plafonds", "universe"],
@@ -77,5 +77,31 @@
     stress: ["Historical monthly USD returns and modeled shocks. The utility rule estimates returns from the latest 60 monthly observations.", "Rendements mensuels historiques en USD et chocs simulés. La règle d’utilité estime le rendement à partir des 60 observations mensuelles les plus récentes."],
     synthetic: ["36 synthetic test months and a predefined stress shock.", "36 mois de test synthétiques et un choc de stress prédéfini."],
   };
-  window.StrategyMethods = {methods, sources};
+  // Sensitivity of initial weights. Risk checks and ranking still use the archive for every method.
+  const sensitivity = {
+    rules: ["Indirect", "Indirecte", "The permitted holdings and caps set the starting weights. Older data can still change the risk checks and ranking.", "Les titres autorisés et les plafonds déterminent les poids de départ. L’ancienneté agit ensuite sur le risque et le classement."],
+    risk: ["Risk estimates", "Estimations du risque", "A shift in volatility or in how assets move together can change the weights.", "Une variation des volatilités ou des corrélations peut déplacer les poids."],
+    returnsRisk: ["Return and risk estimates", "Estimations de rendement et de risque", "A change in historical expected returns or covariance can change which assets the optimizer favors.", "Une variation des rendements estimés ou des covariances peut changer les titres privilégiés par l’optimiseur."],
+    scenarios: ["Loss scenarios", "Scénarios de perte", "Missing severe months can change the estimated losses, drawdowns or compound growth and the resulting weights.", "Des mois difficiles absents peuvent changer les pertes, les creux ou la croissance composée estimés, puis les poids."],
+    recent: ["Recent market signal", "Signal de marché récent", "New months can reverse a trend, cross a threshold or change exposure. The displayed signal applies to the data cutoff.", "De nouveaux mois peuvent inverser une tendance, franchir un seuil ou changer l’exposition. Le signal affiché vaut à la date de coupure."],
+    factors: ["Dated stock signals", "Signaux datés par action", "Selection changes with dated factor scores and their coverage. Stocks without usable scores may drop out.", "La sélection dépend de la date des scores et de leur couverture. Des actions sans score exploitable peuvent être écartées."],
+    filings: ["Dated filings", "Comptes publiés à la date", "New filings and missing book equity values can change the eligible basket and the weights.", "Les nouvelles publications et les capitaux propres manquants peuvent changer le panier et les poids."],
+    macro: ["Macro release dates", "Dates de publication macro", "A later data vintage or a change in BIL’s trailing return can switch the equity allocation.", "Une nouvelle version publiée ou un changement du rendement passé de BIL peut faire basculer le poids des actions."],
+    stress: ["Stress and feasibility", "Stress et faisabilité", "The shock estimates and volatility limit can change the feasible mix or the ability to hold cash.", "Les chocs estimés et la limite de volatilité peuvent changer l’allocation réalisable ou la possibilité de rester en cash."],
+  };
+  const dependency = {};
+  for (const [type, keys] of Object.entries({
+    rules: "equal_weight passive_index passive_etfs smart_beta_equal",
+    risk: "minimum_variance inverse_variance risk_parity hrp herc maximum_diversification tracking_error all_weather",
+    returnsRisk: "maximum_sharpe mean_variance_utility black_litterman capm_utility robust_utility resampled_utility wasserstein_utility entropy_utility constrained_utility",
+    scenarios: "minimum_cvar minimum_cdar maximum_sortino maximum_omega kelly fractional_kelly",
+    recent: "ewma_utility active_long_only core_satellite volatility_target tail_hedge_proxy cross_sectional_momentum time_series_momentum mean_reversion tactical_allocation multi_strategy regime_switching factor_momentum",
+    factors: "smart_beta_factor factor_investing factor_size factor_value factor_low_volatility factor_liquidity factor_quality factor_profitability_proxy factor_investment",
+    filings: "smart_beta_fundamental",
+    macro: "global_macro",
+    stress: "defensive_reference",
+  })) {
+    for (const key of keys.split(" ")) dependency[key] = sensitivity[type];
+  }
+  window.StrategyMethods = {methods, sources, dependency};
 })();

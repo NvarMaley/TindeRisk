@@ -1,5 +1,6 @@
 import copy
 import json
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -46,6 +47,32 @@ def test_mandate_asset_filter_and_preference_version():
     assert not validate_mandate(amended)["personalized_eligible"]
 
 
+def test_variance_penalty_scale():
+    penalty, safety_weight = risk_preferences({"goals": []}, {"horizon_years": 15}, 1)
+    assert safety_weight == .25
+    assert np.isclose(penalty, 1.83125)
+
+
+def test_matching_catalog_exposes_only_panel_instruments_and_cash(monkeypatch, tmp_path):
+    from riskmatch import personalized_matches
+    from riskmatch.profiling.mandate import add_month
+
+    end = date(2025, 12, 31)
+    boundaries = [add_month(date(2020, 12, 31), i) for i in range(61)]
+    monkeypatch.setattr(personalized_matches, "market_data", lambda root: (
+        [{"id": "stock:1", "source": "stock_monthly"},
+         {"id": "ETF-IEF", "source": "etf_crsp_monthly"}], list(zip(boundaries, boundaries[1:]))))
+    monkeypatch.setattr(personalized_matches, "client_catalog", lambda root, as_of: {
+        "items": [{"id": item} for item in ("stock:1", "ETF-IEF", "ETF-GLD", "btc", "cash")],
+        "as_of": as_of.isoformat()})
+    catalog = personalized_matches.matching_catalog(tmp_path, end)
+    assert [item["id"] for item in catalog["items"]] == ["stock:1", "ETF-IEF", "cash"]
+    assert [item["matching_source"] for item in catalog["items"]] == [
+        "stock_monthly", "etf_crsp_monthly", "fama_french_rf"]
+    assert catalog["matching_data_start"] == "2020-12-31" and catalog["matching_months"] == 60
+    assert catalog["matching_data_end"] == "2025-12-31"
+
+
 def test_card_tail_loss_uses_fractional_worst_month_and_free_cash_trades():
     from riskmatch.prototype import metrics
     from riskmatch.backtesting.walk_forward import execute
@@ -63,15 +90,15 @@ def test_historical_membership_lag_and_unpriced_holding(monkeypatch):
     from datetime import date, timedelta
     from riskmatch.backtesting import mandate_replay as module
 
-    days = [date(2024,1,1)+timedelta(days=30*i) for i in range(10)]
+    days = [date(2020,1,1)+timedelta(days=30*i) for i in range(68)]
     intervals = list(zip(days,days[1:]))
     spy = dict(id="SPY", ticker="SPY", category="equity_etf", instrument="1", source="etf")
     old = dict(id="OLD", ticker="OLD", category="stock", instrument="2", source="stock_monthly")
     assets = [spy,old]
-    panel = np.zeros((9,2))
-    panel[5,1] = np.nan
-    stamp = np.full((9,2),np.datetime64("NaT"))
-    caps = {day:{"2":1.} for day in days[:6]}
+    panel = np.zeros((67,2))
+    panel[62,1] = np.nan
+    stamp = np.full(panel.shape,np.datetime64("NaT"))
+    caps = {day:{"2":1.} for day in days[:63]}
     monkeypatch.setattr(module,"archive",lambda *args:(assets,panel,stamp,None,None,caps))
     decisions = []
 
@@ -84,10 +111,41 @@ def test_historical_membership_lag_and_unpriced_holding(monkeypatch):
         risky[-2] = 1
         return {"cash":weights, "risky":risky}, {}
 
-    data = ([spy],intervals,None,np.zeros(9),"test",4,7)
+    data = ([spy],intervals,None,np.zeros(67),"test",61,64)
     mandate = {"constraints":{"allowed_assets":["equity","cash"]}}
-    history, failures = module.replay(None,data,mandate,{},15,construct,days[-1])
-    assert decisions == [(days[3],["SPY","OLD"],3),(days[6],["SPY"],6)]
+    history, failures = module.replay(None,data,mandate,{},15,construct,days[-1],())
+    assert decisions == [(days[60],["SPY","OLD"],60),(days[63],["SPY"],60)]
     assert np.allclose(history["cash"]["returns"],0)
     assert "risky" not in history
     assert "missing observed return" in failures["risky"]
+
+
+def test_matching_eligibility_filters_missing_late_and_unlisted_securities():
+    from riskmatch.backtesting.mandate_replay import eligible_indices
+
+    assets = [{"category": "stock", "instrument": str(i)} for i in range(4)]
+    assets.append({"category": "equity_etf", "instrument": "SPY"})
+    origin = date(2025, 12, 31)
+    history = np.zeros((60, len(assets)))
+    stamps = np.full(history.shape, np.datetime64("NaT"), dtype="datetime64[D]")
+    history[0, 0] = -1  # a genuine complete loss remains an observation
+    history[0, 1] = np.nan
+    stamps[-1, 2] = np.datetime64("2026-01-01")
+    assert eligible_indices(assets, history, stamps, origin, {"0", "1", "2"}).tolist() == [0, 4]
+
+
+def test_funded_matching_covariance_preserves_cash_volatility():
+    from riskmatch.personalized_matches import construct, DATA_END
+
+    root = Path(__file__).resolve().parents[2]
+    mandate = json.loads((root / "configs/mandate-example.json").read_text())
+    mandate["constraints"]["allowed_assets"] = ["equity", "cash"]
+    report = validate_mandate(mandate)
+    assets = [{"id": "ETF-SPY", "ticker": "SPY", "category": "equity_etf",
+               "source": "etf_crsp_monthly", "instrument": "84398"}]
+    risky = np.tile([-.08, .1], 30)
+    cash = np.tile([.001, .003], 30)
+    data = (assets, None, np.r_[np.nan, risky][:, None], np.r_[np.nan, cash],
+            None, None, None, None, ({}, {}, {}), {}, {}, None)
+    _, _, _, covariance, *_ = construct(data, mandate, report, 18, 61, DATA_END)
+    assert np.allclose(np.diag(covariance), np.var(np.column_stack([risky, cash]), axis=0) * 12)

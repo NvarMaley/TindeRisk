@@ -2,6 +2,11 @@
 
 The client mandate remains the source of truth. A typed goal specifies an objective ID, due date, nominal target converted into mandate currency, funding flag, priority and penalty. Separate the function being evaluated from eligibility, benchmark, risk measure and preference. No objective label is used as a portfolio strategy or as a prediction.
 
+The current client form exposes ten choices. The legacy `OBJ06` remains in the
+research schema and maps to `OBJ05` when revising a client draft. Recurring
+income is entered through withdrawals. Inflation and scenario FX appear in the
+form when relevant. The shortfall penalty sits under advanced goal settings.
+
 | Objective | Research measure | Additional input or limitation |
 |---|---|---|
 | OBJ01 Capital preservation | probability of nominal/real market loss and expected deficit relative to starting capital | separate cash-flow adjusted wealth |

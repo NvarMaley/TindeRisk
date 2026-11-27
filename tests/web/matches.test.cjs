@@ -96,6 +96,7 @@ test("Explore explains the method, source and mandate fit for each returned card
   }
   vm.runInContext(`
     mandate={capital:10000,max_stress_loss:.2};
+    fullMandate={as_of:"2026-11-27"};
     portfolios=[
       {name:"minimum_variance", personalized:true, model_as_of:"2025-12-31", fit_risk_weight:.6,
         stress_loss:.08, stress_usd:800, weights:{SPY:1}, metrics:{cagr:.04}},
@@ -106,7 +107,9 @@ test("Explore explains the method, source and mandate fit for each returned card
   let html=get("portfolio").innerHTML;
   assert.match(html,/Comment ça marche et pourquoi cette carte/);
   assert.match(html,/min wᵀΣw/);
-  assert.match(html,/2025-12-31/);
+  assert.match(html,/Départ du mandat simulé · <strong>2026-11-27/);
+  assert.match(html,/Dernières données utilisées pour les poids · <strong>2025-12-31/);
+  assert.match(html,/Effet de la date des données · Estimations du risque/);
   assert.match(html,/8\.0% pour une limite de 20\.0%/);
   assert.match(html,/Stratégies proposées pour ce mandat/);
   assert.match(html,/Factor Value/);

@@ -154,15 +154,25 @@ class Evidence:
         call = lambda route, payload, **kwargs: self.call(n, route, payload, **kwargs)
         if n == 1:
             report = call("mandate/preview", self.mandate)
-            assert report["demo_eligible"]
+            assert report["personalized_eligible"]
         elif n == 2:
             session = call("discovery/session", {"seed": 42, "currency": "USD"})
             answers = {c["id"]: "dislike" for c in session["cards"]}
             report = call("discovery/score", {"seed": 42, "currency": "USD", "answers": answers})
             self.aversion = report["score"]
             assert self.aversion is not None
+            assert len(session["cards"]) == 30 and report["total_scored"] == 20
+            assert [row["loss"] for row in report["mixed_gain_thresholds"]] == [100, 500]
         elif n in (3, 4, 5, 6):
             call({3: "universe", 4: "sources", 5: "snapshot", 6: "returns"}[n], self.date)
+            if n == 3:
+                portfolio_universe = call("statistics/catalog", self.date | {"scope": "matching"})
+                counts = Counter(row["category"] for row in portfolio_universe["items"])
+                assert counts.keys() == {"stock", "equity_etf", "treasury_etf", "cash"}
+                assert counts["cash"] == 1
+                assert portfolio_universe["matching_months"] == 60
+                assert portfolio_universe["matching_data_end"] == "2025-12-31"
+                print("Matching universe at the frozen cutoff:", dict(sorted(counts.items())))
         elif n == 7:
             call("statistics", self.date)
             catalogue = call("statistics/catalog", self.date)
@@ -233,6 +243,12 @@ class Evidence:
             call("matching/prepare", {"mandate": self.mandate})
             cards = call("matching/cards", {"mandate": self.mandate, "aversion": self.aversion})
             assert len(cards) >= 2
+            for card in cards:
+                assert card["estimation_months"] == 60 and card["model_as_of"] == "2025-12-31"
+                test = card["backtest"]["test"]
+                assert (test["months"], test["start"], test["end"]) == (25, "2023-11-30", "2025-12-31")
+                assert card["backtest"]["development"]["months"] == 35
+            assert abs(cards[0]["risk_aversion_parameter"] - (1 + 13.3 * cards[0]["fit_risk_weight"] ** 2)) < 1e-10
             alternative_score = 1 if self.aversion > 15 else 30
             alternative = call("matching/cards", {"mandate": self.mandate, "aversion": alternative_score})
             first_utility = next(c for c in cards if "mean_variance_utility" in [c["name"], *c.get("equivalent_methods", [])])

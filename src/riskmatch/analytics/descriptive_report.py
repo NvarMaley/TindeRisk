@@ -85,13 +85,21 @@ def client_catalog(root,as_of):
                 records=db.execute("""select instrument,
                     min(end_date) filter(where price_return is not null or total_return is not null),
                     max(end_date) filter(where price_return is not null or total_return is not null),
-                    count(price_return),count(total_return) from read_parquet(?) group by instrument""",
+                    min(end_date) filter(where price_return is not null),
+                    max(end_date) filter(where price_return is not null),
+                    min(end_date) filter(where total_return is not null),
+                    max(end_date) filter(where total_return is not null)
+                    from read_parquet(?) group by instrument""",
                     [str(folder/f"{source}.parquet")]).fetchall()
-                for instrument,first,last,prices,totals in records:
-                    kinds=[kind for kind,count in (("price_return",prices),("total_return",totals)) if count]
-                    if kinds:
+                for instrument,first,last,price_start,price_end,total_start,total_end in records:
+                    dates = {kind: {"first": start.isoformat(), "last": end.isoformat()}
+                             for kind, start, end in (("price_return", price_start, price_end),
+                                                      ("total_return", total_start, total_end))
+                             if start is not None and end is not None}
+                    if dates:
                         series.setdefault((source,instrument),{"source":source,"instrument":instrument,
-                            "frequency":entry["frequency"],"first":str(first),"last":str(last),"kinds":kinds})
+                            "frequency":entry["frequency"],"first":str(first),"last":str(last),
+                            "kinds":list(dates),"kind_dates":dates})
         base=None
         if report.get("datasets"):
             pit=json.loads((root/"data/processed/pit/report.json").read_text())

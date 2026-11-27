@@ -157,14 +157,14 @@ Notebook: [chapter 02](notebooks/RiskMatch_V3.ipynb#chapitre-02) · Guide chapte
 
 - [x] **CH02.01** — Define risk tolerance, loss sensitivity, time preference, ambiguity, confidence and decision consistency as distinct constructs.
 - [x] **CH02.02** — Map expected utility, prospect theory, framing, loss aversion, anchoring and recency hypotheses to observable choices; do not claim diagnoses.
-- [x] **CH02.03** — Build the initial 60-card bank: 16 lottery, 12 gain/loss, 12 trajectory, 8 uncertainty/horizon, 8 style, 4 coherence items.
-- [x] **CH02.04** — Sample the 30-card session with 8/6/6/4/4/2 block quotas and deterministic seed.
+- [x] **CH02.03** — Build a fixed 30-card questionnaire across mixed choices, gains, losses, rare events, temporary declines and checks.
+- [x] **CH02.04** — Present the same 30 cards in the same sequence, independently of the session seed.
 - [x] **CH02.05** — Specify card IDs, versions, localized descriptions, choices, reference points, payoff/probabilities, scoring direction and pair IDs.
 - [x] **CH02.06** — Write certainty-equivalent lottery pairs with known expected values and a clearly described safe alternative.
-- [x] **CH02.07** — Create symmetric gain/loss framing pairs with economically equivalent payoffs.
-- [x] **CH02.08** — Show drawdown trajectories with equal horizon, uncertainty, costs and no guaranteed recovery.
-- [x] **CH02.09** — Separate ambiguity and time-preference items from the unidimensional score.
-- [x] **CH02.10** — Randomize order and left/right placement while preserving balanced design; record presentation order.
+- [x] **CH02.07** — Introduce mixed gains and losses against an unchanged balance, at two stake sizes.
+- [x] **CH02.08** — Show trajectories with identical final outcomes, probabilities, horizon and costs.
+- [x] **CH02.09** — Keep mixed choices, probability comprehension and repeated-choice checks outside the provisional score.
+- [x] **CH02.10** — Use one fixed presentation order with interleaved blocks and balanced Yes/No scoring direction.
 - [x] **CH02.11** — Support like/dislike, unsure, skip, undo, accessible keyboard and touch gestures.
 - [x] **CH02.12** — Compute prudent fraction p and score = round(1+29p); threshold provisional coverage of 70%.
 - [x] **CH02.13** — Calculate missing-response sensitivity range and flag paired inconsistencies; display no score when coverage is insufficient.

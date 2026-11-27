@@ -30,7 +30,7 @@ def _utility(card, alternative, model, parameters):
 def explore_likelihoods(seed, currency, responses, temperature=10.0):
     """Fixed-temperature grid comparison, no score mapping or risk-budget changes.
 
-    Only known-probability monetary lottery/framing choices enter. No probability
+    Only known-probability monetary choices enter. No probability
     weighting fit; parameters are exploratory and may be weakly identified.
     """
     if not np.isfinite(temperature) or temperature<=0:
@@ -38,7 +38,7 @@ def explore_likelihoods(seed, currency, responses, temperature=10.0):
     items=[]
     for card in session(seed,currency)["cards"]:
         choice=canonical_choice(card,responses.get(card["id"]))
-        if card["block_id"] in {"lottery","framing"} and choice:
+        if card["block_id"] in {"mixed","gains","losses","rare"} and choice:
             items.append((card,choice=="A"))
     if len(items)<7:
         return {"status":"insufficient_choices","n":len(items)}

@@ -22,7 +22,15 @@ def test_balance_sheet_and_cash_flows(mandate):
     assert r["next_withdrawal"] == mandate["goals"][0]["due_date"]
     assert r["goals"][0]["required_return"]["annual_return"] > 0
     assert r["combined_required_return"]["status"] == "calculated"
-    assert r["demo_eligible"]
+    assert r["personalized_eligible"]
+
+
+def test_legacy_asset_class_requires_mandate_review(mandate):
+    mandate["constraints"]["allowed_assets"].append("reit")
+    report = validate_mandate(mandate)
+    assert report["status"] == "structurally_valid"
+    assert "matching_asset_class_unavailable" in report["personalized_reasons"]
+    assert not report["personalized_eligible"]
 
 
 def test_exact_single_and_dated_multiple_returns():

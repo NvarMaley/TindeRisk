@@ -45,37 +45,15 @@ const handle = fn => async (...args) => {
   try { errorKey = ""; $("error").textContent = ""; await fn(...args); }
   catch (e) { if(e.message==="sessionChanged")return; errorKey = e.message; $("error").textContent = diagnostic(errorKey); }
 };
-function renderJourneyRoute(){
-  const route=$("journey-route");
-  if(!route)return;
-  const steps=[["mandate","navMandate"],["discovery","navDiscovery"],["explore","navExplore"],["matches","myMatches"]];
-  route.hidden=!sessionUnlocked||!steps.some(([name])=>activePage===name);
-  if(!route.hidden)route.innerHTML="<ol>"+steps.map(([name,key])=>`<li ${name===activePage?'aria-current="step"':""}>${esc(t(key))}</li>`).join("")+"</ol>";
-}
-document.addEventListener("riskmatch:language",renderJourneyRoute);
 function page(name) {
   if(!sessionUnlocked && name!=="saves")name="saves";
   activePage = name;
   if(name!=="matches")window.PaperTracking?.unmount();
-  renderJourneyRoute();
   if(name!=="saves")lastSimulationPage=name;
   document.querySelectorAll(".page").forEach(x => x.hidden = x.id!==name);
   document.querySelectorAll("[data-page]").forEach(x => x.classList.toggle("active", x.dataset.page===name));
-  if (name==="compare"||name==="matches") compare();
+  if (name==="matches") compare();
   if(name==="explore"&&!portfolios.length)$("portfolio").textContent=t("matchingLoading");
-  if (name==="compare")window.BaselinesView?.mount(api,mandate?.currency);
-  if (name==="compare")window.MeanVarianceView?.mount(api,fullMandate);
-  if (name==="compare")window.BlackLittermanView?.mount(api,fullMandate);
-  if (name==="compare")window.HierarchicalView?.mount(api,fullMandate);
-  if (name==="compare")window.DownsideView?.mount(api,fullMandate);
-  if (name==="compare")window.AdvancedView?.mount(api,fullMandate);
-  if (name==="compare")window.LongOnlyView?.mount(api,fullMandate);
-  if (name==="compare")window.AlternativeView?.mount(api,fullMandate);
-  if (name==="compare")window.TreasuryView?.mount(api,fullMandate);
-  if (name==="compare")window.FuturesView?.mount(api,fullMandate);
-  if (name==="compare")window.WalkForwardView?.mount(api,fullMandate);
-  if (name==="compare")window.StressMCView?.mount(api,fullMandate);
-  if (name==="compare") window.GoalsView?.mount(fullMandate,api);
   if (name==="saves") document.dispatchEvent(new Event("riskmatch:saves"));
   changed();
 }
@@ -89,9 +67,9 @@ document.querySelectorAll("[data-page]").forEach(button => button.onclick = hand
   }
   if(button.dataset.page==="explore"&&cards.length&&index===cards.length&&!scoreReport)scoreReport=await discoveryScore();
   page(button.dataset.page);
-  if (activePage==="explore" || (["matches","compare"].includes(activePage)&&pendingDeck)) {
+  if (activePage==="explore" || (activePage==="matches"&&pendingDeck)) {
     await loadPortfolios();
-    if(activePage==="matches"||activePage==="compare")compare();
+    if(activePage==="matches")compare();
   }
   if (activePage==="universe") await window.UniverseView.load(api);
   if (activePage==="sources") await window.SourcesView.load(api);
@@ -136,12 +114,11 @@ function mandateTrace(p,r){
   });
   const goals=p.goals.map(g=>`<p><strong>${esc(t(g.objective_id))}</strong> · ${esc(g.due_date)} · ${g.amount==null?esc(t("noValue")):esc(money(g.amount,g.currency))} · ${esc(t(g.basis))} · ${esc(t("priority"))} ${g.priority}/5 · ${esc(t("shortfall_penalty"))} ${g.shortfall_penalty} · ${g.funding?(fr?"À financer":"Funded obligation"):(fr?"Préférence":"Preference")}</p>`).join("");
   return `<details class="mandate-trace"><summary>${fr?"Comment mon mandat a été pris en compte":"How my mandate was used"}</summary>
-    <h3>${fr?"Construction et contrôle du risque":"Construction and risk checks"}</h3>${list([...amounts(["capital","loss_capacity_amount"]),["currency",p.currency],["as_of",p.as_of],["horizon_date",p.horizon_date],["effectiveStress",pct(r.effective_stress_limit)],["allowed_assets",c.allowed_assets.map(t).join(", ")],...limits])}
+    <h3>${fr?"Construction et contrôle du risque":"Construction and risk checks"}</h3>${list([...amounts(["capital","loss_capacity_amount"]),["currency",p.currency],["as_of",p.as_of],["horizon_date",p.horizon_date],["effectiveStress",pct(r.effective_stress_limit)],["allowed_assets",c.allowed_assets.map(k=>t(({equity:"matchingEquities",treasury:"matchingTreasuries"})[k]||k)).join(", ")],...limits])}
     <h3>${fr?"Objectifs et projection":"Goals and projection"}</h3>${goals}${list([...amounts(["contribution_monthly","withdrawal_monthly"]),["inflation",p.inflation==null?t("noValue"):pct(p.inflation)],["chf_per_usd",p.chf_per_usd??t("noValue")]])}
     ${p.dated_flows.map(f=>`<p>${esc(f.date)} · ${esc(t(f.kind))} · ${esc(cash(f.amount))}</p>`).join("")}
     <h3>${fr?"Contrôle de la situation financière":"Financial feasibility checks"}</h3>${list([...amounts(["cash","investments","other_assets","debt","reserve","income_monthly","spending_monthly"]),["netWorth",cash(r.net_worth)],["investableWealth",cash(r.investable_wealth)],["monthlySurplus",cash(r.monthly_surplus)]])}
     <h3>${fr?"Expérience et restrictions déclarées":"Declared experience and restrictions"}</h3>${list([...[["short","allow_short"],["leverage","allow_leverage"],["futures","allow_derivatives"]].filter(([,key])=>c[key]).map(([k,key])=>[key,t(p.knowledge[k])+" / "+t(p.experience[k])]),["tax_assumption",t(c.tax_assumption)],["fx_hedge",t(c.fx_hedge)],["esg_exclusions",c.esg_exclusions||"—"]])}
-    <p class="muted">${fr?"Pour les permissions avancées, le moteur vérifie les connaissances et l’expérience correspondantes. Autoriser le levier ou la vente à découvert ne change pas les poids : les cartes sont financées sans levier ni positions vendeuses. L’autorisation des dérivés peut ouvrir l’accès à certains produits cotés sur matières premières. Les contrats à terme directs restent hors du calcul personnalisé.":"Advanced permissions are checked against the corresponding knowledge and experience. Allowing leverage or shorting does not change the weights: cards remain funded, unlevered and long-only. Derivatives permission can make certain commodity ETPs eligible. Direct futures remain outside personalized matching."}</p>
     <p class="muted">${fr?"Le patrimoine, les dettes et le budget servent à vérifier le financement et la capacité de perte. Le taux de change saisi sert aux objectifs en devise étrangère ; la date du mandat détermine l’accès à l’archive locale.":"Assets, debts and budget are used to assess funding and loss capacity. The entered exchange rate is used for goals in a different currency; the mandate date determines access to the local archive."}</p></details>`;
 }
 function renderMandateReport(){
@@ -165,7 +142,7 @@ async function confirmMandate(){
   const keepDiscovery=Boolean(fullMandate&&fullMandate.currency===pendingMandate.currency&&cards.length);
   fullMandate=pendingMandate;mandateReport=pendingReport;pendingMandate=null;pendingReport=null;
   mandate={capital:fullMandate.capital,years:mandateReport.horizon_years,max_stress_loss:mandateReport.effective_stress_limit,currency:fullMandate.currency};
-  historicalDeck=true;savedBlend=null;deckAversion=null;deckStyle="000";pendingDeck=null;deckRequest=null;portfolios=[]; swipes=[]; shortlist=[]; confirmed.clear(); if(!keepDiscovery)resetDiscovery();
+  historicalDeck=true;savedBlend=null;paperTracking=null;deckAversion=null;deckStyle="000";pendingDeck=null;deckRequest=null;portfolios=[]; swipes=[]; shortlist=[]; confirmed.clear(); if(!keepDiscovery)resetDiscovery();
   $("mandate-report").hidden=true;
   changed();page("discovery");await showCard();changed();
   if(canMatch(mandateReport)&&fullMandate.as_of>="2026-11-25"){
@@ -175,17 +152,71 @@ async function confirmMandate(){
     });
   }
 }
+const discoveryQuestionnaireVersion="discovery-v3.0.0";
 function resetDiscovery(){cards=[];answers={};index=0;scoreReport=null;discoverySeed=null;discoveryVersion=null;discoveryConsent=false;responseLocales={};discoveryConfidence=null;discoveryCurrency=mandate?.currency||"USD";$("discovery-consent-check").checked=false;}
 $("discovery-start").onclick=handle(async()=>{
   if(!sessionUnlocked||!mandate)throw Error("mandateRequired");
   if(!$("discovery-consent-check").checked)throw Error("discoveryConsentRequired");
   const seed=crypto.getRandomValues(new Uint32Array(1))[0], currency=mandate.currency;
   const session=await api("discovery/session",{seed,currency});
+  if(session.version!==discoveryQuestionnaireVersion)throw Error("serverOutdated");
   discoverySeed=seed;discoveryCurrency=currency;discoveryVersion=session.version;discoveryConsent=true;cards=session.cards;answers={};responseLocales={};index=0;scoreReport=null;discoveryConfidence=null;
   changed();await showCard();
 });
 $("discovery-reset").onclick=handle(async()=>{if(!sessionUnlocked||!discoveryConsent)return;if(!window.confirm(t("withdrawDiscoveryConfirm")))return;resetDiscovery();changed();await showCard();});
 async function discoveryScore(){return discoveryVersion?api("discovery/score",{seed:discoverySeed,currency:discoveryCurrency,answers,confidence:discoveryConfidence,locales:responseLocales}):api("score",answers);}
+const discoveryArt = {
+  mixed:"balance", gains:"allocation", losses:"hedge",
+  rare:"factors", trajectory:"trend", checks:"calm",
+};
+function discoveryGainThresholds(rows){
+  if(!rows?.length)return "";
+  const format=amount=>money(amount,discoveryCurrency);
+  const summary=rows.map(row=>{
+    const loss=t("discoveryThresholdLoss").replace("{loss}",()=>format(row.loss));
+    const threshold=t("discoveryThreshold_"+row.status)
+      .replace("{lower}",()=>format(row.max_refused_gain))
+      .replace("{upper}",()=>format(row.min_accepted_gain));
+    const coverage=t("discoveryThresholdResponses")
+      .replace("{answered}",()=>row.answered).replace("{total}",()=>row.total);
+    return `<div><dt>${esc(loss)}</dt><dd>${esc(threshold)}<small>${esc(coverage)}</small></dd></div>`;
+  }).join("");
+  return `<section aria-labelledby="discovery-gain-thresholds"><h3 id="discovery-gain-thresholds">${esc(t("discoveryThresholdTitle"))}</h3>
+    <p>${esc(t("discoveryThresholdContext"))}</p><dl class="discovery-thresholds">${summary}</dl></section>`;
+}
+function discoveryLossUtility(rows){
+  if(!rows?.length)return "";
+  const number=new Intl.NumberFormat(window.RM.language==="fr"?"fr-CH":"en-US",{maximumFractionDigits:2,minimumFractionDigits:2});
+  const loss=esc(t("discoveryUtilityLossSymbol"));
+  const scenarios=[
+    ["discoveryUtilityLinear",1,50,50],
+    ["discoveryUtilityCurved",.8,50,50],
+    ["discoveryUtilityLossWeighted",1,45,55],
+    ["discoveryUtilityGainWeighted",1,55,45],
+  ];
+  const coefficient=(row,alpha,gainWeight,lossWeight)=>{
+    const format=gain=>number.format(gainWeight/lossWeight*(gain/row.loss)**alpha);
+    return t("discoveryThreshold_"+row.status)
+      .replace("{lower}",()=>format(row.max_refused_gain))
+      .replace("{upper}",()=>format(row.min_accepted_gain));
+  };
+  const columns=rows.map(row=>`<th scope="col">${esc(t("discoveryThresholdLoss").replace("{loss}",()=>money(row.loss,discoveryCurrency)))}</th>`).join("");
+  const results=scenarios.map(([key,alpha,gainWeight,lossWeight])=>`<tr>
+    <th scope="row">${esc(t(key))}<small>α = ${number.format(alpha)} · ${gainWeight} / ${lossWeight}</small></th>
+    ${rows.map(row=>`<td>${esc(coefficient(row,alpha,gainWeight,lossWeight))}</td>`).join("")}
+    </tr>`).join("");
+  return `<details class="discovery-utility">
+    <summary>${esc(t("discoveryUtilityTitle"))}</summary>
+    <p>${esc(t("discoveryUtilityIntro"))}</p>
+    <div class="discovery-utility-equation" dir="ltr">V(G, L) = w<sub>gain</sub> × G<sup>α</sup> − w<sub>${loss}</sub> × λ<sub>${loss}</sub> × L<sup>α</sup></div>
+    <p>${esc(t("discoveryUtilityVariables"))}</p>
+    <p>${esc(t("discoveryUtilityBalance"))} <span dir="ltr">λ<sub>${loss}</sub> = (w<sub>gain</sub> / w<sub>${loss}</sub>) × (G / L)<sup>α</sup></span></p>
+    <div class="backtest-table discovery-utility-table"><table><caption>${esc(t("discoveryUtilityCaption"))}</caption>
+    <thead><tr><th scope="col">${esc(t("discoveryUtilityAssumption"))}</th>${columns}</tr></thead>
+    <tbody>${results}</tbody></table></div>
+    <p>${esc(t("discoveryUtilityExample"))}</p>
+    <p class="muted">${esc(t("discoveryUtilityStatus"))}</p></details>`;
+}
 async function showCard() {
   $("discovery-consent").hidden=!mandate||discoveryConsent||cards.length>0;
   $("discovery-question").hidden=!cards[index];
@@ -210,25 +241,26 @@ async function showCard() {
     const r=scoreReport;
     const dimensions=r.dimensions?`<div class="mandate-summary discovery-summary">${Object.entries(r.dimensions).map(([key,v])=>`<div><b>${esc(t(key))}</b><p>${v.canonical_b_fraction===null?esc(t("noValue")):pct(v.canonical_b_fraction)} · ${v.answered}/${v.total}</p><small>${esc(t(key+"_explain"))}</small></div>`).join("")}</div>`:"";
     const confidence=r.dimensions?`<label><span>${esc(t("confidenceOptional"))}</span><select id="discovery-confidence"><option value="">${esc(t("noValue"))}</option>${[1,2,3,4,5].map(v=>`<option value="${v}" ${v===discoveryConfidence?"selected":""}>${v}/5</option>`).join("")}</select></label>`:"";
-    const audit=r.dimensions?`<p>${esc(t("coverage"))}: ${r.answered}/${r.total_scored} · ${esc(t("unsure"))}: ${r.counts.unsure} · ${esc(t("skip"))}: ${r.counts.skip} · ${esc(t("inconsistencies"))}: ${r.inconsistencies.length}/${r.pairs_checked} · ${esc(t("framingDifferences"))}: ${r.framing_differences.length}/${r.framing_pairs_checked}</p><p class="muted">${esc(t("scoreMethod"))}</p>`:"<p>"+esc(t("inconsistencies"))+": "+r.inconsistencies.length+"</p>";
+    const audit=r.dimensions?`<p>${esc(t("coverage"))}: ${r.answered}/${r.total_scored} · ${esc(t("unsure"))}: ${r.counts.unsure} · ${esc(t("skip"))}: ${r.counts.skip} · ${esc(t("inconsistencies"))}: ${r.inconsistencies.length}/${r.pairs_checked} · ${esc(t("discoveryUnderstanding"))}: ${esc(t(r.comprehension_correct==null?"noValue":r.comprehension_correct?"discoveryUnderstood":"discoveryToReview"))}</p><p class="muted">${esc(t("scoreMethod"))}</p>`:"";
     const blocked=fullMandate&&(!canMatch(mandateReport)||fullMandate.as_of<"2026-11-25");
     const blocker=blocked?`<p class="mandate-conflict">${esc(t(!canMatch(mandateReport)?"demoUnavailable":"matchingDateUnavailable"))}</p>`:"";
-    $("result").innerHTML='<article><h2>'+esc(r.score===null?t("scoreUnavailable"):r.score+" / 30")+'</h2><p>'+esc(t("scoreExplanation"))+' '+esc(t("coverage"))+': '+pct(r.coverage)+'. '+esc(t("sensitivity"))+': '+r.sensitivity.join("–")+'. '+esc(t("scoreLimit"))+'</p><details><summary>'+esc(t("profileDetails"))+'</summary>'+audit+dimensions+confidence+'</details><p class="muted">'+esc(t("discoverySeparate"))+'</p>'+blocker+'<button class="primary" id="next">'+esc(t(blocked?"reviseMandate":"exploreAllocations"))+'</button></article>';
+    const scoreTitle=r.score===null?esc(t("scoreUnavailable")):`${esc(t("prudenceIndex"))} · <span>${esc(r.score)} / 30</span>`;
+    $("result").innerHTML=`<article><div class="discovery-results"><section><h2>${scoreTitle}</h2>
+      <p>${esc(t("scoreExplanation"))} ${esc(t("coverage"))}: ${pct(r.coverage)}. ${esc(t("sensitivity"))}: ${r.sensitivity.join("–")}. ${esc(t("scoreLimit"))}</p></section>
+      ${discoveryGainThresholds(r.mixed_gain_thresholds)}</div>
+      ${discoveryLossUtility(r.mixed_gain_thresholds)}
+      <details><summary>${esc(t("profileDetails"))}</summary>${audit}${dimensions}${confidence}</details>
+      <p class="muted">${esc(t("discoverySeparate"))}</p>${blocker}<button class="primary" id="next">${esc(t(blocked?"reviseMandate":"exploreAllocations"))}</button></article>`;
     if(r.dimensions)$("discovery-confidence").onchange=handle(async event=>{discoveryConfidence=event.target.value?Number(event.target.value):null;scoreReport=null;changed();await showCard();});
     $("next").onclick=handle(async()=>{if(!mandate)throw Error("mandateRequired");if(blocked){page("mandate");return;}page("explore");await loadPortfolios();});
     return;
   }
   $("discovery-question").hidden=false;
   const c=window.RM.language==="fr"?card.fr:card;
-  const hasStartingBalance=["lottery","framing","consistency"].includes(card.block_id)&&card.reference_wealth;
-  const statementKey={
-    trajectory:"discoveryPathStatement",style:"discoveryStyleStatement",
-  }[card.block_id]||"discoveryStatement";
-  const contextKey=card.block_id==="trajectory"?"discoveryPathContext":
-    card.dimension==="ambiguity"?"discoveryChanceContext":null;
-  const context=hasStartingBalance?
-    t("discoveryWealthContext").replace("{wealth}",()=>`${card.reference_wealth} ${card.currency}`):
-    contextKey?t(contextKey):"";
+  const statementKey=card.block_id==="trajectory"?"discoveryPathStatement":
+    card.dimension==="comprehension"?"discoveryComprehensionStatement":"discoveryStatement";
+  const context=card.block_id==="trajectory"?t("discoveryPathContext"):
+    card.reference_wealth?t("discoveryWealthContext").replace("{wealth}",()=>`${card.reference_wealth} ${card.currency}`):"";
   const statement=t(statementKey).split(/(\{[ab]\})/).map(part=>{
     if(part==="{a}")return `<strong>${esc(c.a)}</strong>`;
     if(part==="{b}")return `<strong>${esc(c.b)}</strong>`;
@@ -241,7 +273,7 @@ async function showCard() {
     </div>
     <div class="discovery-card-backing" aria-hidden="true"></div>
     <div class="discovery-cherry-layer" aria-hidden="true"></div>
-    <article class="card discovery-swipe-card" aria-labelledby="discovery-statement">
+    <article class="card discovery-swipe-card" data-art="${discoveryArt[card.block_id]||"balance"}" aria-labelledby="discovery-statement">
       <div class="discovery-card-image" aria-hidden="true"></div>
       <div class="discovery-card-body">
         <h2 id="discovery-statement" class="discovery-proposal">${statement}</h2>
@@ -430,6 +462,7 @@ function strategyExplanation(p){
     ${formula?`<p><strong>${fr?"Formule de la règle":"Rule in formula form"}</strong><br><code>${esc(formula)}</code></p>`:""}
     ${formula&&/[Σσλ]/.test(formula)?`<p class="muted">${formulaGuide}</p>`:""}
     ${source?`<h3>${fr?"Données utilisées":"Data used"}</h3><p>${esc(source+cutoff)}</p>`:""}
+    ${p.personalized&&window.StrategyMethods?.dependency?.[p.name]?`<p><strong>${fr?"Effet de la date des données":"Effect of the data cutoff"} · ${esc(window.StrategyMethods.dependency[p.name][lang])}</strong> ${esc(window.StrategyMethods.dependency[p.name][lang+2])}</p>`:""}
     ${p.personalized?`<p>${fr?"Le moteur peut rapprocher les poids de l’allocation défensive pour respecter le mandat. Les poids affichés sont les poids finaux après ces vérifications.":"The engine can move weights toward the defensive allocation to satisfy the mandate. The displayed weights are the final weights after these checks."}</p>`:""}
     <h3>${fr?"Pourquoi elle apparaît":"Why it appears"}</h3><p>${esc([stress,scenario,fit,riskWeight,softPenalty].filter(Boolean).join(" "))}</p>
   </details>`;
@@ -446,26 +479,99 @@ function wealthChart(nav){
   const title=fr?"Évolution historique, capital de départ = 100":"Historical performance, starting value = 100";
   return `<figure class="wealth-chart"><figcaption>${esc(title)}</figcaption><svg viewBox="0 0 600 180" role="img" aria-label="${esc(title)}"><path d="M24 152H576 M24 88H576 M24 24H576" stroke="currentColor" opacity=".18" fill="none"/><path d="${path}" fill="none" stroke="#95e8df" stroke-width="3" stroke-linejoin="round"/><circle cx="${xy.at(-1)[0]}" cy="${xy.at(-1)[1]}" r="4" fill="#ff97c1"/></svg><div><span>100</span><strong>${(100*nav.at(-1)).toFixed(1)}</strong></div></figure>`;
 }
+function strategyMetrics(p, fr){
+  const {cagr,vol,sharpe,drawdown}=p.metrics;
+  const percentage=new Intl.NumberFormat(fr?"fr":"en",{style:"percent",maximumFractionDigits:2,minimumFractionDigits:2});
+  const decimal=new Intl.NumberFormat(fr?"fr":"en",{maximumFractionDigits:2,minimumFractionDigits:2});
+  const readings=[
+    ["cagr",fr?"Rendement annualisé":"Annualized return",cagr,percentage,fr?"Croissance annuelle composée du capital simulé sur la période testée.":"Compound annual growth of the simulated portfolio over the test period."],
+    ["vol",fr?"Volatilité annualisée":"Annualized volatility",vol,percentage,fr?"Amplitude des fluctuations mensuelles, ramenée à une année.":"Magnitude of monthly fluctuations, expressed on an annual scale."],
+    ["sharpe",fr?"Ratio de Sharpe":"Sharpe ratio",sharpe,decimal,fr?"Rendement mensuel moyen au-dessus des liquidités USD, divisé par la volatilité de cet écart et annualisé. Le ratio est indéfini si cet écart ne varie pas.":"Mean monthly return above USD cash divided by the volatility of that excess return, annualized. The ratio is undefined when the excess return has no variation."],
+    ["drawdown",fr?"Baisse maximale":"Maximum drawdown",Number.isFinite(drawdown)?Math.abs(drawdown):null,percentage,fr?"Plus grand recul du portefeuille entre un sommet et un creux ultérieur sur la période testée.":"Largest portfolio decline from a peak to a subsequent low over the test period."],
+    ["stress",fr?"Perte en scénario de stress":"Loss in stress scenario",p.stress_loss,percentage,fr?"Perte simulée dans le choc le plus sévère testé.":"Simulated loss under the most severe hypothetical shock tested."],
+  ];
+  return readings.map(([key,label,value,format,description])=>({key,label,value:Number.isFinite(value)?format.format(value):"—",description}));
+}
+function backtestDetails(p,fr){
+  if(!p.backtest)return "";
+  const {test,development,replay,annual_returns,development_annual_returns,worst_12_months:worst,reference}=p.backtest;
+  const percent=new Intl.NumberFormat(fr?"fr":"en",{style:"percent",maximumFractionDigits:2,minimumFractionDigits:2});
+  const dates=new Intl.DateTimeFormat(fr?"fr-CH":"en-GB",{dateStyle:"short",timeZone:"UTC"});
+  const format=x=>Number.isFinite(x)?percent.format(x):"—";
+  const period=row=>`${dates.format(new Date(row.start))} – ${dates.format(new Date(row.end))}`;
+  const months=n=>`${n} ${fr?"mois":n===1?"month":"months"}`;
+  const table=(title,rowLabel,headers,rows)=>`<div class="backtest-table"><table>
+    <caption>${title}</caption><thead><tr><th scope="col">${rowLabel}</th>${headers.map(h=>`<th scope="col">${h}</th>`).join("")}</tr></thead>
+    <tbody>${rows.map(([label,...cells])=>`<tr><th scope="row">${label}</th>${cells.map(cell=>`<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div>`;
+  const annual=(title,rows)=>table(title,fr?"Année":"Year",[fr?"Couverture":"Coverage",fr?"Rendement":"Return"],
+    rows.map(row=>[row.year,`${months(row.months)}${row.months<12?(fr?" · partielle":" · partial"):""}`,format(row.return)]));
+  const performanceHeaders=fr?["Rendement cumulé","Rendement annualisé","Volatilité annualisée","Baisse maximale"]:
+    ["Cumulative return","Annualized return","Annualized volatility","Maximum drawdown"];
+  const performance=(label,row)=>[label,format(row.cumulative),format(row.cagr),format(row.vol),format(row.drawdown)];
+  const dated=(label,row)=>`${label}<small>${period(row)} · ${months(row.months)}</small>`;
+  const testLabel=fr?"Test hors échantillon":"Out-of-sample test";
+  const comparison=reference&&reference.name!==p.name?
+    table(fr?"Comparaison sur les mêmes mois":"Comparison over the same months",fr?"Portefeuille":"Portfolio",performanceHeaders,[
+      performance(fr?"Cette stratégie":"This strategy",test),
+      performance(esc(strategyName(reference.name)),reference),
+    ]):
+    `<p class="muted">${reference?(fr?"Cette stratégie sert de référence pour ce mandat.":"This strategy is the reference for this mandate."):
+      (fr?"Aucune référence simple compatible n’est disponible sur cette période.":"A compatible simple reference is unavailable for this period.")}</p>`;
+  return `<section class="backtest-detail">
+    <h3>${testLabel}</h3><p class="muted">${period(test)} · ${months(test.months)} · USD</p>
+    <dl class="backtest-highlights">
+      <div><dt>${fr?"Rendement cumulé":"Cumulative return"}</dt><dd>${format(test.cumulative)}</dd></div>
+      <div><dt>${fr?"Pire rendement sur 12 mois glissants":"Worst rolling 12-month return"}</dt>
+        <dd>${worst?format(worst.return):"—"}${worst?`<small>${period(worst)}</small>`:""}</dd></div>
+    </dl>
+    ${annual(fr?"Rendements par année civile":"Returns by calendar year",annual_returns)}
+    ${comparison}
+    <details class="backtest-longer"><summary>${fr?"Rejeu historique complet":"Full historical replay"} · ${months(replay.months)}</summary>
+      <p>${fr?"La période de développement sert à l’analyse préalable. Le rejeu complet réunit le développement et le test hors échantillon.":"The development period supports preliminary analysis. The full replay combines development and out-of-sample testing."}</p>
+      ${table(fr?"Résultats par période":"Results by period",fr?"Période":"Period",performanceHeaders,[
+        ...(development?[performance(dated(fr?"Développement":"Development",development),development)]:[]),
+        performance(dated(testLabel,test),test),
+        performance(dated(fr?"Rejeu complet":"Full replay",replay),replay),
+      ])}
+      ${development?annual(fr?"Rendements annuels pendant le développement":"Calendar returns during development",development_annual_returns):""}
+    </details>
+  </section>`;
+}
 function detail(p, explain=true){
   const fr=window.RM.language==="fr";
-  const metrics=[["cagr",p.metrics.cagr],["vol",p.metrics.vol],["drawdown",p.metrics.drawdown],["stress",p.stress_loss]];
+  const metrics=strategyMetrics(p,fr).filter(({key})=>key!=="sharpe"||Object.hasOwn(p.metrics,"sharpe"));
   const positions=Object.entries(p.weights).filter(([,v])=>Math.abs(v)>1e-7).sort((a,b)=>b[1]-a[1]);
   const holdingRows=rows=>rows.map(([k,v])=>`<div><p><span>${esc(t(k))}</span><strong>${pct(v)}</strong></p><div class="bar"><i style="width:${Math.max(0,Math.min(100,100*v))}%"></i></div></div>`).join("");
   return `<div class="strategy-title"><h2>${esc(strategyName(p.name))}</h2><span class="simulation-tag">${p.personalized?(fr?"Construit pour ton mandat":"Built for your mandate"):(fr?"Simulation historique":"Historical simulation")}</span></div>
+  ${p.personalized&&p.model_as_of?`<p class="strategy-dates">${fullMandate?.as_of?`${fr?"Départ du mandat simulé":"Simulated mandate start"} · <strong>${esc(fullMandate.as_of)}</strong><br>`:""}${fr?"Dernières données utilisées pour les poids":"Last data used for the weights"} · <strong>${esc(p.model_as_of)}</strong>${p.estimation_months?` · ${esc(p.estimation_months)} ${fr?"mois d’estimation":"months of estimation"}`:""}<br><span class="muted">${fr?"Estimations sur une archive figée pour reproduire la simulation.":"Estimates use a frozen archive so the simulation can be reproduced."}</span></p>`:""}
   ${explain?strategyExplanation(p):""}
   <p>${fr?"Dans le scénario de perte le plus sévère testé, ton capital baisse de":"In the worst loss scenario tested, your capital falls by"} <strong>${money(p.stress_usd,"USD")}</strong> (${pct(p.stress_loss)}).</p>
+  ${backtestDetails(p,fr)}
   ${window.Journey?.timeline(p.metrics.nav)||wealthChart(p.metrics.nav)}
   ${window.Journey?.composition(p)||""}
   ${window.Journey?.goals(p.goal_projection)||""}
-  <details><summary>${fr?"Comment lire les chiffres ?":"How do I read the numbers?"}</summary><dl>${metrics.map(([key,value],i)=>`<dt>${esc(t(key))} · ${pct(value)}</dt><dd>${(fr?["Croissance annuelle moyenne composée sur la période testée.","Amplitude habituelle des fluctuations, ramenée à une année.","Plus grand recul entre un sommet et le point bas suivant.","Perte estimée dans le choc le plus défavorable testé."]:["Compound annual growth over the test period.","Typical fluctuations expressed on an annual scale.","Largest historical fall from a previous high.","Estimated loss under the worst shock tested."])[i]}</dd>`).join("")}</dl><p>${fr?"Perte moyenne pendant les 5 % de mois les plus défavorables":"Average loss across the worst 5% of months"} · ${pct(p.metrics.es95_monthly)}</p></details>
+  <details><summary>${fr?"Comment lire les chiffres ?":"How do I read the numbers?"}</summary><dl>${metrics.map(({label,value,description})=>`<dt>${label} · ${value}</dt><dd>${description}</dd>`).join("")}</dl><p>${fr?"Perte moyenne pendant les 5 % de mois les plus défavorables":"Average loss across the worst 5% of months"} · ${pct(p.metrics.es95_monthly)}</p></details>
   <details><summary>${fr?"Voir les placements":"View holdings"} (${positions.length})</summary><div class="holdings-list">${holdingRows(positions)}</div></details>
   ${p.sensitivity_ranks?`<p>${fr?"Rang selon la priorité donnée à la sécurité":"Rank by emphasis on safety"} · ${p.sensitivity_ranks.join(" / ")}. ${fr?"Comparaison entre moins de poids, ton réglage et plus de poids pour la sécurité (±10 points).":"Less emphasis, your setting, and more emphasis (±10 percentage points)."}</p>`:""}
   ${p.income_preference_unmeasured?`<p>${fr?"Les versements de revenu ne sont pas mesurés.":"Income distributions are unmeasured."}</p>`:""}
   ${p.equivalent_methods?.length?`<details><summary>${fr?"Méthodes aux poids actuels proches · la courbe représente uniquement la méthode affichée":"Similar current holdings · the chart represents the displayed method only"}</summary>${p.equivalent_methods.map(n=>esc(strategyName(n))).join(", ")}</details>`:""}
   ${p.personalized?`<p class="muted">${fr?"Univers admissible":"Eligible universe"} : ${p.eligible_assets}/${p.universe_size} · ${fr?"Rendement estimé":"Estimated return"} : ${pct(p.expected_return)} · ${fr?"Volatilité estimée":"Estimated volatility"} : ${pct(p.estimated_volatility)}</p>
   ${p.goal_projection?`<details><summary>${fr?"Projection de tes objectifs":"Your goal projections"}</summary><p class="muted">${p.goal_projection_paths} ${fr?"trajectoires conditionnelles":"conditional paths"} · ${p.development_months} ${fr?"mois de données rééchantillonnés":"months of resampled history"}</p>${p.goal_projection.map(g=>`<p>${esc(t(g.objective_id))} · ${fr?"Probabilité simulée":"Simulated probability"}: ${g.probability===null?"—":pct(g.probability)} · ${fr?"Déficit attendu":"Expected shortfall"}: ${money(g.expected_deficit,"USD")}${g.window_probabilities?.every(Number.isFinite)?` · ${fr?"Probabilité sur chacune des deux moitiés de l’historique":"Probability using each half of the history"} ${g.window_probabilities.map(pct).join(" / ")}`:""}</p>`).join("")}</details>`:""}
-  <p class="muted">${fr?"Données de construction arrêtées au":"Construction data cutoff"} ${esc(p.model_as_of)}. ${fr?"La courbe suit cette méthode réestimée chaque trimestre, avec un mois de délai. Les actions sont sélectionnées à chaque date. La liste des ETF est rétrospective et les dates de publication des rendements sont incomplètes.":"The curve re-estimates this method quarterly with a one-month lag. Stock membership is dated; the ETF list is retrospective and return publication dates are incomplete."}</p>`:""}
+  <p class="muted">${fr?"La courbe suit cette méthode réestimée chaque trimestre, avec un mois de délai. Les actions sont sélectionnées à chaque date. La liste des ETF est rétrospective et les dates de publication des rendements sont incomplètes.":"The curve re-estimates this method quarterly with a one-month lag. Stock membership is dated, the ETF list is retrospective, and return publication dates are incomplete."}</p>`:""}
   <details class="strategy-method"><summary>${fr?"Période et hypothèses":"Period and assumptions"}</summary><p class="muted">${esc(t(p.period))} · ${esc(t(p.costs))}</p></details>`;
+}
+const strategyArt = {
+  calm:["Cash","Conservative","Fixed income","defensive_reference","minimum_variance","inverse_variance","minimum_cvar","minimum_cdar"],
+  balance:["risk_parity","hrp","herc","maximum_diversification","mean_variance_utility","constrained_utility","entropy_utility","resampled_utility","maximum_sortino","fractional_kelly"],
+  trend:["Growth","active_long_only","cross_sectional_momentum","time_series_momentum","mean_reversion","tactical_allocation","ewma_utility","regime_switching","global_macro","maximum_sharpe","maximum_omega","kelly"],
+  factors:["smart_beta_factor","smart_beta_fundamental","factor_investing","black_litterman","capm_utility"],
+  hedge:["tail_hedge_proxy","volatility_target","tracking_error","robust_utility","wasserstein_utility"],
+  allocation:["equal_weight","passive_index","passive_etfs","smart_beta_equal","core_satellite","all_weather","multi_strategy","60/40","1/N"],
+};
+function strategyCover(name) {
+  if(name.startsWith("factor_"))return "factors";
+  return Object.keys(strategyArt).find(art=>strategyArt[art].includes(name))||"balance";
 }
 function showPortfolio(){
   const p=portfolios[swipes.length],fr=window.RM.language==="fr";
@@ -486,14 +592,16 @@ function showPortfolio(){
   }
   const count=swipes.length+1,model=strategyName(p.name);
   const title=esc(model);
-  const annual=p.metrics.cagr;
   const narrative=strategyDescription(p.name);
+  const metrics=strategyMetrics(p,fr);
+  const period=p.period?esc(t(p.period)):"";
+  const synthetic=p.version==="synthetic-v1";
+  const history=synthetic?(fr?"Simulation sur données synthétiques":"Simulation on synthetic data"):(fr?"Simulation sur données historiques":"Simulation on historical data");
   $("portfolio").innerHTML=`<article class="voyage-card">
-    <div class="voyage-cover" data-colour="${count%3}"><img src="./assets/cherry.png" alt=""><span>${fr?"Stratégie":"Strategy"} ${count} / ${portfolios.length}</span></div>
+    <div class="voyage-cover" data-art="${strategyCover(p.name)}"><span>${fr?"Stratégie":"Strategy"} ${count} / ${portfolios.length}</span></div>
     <div class="voyage-face"><h2>${title}</h2>${narrative?`<p>${esc(narrative)}</p>`:""}
-    <dl><div><dt>${fr?"Sur un an, en moyenne¹":"Average annual growth¹"}</dt><dd>${Number.isFinite(annual)?pct(annual):"—"}</dd></div>
-    <div><dt>${fr?"Perte en scénario de stress":"Loss in a stress scenario"}</dt><dd>${money(p.stress_usd,"USD")}</dd></div></dl>
-    <small>${fr?"¹ Rendement annualisé sur la période testée.":"¹ Compound annual growth over the test period."}</small></div>
+    <small>${history}${period?` · ${period}`:""}</small>
+    <dl class="strategy-card-metrics">${metrics.map(({key,label,value})=>`<div><dt>${label}</dt><dd>${value}${key==="stress"&&Number.isFinite(p.stress_usd)?`<small>${money(p.stress_usd,"USD")}</small>`:""}</dd></div>`).join("")}</dl></div>
     <div class="voyage-reveal strategy-explanation">${strategyExplanation(p)}</div>
     <details class="voyage-reveal"><summary>${fr?"Explorer la composition et les résultats":"Explore holdings and results"}</summary>${detail(p,false)}</details></article>${strategyDeckList(fr)}`;
 
@@ -539,29 +647,29 @@ function finishStrategyDrag(event){
 for(const event of ["pointerup","pointercancel","lostpointercapture"])deckSurface.addEventListener(event,finishStrategyDrag);
 $("like").onclick=()=>swipe("like");$("reject").onclick=()=>swipe("dislike");$("skip").onclick=()=>swipe("skip");
 $("undo").onclick=()=>{if(!sessionUnlocked||pendingDeck)return;if(swipes.pop()==="like"){const undone=shortlist.pop();confirmed.delete(undone.name);}showPortfolio();changed();};
+function startPaperTracking(host, allocation){
+  if(!host||!/^(personalized-v3:|historical-usd-v1-)/.test(allocation.version))return false;
+  const next=window.PaperTracking.capture(allocation.weights,mandate.capital,paperTracking);
+  if(!next)return false;
+  paperTracking=next;
+  window.PaperTracking.mount(host,paperTracking,api,changed);
+  return true;
+}
 function compare(){
-  const area=$(activePage==="matches"?"match-allocation":"shortlist");area.replaceChildren();
+  const area=$("match-allocation");area.replaceChildren();
   const fr=window.RM.language==="fr";
   const trackingHost=activePage==="matches"&&window.PaperTracking?document.createElement("div"):null;
   if(trackingHost){
     area.append(trackingHost);
-    if(paperTracking)window.PaperTracking.mount(trackingHost,paperTracking,api,changed);
+    if(paperTracking){
+      window.PaperTracking.mount(trackingHost,paperTracking,api,changed);
+    }else{
+      trackingHost.innerHTML=`<article>
+        <h2>${fr?"Suivi du portefeuille simulé":"Paper portfolio tracking"}</h2>
+        <p>${fr?"Pour démarrer, sélectionne une stratégie, calcule ton allocation et confirme-la ci-dessous. Le suivi des positions utilise les derniers cours disponibles si le serveur dispose d’un flux de marché.":"To get started, select a strategy, evaluate your allocation and confirm it below. Position tracking uses the latest available prices when the server has a market data feed."}</p>
+      </article>`;
+    }
   }
-  const research=document.createElement("article");
-  const researchButton=document.createElement("button");researchButton.textContent=fr?"Comparaison des stratégies":"Compare research strategies";
-  const researchOutput=document.createElement("div");
-  researchButton.onclick=handle(async()=>{
-    const r=await api("matching/research",{});
-    if(r.status!=="experimental"){researchOutput.textContent=r.reason;return;}
-    researchOutput.innerHTML=(window.Journey?.map(r.strategies.map(s=>({title:strategyName(s.strategy),metrics:{vol:s.holdout_volatility,cagr:s.holdout_cagr}})))||"")+`<p>${fr?"Comparaison historique exploratoire, sans validation indépendante":"Exploratory historical comparison, without independent validation"} · ${esc(r.reference)} · ${r.holdout_months} ${fr?"mois":"months"}</p><table><thead><tr><th>${fr?"Stratégie":"Strategy"}</th><th>CAGR</th><th>${fr?"Volatilité":"Volatility"}</th><th>Drawdown</th><th>${fr?"Excès annualisé":"Annualized excess"}</th></tr></thead><tbody>${r.strategies.map(s=>`<tr><td>${esc(s.strategy)}</td><td>${pct(s.holdout_cagr)}</td><td>${pct(s.holdout_volatility)}</td><td>${pct(s.holdout_drawdown)}</td><td>${pct(s.holdout_excess_annual)}</td></tr>`).join("")}</tbody></table>`;
-  });research.append(researchButton,researchOutput);if(activePage==="compare")area.append(research);
-  const variants=document.createElement("button");
-  variants.textContent=fr?"Comparer les variantes du modèle":"Compare model variants";
-  variants.onclick=handle(async()=>{
-    const r=await api("matching/improvements",{});
-    researchOutput.innerHTML=`<p>${fr?"Variation du rendement moyen annualisé face au modèle de référence sur la période de test":"Change in annualized mean return versus the reference model on the test period"} · ${r.holdout_months} ${fr?"mois":"months"}</p>`+
-      Object.entries(r.variants).map(([name,v])=>`<p>${esc(name)} · ${pct(v.paired_change_vs_model)}</p>`).join("");
-  });research.append(variants);
   if(!shortlist.length){
     const empty=document.createElement("article");empty.innerHTML=`<h2>${esc(t("empty"))}</h2><p>${fr?"Sélectionne les stratégies qui te correspondent pour construire ton allocation.":"Choose the strategies that suit you to build your allocation."}</p>`;
     if(activePage==="matches"){
@@ -577,6 +685,26 @@ function compare(){
   const allocation=document.createElement("article");
   const signature=JSON.stringify([fullMandate||mandate,shortlist[0].version,shortlist.map(p=>p.name)]);
   const stored=savedBlend?.signature===signature?savedBlend:null;
+  if(trackingHost&&!paperTracking&&stored?.paperConfirmed&&/^(personalized-v3:|historical-usd-v1-)/.test(shortlist[0].version)){
+    const activate=document.createElement("button");
+    activate.type="button";
+    activate.textContent=fr?"Activer le suivi de mon allocation confirmée":"Start tracking my confirmed allocation";
+    activate.onclick=handle(async()=>{
+      activate.disabled=true;
+      try{
+        const evaluated=await api("match-allocations/evaluate",{
+          mandate:fullMandate||mandate,names:Object.keys(stored.budgets),
+          budgets:Object.values(stored.budgets),version:shortlist[0].version,
+        });
+        if(!activate.isConnected||savedBlend!==stored)return;
+        if(!startPaperTracking(trackingHost,evaluated)){
+          throw Error(fr?"Cette allocation ne peut pas être suivie.":"This allocation cannot be tracked.");
+        }
+        changed();
+      }finally{activate.disabled=false;}
+    });
+    trackingHost.querySelector("article").append(activate);
+  }
   allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
   if(stored?.paperConfirmed){
     allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
@@ -610,7 +738,7 @@ function compare(){
       output.innerHTML=detail({...result,name:fr?"Portefeuille combiné":"Combined portfolio",period:result.period||"36 synthetic out-of-calibration months"})+`<h3>${fr?"Contributions au risque":"Risk contributions"}</h3>`+Object.entries(result.risk_contributions).map(([name,value])=>`<p>${esc(t(name))}: ${pct(value)}</p>`).join("");
       if(result.comparison){
         const labels=fr?["Mon choix","Variance minimale","Objectif prioritaire"]:["My choice","Minimum variance","Priority goal"];
-        output.insertAdjacentHTML("beforeend",`<h3>${fr?"Comparaison des répartitions":"Allocation comparison"}</h3><p>${result.tested_budgets} ${fr?"répartitions testées":"allocations tested"}</p><table><thead><tr><th></th>${labels.map(label=>`<th>${label}</th>`).join("")}</tr></thead><tbody>${shortlist.map(p=>`<tr><th>${esc(strategyName(p.name))}</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.budgets[p.name])}</td>`).join("")}</tr>`).join("")}<tr><th>Stress</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.stress_loss)}</td>`).join("")}</tr>${result.comparison.goal.goals.map((g,i)=>`<tr><th>${esc(t(g.objective_id))} · ${fr?"Probabilité / déficit":"Probability / deficit"}</th>${Object.values(result.comparison).map(row=>`<td>${row.goals[i].probability==null?"—":pct(row.goals[i].probability)} / ${money(row.goals[i].expected_deficit,"USD")}</td>`).join("")}</tr>`).join("")}</tbody></table>`);
+        output.insertAdjacentHTML("beforeend",`<h3>${fr?"Comparaison des répartitions":"Allocation comparison"}</h3><p>${result.tested_budgets} ${fr?"répartitions testées":"allocations tested"}</p><div class="match-table-scroll"><table><thead><tr><th></th>${labels.map(label=>`<th>${label}</th>`).join("")}</tr></thead><tbody>${shortlist.map(p=>`<tr><th>${esc(strategyName(p.name))}</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.budgets[p.name])}</td>`).join("")}</tr>`).join("")}<tr><th>Stress</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.stress_loss)}</td>`).join("")}</tr>${result.comparison.goal.goals.map((g,i)=>`<tr><th>${esc(t(g.objective_id))} · ${fr?"Probabilité / déficit":"Probability / deficit"}</th>${Object.values(result.comparison).map(row=>`<td>${row.goals[i].probability==null?"—":pct(row.goals[i].probability)} / ${money(row.goals[i].expected_deficit,"USD")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
       }
       if(result.reference_metrics)output.insertAdjacentHTML("beforeend",`<p>${result.benchmark?esc(strategyName(result.benchmark)):"60/40"} · CAGR ${pct(result.reference_metrics.cagr)} · ${esc(t("vol"))} ${pct(result.reference_metrics.vol)}</p>`);
       if(result.overlap?.length)output.insertAdjacentHTML("beforeend",`<p>${fr?"Positions communes":"Shared holdings"} · ${result.overlap.map(esc).join(", ")}</p>`);
@@ -626,12 +754,8 @@ function compare(){
         const evaluated=await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
         if(!confirm.isConnected||requestRevision!==revision)return;
         savedBlend={signature,budgets:result.budgets,paperConfirmed:true};
-        if(trackingHost&&/^(personalized-v3:|historical-usd-v1-)/.test(evaluated.version)){
-          const next=window.PaperTracking.capture(evaluated.weights,mandate.capital,paperTracking);
-          if(next){
-            paperTracking=next;
-            window.PaperTracking.mount(trackingHost,paperTracking,api,changed);
-          }
+        if(startPaperTracking(trackingHost,evaluated)){
+          trackingHost.scrollIntoView({block:"start",behavior:"smooth"});
         }
         changed();
         allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
@@ -720,23 +844,10 @@ document.addEventListener("riskmatch:language",()=>{
   $("error").textContent=errorKey?diagnostic(errorKey):"";
   if(activePage==="discovery")showCard().catch(e=>{$("error").textContent=t(e.message);});
   if(activePage==="explore"&&portfolios.length)showPortfolio();
-  if(activePage==="compare"||activePage==="matches")compare();
-  if(activePage==="compare")window.BaselinesView?.render();
-  if(activePage==="compare")window.MeanVarianceView?.render();
-  if(activePage==="compare")window.BlackLittermanView?.render();
-  if(activePage==="compare")window.HierarchicalView?.render();
-  if(activePage==="compare")window.DownsideView?.render();
-  if(activePage==="compare")window.AdvancedView?.render();
-  if(activePage==="compare")window.LongOnlyView?.render();
-  if(activePage==="compare")window.AlternativeView?.render();
-  if(activePage==="compare")window.TreasuryView?.render();
-  if(activePage==="compare")window.FuturesView?.render();
-  if(activePage==="compare")window.WalkForwardView?.render();
-  if(activePage==="compare")window.StressMCView?.render();
+  if(activePage==="matches")compare();
   if(activePage==="universe")window.UniverseView.render();
   if(activePage==="sources")window.SourcesView.render();
   if(activePage==="mandate"&&!$("mandate-report").hidden)renderMandateReport();
-  if(activePage==="compare")window.GoalsView?.render();
 });
 
 // Store simulation and tracking results in the encrypted local save.
@@ -746,7 +857,7 @@ function simulationSnapshot() {
 function clearSimulation(){
   window.PaperTracking?.unmount();
   paperTracking=null;
-  historicalDeck=true;savedBlend=null;deckAversion=null;showFullDeck=false;pendingDeck=null;deckRequest=null;
+  historicalDeck=true;savedBlend=null;paperTracking=null;deckAversion=null;showFullDeck=false;pendingDeck=null;deckRequest=null;
   window.GoalsView?.clear();
   window.BaselinesView?.clear();
   window.MeanVarianceView?.clear();
@@ -763,7 +874,7 @@ function clearSimulation(){
   mandate=null;resetDiscovery();portfolios=[];swipes=[];shortlist=[];confirmed.clear();scoreReport=null;
   fullMandate=null;mandateReport=null;pendingMandate=null;pendingReport=null;
   lastSimulationPage="home";
-  window.MandateForm.reset();$("card").replaceChildren();$("result").replaceChildren();$("portfolio").replaceChildren();$("shortlist").replaceChildren();
+  window.MandateForm.reset();$("card").replaceChildren();$("result").replaceChildren();$("portfolio").replaceChildren();
 }
 async function restoreSimulation(snapshot){
   if(snapshot?.version!==1 || !snapshot.answers || !Array.isArray(snapshot.swipes))throw Error("saveError");
@@ -775,13 +886,14 @@ async function restoreSimulation(snapshot){
   const m=snapshot.mandate;
   const nextMandate=fullMandate?{capital:fullMandate.capital,years:mandateReport.horizon_years,max_stress_loss:mandateReport.effective_stress_limit,currency:fullMandate.currency}:{capital:Number(m.capital),years:Number(m.years),max_stress_loss:Number(m.max_stress_loss),currency:"USD"};
   if(!Number.isFinite(nextMandate.capital)||nextMandate.capital<=0||!Number.isFinite(nextMandate.years)||nextMandate.years<=0||!Number.isFinite(nextMandate.max_stress_loss)||nextMandate.max_stress_loss<0||nextMandate.max_stress_loss>1)throw Error("saveError");
-  const nextIndex=Number(snapshot.index);
+  const currentQuestionnaire=snapshot.discoveryVersion===discoveryQuestionnaireVersion;
+  const nextIndex=currentQuestionnaire?Number(snapshot.index):0;
   let nextCards=[];
-  if(snapshot.discoveryVersion){
+  if(currentQuestionnaire){
     const restored=await api("discovery/session",{seed:snapshot.discoverySeed,currency:snapshot.discoveryCurrency});
     if(restored.version!==snapshot.discoveryVersion||restored.currency!==nextMandate.currency)throw Error("saveError");
     nextCards=restored.cards;discoverySeed=restored.seed;discoveryVersion=restored.version;discoveryCurrency=restored.currency;discoveryConsent=true;
-  }else if(nextIndex>0){nextCards=await api("cards");discoveryConsent=true;}
+  }
   historicalDeck=snapshot.historicalDeck??!snapshot.swipes.length;
   deckStyle=snapshot.deckStyle||"000";
   deckAversion=snapshot.deckAversion??null;
@@ -805,18 +917,19 @@ async function restoreSimulation(snapshot){
   const stale=historicalDeck&&snapshot.swipes.length&&JSON.stringify(snapshot.deckIds)!==JSON.stringify(nextPortfolios.map(p=>[p.name,p.version]));
   const nextSwipes=stale?[]:snapshot.swipes;
   savedBlend=stale?null:snapshot.savedBlend||null;
-  paperTracking=snapshot.paperTracking||null;
+  paperTracking=stale&&!pendingDeck?null:snapshot.paperTracking||null;
   if(nextSwipes.length>nextPortfolios.length||nextSwipes.some(v=>!["like","dislike","skip"].includes(v)))throw Error("saveError");
   mandate=nextMandate;cards=nextCards;answers=nextAnswers;index=nextIndex;
   responseLocales=Object.fromEntries(Object.keys(nextAnswers).filter(id=>["en","fr"].includes(snapshot.responseLocales?.[id])).map(id=>[id,snapshot.responseLocales[id]]));
-  discoveryConfidence=[1,2,3,4,5].includes(snapshot.discoveryConfidence)?snapshot.discoveryConfidence:null;
+  discoveryConfidence=currentQuestionnaire&&[1,2,3,4,5].includes(snapshot.discoveryConfidence)?snapshot.discoveryConfidence:null;
   portfolios=nextPortfolios;swipes=nextSwipes.slice();shortlist=portfolios.filter((_,i)=>swipes[i]==="like");confirmed.clear();scoreReport=null;
   if(fullMandate)window.MandateForm.restore(fullMandate);
   else{window.MandateForm.reset();const f=$("form");f.querySelector('[name="currency"]').value="USD";f.elements.capital.value=mandate.capital;f.elements.cash.value=mandate.capital;f.elements.loss_capacity_amount.value=mandate.capital*mandate.max_stress_loss;f.elements.stress_loss.value=mandate.max_stress_loss*100;}
-  const target=["home","mandate","discovery","universe","sources","explore","compare","matches","strategy-catalogue","methodology"].includes(snapshot.activePage)?snapshot.activePage:"home";
+  const savedPage=snapshot.activePage==="compare"?"matches":snapshot.activePage;
+  const target=["home","mandate","discovery","universe","sources","explore","matches","strategy-catalogue","methodology"].includes(savedPage)?savedPage:"home";
   if(pendingDeck)return "home";
   if(fullMandate&&mandateReport?.personalized_eligible===true&&deckAversion===null&&["explore","matches"].includes(target))return "discovery";
-  return fullMandate&&!canMatch(mandateReport)&&["explore","compare","matches"].includes(target)?"mandate":target;
+  return fullMandate&&!canMatch(mandateReport)&&["explore","matches"].includes(target)?"mandate":target;
 }
 async function enterSavedStudio(target){
   setSaveSession(true);

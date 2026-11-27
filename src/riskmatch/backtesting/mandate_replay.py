@@ -6,11 +6,23 @@ import duckdb
 import numpy as np
 
 from riskmatch.backtesting.walk_forward import execute
-from riskmatch.optimization.mean_variance_report import category
 from riskmatch.strategies.alternative_report import macro_signals
 from riskmatch.strategies.long_only_report import load_signals, verified_pit
 
 REFIT_MONTHS = 3
+ESTIMATION_MONTHS = 60
+EXECUTION_LAG_MONTHS = 1
+
+
+def eligible_indices(assets, history, stamps, origin, members):
+    """Require a complete trailing return window and dated stock membership."""
+    if len(history) != ESTIMATION_MONTHS:
+        raise ValueError("Incomplete matching estimation window")
+    observed = np.isfinite(history) & (history >= -1)
+    known = np.isnat(stamps) | (stamps <= np.datetime64(origin))
+    listed = np.array([a["category"] != "stock" or a["instrument"] in members
+                       for a in assets], dtype=bool)
+    return np.flatnonzero((observed & known).all(axis=0) & listed)
 
 
 @lru_cache(maxsize=1)
@@ -18,8 +30,10 @@ def archive(root, intervals, first, etf_keys, version, as_of):
     """Retain stocks independently of whether they survived until the archive cutoff."""
     pit = verified_pit(root, version)
     folder = Path(root) / "data/processed/returns" / version
-    origins = [intervals[i-1][0] for i in range(first, len(intervals), REFIT_MONTHS)]
-    days = [a for a, _ in intervals[first-1:]]
+    origins = [intervals[i-EXECUTION_LAG_MONTHS][0]
+               for i in range(first, len(intervals), REFIT_MONTHS)]
+    origins.append(intervals[-1][1])
+    days = [a for a, _ in intervals[first-EXECUTION_LAG_MONTHS:]] + [intervals[-1][1]]
     with duckdb.connect() as db:
         membership = db.execute(
             "select instrument, observation_date, market_cap_source_units from read_parquet(?) "
@@ -40,39 +54,36 @@ def archive(root, intervals, first, etf_keys, version, as_of):
             ids = {str(a["instrument"]):i for i,a in enumerate(assets) if a["source"] == source}
             rows = db.execute(
                 "select instrument,start_date,end_date,total_return,cast(availability_time as date) "
-                "from read_parquet(?) where end_date between ? and ? and total_return >= -1",
+                "from read_parquet(?) where end_date between ? and ? "
+                "and isfinite(total_return) and total_return >= -1",
                 [str(folder / (source+".parquet")), intervals[0][1], intervals[-1][1]]).fetchall()
             for instrument,start,end,value,published in rows:
                 j = dates.get((start,end))
                 i = ids.get(instrument)
-                if i is not None and j is not None and np.isfinite(value):
-                    panel[j,i] = value
-                    if published:
-                        available[j,i] = published
+                if i is None or j is None:
+                    continue
+                if np.isfinite(panel[j, i]):
+                    raise ValueError(f"Duplicate matching return for {source} {instrument} at {end}")
+                panel[j, i] = value
+                if published:
+                    available[j, i] = published
     signals = load_signals(root, as_of, assets, origins, version)
     return assets, panel, available, signals, macro_signals(root,version,origins), caps
 
 
-def replay(root, data, mandate, report, aversion, construct, as_of):
-    current, intervals, _, rf, version, first, split, *_ = data
-    etfs = tuple(tuple(a[k] for k in ("id","category","ticker","instrument","source"))
-                 for a in current if a["category"] != "stock")
+def replay(root, data, mandate, report, aversion, construct, as_of, etfs):
+    _, intervals, _, rf, version, first, _, *_ = data
     assets, panel, available, signals, macro, caps = archive(
         root, tuple(intervals), first, etfs, version, as_of)
-    supported = mandate["constraints"]["allowed_assets"]
-    permitted = np.array([category(a) in supported or a["ticker"]=="SPY" for a in assets])
     states, failed = {}, {}
     for t in range(first,len(intervals)):
         day = intervals[t][0]
         if (t-first) % REFIT_MONTHS == 0:
-            end = t-1  # one full month between decision close and execution
+            end = t-EXECUTION_LAG_MONTHS
             origin = intervals[end][0]
-            window = slice(max(0,end-60),end)
+            window = slice(end-ESTIMATION_MONTHS,end)
             history = panel[window]
-            stamp = available[window]
-            usable = (np.isfinite(history) & (np.isnat(stamp) | (stamp<=np.datetime64(origin)))).all(axis=0)
-            idx = np.flatnonzero(usable & permitted & np.array([
-                a["category"]!="stock" or a["instrument"] in caps.get(origin,{}) for a in assets]))
+            idx = eligible_indices(assets, history, available[window], origin, caps.get(origin, {}))
             subset = [assets[i] for i in idx]
             sample = (subset, None, history[:,idx], rf[window], version, None, None, None,
                       signals, macro, caps, None)

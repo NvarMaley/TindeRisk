@@ -1,5 +1,8 @@
 # Personalized Match construction — research implementation
 
+See the [French guide to portfolio data and the 51 strategies](UNIVERS_DONNEES_STRATEGIES.md)
+for the simulated mandate date, archive cutoff, cleaning and use of asset-level research.
+
 ## Methodology
 
 The investment policy statement precedes portfolio construction. Separate
@@ -19,12 +22,21 @@ References:
 
 ## Reusable inputs versus individual calculations
 
-The frozen common USD monthly total-return panel has 575 instruments (549
-stocks and 26 ETFs/ETPs) and 100 continuous months ending December 2025.
-The broad catalogue has 1,474 records, including instruments with incompatible
-or insufficient common history. The current candidate panel uses the common archive identifiers, dated factor scores, membership, market caps, historical returns
-and macro data. The server caches these common inputs in memory. No raw
-dataset is duplicated in Git or fetched during a client session.
+The client Universe tab lists the instruments eligible at the fixed USD
+valuation date, 31 December 2025. Each security needs 60 valid, consecutive
+monthly total returns on the shared SPY calendar. Stocks must belong to the
+dated top 1,000 at the decision close. Equity and US Treasury ETFs come from
+the project registry and use the CRSP total-return series. USD cash accrues
+the Fama–French monthly risk-free rate. The mandate groups US stocks and
+equity ETFs under one permission.
+
+Missing or misaligned returns disqualify the security at that decision.
+Values above 100% and complete losses can be genuine observations and stay in
+the history. Known publication dates after the decision close disqualify the
+observation. Original publication dates are unavailable for many rows in the
+archive. Other data and individual forecasts remain available for research.
+The published strategy cards use the same frozen return archive and dated
+factor, membership, capitalization and macro inputs.
 
 Every supported full mandate now generates its own weights:
 
@@ -39,14 +51,21 @@ Every supported full mandate now generates its own weights:
    evaluate the entire eligible set. Matrix-heavy optimizers retain eligible
    ETFs and up to the 64-asset market-cap-ranked working set. This controls
    numerical cost; it is not an exhaustive search of all subsets.
-5. Fit shrinkage covariance and regularized trailing means. The same estimator is used for current and historical targets. Factor and macro rules use their dated signals.
+5. Fit regularized trailing means on the common 60-month estimation window.
+   The portfolio risk controller and cards use shrinkage on standardized
+   returns with the original volatilities restored, including cash. Some
+   strategies deliberately use shorter signals, factor data, macro data or
+   their own risk model.
 6. Apply funded budget, bounds, hard stress and volatility checks. The
    directly constrained utility candidate solves a quadratic objective with
    scenario inequalities. Other strategy targets may be blended with a
    feasible defensive reference to respect modeled limits. The overlay is a
    feasible adjustment, rather than a globally optimal constrained solution
    for every individual strategy.
-7. Refit historical targets quarterly on the preceding available monthly window. Historical stocks come from dated membership in the return archive including names outside the current panel. Use a one-month execution delay, rebalance monthly, charge 10 bp on traded securities, and carry holdings across the development/holdout boundary. Unpriced held instruments or an infeasible dated target disqualify the historical path. Coverage therefore also depends on data quality.
+7. Refit historical targets quarterly using the same 60-month admission rule
+   and the stocks listed at each decision, including names absent at the
+   current cutoff. Development covers January 2021 through November 2023
+   and historical test results cover December 2023 through December 2025. Use a one-month execution delay, rebalance monthly, charge 10 bp on traded securities, and carry holdings across the development/holdout boundary. Unpriced held instruments or an infeasible dated target disqualify the historical path. Coverage therefore also depends on data quality.
 8. Assess each candidate on 256 common six-month block-bootstrap scenarios
    from development returns, with two additional half-window sensitivity estimates, using actual dated goals and contribution
    schedules. Rank using estimated return, funding shortfall and stress fit.
@@ -74,16 +93,24 @@ volatility, stress and actual sleeve transfer costs are recomputed.
 
 ## Boundaries
 
-- Common-panel composition is retrospective and not a fully verified
-  point-in-time universe. Monthly source release dates and historical fund
-  holdings still require independent validation. Current targets use the
+- The replay uses dated stock membership and a retrospective ETF registry.
+  Missing original publication dates, historical fund holdings and the
+  available return coverage limit point-in-time verification. Current targets use the
   December 2025 cutoff, displayed on each card.
+- The historical test measures the replayed rules on common dates. The final
+  ranking also uses estimates calibrated at the December 2025 cutoff, so
+  the historical comparison does not independently validate that ranking.
 - USD only for personalized Match; the aligned CHF cohort has 47 continuous
   months, insufficient for this 60-month minimum evaluation protocol. CHF
-  research remains separate. Individual
-  Treasury bonds, crypto, futures and short/leveraged trading are unavailable
-  in the common funded portfolio engine. Commodity ETPs are opt-in; futures-backed
-  commodity products require explicit derivative permission.
+  research remains separate. Individual Treasury securities, standalone REIT
+  ETFs, commodity ETPs, crypto, futures and short/leveraged trading sit outside
+  the personalized portfolio universe. Legacy mandates with excluded classes
+  can be opened and must be reviewed before rerunning the personalized deck.
+- All 51 personalized method candidates are compatible with the four instrument
+  types. The all-weather proxy uses SPY, IEF, TIP and SHY. The tail hedge is a
+  defensive equity/Treasury allocation, while global macro uses economic data
+  as signals for its equity/Treasury allocation. Actual card availability still
+  depends on asset permissions, feasibility, historical coverage and de-duplication.
 - Issuer/sector look-through, actual liquidity and transaction-cost limits,
   turnover from actual existing holdings, after-tax treatment and currency
   hedging lack sufficient inputs. These hard constraints block generation.

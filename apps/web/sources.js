@@ -3,7 +3,7 @@
   const $=id=>document.getElementById(id),t=k=>window.RM.t(k);
   const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
   const fr={CRYPTO_SPOT:"Vérifier les jours manquants, les frais, la conservation et le mandat client.",ETF_DAILY:"Rapprocher les volumes et rendements WRDS par titre et date. Vérifier les indicateurs de qualité et compléter 2026.",ETF_MONTHLY:"Actualiser 2026 et réconcilier les distributions / delistings.",EQUITY_MASTER:"Valider la classification et les dates de cotation; conserver les titres radiés.",ETF_HOLDINGS:"Télécharger N-PORT et demander les historiques de détentions WRDS si disponibles, surtout avant 2019.",FUNDAMENTALS:"Vérifier les dates de publication, les RDQ manquantes et les révisions.",LINKS:"Actualiser CCM et valider les intervalles de liaison.",TREASURY_MASTER:"Réconcilier les pages d'adjudications historiques et récentes; exclure FRN/STRIPS.",TREASURY_DAILY:"Demander les prix secondaires individuels CRSP Treasury, coupons et intérêts courus.",RATES_FX:"Vérifier unités, calendrier et délai de publication; ne pas confondre taux et rendement.",MACRO_VINTAGES:"Compléter les vintages ALFRED et dates de publication.",FACTORS:"Actualiser si nécessaire auprès des producteurs officiels; vérifier unités et licences.",BENCHMARKS:"Demander rendements totaux et historiques de composition lorsque licenciés.",FUTURES:"Compléter les échéances et vérifier cours de compensation, volumes, positions ouvertes, ticks et marges auprès de la bourse.",COSTS_LIQUIDITY:"Rapprocher les volumes et les prix, puis vérifier les frais et les encours datés.",SENTIMENT:"Facultatif; vérifier les droits du cours et la disponibilité historique."};
-  let report=null, snapshot=null, returns=null, forecasts=null, risk=null, factors=null, tail=null, sentiment=null, api=null;
+  let report=null, matching=null, snapshot=null, returns=null, forecasts=null, risk=null, factors=null, tail=null, sentiment=null, api=null;
   function sentimentHtml(fr){if(sentiment?.status!=="historical_only")return "";const r=sentiment,p=v=>Number.isFinite(v)?(100*v).toFixed(3)+"%":"—";return `<article><h2>StockTwits · ${fr?"Recherche historique":"Historical research"}</h2><p>${r.asset_count} / ${r.eligible_count} ${fr?"actifs mensuels appariés":"matched monthly assets"} · ${r.aligned_rows} ${fr?"observations":"observations"} · ${esc(r.first)} – ${esc(r.last)}. ${fr?"Aucun signal actuel : archive terminée en mars 2020.":"No current signal: archive ends March 2020."}</p><p>${fr?"Test chronologique, mêmes lignes, variables de sentiment retardées d’un mois complet.":"Chronological test, same rows, sentiment lagged by one full month."} ${esc(r.split.test_start)} – ${esc(r.split.test_end)}</p><table><thead><tr><th>${fr?"Modèle":"Model"}</th><th>RMSE baseline</th><th>RMSE + sentiment</th><th>${fr?"Amélioration":"Improvement"}</th><th>${fr?"Intervalle bootstrap par mois":"Monthly block interval"}</th></tr></thead><tbody>${Object.entries(r.models).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${p(v.baseline?.rmse)}</td><td>${p(v.sentiment?.rmse)}</td><td>${p(v.rmse_improvement)}</td><td>${v.uncertainty?.conditional_block_interval?.map(p).join(" – ")||"—"}</td></tr>`).join("")}</tbody></table><p>${fr?"Références simples (sans sentiment)":"Simple references (without sentiment)"}: ${Object.entries(r.reference_models||{}).map(([k,v])=>`${esc(k)} RMSE ${p(v.rmse)}`).join(" · ")}</p><p>${fr?"Facteur long-short historique (grossier, non investi)":"Historical long-short factor (gross, not invested)"}: ${r.factor.test_months} ${fr?"mois":"months"} · ${fr?"écart moyen":"mean spread"} ${p(r.factor.mean_test_spread)} · rank IC ${Number.isFinite(r.factor.mean_test_rank_ic)?r.factor.mean_test_rank_ic.toFixed(3):"—"}</p>${r.black_litterman_diagnostic?.months?`<p>Black–Litterman (${fr?"illustration scalaire historique uniquement":"historical scalar illustration only"}): RMSE ${p(r.black_litterman_diagnostic.prior.rmse)} → ${p(r.black_litterman_diagnostic.view_posterior.rmse)}. ${fr?"Aucune vue actuelle activée.":"No current view enabled."}</p>`:""}</article>`;}
   function tailHtml(fr){if(tail?.status!=="complete")return "";return `<article><h2>${fr?"Risques extrêmes":"Tail risk"}</h2><p>${esc(tail.catalogue_count)} ${fr?"actifs examinés":"assets reviewed"} · ${esc(tail.statuses.computed||0)} ${fr?"estimations":"estimates"} · ${esc(tail.statuses.descriptive_only||0)} ${fr?"descriptifs uniquement":"descriptive only"} · ${esc(tail.statuses.unavailable||0)} ${fr?"indisponibles":"unavailable"}</p><table><tbody>${Object.entries(tail.by_model).map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</tbody></table></article>`;}
   function factorHtml(french){
@@ -46,29 +46,80 @@
     }).join(" · ");
     const rows = snapshot.datasets.map(r => `<tr><td>${esc(r.dataset)}</td><td>${esc(r.rows)}</td><td>${esc(r.first)} – ${esc(r.last)}</td><td>${esc(r.invalid)} / ${esc(r.duplicates)} / ${esc(r.conflicts)}</td><td>${quality(r)}</td></tr>`).join("");
     const total = snapshot.datasets.reduce((sum,r)=>sum+(Number(r.rows)||0),0);
-    return `<article><h2>${french?"Qualité et données historiques":"Point-in-time data quality"}</h2><p>${french?"Les séries historiques restent en recherche. Les calculs financiers sur ces données sont bloqués en attendant la validation des dates de disponibilité.":"Historical series remain under research. Financial runs on these data are blocked pending availability validation."}</p><p>${esc(snapshot.built_at || "")} · ${snapshot.datasets.length} ${french?"tables":"partitions"} · ${esc(total.toLocaleString(french?"fr-CH":"en-US"))} ${french?"lignes normalisées":"normalized rows"}</p><div class="universe-table-wrap"><table><thead><tr>${(french?["Table","Lignes","Période","Invalides / doublons / conflits","Qualité"]:["Table","Rows","Period","Invalid / duplicate / conflict","Quality"]).map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></article>`;
+    return `<article><h2>${french?"Qualité et données historiques":"Point-in-time data quality"}</h2><p>${french?"Les usages qui exigent une disponibilité historique certifiée restent bloqués. Le replay du mandat reste une simulation rétrospective.":"Uses requiring certified historical availability remain blocked. The mandate replay is a retrospective simulation."}</p><p>${esc(snapshot.built_at || "")} · ${snapshot.datasets.length} ${french?"tables":"partitions"} · ${esc(total.toLocaleString(french?"fr-CH":"en-US"))} ${french?"lignes normalisées":"normalized rows"}</p><div class="universe-table-wrap"><table><thead><tr>${(french?["Table","Lignes","Période","Invalides / doublons / conflits","Qualité"]:["Table","Rows","Period","Invalid / duplicate / conflict","Quality"]).map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></article>`;
   }
-  function render(){if(!report)return;const french=window.RM.language==="fr";const rows=report.rows.map(r=>`<tr><td><b>${esc(r.name)}</b><small>${esc(r.provider)} · ${esc(r.frequency)}</small></td><td><b>${esc(t(r.status))}</b><small>${esc(french?(r.evidence_fr||r.evidence):r.evidence)}</small></td><td>${esc(r.acquisition)}<small>${esc(french?(fr[r.id]||r.action):r.action)}</small></td><td><small>${esc(r.required_fields)}</small><small>${esc(r.rights)}</small></td><td>${String(r.url).startsWith("https://")?`<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(t("universeSource"))}</a>`:""}</td></tr>`).join("");
+  const gaps = [
+    ["Missing months and delisting proceeds", "Mois manquants et produits de liquidation",
+      "A missing return excludes a security at that decision. A missing realized return for a holding can invalidate the strategy’s path. Five years of coverage favor older, well-documented securities.",
+      "Un mois manquant écarte le titre à cette date. Un rendement réalisé absent sur une position peut invalider la trajectoire de la stratégie. Les cinq ans exigés favorisent les titres anciens et bien documentés."],
+    ["Unverified publication times", "Dates de publication non vérifiées",
+      "Original publication times are missing for the monthly CRSP and Fama–French RF series. Dated membership, data vintages and the execution lag reduce timing bias. The replay remains retrospective.",
+      "Les dates de publication d’origine manquent dans les séries mensuelles CRSP et Fama–French RF. Les listes datées, les versions des données et le délai d’exécution réduisent le biais temporel. Le replay reste rétrospectif."],
+    ["Survivorship and fund selection", "Biais de survie et sélection des ETF",
+      "Stock membership changes by date. The ETF registry is retrospective and some historical closing proceeds are unknown.",
+      "La liste d’actions change à chaque date. Le registre d’ETF a été constitué après coup et certains produits de liquidation historiques restent inconnus."],
+    ["Older archive, short test, model choices", "Archive ancienne, test court et choix de modèle",
+      "The test has 25 monthly returns, with limited evidence on rare losses. The equity-heavy median can raise the estimated return of a Treasury ETF. The current ranking also uses end-2025 estimates.",
+      "Le test comporte 25 mois, ce qui donne peu de recul sur les pertes rares. La médiane d’un univers dominé par les actions peut relever le rendement estimé d’un ETF du Trésor. Le classement actuel utilise aussi les estimations de fin 2025."],
+    ["Recent prices and quote coverage", "Prix récents et couverture des cotations",
+      "Public 2026 prices remain separate from the frozen return series. Position monitoring requires a configured quote feed and coverage for the holdings.",
+      "Les prix publics de 2026 restent séparés des rendements figés. Le suivi des positions dépend d’un flux configuré et de la couverture des titres détenus."],
+  ];
+  function matchingHtml(french){
+    const groups = ["stock","equity_etf","treasury_etf","cash"];
+    const labels = french ? ["actions US","ETF d’actions","ETF du Trésor","poche de cash USD"] :
+      ["US stocks","equity ETFs","Treasury ETFs","USD cash allocation"];
+    const counts = matching?.items ? groups.map((category,i)=>
+      `${matching.items.filter(row=>row.category===category).length} ${labels[i]}`).join(" · ") : "";
+    const window = counts ?
+      `<p><strong>${esc(counts)}</strong></p><p>${esc(matching.matching_data_start)} → ${esc(matching.matching_data_end)} · ${esc(matching.matching_months)} ${french?"mois de rendements":"monthly returns"}</p>` :
+      `<p>${french?"Vérification du catalogue local en cours ou données locales indisponibles.":"Checking local catalogue or local data unavailable."}</p>`;
+    return `<article><h2>${french?"Données utilisées par le portefeuille":"Portfolio inputs"}</h2>${window}
+      <p>${french?"Les rendements totaux mensuels CRSP sont alignés sur le calendrier de SPY. Les distributions sont incluses. Les actions proviennent du top 1 000 daté et le cash suit Fama–French RF.":"Monthly CRSP total returns are aligned to SPY’s calendar and include distributions. Stocks are selected from the dated top 1,000 and cash follows Fama–French RF."}</p>
+      <h3>${french?"Données manquantes et biais":"Missing data and biases"}</h3>
+      <dl>${gaps.map(row=>`<dt><strong>${esc(row[french?1:0])}</strong></dt><dd>${esc(row[french?3:2])}</dd>`).join("")}</dl></article>`;
+  }
+  let auditError=false;
+  function render(){
+    const french=window.RM.language==="fr";
+    if(!report){
+      const label=auditError ? (french?"Audits locaux indisponibles.":"Local audits unavailable.") :
+        (french?"Lecture des audits locaux…":"Reading local audits…");
+      $("sources-report").innerHTML=matchingHtml(french)+`<p role="status">${esc(label)}</p>`;
+      return;
+    }
+    const rows=report.rows.map(r=>`<tr><td><b>${esc(r.name)}</b><small>${esc(r.provider)} · ${esc(r.frequency)}</small></td><td><b>${esc(t(r.status))}</b><small>${esc(french?(r.evidence_fr||r.evidence):r.evidence)}</small></td><td>${esc(r.acquisition)}<small>${esc(french?(fr[r.id]||r.action):r.action)}</small></td><td><small>${esc(r.required_fields)}</small><small>${esc(r.rights)}</small></td><td>${String(r.url).startsWith("https://")?`<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(t("universeSource"))}</a>`:""}</td></tr>`).join("");
     const inv = report.inventory;
     const inventory = inv?.available ? (french ? `Inventaire local : ${inv.files} versions de fichiers, ${inv.providers} groupes de sources.` : `Local inventory: ${inv.files} file versions, ${inv.providers} source groups.`) : (french ? "Inventaire local indisponible." : "Local inventory unavailable.");
     const rights = french ? "Les droits WRDS pour le stockage local, les transformations et le partage restent à confirmer. Aucune diffusion de données aux testeurs." : "WRDS rights for local storage, transformation and sharing await confirmation. Data distribution to testers is on hold.";
-    $("sources-report").innerHTML=`<article><p>${esc(inventory)}</p><p>${esc(rights)}</p><p>${esc(report.version)} · ${esc(report.as_of)}</p><div class="universe-table-wrap"><table><thead><tr>${["sourcesProvider","sourcesStatus","sourcesAction","sourcesFields","universeSource"].map(k=>`<th>${esc(t(k))}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></article>${snapshotHtml(french)}${returnsHtml(french)}${forecastHtml(french)}${riskHtml(french)}${factorHtml(french)}${tailHtml(french)}${sentimentHtml(french)}`;
+    $("sources-report").innerHTML=`${matchingHtml(french)}<details class="research-module"><summary>${french?"Audits et archives de recherche":"Research archives and audits"}</summary><article><p>${esc(inventory)}</p><p>${esc(rights)}</p><p>${esc(report.version)} · ${esc(report.as_of)}</p><div class="universe-table-wrap"><table><thead><tr>${["sourcesProvider","sourcesStatus","sourcesAction","sourcesFields","universeSource"].map(k=>`<th>${esc(t(k))}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></article>${snapshotHtml(french)}${returnsHtml(french)}${forecastHtml(french)}${riskHtml(french)}${factorHtml(french)}${tailHtml(french)}${sentimentHtml(french)}</details>`;
   }
   let loadRevision=0;
   async function load(fetcher){
     api=fetcher;const revision=++loadRevision,cutoff={as_of:new Date().toISOString().slice(0,10)};
-    $("sources-report").textContent=t("universeLoading");
+    auditError=false;
+    render();
+    const matchingLoad=api("statistics/catalog",{...cutoff,scope:"matching"}).catch(()=>null).then(value=>{
+      if(revision!==loadRevision)return;
+      matching=Array.isArray(value?.items)?value:null;
+      render();
+    });
     try{
-      report=await api("sources",cutoff);if(revision!==loadRevision)return;render();
+      const sourceReport=await api("sources",cutoff);
+      if(revision!==loadRevision)return;
+      report=sourceReport;
+      render();
       const jobs=[["snapshot",v=>{snapshot=Array.isArray(v?.datasets)?v:null;}],["returns",v=>{returns=v;}],
         ["forecast/universe",v=>{forecasts=v;}],["risk/universe",v=>{risk=v;}],["factors/universe",v=>{factors=v;}],
         ["tail/universe",v=>{tail=v;}],["sentiment",v=>{sentiment=v;}]];
       for(const [route,apply] of jobs){
         const value=await api(route,cutoff).catch(()=>null);
         if(revision!==loadRevision)return;
-        apply(value);render();
+        apply(value);
       }
-    }catch(e){if(revision===loadRevision&&e.message!=="sessionChanged")$("sources-report").textContent=t(e.message||"networkError");}
+      render();
+    }catch(e){if(revision===loadRevision&&e.message!=="sessionChanged"){auditError=true;render();}}
+    await matchingLoad;
   }
   $("sources-refresh").addEventListener("click",()=>{if(api)load(api);});window.SourcesView={load,render};
 })();

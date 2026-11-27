@@ -10,6 +10,7 @@ from scipy.optimize import minimize
 from threadpoolctl import threadpool_limits
 
 from riskmatch.matching import REFERENCE_RUN
+from riskmatch.backtesting.card_performance import card_performance
 from riskmatch.prototype import metrics
 
 STRESS_RUN = '631f7088c157b5abe7301dc5751fa973e5e5042c571cb0f17a4fad25d9e18880'
@@ -21,10 +22,11 @@ COSTS = '10 bp · sleeve trades; 10 bp additional executed transfers in combined
 _catalog_lock=Lock()
 
 
-def catalog(root):
+def catalog(root, *, include_history=False):
     # Concurrent clients share the first computation rather than fitting twice.
     with _catalog_lock:
-        return _cached_catalog(Path(root).resolve())
+        catalog_data = _cached_catalog(Path(root).resolve())
+    return catalog_data if include_history else catalog_data[:3]
 
 
 @lru_cache(maxsize=2)
@@ -74,18 +76,29 @@ def _cached_catalog(root):
         holdings = dict(zip([a['ticker'] for a in assets], w.tolist()))
         holdings['USD cash'] = max(0.,1-w.sum())
         result[key] = (holdings,shocks,returns)
-    return result, split, np.asarray(walk['benchmarks']['sixty_forty']['returns'])
+    reference = np.asarray(walk['benchmarks']['sixty_forty']['returns'])
+    cash = np.asarray(walk['benchmarks']['cash']['returns'])
+    by_end = {str(end): (start, end) for start, end in intervals}
+    evaluation_dates = [by_end[end] for end in walk['dates']]
+    return result, split, reference, cash, evaluation_dates
 
 
 def cards(root, profile, aversion=None, goals=()):
-    rows, split, _ = catalog(root)
+    rows, split, _, cash, dates = catalog(root, include_history=True)
     result = []
     for name,(weights,shocks,returns) in rows.items():
         loss = max(0.,-min(shocks.values()))
         if loss <= profile.max_stress_loss + 1e-10:
             result.append(dict(name=name, version=VERSION, weights=weights, period=PERIOD,
                                costs=COSTS, stress_loss=loss, stress_usd=loss*profile.capital,
-                               metrics=metrics(returns[split:,None],[1]), worst_scenario=min(shocks,key=shocks.get)))
+                               metrics=metrics(returns[split:,None],[1],cash_returns=cash[split:]),
+                               worst_scenario=min(shocks,key=shocks.get)))
+    eligible = {card['name'] for card in result}
+    comparison = next((name for name in ('equal_weight', 'passive_etfs', 'all_weather') if name in eligible), None)
+    comparison_returns = rows[comparison][2] if comparison else None
+    for card in result:
+        card['backtest'] = card_performance(rows[card['name']][2], cash, dates, split,
+                                            benchmark_name=comparison, benchmark_returns=comparison_returns)
     if aversion is not None and (isinstance(aversion,bool) or not isinstance(aversion,int) or not 1<=aversion<=30):
         raise ValueError('Invalid discovery score')
     defensive={'OBJ01','OBJ03','OBJ11'}

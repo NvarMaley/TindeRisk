@@ -53,7 +53,6 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 #saves #save-backups{margin:.8rem 0}
 .scene-title{position:relative;isolation:isolate;overflow:hidden;padding:clamp(2rem,4vw,5rem) clamp(1rem,3vw,4rem);border-radius:0 0 44% 0/0 0 14% 0;margin:0 0 1.8rem;background:linear-gradient(90deg,#0c2936f5,#123241c0 48%,#20485333),var(--lagoon) center 53%/cover}
 .scene-title h1{font-size:clamp(2.7rem,6.3vw,6rem);max-width:85%}.scene-title p{margin:.8em 0 0;max-width:48ch;font-size:clamp(1rem,1.45vw,1.35rem);color:#fff0df}
-.j-route{border:0;margin:.25rem 0 .8rem}.j-route ol{justify-content:center}.j-route li{padding:.15rem 0}.j-route [aria-current=step]{border-bottom:2px solid var(--rose)}
 #mandate:not([hidden]){display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.4fr);align-items:start;gap:clamp(1.5rem,4vw,5rem)}
 #mandate .scene-title{position:sticky;top:1rem;min-height:55svh;display:flex;flex-direction:column;justify-content:flex-end;border-radius:40% 40% 0 0/20% 20% 0 0;background:linear-gradient(0deg,#082432f2,transparent),var(--lagoon) center/cover}
 #mandate .scene-title h1{font-size:clamp(2.4rem,4.5vw,5rem)}
@@ -71,10 +70,14 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 #explore,#matches{max-width:none}
 #explore .scene-title{margin-bottom:.4rem}
 #portfolio>.voyage-card{position:relative;display:grid;grid-template-columns:minmax(180px,.78fr) minmax(0,1.4fr);padding:0;gap:0;border:0;border-radius:45px 5px;overflow:hidden;box-shadow:0 25px 60px #02132480;background:#ffe8d7;color:#1b3442}
-.voyage-cover{position:relative;isolation:isolate;overflow:hidden;display:grid;align-items:end;min-height:260px;background:linear-gradient(0deg,#0c3544e8,transparent 80%),var(--lagoon) center/cover;padding:1.6rem}
-.voyage-cover::before,.voyage-cover::after{content:"";position:absolute;border:1px solid #ffe4c7aa;inset:15%;border-radius:50%;transform:rotate(-22deg) scaleY(.55);z-index:-1}
-.voyage-cover::after{transform:rotate(35deg) scaleY(.64);inset:7%}
-.voyage-cover img{position:absolute;top:14%;width:50%;left:25%;filter:drop-shadow(0 13px 14px #15203955);animation:cherry-drift 5s ease-in-out infinite alternate}
+.voyage-cover{display:grid;align-items:end;min-height:260px;background:linear-gradient(0deg,#082432f5,transparent 72%),var(--card-art,var(--lagoon)) center/cover,#103647;padding:1.6rem}
+[data-art="calm"]{--card-art:url("./assets/voyage/card-calm.webp")}
+[data-art="balance"]{--card-art:url("./assets/voyage/card-balance.webp")}
+[data-art="trend"]{--card-art:url("./assets/voyage/card-trend.webp")}
+[data-art="allocation"]{--card-art:url("./assets/voyage/card-allocation.webp")}
+[data-art="factors"]{--card-art:url("./assets/voyage/card-factors.webp")}
+[data-art="hedge"]{--card-art:url("./assets/voyage/card-hedge.webp")}
+#discovery .discovery-card-image{background:var(--card-art,var(--lagoon)) center/cover,#133547}
 .voyage-cover span{color:var(--paper);font:italic clamp(1.3rem,2.4vw,2rem) var(--type-italic)}
 .voyage-face{padding:clamp(1.5rem,3.3vw,4rem);align-self:center}.voyage-face h2{font:normal clamp(2rem,4vw,4.3rem)/.95 var(--type-display);color:#173641;margin:.2em 0}.voyage-face p,.voyage-face dl{color:#2d4851}.voyage-face dl{display:flex;gap:2rem;flex-wrap:wrap;margin:1.4rem 0 0}.voyage-face dd{font:italic clamp(1.5rem,3vw,3rem) var(--type-italic);margin:0;color:#7a2445}
 .voyage-reveal{grid-column:1/-1;background:#0b2936;color:#f1faf6;padding:.9rem clamp(1rem,3vw,3rem)}.voyage-reveal>summary{font-size:1.05rem;cursor:pointer;padding:.5rem 0;color:var(--foam)}
@@ -93,13 +96,14 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
   .horizon-poster{min-height:66svh;align-items:flex-end;padding-bottom:2.5rem}.horizon-copy{width:90%}.horizon-moon{right:-4%;top:0;width:48%}
   .horizon-copy h1{font-size:clamp(3.5rem,13vw,6rem)}.voyage-itinerary{display:block;padding:.7rem 0}.voyage-itinerary li{display:grid;grid-template-columns:1fr 1.6fr;gap:1rem}
   #mandate .scene-title{position:relative;top:auto;min-height:0;border-radius:0 0 50px 0}
-  #portfolio>.voyage-card{grid-template-columns:1fr}.voyage-cover{min-height:120px;padding:1rem}.voyage-cover img{width:auto;height:100%;left:auto;right:10%;top:0}.voyage-cover::before,.voyage-cover::after{left:45%}
-  .scene-title{padding:1.6rem 1rem}.voyage-face dl{gap:1rem}.j-route ol{gap:.2rem}.j-route li{font-size:.75rem}
+  #portfolio>.voyage-card{grid-template-columns:1fr}.voyage-cover{min-height:140px;padding:1rem}
+  .scene-title{flex-direction:column;padding:1.6rem 1rem}
+  .scene-title h1{max-width:100%;overflow-wrap:break-word}
+  .voyage-face dl{gap:1rem}
 }
-@media(prefers-reduced-motion:reduce){.horizon-land,.port-photo::before,.horizon-moon img,.voyage-cover img,.port-photo img,.verdict-spray img,#portfolio .j-loader::before,.page:not([hidden]){animation:none!important}.verdict-spray{display:none}}
+@media(prefers-reduced-motion:reduce){.horizon-land,.port-photo::before,.horizon-moon img,.port-photo img,.verdict-spray img,#portfolio .j-loader::before,.page:not([hidden]){animation:none!important}.verdict-spray{display:none}}
 .port-arrival,.save-panel,#save-form,#save-form label,#save-current,#save-backups{min-width:0}
 #saves #save-backups input[type=file]{width:100%;max-width:100%;box-sizing:border-box}.save-panel select,.save-panel input{max-width:100%;box-sizing:border-box}
-.voyage-cover[data-colour="1"]{background-position:center,27% 65%}.voyage-cover[data-colour="2"]{background-image:linear-gradient(0deg,#69324bcc,transparent 85%),var(--lagoon)}
 .voyage-face small{display:block;margin-top:.7rem;color:#495660}
 #matches #match-allocation>article.voyage-confirmed{background:linear-gradient(110deg,#124b4be8,#143943db),var(--lagoon) center/cover;border-radius:40px 0 40px 0;padding:clamp(1rem,3vw,3rem);border:1px solid #73beaa77}
 #compare>h1,#universe>h1,#sources>h1{font:italic clamp(3rem,7vw,7rem)/1 var(--type-italic);color:var(--paper);letter-spacing:-.075em}
@@ -107,7 +111,7 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 #compare .research-module>summary{font:italic clamp(1.4rem,2.8vw,2.65rem)/1.1 var(--type-italic);padding:1.2rem 0;color:var(--paper)}
 @media(max-width:760px){#saves:not([hidden]),#mandate:not([hidden]){grid-template-columns:minmax(0,1fr)}}
 
-/* The same uninterrupted lagoon runs behind each stop on the journey. */
+/* Keep the page titles and controls over the full-viewport scene. */
 #home .horizon-poster,.port-photo{background:transparent;overflow:visible}
 .port-photo::before,.horizon-moon i{display:none}
 .port-arrival{min-height:clamp(280px,54svh,620px)}.port-photo img{filter:drop-shadow(0 1rem 1.2rem #26162d80)}
@@ -121,9 +125,17 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 #portfolio>.voyage-card{background:linear-gradient(115deg,#102d3be8,#13273beb);color:var(--pearl);transition:transform .23s cubic-bezier(.2,.85,.4,1)}
 #portfolio>.voyage-card[data-drag]{transition:none;user-select:none}
 .voyage-face h2,.voyage-face p,.voyage-face dl,.voyage-face small{color:#f8f3ee}.voyage-face dd{font:700 clamp(1.45rem,3vw,2.6rem)/1.2 DM,sans-serif;color:#ffb5d4}
+.voyage-face .strategy-card-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));gap:.9rem 1.25rem}
+.strategy-card-metrics div{border-top:1px solid #a8d4d349;padding-top:.55rem}
+.strategy-card-metrics dt{font-size:.85rem;line-height:1.25}
+.strategy-card-metrics dd{margin-top:.25rem;font-variant-numeric:tabular-nums}
+.strategy-card-metrics dd small{margin-top:.15rem;font-size:.8rem;font-weight:500}
+@media(max-width:760px){
+  .voyage-face .strategy-card-metrics{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:.85rem}
+}
 .voyage-card[data-drag]::after{content:attr(data-verdict);position:absolute;top:1.1rem;right:1.1rem;background:#aeefd8;color:#0e3834;font:bold 1.3rem DM,sans-serif;letter-spacing:-.04em;border:2px solid currentColor;padding:.3rem .85rem;border-radius:100vw;transform:rotate(6deg);pointer-events:none}
 .voyage-card[data-drag=pass]::after{background:#ffbad2;color:#58233b;transform:rotate(-6deg)}
-.voyage-itinerary,.j-route{background:linear-gradient(90deg,#082231d9,#08223199);padding-inline:1rem}
+.voyage-itinerary{background:linear-gradient(90deg,#082231d9,#08223199);padding-inline:1rem}
 .tide-canvas{opacity:.65}
 .water-touch{position:fixed;width:2.5rem;aspect-ratio:1;border:1px solid #c8ffed;box-shadow:0 0 0 4px #d6fff24a,inset 0 0 8px #e9fff944;z-index:8;border-radius:50%;pointer-events:none;animation:water-touch .8s ease-out both}
 @keyframes water-touch{from{opacity:.85;transform:translate(-50%,-50%) scale(.2,.1)}to{opacity:0;transform:translate(-50%,-50%) scale(2.6,1)}}
@@ -206,6 +218,33 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 .strategy-explanation .strategy-method > summary { color: var(--foam); }
 .strategy-method code { white-space: normal; overflow-wrap: anywhere; }
 .strategy-deck-list { margin-block: 1rem; }
+.backtest-detail { margin-block: 1.5rem; }
+.backtest-detail h3 { margin-bottom: .25rem; }
+.backtest-detail > .muted { margin-top: 0; }
+.backtest-highlights { display: flex; flex-wrap: wrap; gap: .8rem 2rem; }
+.backtest-highlights dt { color: var(--foam); }
+.backtest-highlights dd { margin: .2rem 0 0; font-size: 1.25rem; font-weight: 700; }
+.backtest-highlights small, .backtest-table th small { display: block; font-size: .8rem; font-weight: normal; }
+.backtest-table { overflow-x: auto; margin-block: 1rem; }
+.backtest-table caption { color: var(--foam); text-align: left; font-weight: 700; padding-bottom: .4rem; }
+.backtest-table th, .backtest-table td { padding: .55rem .65rem; }
+.backtest-table td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.backtest-longer { border-top: 1px solid #8ec2bb55; padding-top: .65rem; }
+.backtest-longer > summary { color: var(--foam); cursor: pointer; }
+.discovery-results { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr)); gap:1rem 2rem; }
+.discovery-results h2 span { white-space:nowrap; }
+.discovery-results h3 { margin:0 0 .45rem; color:var(--foam); }
+.discovery-results h3 + p { margin:.45rem 0; }
+.discovery-thresholds { display:grid; gap:.55rem; }
+.discovery-thresholds > div { padding:.75rem; background:#102b39; border:1px solid #8ec2bb55; border-radius:.65rem; }
+.discovery-thresholds dt { font-weight:700; color:var(--foam); }
+.discovery-thresholds dd { margin:.25rem 0; }
+.discovery-thresholds small { display:block; color:#d4e9ef; }
+.discovery-utility { margin:.8rem 0; border-top:1px solid #8ec2bb55; padding-top:.75rem; }
+.discovery-utility > summary { color:var(--foam); cursor:pointer; }
+.discovery-utility-equation { padding:.65rem .75rem; background:#102b39; border-radius:.5rem; overflow-wrap:anywhere; }
+.discovery-utility-table td { white-space:normal; }
+.discovery-utility-table th small { display:block; }
 
 #strategy-library {
   display: grid;
@@ -228,3 +267,23 @@ main{max-width:1440px;padding-inline:clamp(17px,5vw,84px)}
 .research-tool-help { max-width: 75ch; }
 
 .paper-tracking-table { overflow-x: auto; }
+
+#matches #match-allocation,
+#matches #match-allocation > *,
+#matches .backtest-table,
+#matches .paper-tracking-table,
+#matches .match-table-scroll {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#matches .universe-table-wrap,
+#matches .match-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+@media (max-width: 600px) {
+  #matches #match-allocation > article {
+    overflow-wrap: anywhere;
+  }
+}

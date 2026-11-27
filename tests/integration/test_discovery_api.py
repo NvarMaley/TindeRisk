@@ -20,7 +20,7 @@ def test_discovery_session_and_score_http():
             with opener.open(req,timeout=5) as response:return json.load(response)
         try:
             s=post("/api/discovery/session",{"seed":42,"currency":"CHF"})
-            assert len(s["cards"])==30 and s==post("/api/discovery/session",{"seed":42,"currency":"CHF"})
+            assert len(s["cards"])==30 and s["cards"]==post("/api/discovery/session",{"seed":43,"currency":"CHF"})["cards"]
             answers={c["id"]:c["prudent_response"] for c in s["cards"] if c["scored"]}
             result=post("/api/discovery/score",{"seed":42,"currency":"CHF","answers":answers,"confidence":3,"locales":{k:"fr" for k in answers}})
             assert result["score"]==30 and result["confidence"]==3

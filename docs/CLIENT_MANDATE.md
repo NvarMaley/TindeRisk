@@ -2,6 +2,15 @@
 
 Version 2.0.0, simulation only. Implementation: `src/riskmatch/profiling/mandate.py`; API: `POST /api/mandate/preview`; form: `apps/web/mandate.js`. SciPy is now a runtime dependency for the dated cash-flow solver; its pinned version is unchanged. A structural validation is not a suitability assessment, financial advice, market feasibility, or approval to trade. Use fictional profiles only.
 
+## Formulaire client actuel
+
+- Le parcours USD présente dix objectifs. « Croissance » couvre `OBJ05` et le même comportement de classement que l'ancien `OBJ06`. Les sauvegardes existantes restent lisibles. Une fiche `OBJ06` s'affiche comme « Croissance » lors de la révision du mandat et utilise `OBJ05` lors de la nouvelle confirmation.
+- « Revenu » renvoie vers les retraits mensuels ou ponctuels. La couverture dépend de ces flux. Le formulaire masque le montant, la devise, la base et la pénalité de cet objectif.
+- Les autres actifs et les dettes se trouvent dans **Bilan patrimonial facultatif**. Le solde à investir, les liquidités, les placements disponibles, la réserve et les flux restent dans le parcours principal.
+- La pénalité de déficit demeure accessible dans les réglages avancés d'un objectif chiffré, avec 1 par défaut. L'inflation apparaît pour une cible réelle ou un objectif de protection contre l'inflation. Le taux de change apparaît pour une cible chiffrée en devise étrangère.
+- Les deux questions de perte restent distinctes. Les choix d'actifs couvrent actions américaines et ETF d'actions, ETF du Trésor américain et cash USD. La volatilité et le plafond par actif sont facultatifs, avec les modes « À respecter absolument » et « À privilégier ».
+- Le serveur conserve les onze identifiants et les champs hérités du schéma pour la lecture des anciennes sauvegardes et les modules de recherche. Les classes retirées bloquent le nouveau calcul personnalisé jusqu'à la révision du mandat.
+
 ## Data and units (CH01.01–05)
 
 | Input | Unit / interpretation |
@@ -25,7 +34,7 @@ Do not double count liabilities in monthly expenses, dated flows and goal obliga
 | OBJ03 | Conservative | Strict loss/volatility budget, with return secondary |
 | OBJ04 | Balanced | Risk-return trade-off constrained by mandate |
 | OBJ05 | Growth | Terminal wealth or real return, not automatic leverage |
-| OBJ06 | Aggressive growth | Higher growth subject to the same hard risk capacity |
+| OBJ06 | Aggressive growth (legacy ID) | Same orientation and scoring rule as OBJ05 in personalized matching |
 | OBJ07 | Inflation protection | Purchasing-power target and inflation sensitivity |
 | OBJ08 | Absolute return | Net excess return versus cash and downside control |
 | OBJ09 | Liability-driven | Dated liability coverage; duration/DV01 mismatch later |
@@ -46,7 +55,7 @@ The client declares maximum financially absorbable loss in currency units. Cap i
 
 ## Restrictions and feasibility (CH01.09–12)
 
-Hard stress and loss budgets are required. Additional percentage limits may be hard or soft: volatility (annual), asset/issuer/sector weights, annual turnover/cost, minimum liquid allocation, gross and net exposures. Null = not specified; no implicit zero or silent relaxation. Asset scope is US equities, Treasuries, REITs, USD cash, and eligible futures subject to permission; corporate debt is excluded. ESG exclusions, tax treatment and FX hedge preference are separately collected. Short, leverage and derivatives permissions are explicit, not inferred from objectives. Detect capital exceeding investable wealth, contribution exceeding surplus, uncovered spending deficit, missing experience, missing derivatives permissions, inconsistent net bounds and impossible gross budget. More complex joint feasibility, taxes, FX risk, scenario likelihoods, full income scheduling, and portfolio matching remain later model work. CHF or any additional unmodeled hard constraint disables the legacy USD stress-only Explore prototype; even eligible demo candidates are not presented as suitable for the whole mandate.
+Hard stress and loss budgets are required and share one input in new drafts. The current form offers annual volatility and per-holding weight limits. Historical payloads can also carry issuer/sector, turnover, cost, liquidity or exposure limits, ESG/tax/FX preferences and advanced permissions. The personalized engine handles the [current portfolio universe and supported constraints](PERSONALIZED_MATCHING.md). A required restriction outside that scope blocks personalized generation. Null means the optional limit is unspecified. Capital above investable wealth, contributions above surplus and uncovered spending deficits are structural conflicts.
 
 ## Versioning, consent and UI (CH01.13–15)
 

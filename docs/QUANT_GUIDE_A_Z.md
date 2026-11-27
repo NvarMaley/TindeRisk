@@ -1,5 +1,12 @@
 # ULTIMATE GUIDE — Quantitative Multi-Asset Management Platform
 
+## Current client implementation
+
+The research plan below covers a broader instrument and model scope. For the
+active web flow, see the [simplified mandate](CLIENT_MANDATE.md), the
+[fixed Discovery questionnaire](RISKMATCH_BEHAVIORAL.md) and the
+[personalized portfolio universe](PERSONALIZED_MATCHING.md).
+
 ## 0. Mission and Principles
 Build a Python platform that converts a client mandate into tailored US allocations, compares competing models, simulates net-of-cost results and manages exposures over time. Returns are not guaranteed. Data, assumptions, models and outputs must be reproducible and versioned.
 

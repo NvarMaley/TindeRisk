@@ -30,6 +30,10 @@ def test_mandate_api_preview_and_candidate_gate():
             fixture = json.loads((ROOT / "configs/mandate-example.json").read_text())
             result = post("/api/mandate/preview", fixture)
             assert result["status"] == "structurally_valid"
+            assert result["personalized_eligible"] and not result["demo_eligible"]
+            fixture["constraints"]["allowed_assets"].append("reit")
+            legacy_result = post("/api/mandate/preview", fixture)
+            assert legacy_result["demo_eligible"] and not legacy_result["personalized_eligible"]
             assert post("/api/candidates", fixture)
             fixture["constraints"]["max_cost"]["value"] = .01
             assert not post("/api/mandate/preview", fixture)["demo_eligible"]

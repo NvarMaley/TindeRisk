@@ -8,38 +8,42 @@ from riskmatch.behavioral.utility import crra, prospect, explore_likelihoods
 from riskmatch.behavioral.pilot_analysis import synthetic_panel, psychometrics, logistic_readiness
 
 
-def test_bank_structure_and_equivalent_framing():
+def test_fixed_bank_and_matched_trajectories():
     items=bank("CHF")
-    assert len(items)==60 and len({c["id"] for c in items})==60
-    assert Counter(c["block_id"] for c in items)=={k:2*v for k,v in QUOTAS.items()}
+    assert len(items)==len({c["id"] for c in items})==30
+    assert Counter(c["block_id"] for c in items)==QUOTAS
     for c in items:
-        assert all(c[a][lang] for a in ("canonical_a","canonical_b") for lang in ("en","fr"))
-        for alt in (c["canonical_a"],c["canonical_b"]):
-            if alt["probabilities"]:assert sum(alt["probabilities"])==pytest.approx(1)
+        a,b=c["canonical_a"],c["canonical_b"]
+        assert all(alt[lang] for alt in (a,b) for lang in ("en","fr"))
+        for alt in (a,b):
+            if alt["probabilities"]:
+                assert sum(alt["probabilities"])==pytest.approx(1)
         if c["block_id"]=="trajectory":
-            a,b=c["canonical_a"],c["canonical_b"]
             assert a["horizon_days"]==b["horizon_days"]==365 and a["annual_cost"]==b["annual_cost"]
-            assert a["path"][1]<b["path"][1]
-    frame=[c for c in items if c["block_id"]=="framing"]
-    for a,b in zip(frame[::2],frame[1::2]):
-        assert a["pair_id"]==b["pair_id"]
-        for side in ("canonical_a","canonical_b"):
-            assert a[side]["outcomes"]==b[side]["outcomes"] and a[side]["probabilities"]==b[side]["probabilities"]
-            assert a[side]["en"]!=b[side]["en"]
+            assert a["outcomes"]==b["outcomes"] and a["probabilities"]==b["probabilities"]
+            assert min(a["path"][1:3])<min(b["path"][1:3])
+        if c["block_id"]=="rare":
+            assert a["expected_payoff"]==pytest.approx(b["expected_payoff"])
+        if c["block_id"]=="mixed":
+            assert a["outcomes"][0]>0>a["outcomes"][1] and b["outcomes"]==[0]
+            assert not c["scored"]
 
 
 @pytest.mark.parametrize("seed",[0,1,42,123,2**32-1])
-def test_randomized_balanced_session(seed):
-    s=session(seed,"USD");cards=s["cards"]
-    assert s==session(seed,"USD")
-    assert len(cards)==30 and sum(c["scored"] for c in cards)==20
-    assert Counter(c["block_id"] for c in cards)==QUOTAS
-    assert {c["presented_order"] for c in cards}==set(range(1,31))
-    assert Counter(c["block_id"] for c in cards if c["swapped"])=={k:v//2 for k,v in QUOTAS.items()}
-    assert all(c["pair_id"] in {x["id"] for x in cards} for c in cards if c["block_id"]=="consistency")
-    positions={c["id"]:c["presented_order"] for c in cards}
-    assert all(abs(positions[c["id"]]-positions[c["pair_id"]])>=3 for c in cards if c["block_id"]=="consistency")
-    assert s["session_id"]!=session((seed+1)%(2**32),"USD")["session_id"]
+def test_every_session_has_same_order_and_option_placement(seed):
+    s=session(seed,"USD")
+    other=session((seed+1)%(2**32),"USD")
+    assert s["cards"]==other["cards"]
+    assert s["session_id"]!=other["session_id"]
+    cards=s["cards"]
+    assert sum(c["scored"] for c in cards)==20
+    assert sum(c["prudent_response"]=="like" for c in cards)==10
+    rare_swaps=[c for c in cards if c["block_id"]=="rare" and c["swapped"]]
+    assert {c["dimension"] for c in rare_swaps}=={"rare_gain","rare_loss"}
+    assert {c["canonical_a"]["probabilities"][0] for c in rare_swaps}=={.01,.05}
+    assert [c["presented_order"] for c in cards]==list(range(1,31))
+    assert cards[-1]["pair_id"]==cards[0]["id"]
+    assert cards[-1]["swapped"]!=cards[0]["swapped"]
 
 
 def test_scores_extremes_missing_and_non_scored():
@@ -61,16 +65,44 @@ def test_scores_extremes_missing_and_non_scored():
     assert score(42,"CHF",{},confidence=1)["sensitivity"]==[1,30]
 
 
-def test_consistency_is_canonical_after_swaps_and_framing():
+def test_consistency_and_comprehension_are_descriptive():
     cards=session(42,"USD")["cards"]
     canonical_b={c["id"]:"like" if c["swapped"] else "dislike" for c in cards}
     assert all(canonical_choice(c,canonical_b[c["id"]])=="B" for c in cards)
     r=score(42,"USD",canonical_b)
-    assert r["inconsistencies"]==[] and r["pairs_checked"]==2
-    assert r["framing_differences"]==[] and r["framing_pairs_checked"]==3
-    repeated=next(c for c in cards if c["block_id"]=="consistency")
-    canonical_b[repeated["id"]]="dislike" if canonical_b[repeated["id"]]=="like" else "like"
-    assert score(42,"USD",canonical_b)["inconsistencies"]==[repeated["id"]]
+    assert r["inconsistencies"]==[] and r["pairs_checked"]==1
+    assert r["comprehension_correct"] is False
+    assert r["style_profile"]=="000"
+    canonical_b["CT02"]="dislike"
+    canonical_b["CT01"]="like"
+    revised=score(42,"USD",canonical_b)
+    assert revised["inconsistencies"]==["CT02"] and revised["comprehension_correct"] is True
+    assert revised["score"]==r["score"]==30
+
+
+@pytest.mark.parametrize(("choices", "status", "lower", "upper", "answered"), [
+    ({100:"B", 125:"B", 150:"B", 200:"A"}, "range", 150, 200, 4),
+    ({125:"A", 150:"B"}, "inconsistent", 150, 125, 2),
+    ({100:"A", 125:"A"}, "atMost", None, 100, 2),
+    ({100:"B", 200:"B"}, "above", 200, None, 2),
+    ({}, "unanswered", None, None, 0),
+])
+def test_mixed_gain_thresholds_follow_the_canonical_choice(choices, status, lower, upper, answered):
+    cards = session(42)["cards"]
+    responses = {card["id"]:card["prudent_response"] for card in cards if card["scored"]}
+    for card in cards:
+        if card["dimension"] != "mixed_loss_choices":
+            continue
+        gain, loss = card["canonical_a"]["outcomes"]
+        choice = choices.get(gain) if loss == -100 else None
+        responses[card["id"]] = "skip" if choice is None else (
+            "like" if (choice == "A") != card["swapped"] else "dislike")
+    report = score(42, "USD", responses)
+    assert report["score"] == 30
+    threshold, other = report["mixed_gain_thresholds"]
+    assert threshold == {"loss":100, "status":status, "max_refused_gain":lower,
+                         "min_accepted_gain":upper, "answered":answered, "total":4}
+    assert other["loss"] == 500 and other["status"] == "unanswered"
 
 
 @pytest.mark.parametrize("args",[(True,"USD"),(-1,"USD"),(0,"EUR")])
@@ -91,7 +123,7 @@ def test_utility_models_are_separate():
     cards=session(42)["cards"]
     responses={c["id"]:c["prudent_response"] for c in cards if c["scored"]}
     r=explore_likelihoods(42,"USD",responses)
-    assert r["n"]==14 and r["status"]=="experimental_weak_identification"
+    assert r["n"]==16 and r["status"]=="experimental_weak_identification"
     assert "score" not in r and r["crra"]["nll"]>=0
 
 

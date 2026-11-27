@@ -117,7 +117,7 @@ topological_order,ticket,direct_prerequisites,description
 116,CH03.04,CH03.03,"Store dated investability, listing/delisting, liquidity, expense ratio, AUM and restrictions."
 117,CH04.02,CH04.01,"For each source record provider, field, frequency, earliest date, coverage, latency, timezone, revision policy and identifiers."
 118,CH01.05,CH01.04,"Represent each goal as amount, currency, due date, priority and shortfall penalty."
-119,CH02.07,CH02.06,Create symmetric gain/loss framing pairs with economically equivalent payoffs.
+119,CH02.07,CH02.06,"Introduce mixed gains and losses against an unchanged balance, at two stake sizes."
 120,CH27.08,CH27.07,"Use schema validation, clear errors, idempotency and authorization by resource for multi-user future architecture."
 121,CH03.09,CH03.04,Choose benchmark per strategy and cash/risk-free series; distinguish tradable benchmark and non-tradable proxy.
 122,CH03.05,CH03.04,"Define 300–3000-stock second-stage universe with historical constituents, delistings and historical market cap."
@@ -125,7 +125,7 @@ topological_order,ticket,direct_prerequisites,description
 124,CH04.04,CH04.02,"Compare CRSP/WRDS and licensed alternatives; assess public SEC EDGAR, Treasury, FRED/ALFRED and factor datasets."
 125,CH01.06,CH01.05,Calculate funding gap and required annual return for a single cash flow; solve dated multi-flow case numerically.
 126,CH12.01,CH01.05; SYS.01,"Define all 11 objectives as typed goals, not interchangeable portfolio names (catalog below)."
-127,CH02.08,CH02.07,"Show drawdown trajectories with equal horizon, uncertainty, costs and no guaranteed recovery."
+127,CH02.08,CH02.07,"Show trajectories with identical final outcomes, probabilities, horizon and costs."
 128,CH03.10,CH03.09,"Produce coverage matrix by instrument, date, frequency, missingness, liquidity and source; avoid invented pre-launch data."
 129,CH03.06,CH03.05,"Add only T-Bills, Treasury Notes, Treasury Bonds and TIPS; verify issuer and historical ETF holdings."
 130,CH04.05,CH04.04,Define provider adapters with explicit as_of and dataset version; mock unavailable provider access.
@@ -142,21 +142,21 @@ topological_order,ticket,direct_prerequisites,description
 141,OBJ09.01,CH12.01,"Write the mathematical specification: asset-liability PV gap and DV01/key-rate mismatch. Specify units, convention, horizon and assumptions."
 142,OBJ10.01,CH12.01,"Write the mathematical specification: P(W_T≥G), E[(G-W_T)+], shortfall per goal. Specify units, convention, horizon and assumptions."
 143,OBJ11.01,CH12.01,"Write the mathematical specification: loss below floor, hedge cost and gap stress. Specify units, convention, horizon and assumptions."
-144,CH02.09,CH02.08,Separate ambiguity and time-preference items from the unidimensional score.
+144,CH02.09,CH02.08,"Keep mixed choices, probability comprehension and repeated-choice checks outside the provisional score."
 145,CH03.11,CH03.10,"Expose universe filters, availability chart and exclusion reason in UI."
 146,CH03.07,CH03.06,Determine which futures families qualify for the active universe.
 147,CH04.06,CH04.05,"Document API limits, retry/backoff, caching and missing-data behavior without committing credentials."
 148,CH01.08,CH01.07,"Evaluate knowledge and experience separately for equities, Treasuries, futures, leverage and short selling."
 149,CH12.04,CH12.02,"Calculate required return with dated contributions, withdrawals and liabilities; report infeasibility."
-150,CH02.03,CH02.09,"Build the initial 60-card bank: 16 lottery, 12 gain/loss, 12 trajectory, 8 uncertainty/horizon, 8 style, 4 coherence items."
+150,CH02.03,CH02.09,"Build a fixed 30-card questionnaire across mixed choices, gains, losses, rare events, temporary declines and checks."
 151,CH03.08,CH03.07,"Record availability of futures hedges for USD/CHF, equities and rates."
 152,CH04.07,CH04.06,"Design raw immutable storage, normalized Parquet and DuckDB catalog; record file hash, ingestion ID and access date."
 153,CH01.09,CH01.08,"Define limits on losses, stress, volatility, liquidity, asset/issuer/sector weights, turnover and costs."
 154,CH12.07,CH12.04,"Support multiple goals with priorities, nonnegative normalized weights and documented penalty scaling."
-155,CH02.04,CH02.03,Sample the 30-card session with 8/6/6/4/4/2 block quotas and deterministic seed.
+155,CH02.04,CH02.03,"Present the same 30 cards in the same sequence, independently of the session seed."
 156,CH04.08,CH04.07,Separate proprietary data from synthetic test fixtures and Git-tracked configs.
 157,CH01.10,CH01.09,"Define ESG exclusions, tax assumptions, FX hedge preference, leverage, gross/net and derivatives permissions."
-158,CH02.10,CH02.04,Randomize order and left/right placement while preserving balanced design; record presentation order.
+158,CH02.10,CH02.04,Use one fixed presentation order with interleaved blocks and balanced Yes/No scoring direction.
 159,CH04.09,CH04.03; CH04.08,Create a source quality report and a data dictionary; confirm required fields before approving each method.
 160,CH05.01,CH03.04; CH04.08,"Define canonical trading calendar, UTC timestamps and local exchange close."
 161,CH01.11,CH01.10,"Represent hard vs soft constraints explicitly; define units, bounds and missing-value policy."

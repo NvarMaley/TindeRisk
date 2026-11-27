@@ -1,17 +1,20 @@
-"""Versioned experimental card design and score. No clinical or suitability inference."""
+"""Fixed experimental Discovery questionnaire and provisional score."""
 
 from collections import Counter
+from itertools import zip_longest
 from math import floor
-import random
 
-VERSION = "discovery-v2.0.0"
-QUOTAS = {"lottery": 8, "framing": 6, "trajectory": 6, "uncertainty": 4, "style": 4, "consistency": 2}
+VERSION = "discovery-v3.0.0"
+QUOTAS = {"mixed": 8, "gains": 6, "losses": 6, "rare": 4, "trajectory": 4, "checks": 2}
 CHOICES = {"like", "dislike", "unsure", "skip"}
-LABELS = {"lottery": ("Lotteries", "Loteries"), "framing": ("Gain / loss framing", "Cadre gains / pertes"),
-          "trajectory": ("Paths and drawdowns", "Trajectoires et baisses"),
-          "uncertainty": ("Ambiguity / time", "Ambiguïté / temps"),
-          "style": ("Management preferences", "Préférences de gestion"),
-          "consistency": ("Repeated choice", "Choix répété")}
+LABELS = {
+    "mixed": ("Possible gains and losses", "Gains et pertes possibles"),
+    "gains": ("Risk with gains", "Risque face aux gains"),
+    "losses": ("Risk with losses", "Risque face aux pertes"),
+    "rare": ("Rare events", "Événements rares"),
+    "trajectory": ("Temporary declines", "Baisses temporaires"),
+    "checks": ("Choice checks", "Vérification des choix"),
+}
 
 
 def alt(en, fr, *, outcomes=(), probabilities=(), horizon_days=0, path=None, cost=0):
@@ -23,140 +26,98 @@ def alt(en, fr, *, outcomes=(), probabilities=(), horizon_days=0, path=None, cos
 def bank(currency="USD"):
     if currency not in {"USD", "CHF"}:
         raise ValueError("invalid_currency")
-    result = []
+    blocks = {key: [] for key in QUOTAS}
 
-    def card(id, block, dimension, a, b, scored=False, reference=1000, pair=None):
-        result.append(dict(id=id, version=VERSION, block_id=block, dimension=dimension,
-                           currency=currency, reference_wealth=reference, canonical_a=a, canonical_b=b,
-                           prudent_option="B" if scored else None, scored=scored, pair_id=pair))
+    def card(id, block, dimension, a, b, scored=False, reference=10000, pair=None, swap=None):
+        cards = blocks[block]
+        cards.append(dict(id=id, version=VERSION, block_id=block, dimension=dimension,
+                          currency=currency, reference_wealth=reference, canonical_a=a, canonical_b=b,
+                          prudent_option="B" if scored else None, scored=scored, pair_id=pair,
+                          swapped=len(cards) % 2 == 1 if swap is None else swap))
 
-    # Gains from the same positive reference wealth; known expected gains, CE varies.
-    for i in range(16):
-        gain = 100 + (i % 8) * 25
-        p = .5 if i < 8 else .75
-        loss = (gain//2) if i >= 12 else 0
-        if loss:p=.5
-        safe = round((p * gain-(1-p)*loss) * (0.8 + (i % 4) * .15), 2)
-        pct = round(p * 100)
-        safe_fr = f"{safe:g}".replace(".", ",")
-        if loss:
-            en = f"take a chance: {pct}% to win {gain} {currency} and {100-pct}% to lose {loss} {currency}"
-            fr = f"tenter ta chance : {pct} % de chances de gagner {gain} {currency} et {100-pct} % de risques de perdre {loss} {currency}"
-        else:
-            en = f"take a {pct}% chance of winning {gain} {currency}, with no gain otherwise"
-            fr = f"tenter de gagner {gain} {currency} avec {pct} % de chances, et ne rien gagner sinon"
-        a = alt(en, fr, outcomes=(gain, -loss), probabilities=(p, 1-p))
-        b = alt(f"win {safe:g} {currency} for sure", f"gagner {safe_fr} {currency} à coup sûr",
-                outcomes=(safe,), probabilities=(1,))
-        card(f"L{i+1:02}", "lottery", "risk_tolerance", a, b, True)
+    def monetary(amount):
+        word_en, word_fr = ("gain", "gagner") if amount > 0 else ("lose", "perdre")
+        return word_en, word_fr, f"{abs(amount)} {currency}"
 
-    # Six pairs: same starting wealth, probabilities and terminal wealth; only wording differs.
-    for i in range(6):
-        ref = 1000 + i * 200
-        loss = 100 + i * 50
-        p = .2 if i % 2 == 0 else .5
-        safe_loss = p * loss
-        pct = round(p * 100)
-        for frame in range(2):
-            if frame == 0:
-                a_text = (f"keep {ref} {currency} ({100-pct}% chance) or {ref-loss} {currency} ({pct}% chance)",
-                          f"garder {ref} {currency} dans {100-pct} % des cas et {ref-loss} {currency} dans les {pct} % restants")
-                b_text = (f"keep {ref-safe_loss:g} {currency} for sure",
-                          f"garder {ref-safe_loss:g} {currency} à coup sûr")
-            else:
-                a_text = (f"risk losing {loss} {currency} ({pct}% chance), otherwise lose nothing",
-                          f"risquer de perdre {loss} {currency} dans {pct} % des cas, sans rien perdre sinon")
-                b_text = (f"lose {safe_loss:g} {currency} for sure",
-                          f"perdre {safe_loss:g} {currency} à coup sûr")
-            a = alt(*a_text, outcomes=(0,-loss), probabilities=(1-p,p))
-            b = alt(*b_text, outcomes=(-safe_loss,), probabilities=(1,))
-            card(f"F{2*i+frame+1:02}", "framing", "loss_sensitivity", a,b,True,ref,f"FP{i+1:02}")
+    def lottery(probability, amount, sure):
+        word_en, word_fr, stake = monetary(amount)
+        sure_en, sure_fr, certain = monetary(sure)
+        return (
+            alt(f"take a {probability}% chance to {word_en} {stake}, with no change otherwise",
+                f"accepter {probability} % de chances de {word_fr} {stake}, avec un solde inchangé sinon",
+                outcomes=(amount, 0), probabilities=(probability / 100, 1 - probability / 100)),
+            alt(f"{sure_en} {certain} for sure", f"{sure_fr} {certain} à coup sûr",
+                outcomes=(sure,), probabilities=(1,)),
+        )
 
-    for i in range(12):
-        dip = 8+i*2
-        low, high = 90-i, 114+i*2
-        safe_dip = max(1,dip//4)
-        # Both alternatives have equal horizon, two equiprobable outcomes, and equal assumed costs.
-        a = alt(f"{100-dip} after 6 months, then {low} or {high} after one year",
-                f"{100-dip} après 6 mois, puis {low} ou {high} après un an",
-                outcomes=(low-100,high-100),probabilities=(.5,.5),horizon_days=365,path=[100,100-dip,low,high],cost=.005)
-        b = alt(f"{100-safe_dip} after 6 months, then 98 or 108 after one year",
-                f"{100-safe_dip} après 6 mois, puis 98 ou 108 après un an",
-                outcomes=(-2,8),probabilities=(.5,.5),horizon_days=365,path=[100,100-safe_dip,98,108],cost=.005)
-        card(f"D{i+1:02}","trajectory","trajectory_tolerance",a,b,True,100)
+    unchanged = alt("keep your balance unchanged", "garder ton solde inchangé",
+                    outcomes=(0,), probabilities=(1,))
+    # Two ranges of stakes with four gain-to-loss ratios each.
+    for i, (gain, loss) in enumerate(((150, 100), (500, 500), (100, 100), (1000, 500),
+                                      (200, 100), (625, 500), (125, 100), (750, 500)), 1):
+        gamble = alt(f"take a 50% chance to gain {gain} {currency} and a 50% chance to lose {loss} {currency}",
+                     f"accepter 50 % de chances de gagner {gain} {currency} et 50 % de risques de perdre {loss} {currency}",
+                     outcomes=(gain, -loss), probabilities=(.5, .5))
+        card(f"MX{i:02}", "mixed", "mixed_loss_choices", gamble, unchanged, swap=i in {3, 4, 7, 8})
 
-    for i in range(4):
-        gain=100+i*50
-        card(f"A{i+1:02}", "uncertainty", "ambiguity",
-             alt(f"try to win {gain} {currency} without knowing the odds", f"tenter de gagner {gain} {currency} sans savoir quelles sont tes chances", outcomes=(gain,0)),
-             alt(f"try to win {gain} {currency} (50% chance)", f"tenter de gagner {gain} {currency} avec une chance sur deux", outcomes=(gain,0), probabilities=(.5,.5)))
-        later=102+i*6
-        card(f"H{i+1:02}", "uncertainty", "time_preference",
-             alt(f"receive a guaranteed {later} {currency} in one year", f"recevoir {later} {currency} dans un an, montant garanti", outcomes=(later,), probabilities=(1,), horizon_days=365),
-             alt(f"receive a guaranteed 100 {currency} today", f"recevoir 100 {currency} aujourd’hui, montant garanti", outcomes=(100,), probabilities=(1,)))
-    styles = [
-        (("check your investments once a month", "faire le point sur tes placements une fois par mois"),
-         ("check your investments once a year", "faire le point sur tes placements une fois par an")),
-        (("reinvest the money your investments pay you", "réinvestir l’argent versé par tes placements"),
-         ("receive regular income from your investments", "recevoir un revenu régulier de tes placements")),
-        (("follow a clear rule that tells me how to invest", "suivre une règle claire pour décider comment investir"),
-         ("keep the same simple split between your investments", "garder une répartition simple qui ne change pas")),
-        (("change your investment mix from time to time within the same risk limits", "ajuster la répartition de tes placements de temps en temps, avec les mêmes limites de risque"),
-         ("stick with your long-term investment mix", "garder la répartition prévue à long terme")),
-        (("check your investments once a week", "faire le point sur tes placements une fois par semaine"),
-         ("check your investments every three months", "faire le point sur tes placements tous les trois mois")),
-        (("focus on growing the total value of your savings and investments", "faire grandir ton patrimoine"),
-         ("focus on receiving payments you can count on", "privilégier des versements prévisibles")),
-        (("combine several investment approaches that work independently", "combiner plusieurs façons d’investir qui ne dépendent pas les unes des autres"),
-         ("use one basic investment mix that you can understand", "utiliser une seule répartition de base que tu comprends")),
-        (("reset your investment mix when it moves too far from your target", "revenir à la répartition prévue dès que tes placements s’en éloignent trop"),
-         ("reset your investment mix on scheduled dates", "revenir à la répartition prévue à dates fixes")),
-    ]
-    for i,(a,b) in enumerate(styles):
-        card(f"P{i+1:02}","style","management_style",alt(*a),alt(*b))
-    for i in range(4):
-        original=result[i]
-        card(f"C{i+1:02}","consistency","decision_consistency",original["canonical_a"],original["canonical_b"],False,original["reference_wealth"],original["id"])
-    return result
+    gain_tasks = ((50, 200, 100), (25, 400, 80), (75, 160, 120),
+                  (50, 600, 240), (25, 800, 220), (75, 400, 330))
+    loss_tasks = ((50, -200, -100), (75, -160, -100), (25, -400, -100),
+                  (50, -600, -320), (25, -800, -180), (75, -400, -330))
+    for block, prefix, dimension, tasks in (("gains", "GN", "gain_risk", gain_tasks),
+                                            ("losses", "LS", "loss_risk", loss_tasks)):
+        for i, task in enumerate(tasks, 1):
+            card(f"{prefix}{i:02}", block, dimension, *lottery(*task), scored=True)
+
+    for i, task in enumerate(((1, -1000, -10), (1, 1000, 10),
+                              (5, -1000, -50), (5, 1000, 50)), 1):
+        card(f"RR{i:02}", "rare", "rare_loss" if task[1] < 0 else "rare_gain",
+             *lottery(*task), scored=True, swap=i in {2, 3})
+
+    for i, (deeper, smaller, ending) in enumerate((
+        ((94, 85), (97, 95), (95, 112)),
+        ((83, 91), (94, 97), (100, 116)),
+        ((93, 82), (93, 93), (90, 120)),
+        ((80, 85), (90, 97), (98, 108)),
+    ), 1):
+        def path_option(levels):
+            low, high = ending
+            first, second = levels
+            return alt(f"{first} at 3 months, {second} at 6 months, then {low} or {high} at 1 year",
+                       f"{first} à 3 mois, {second} à 6 mois, puis {low} ou {high} à 1 an",
+                       outcomes=(low-100, high-100), probabilities=(.5, .5),
+                       horizon_days=365, path=[100, first, second, low, high])
+        card(f"TR{i:02}", "trajectory", "trajectory_tolerance",
+             path_option(deeper), path_option(smaller), scored=True, reference=100)
+
+    card("CT01", "checks", "comprehension",
+         alt("answer «1 time on average»", "répondre « 1 fois en moyenne »"),
+         alt("answer «10 times on average»", "répondre « 10 fois en moyenne »"), reference=0)
+    anchor = blocks["gains"][0]
+    card("CT02", "checks", "decision_consistency", anchor["canonical_a"], anchor["canonical_b"],
+         pair=anchor["id"], swap=True)
+
+    # Fixed order interleaves the five financial blocks. Keep the repeat at the end.
+    groups = (blocks[name] for name in ("gains", "mixed", "trajectory", "losses", "rare"))
+    items = [card for row in zip_longest(*groups) for card in row if card is not None]
+    items.insert(5, blocks["checks"][0])
+    items.append(blocks["checks"][1])
+    return items
 
 
 def session(seed, currency="USD"):
     if type(seed) is not int or not 0 <= seed < 2**32:
         raise ValueError("invalid_seed")
-    rng=random.Random(seed)
-    source=bank(currency)
-    by_id={c["id"]:c for c in source}
-    blocks={name:[c for c in source if c["block_id"]==name] for name in QUOTAS}
-    repeats=rng.sample(blocks["consistency"],2)
-    anchors=[by_id[c["pair_id"]] for c in repeats]
-    lottery=anchors+rng.sample([c for c in blocks["lottery"] if c not in anchors],6)
-    frame_pairs=rng.sample(range(6),3)
-    frames=[by_id[f"F{2*i+j+1:02}"] for i in frame_pairs for j in range(2)]
-    ambiguity=rng.sample([c for c in blocks["uncertainty"] if c["dimension"]=="ambiguity"],2)
-    patience=rng.sample([c for c in blocks["uncertainty"] if c["dimension"]=="time_preference"],2)
-    selected={"lottery":lottery,"framing":frames,"trajectory":rng.sample(blocks["trajectory"],6),
-              "uncertainty":ambiguity+patience,"style":rng.sample(blocks["style"],4),"consistency":repeats}
-    presented=[]
-    for name,items in selected.items():
-        swaps=[False]*(len(items)//2)+[True]*(len(items)//2)
-        rng.shuffle(swaps)
-        for item,swap in zip(items,swaps):
-            a,b=(item["canonical_b"],item["canonical_a"]) if swap else (item["canonical_a"],item["canonical_b"])
-            en,fr=LABELS[name]
-            presented.append({**item,"swapped":swap,"block":en,"a":a["en"],"b":b["en"],
-                              "fr":{"block":fr,"a":a["fr"],"b":b["fr"]},
-                              "display_a":a,"display_b":b,
-                              "prudent_response":("like" if swap else "dislike") if item["scored"] else None})
-    # Separate economically paired/repeated prompts so immediate memory is less dominant.
-    for _ in range(200):
-        rng.shuffle(presented)
-        positions={c["id"]:i for i,c in enumerate(presented)}
-        frame_positions={p:[i for i,c in enumerate(presented) if c["pair_id"]==p] for p in {c["pair_id"] for c in frames}}
-        if all(abs(positions[c["id"]]-positions[c["pair_id"]])>=3 for c in repeats) and all(abs(a-b)>=3 for a,b in frame_positions.values()):
-            break
-    for i,c in enumerate(presented,1):
-        c["presented_order"]=i
-    assert Counter(c["block_id"] for c in presented)==QUOTAS
+    presented = []
+    for order, item in enumerate(bank(currency), 1):
+        swap = item["swapped"]
+        a, b = (item["canonical_b"], item["canonical_a"]) if swap else (item["canonical_a"], item["canonical_b"])
+        en, fr = LABELS[item["block_id"]]
+        presented.append({**item, "block": en, "a": a["en"], "b": b["en"],
+                          "fr": {"block": fr, "a": a["fr"], "b": b["fr"]},
+                          "display_a": a, "display_b": b, "presented_order": order,
+                          "prudent_response": ("like" if swap else "dislike") if item["scored"] else None})
+    assert Counter(c["block_id"] for c in presented) == QUOTAS
     return dict(version=VERSION,seed=seed,currency=currency,session_id=f"{VERSION}:{seed}:{currency}",cards=presented)
 
 
@@ -169,6 +130,32 @@ def canonical_choice(card, response):
 
 def round_score(value):
     return floor(value+.5)
+
+
+def mixed_gain_thresholds(cards, decisions):
+    series = {}
+    for card in cards:
+        if card["dimension"] != "mixed_loss_choices":
+            continue
+        gain, loss = card["canonical_a"]["outcomes"]
+        series.setdefault(-loss, []).append((gain, decisions[card["id"]]))
+
+    results = []
+    for loss, choices in sorted(series.items()):
+        refused = max((gain for gain, choice in choices if choice == "B"), default=None)
+        accepted = min((gain for gain, choice in choices if choice == "A"), default=None)
+        if refused is not None and accepted is not None:
+            status = "range" if refused < accepted else "inconsistent"
+        elif accepted is not None:
+            status = "atMost"
+        elif refused is not None:
+            status = "above"
+        else:
+            status = "unanswered"
+        results.append({"loss": loss, "status": status, "max_refused_gain": refused,
+                        "min_accepted_gain": accepted, "answered": sum(choice is not None for _, choice in choices),
+                        "total": len(choices)})
+    return results
 
 
 def score(seed, currency, responses, confidence=None, locales=None):
@@ -188,34 +175,22 @@ def score(seed, currency, responses, confidence=None, locales=None):
     prudent=sum(decisions[c["id"]]=="B" for c in scored)
     total=len(scored)
     dimensions={}
-    for name in ("risk_tolerance","loss_sensitivity","trajectory_tolerance","ambiguity","time_preference","management_style"):
+    for name in ("mixed_loss_choices","gain_risk","loss_risk","rare_gain","rare_loss","trajectory_tolerance"):
         subset=[c for c in cards if c["dimension"]==name]
         resolved=[decisions[c["id"]] for c in subset if decisions[c["id"]] is not None]
         dimensions[name]={"answered":len(resolved),"total":len(subset),"canonical_b_fraction":resolved.count("B")/len(resolved) if resolved else None}
-    inconsistencies=[];pairs_checked=0
-    for c in cards:
-        if c["block_id"]=="consistency":
-            a,b=decisions[c["id"]],decisions[c["pair_id"]]
-            if a and b:
-                pairs_checked+=1
-                if a!=b:inconsistencies.append(c["id"])
-    framing=[];framing_checked=0
-    for pair in sorted({c["pair_id"] for c in cards if c["block_id"]=="framing"}):
-        a,b=[decisions[c["id"]] for c in cards if c["pair_id"]==pair and c["block_id"]=="framing"]
-        if a and b:
-            framing_checked+=1
-            if a!=b:framing.append(pair)
-    # A/B refers to canonical options after reversing the randomized display.
-    def preference(ids, second):
-        votes = [1 if decisions[k] == second else -1 for k in ids if decisions.get(k)]
-        return "2" if sum(votes)>0 else "1" if sum(votes)<0 else "0"
-    style = (preference(["P03","P07"], "B") + preference(["P04"], "A") +
-             preference(["P02","P06"], "B"))
+    repeat=next(c for c in cards if c["pair_id"])
+    original, repeated = decisions[repeat["pair_id"]], decisions[repeat["id"]]
+    checked=original is not None and repeated is not None
+    comprehension=next(c for c in cards if c["dimension"]=="comprehension")
+    read=decisions[comprehension["id"]]
     counts=Counter(responses.values())
-    return dict(version=VERSION,style_profile=style,score=round_score(1+29*prudent/n) if n/total>=.7 else None,
+    return dict(version=VERSION,style_profile="000",score=round_score(1+29*prudent/n) if n/total>=.7 else None,
                 coverage=n/total,answered=n,total_scored=total,prudent_fraction=prudent/n if n else None,
                 sensitivity=[round_score(1+29*prudent/total),round_score(1+29*(prudent+total-n)/total)],
                 counts={**{k:counts[k] for k in CHOICES},"unpresented":len(cards)-len(responses)},
-                dimensions=dimensions,confidence=confidence,inconsistencies=inconsistencies,pairs_checked=pairs_checked,
-                framing_differences=framing,framing_pairs_checked=framing_checked,status="experimental",
-                session_id=f"{VERSION}:{seed}:{currency}")
+                dimensions=dimensions,confidence=confidence,
+                mixed_gain_thresholds=mixed_gain_thresholds(cards, decisions),
+                inconsistencies=[repeat["id"]] if checked and original!=repeated else [],pairs_checked=int(checked),
+                comprehension_correct=None if read is None else read=="A",
+                status="experimental",session_id=f"{VERSION}:{seed}:{currency}")

@@ -16,7 +16,7 @@ runs the project's constrained optimizer on reproducible synthetic returns.
 ## User Experience
 
 1. Mandate: goals, investable wealth, horizon, cash flows, constraints, base currency and financial loss capacity.
-2. RiskMatch Discovery: balanced 30-card sessions sampled from a 60-card bilingual bank (Yes to accept the proposed switch, No to keep the starting option, plus unsure, skip and undo), with a separately consented local session.
+2. RiskMatch Discovery: a fixed bilingual questionnaire with the same 30 cards in every session (Yes to accept the proposed switch, No to keep the starting option, plus unsure, skip and undo), with a separately consented local session.
 3. Profile: exploratory risk-aversion score 1–30 (30 = strong aversion), uncertainty, consistency and separate preferences. The score is neither a diagnosis nor automatic calibration of λ.
 4. Quantitative engine: candidate generation, optimization, simulations and out-of-sample testing.
 5. RiskMatch Explore: swipe among mandate-compatible portfolios with comparable risk, costs, losses and goals.
@@ -69,7 +69,7 @@ One notebook with 27 numbered chapters, a navigable table of contents, reproduci
 
 Generate the local executed historical review copy with `.venv/bin/python scripts/execute_notebook.py --historical --save-outputs`. It is saved in `data/reports/RiskMatch_V3_professeur.ipynb` and requires the original local research archives. The public source notebook contains portable synthetic results. See the [reproduction guide](notebooks/README.md).
 
-The prototype uses a local Python standard-library HTTP server and HTML/CSS/JS. No Node web dependencies are required. The full-mandate Match route constructs individualized funded USD candidates using the common research panel, dated constraints and behavioral risk preferences. Historical performance, scenario losses, goal projections and the chosen sleeve allocation are computed by the shared quantitative engine. See [personalized construction methodology](docs/PERSONALIZED_MATCHING.md) for data, model and acceptance limitations.
+The prototype uses a local Python standard-library HTTP server and HTML/CSS/JS. No Node web dependencies are required. The client Universe and full-mandate Match route share a dated set of US stocks, equity ETFs and US Treasury ETFs with 60 consecutive months of usable total returns through 31 December 2025, plus a USD cash proxy. The client form offers ten goals, and Discovery uses 30 fixed cards with a prudence index and experimental loss-aversion ranges. Historical performance, scenario losses, goal projections and the chosen sleeve allocation are computed by the shared quantitative engine. See the [mandate](docs/CLIENT_MANDATE.md), [Discovery rules](docs/RISKMATCH_BEHAVIORAL.md) and [personalized construction methodology](docs/PERSONALIZED_MATCHING.md) for the current implementation.
 
 ## Publish on GitHub
 
@@ -101,3 +101,18 @@ uses the first complete set of recent prices that the open page receives.
 The local save holds the positions, recent valuations and rebalance log.
 The tracked result reflects price changes, excluding dividends, corporate
 actions and trading costs.
+
+## Course review
+
+The original client interface is the app in `apps/web`, also displayed by the
+[Streamlit wrapper](apps/streamlit/README.md). It needs the original RiskMatch
+server and its verified local archives for the portfolio workflow. The
+portable notebook in `notebooks/` runs numerical examples with data supplied
+in the repository. Historical notebook outputs are generated locally from the
+authorized research archive.
+
+The Research menu provides the asset universe, sources and missing data,
+strategy catalogue and methodology. The [current data guide](docs/UNIVERS_DONNEES_STRATEGIES.md)
+and [course review](docs/PROFESSOR_REVIEW.md) describe the active 60-month
+portfolio panel. Earlier full manuals document historical iterations. The
+live quote feature needs an Alpaca feed configured on the host.

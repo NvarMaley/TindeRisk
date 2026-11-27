@@ -17,6 +17,7 @@ OBJECTIVES = {
 KNOWLEDGE = {"none", "basic", "advanced"}
 EXPERIENCE = {"none", "limited", "experienced"}
 ASSETS = {"equity", "treasury", "reit", "cash", "futures", "commodity_etp"}
+MATCHING_ASSETS = frozenset({"equity", "treasury", "cash"})
 LIMITS = ("stress_loss", "loss_budget", "volatility", "max_asset_weight", "max_issuer_weight",
           "max_sector_weight", "max_turnover", "max_cost", "min_liquidity", "gross_limit", "net_min", "net_max")
 
@@ -309,6 +310,8 @@ def validate_mandate(payload):
     personalized_reasons = []
     if currency != "USD":
         personalized_reasons.append("demo_usd_only")
+    if not set(allowed) <= MATCHING_ASSETS:
+        personalized_reasons.append("matching_asset_class_unavailable")
     supported = {"stress_loss", "loss_budget", "volatility", "max_asset_weight",
                  "gross_limit", "net_min", "net_max"}
     if any(limits[k]["value"] is not None and limits[k]["mode"] == "hard"

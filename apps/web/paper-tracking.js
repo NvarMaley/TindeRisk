@@ -91,7 +91,7 @@
     const unsupported = symbols.filter(key=>!symbolPattern.test(key));
     const article = document.createElement("article");
     article.innerHTML = `<h2>${tr("Paper portfolio tracking","Suivi du portefeuille simulé")}</h2>
-      <p>${tr("Updates while My Matches is open. Prices may be delayed. Performance is based on price changes; dividends, corporate actions and transaction costs are excluded.","Actualisation quand Mes Matches est ouvert. Les cours peuvent être différés. La performance suit les variations de cours, hors dividendes, opérations sur titres et frais de transaction.")}</p>
+      <p>${tr("Updates every minute while My Matches is open. Prices may be delayed. Performance is based on price changes; dividends, corporate actions and transaction costs are excluded.","Actualisation toutes les minutes quand Mes Matches est ouvert. Les cours peuvent être différés. La performance suit les variations de cours, hors dividendes, opérations sur titres et frais de transaction.")}</p>
       <label>${tr("Tracking rule","Règle de suivi")} <select>
         <option value="hold">${tr("Keep initial holdings","Conserver les positions")}</option>
         <option value="quarterly">${tr("Quarterly paper rebalancing","Rééquilibrage trimestriel simulé")}</option></select></label>
@@ -135,7 +135,7 @@
       clearTimeout(view.timer);
       refresh.disabled=true;
       const messages={
-        not_configured:tr("Configure the Alpaca market-data credentials on the local server to start tracking.","Configure les identifiants Alpaca sur le serveur local pour activer le suivi."),
+        not_configured:tr("Market data is unavailable because the server has no Alpaca credentials configured.","Flux de marché indisponible : les identifiants Alpaca ne sont pas configurés sur le serveur."),
         provider_auth:tr("Alpaca refused access. Check the credentials and feed permissions.","Alpaca a refusé l’accès. Vérifie les identifiants et les droits sur le flux."),
         rate_limited:tr("The provider rate limit was reached. Try again in a minute.","La limite de requêtes du fournisseur est atteinte. Réessaie dans une minute."),
         provider_unavailable:tr("Quotes are temporarily unavailable.","Les cours sont temporairement indisponibles."),
