@@ -267,6 +267,8 @@ def validate_mandate(payload):
         value = raw_constraints.get(key)
         if not isinstance(value, str) or len(value) > 240:
             raise ValueError(f"invalid_field:{key}")
+    from riskmatch.market_data.portfolio_classification import optional_preferences
+    companies, sectors, _ = optional_preferences(raw_constraints)
     choice(raw_constraints["fx_hedge"], {"none", "partial", "full", "undecided"}, "fx_hedge")
     choice(raw_constraints["tax_assumption"], {"not_modeled", "pre_tax", "after_tax_required"}, "tax_assumption")
 
@@ -307,6 +309,8 @@ def validate_mandate(payload):
         demo_reasons.append("demo_universe_restrictions_unmodeled")
     if raw_constraints["tax_assumption"] == "after_tax_required" or raw_constraints["fx_hedge"] in {"partial", "full"}:
         demo_reasons.append("demo_tax_fx_unmodeled")
+    if companies or sectors:
+        demo_reasons.append("demo_universe_restrictions_unmodeled")
     personalized_reasons = []
     if currency != "USD":
         personalized_reasons.append("demo_usd_only")

@@ -195,6 +195,37 @@ def test_matching_eligibility_filters_missing_late_and_unlisted_securities():
     assert eligible_indices(assets, history, stamps, origin, {"0", "1", "2"}).tolist() == [0, 4]
 
 
+def test_dated_company_and_sector_exclusions():
+    from riskmatch.market_data.portfolio_classification import exclusion_rule, sector_code
+
+    day, past = date(2025, 12, 31), date(2022, 12, 30)
+    rows = {day: {"1":("10","ABC","51"),"2":("10","ABD","51"),"3":("11","DEF","52")},
+            past: {"1":("10","OLD","31"),"2":("10","ABD","51"),"3":("11","DEF","51")}}
+    mandate = {"constraints":{"excluded_companies":["ABC"],"excluded_sectors":["52"]}}
+    allowed = exclusion_rule(mandate, rows, day, {})
+    stock = lambda instrument: {"category":"stock","instrument":instrument}
+    assert not allowed(stock("1"),past) and not allowed(stock("2"),day)
+    assert not allowed(stock("3"),day) and allowed(stock("3"),past)
+    assert not allowed(stock("unknown"),day)
+    assert not allowed({"category":"equity_etf"},day)
+    assert allowed({"category":"treasury_etf"},day)
+    assert sector_code("334510") == "31" and sector_code("000000") is None
+
+
+def test_portfolio_composition_reports_signed_covariance(monkeypatch):
+    from riskmatch import personalized_matches as pm
+
+    assets = [{"category":"stock","instrument":"1"},{"category":"treasury_etf","instrument":"2"}]
+    monkeypatch.setattr(pm,"matching_classification",lambda *args:{pm.DATA_END:{"1":("11","ABC","51")}})
+    covariance = np.array([[.04,-.01,0],[-.01,.01,0],[0,0,0]])
+    weights = np.array([.5,.5,0])
+    result = pm.portfolio_composition(None,(assets,["ABC","SHY","USD cash"]),weights,covariance)
+    assert np.isclose(result["volatility"]**2, .0075)
+    assert np.isclose(result["cross_covariance"], -.005)
+    assert np.isclose(sum(result["variance_shares"].values()), 1.)
+    assert result["stock_sectors"] == {"51":.5}
+
+
 def test_funded_matching_covariance_preserves_cash_volatility():
     from riskmatch.personalized_matches import construct, DATA_END
 

@@ -2,6 +2,10 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 import numpy as np
+import pytest
+from riskmatch.analytics.objectives import evaluate
+from riskmatch.profiling.mandate import years_between
+from datetime import date
 from riskmatch.selection.goals import assess, REFERENCE_RUN, VERSION
 from riskmatch.selection.goals import holdings_paths
 
@@ -33,3 +37,22 @@ def test_holdings_projection_keeps_joint_returns_and_charges_rebalance():
     assert np.allclose(net[:,0],0.)
     assert np.allclose(net[:,1],-.0002)
     assert np.allclose(holdings_paths(history,[0.,0.,1.],indices),history[indices,-1])
+
+
+def test_discounted_net_gain_includes_each_dated_payment_once():
+    mandate = json.loads((Path(__file__).resolve().parents[2]/"configs/mandate-example.json").read_text())
+    mandate.update(as_of="2026-11-25", horizon_date="2027-11-25", inflation=.02,
+                   contribution_monthly=0, withdrawal_monthly=0)
+    mandate["dated_flows"] = [{"kind":"withdrawal","amount":10000,"date":"2027-05-25"}]
+    mandate["goals"][0].update(due_date="2027-11-25", amount=20000, funding=True)
+    returns = np.zeros((2,12))
+    report = evaluate(mandate, returns, returns, include_wealth_path=True, discount_rate=.03)
+    start = date(2026,11,25)
+    mid_years = years_between(start,date(2027,5,25))
+    years = years_between(start,date(2027,11,25))
+    assert report["terminal_quantiles"] == pytest.approx([70000]*3)
+    assert report["net_gain_quantiles"] == pytest.approx([0]*3)
+    assert report["funded_goal_schedule"][0]["median_paid"] == pytest.approx(20000)
+    assert report["purchasing_power"]["terminal_quantiles"] == pytest.approx([70000/1.02**years]*3)
+    expected = 90000/1.03**years + 10000/1.03**mid_years - 100000
+    assert report["present_value"]["net_gain_quantiles"] == pytest.approx([expected]*3)

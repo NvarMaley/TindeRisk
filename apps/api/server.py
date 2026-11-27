@@ -135,7 +135,10 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.respond(discovery_score(data["seed"], data["currency"], data["answers"],
                                                      data.get("confidence"), data.get("locales")))
             if self.path == "/api/mandate/preview":
-                return self.respond(validate_mandate(data))
+                profile = validate_mandate(data)
+                if profile["personalized_eligible"]:
+                    personalized_matches.matching_exclusions(ROOT, data)
+                return self.respond(profile)
             if self.path == "/api/objectives/evaluate":
                 return self.respond(objective_report(ROOT,data))
             if self.path == "/api/baselines":

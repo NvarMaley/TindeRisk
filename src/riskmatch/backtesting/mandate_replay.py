@@ -119,7 +119,7 @@ def merger_settlements(db, pit, intervals, assets, panel):
     return settlements
 
 
-def replay(root, data, mandate, report, aversion, construct, as_of, etfs):
+def replay(root, data, mandate, report, aversion, construct, as_of, etfs, *, allowed=None):
     _, intervals, _, rf, version, first, _, *_ = data
     assets, panel, available, signals, macro, caps, settlements = archive(
         root, tuple(intervals), first, etfs, version, as_of)
@@ -153,6 +153,8 @@ def replay(root, data, mandate, report, aversion, construct, as_of, etfs):
                 states[key]["target"] = target
         exited = np.array([a["category"]=="stock" and a["instrument"] not in caps.get(day,{})
                            for a in assets])
+        if allowed is not None:
+            exited |= np.array([not allowed(a, day) for a in assets])
         closed = np.array([i for i, (paid, terminal) in settlements.items()
                            if terminal <= day and paid <= next_close], dtype=int)
         exited[closed] = True

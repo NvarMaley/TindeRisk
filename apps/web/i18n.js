@@ -1,6 +1,14 @@
 /* UI localization only. English is the canonical project and API language. */
 (() => {
   const entries = {
+    portfolioPreferences:["Optional portfolio preferences and exclusions","Préférences et exclusions du portefeuille"],
+    preferDiversification:["Favor less concentrated portfolios in the ranking","Favoriser les portefeuilles moins concentrés dans le classement"],
+    excludeCompanies:["Exclude companies by ticker","Exclure des sociétés par symbole boursier"],
+    excludeSectors:["Exclude industries from directly held stocks (NAICS)","Exclure des secteurs des actions détenues en direct (NAICS)"],
+    portfolioScreeningHelp:["Separate company tickers by commas. When exclusions are active, equity ETFs are set aside because their historical holdings are unavailable for screening. The diversification preference affects card ranking.","Sépare les symboles par des virgules. Si tu actives des exclusions, les ETF d’actions sont écartés car leurs positions historiques ne peuvent pas être filtrées. La préférence de diversification agit sur le classement des cartes."],
+    "Unknown or ambiguous exclusion ticker":["Unknown or ambiguous exclusion ticker","Symbole d’exclusion inconnu ou ambigu"],
+    "Dated company and industry data unavailable for exclusions":["Dated company and industry data unavailable for exclusions","Les données datées de sociétés et de secteurs sont indisponibles pour appliquer les exclusions"],
+    "Invalid annual discount rate":["Invalid annual discount rate","Taux d’actualisation annuel invalide"],
     guideNavbrief:["Your project", "Ton projet"],
     guideNavprofile:["Your reactions", "Tes réactions"],
     guideNavengine:["The engine", "Le moteur"],

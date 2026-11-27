@@ -724,6 +724,8 @@ function portfolioProjection(report,fr){
 function compare(){
   const area=$("match-allocation");area.replaceChildren();
   const fr=window.RM.language==="fr";
+  const resultView=window.PortfolioResult;
+  let hasAdvancedSection=false;
   const trackingHost=activePage==="matches"&&window.PaperTracking?document.createElement("div"):null;
   if(trackingHost){
     trackingHost.className="matches-live";
@@ -731,7 +733,7 @@ function compare(){
     const trackingBody=document.createElement("div");
     trackingBody.className="matches-live-body";
     trackingHost.append(trackingBody);
-    area.append(trackingHost);
+    if(!resultView)area.append(trackingHost);
     if(paperTracking){
       window.PaperTracking.mount(trackingBody,paperTracking,api,changed);
     }else{
@@ -747,9 +749,11 @@ function compare(){
       const button=document.createElement("button");button.className="primary";button.textContent=t("navExplore");
       button.onclick=handle(async()=>{if(!mandate){page("mandate");return;}if(!cards.length||index<cards.length){page("discovery");await showCard();return;}page("explore");await loadPortfolios();});empty.append(button);
     }
-    area.append(empty);return;
+    area.append(empty);
+    if(resultView&&trackingHost&&paperTracking)area.append(trackingHost);
+    return;
   }
-  if(activePage==="matches" && window.Journey && shortlist.length>1){
+  if(activePage==="matches" && !resultView && window.Journey && shortlist.length>1){
     const landscape=document.createElement("div");
     landscape.innerHTML=window.Journey.map(shortlist.map(p=>({...p,title:strategyName(p.name)})));area.append(landscape);
   }
@@ -777,7 +781,11 @@ function compare(){
     });
     trackingHost.querySelector("article").append(activate);
   }
-  allocation.innerHTML=`<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
+  allocation.className=resultView?"rm-match-controls":"";
+  allocation.id="match-result";
+  allocation.innerHTML=resultView
+    ? `<h2>${fr?"Ton allocation finale":"Your final allocation"}</h2><p class="rm-result-progress">${fr?"Répartis 100 % entre les stratégies retenues. Calcule ton allocation, puis confirme-la pour voir la projection du mandat.":"Split 100% among your selected strategies. Calculate your allocation, then confirm it to see your mandate projection."}</p>${historicalDeck&&fullMandate?`<nav class="rm-result-jump"><a href="#match-forecast">${fr?"Projection":"Projection"}</a><a href="#match-advanced">${fr?"Analyses complémentaires":"Additional analysis"}</a></nav>`:""}`
+    : `<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
   if(stored?.paperConfirmed){
     allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
   }
@@ -791,6 +799,13 @@ function compare(){
   const updateTotal=()=>{const sum=inputs.reduce((acc,input)=>acc+Number(input.value),0);total.textContent=(fr?"Total investi":"Total allocated")+" : "+sum.toFixed(2)+" %";total.classList?.toggle("mandate-conflict",Math.abs(sum-100)>1e-6);};
   updateTotal();allocation.append(total);
   const output=document.createElement("div");
+  const renderAllocation=result=>{
+    if(resultView&&result.personalized){
+      output.innerHTML=resultView.allocation(result,fullMandate,mandateReport,strategyName,fr)+mandateTrace(fullMandate,mandateReport);
+      return;
+    }
+    output.innerHTML=detail({...result,name:fr?"Portefeuille combiné":"Combined portfolio",period:result.period||"36 synthetic out-of-calibration months"})+`<h3>${fr?"Contributions au risque":"Risk contributions"}</h3>`+Object.entries(result.risk_contributions).map(([name,value])=>`<p>${esc(t(name))}: ${pct(value)}</p>`).join("");
+  };
   let revision=0;
   let refreshProjection=null, clearAnalysis=()=>{};
   for(const optimized of (shortlist[0].personalized?[false,true,"return","goal"]:[false,true])){
@@ -808,22 +823,23 @@ function compare(){
       if(optimized)inputs.forEach((input,i)=>{input.value=result.budgets[shortlist[i].name]*100;});
       updateTotal();
       savedBlend={signature,budgets:result.budgets};clearAnalysis();changed();
-      output.innerHTML=detail({...result,name:fr?"Portefeuille combiné":"Combined portfolio",period:result.period||"36 synthetic out-of-calibration months"})+`<h3>${fr?"Contributions au risque":"Risk contributions"}</h3>`+Object.entries(result.risk_contributions).map(([name,value])=>`<p>${esc(t(name))}: ${pct(value)}</p>`).join("");
-      if(Number.isFinite(result.historical_annual_mean))output.insertAdjacentHTML("beforeend",`<p>${fr?"Moyenne arithmétique historique annualisée":"Annualized historical arithmetic mean"} · ${pct(result.historical_annual_mean)}</p>`);
+      renderAllocation(result);
+      if(!resultView&&Number.isFinite(result.historical_annual_mean))output.insertAdjacentHTML("beforeend",`<p>${fr?"Moyenne arithmétique historique annualisée":"Annualized historical arithmetic mean"} · ${pct(result.historical_annual_mean)}</p>`);
       if(optimized==="return")output.insertAdjacentHTML("beforeend",`<p class="muted">${fr?"Maximiser le rendement estimé seul concentre le budget sur la stratégie retenue ayant l’estimation la plus élevée. La diversification éventuelle vient des titres de cette stratégie.":"Maximizing estimated return alone concentrates the budget on the retained strategy with the highest estimate. Any diversification comes from that strategy’s holdings."}</p>`);
       if(result.comparison){
         const labels=fr?["Mon choix","Variance minimale","Objectif prioritaire"]:["My choice","Minimum variance","Priority goal"];
         output.insertAdjacentHTML("beforeend",`<h3>${fr?"Comparaison des répartitions":"Allocation comparison"}</h3><p>${result.tested_budgets} ${fr?"répartitions testées":"allocations tested"}</p><div class="match-table-scroll"><table><thead><tr><th></th>${labels.map(label=>`<th>${label}</th>`).join("")}</tr></thead><tbody>${shortlist.map(p=>`<tr><th>${esc(strategyName(p.name))}</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.budgets[p.name])}</td>`).join("")}</tr>`).join("")}<tr><th>Stress</th>${Object.values(result.comparison).map(row=>`<td>${pct(row.stress_loss)}</td>`).join("")}</tr>${result.comparison.goal.goals.map((g,i)=>`<tr><th>${esc(t(g.objective_id))} · ${fr?"Probabilité / déficit":"Probability / deficit"}</th>${Object.values(result.comparison).map(row=>`<td>${row.goals[i].probability==null?"—":pct(row.goals[i].probability)} / ${money(row.goals[i].expected_deficit,"USD")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
       }
-      if(result.reference_metrics)output.insertAdjacentHTML("beforeend",`<p>${result.benchmark?esc(strategyName(result.benchmark)):"60/40"} · CAGR ${pct(result.reference_metrics.cagr)} · ${esc(t("vol"))} ${pct(result.reference_metrics.vol)}</p>`);
-      if(result.overlap?.length)output.insertAdjacentHTML("beforeend",`<p>${fr?"Positions communes":"Shared holdings"} · ${result.overlap.map(esc).join(", ")}</p>`);
-      if(Number.isFinite(result.additional_transfer_fee_fraction))output.insertAdjacentHTML("beforeend",`<p>${fr?"Somme des frais de transfert supplémentaires rapportés aux valeurs mensuelles":"Sum of extra transfer fees relative to monthly NAV"} · ${pct(result.additional_transfer_fee_fraction)} · ${fr?"Turnover annualisé":"Annualized turnover"} ${pct(result.additional_transfer_turnover)}</p>`);
+      if(!resultView&&result.reference_metrics)output.insertAdjacentHTML("beforeend",`<p>${result.benchmark?esc(strategyName(result.benchmark)):"60/40"} · CAGR ${pct(result.reference_metrics.cagr)} · ${esc(t("vol"))} ${pct(result.reference_metrics.vol)}</p>`);
+      if(result.overlap?.length)output.insertAdjacentHTML("beforeend",`<details><summary>${fr?"Positions communes aux stratégies":"Holdings shared by strategies"} (${result.overlap.length})</summary><p>${result.overlap.map(esc).join(", ")}</p></details>`);
+      if(Number.isFinite(result.additional_transfer_fee_fraction))output.insertAdjacentHTML("beforeend",`<details><summary>${fr?"Frais simulés et mouvements":"Modeled fees and turnover"}</summary><p>${fr?"Somme des frais de transfert supplémentaires rapportés aux valeurs mensuelles":"Sum of extra transfer fees relative to monthly NAV"} · ${pct(result.additional_transfer_fee_fraction)} · ${fr?"Turnover annualisé":"Annualized turnover"} ${pct(result.additional_transfer_turnover)}</p></details>`);
       if(result.correlations&&shortlist.length>1){
         const pairs=shortlist.flatMap((p,i)=>shortlist.slice(i+1).map((q,j)=>
           `<p>${esc(p.name)} / ${esc(q.name)} · ${result.correlations[i][i+j+1].toFixed(2)}</p>`));
         output.insertAdjacentHTML("beforeend",`<details><summary>${fr?"Corrélations":"Correlations"}</summary>${pairs.join("")}</details>`);
       }
       const confirm=document.createElement("button");
+      confirm.className="primary";
       confirm.textContent=fr?"Confirmer cette simulation":"Confirm paper allocation";
       confirm.onclick=handle(async()=>{
         const evaluated=await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
@@ -833,28 +849,56 @@ function compare(){
         changed();
         allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
         await refreshProjection?.();
-      });output.append(confirm);
+        if(resultView&&confirm.isConnected)document.getElementById("match-forecast")?.scrollIntoView?.({behavior:"smooth",block:"start"});
+      });
+      (resultView&&output.querySelector?.(".rm-result-lead")||output).append(confirm);
     });allocation.append(button);
   }
   inputs.forEach(input=>input.oninput=()=>{revision++;savedBlend=null;clearAnalysis();updateTotal();changed();output.replaceChildren();});
   allocation.append(output);if(activePage==="matches")area.append(allocation);
+  if(resultView&&stored?.paperConfirmed){
+    void handle(async()=>{
+      const saved=stored, rev=revision;
+      const result=await api("match-allocations/evaluate",{
+        mandate:fullMandate||mandate,names:Object.keys(saved.budgets),budgets:Object.values(saved.budgets),version:shortlist[0].version
+      });
+      if(allocation.isConnected&&revision===rev&&savedBlend===saved)renderAllocation(result);
+    })();
+  }
   if(activePage==="matches"&&historicalDeck&&fullMandate){
     const goals=document.createElement("article"),goalButton=document.createElement("button"),goalOutput=document.createElement("div");
+    goals.id="match-forecast";goals.className="rm-projection";
     goals.innerHTML=`<h2>${fr?"Projection sur ton horizon":"Projection over your horizon"}</h2>`;
     goalButton.textContent=fr?"Actualiser la projection":"Refresh projection";
-    clearAnalysis=()=>goalOutput.replaceChildren();
+    const controls=document.createElement("div"),rateLabel=document.createElement("label"),rateInput=document.createElement("input"),rateNote=document.createElement("p");
+    controls.className="rm-discount-controls";rateNote.className="rm-note";
+    rateLabel.textContent=fr?"Taux d’actualisation annuel (%)":"Annual discount rate (%)";
+    rateInput.type="number";rateInput.min="-5";rateInput.max="30";rateInput.step="any";
+    if(stored?.discountRate!=null)rateInput.value=100*stored.discountRate;
+    rateLabel.append(rateInput);controls.append(rateLabel,goalButton);
+    rateNote.textContent=fr?"Vide, RiskMatch utilise le rendement composé du cash USD sur sa fenêtre historique. Le taux modifie les valeurs actuelles.":"Left blank, RiskMatch uses the compound USD cash return over its historical window. The rate changes present values.";
+    const pending=fr?"Confirme ton allocation pour lancer la projection.":"Confirm your allocation to start the projection.";
+    goalOutput.textContent=pending;goalButton.disabled=!stored?.paperConfirmed;
+    clearAnalysis=()=>{goalOutput.replaceChildren();goalOutput.textContent=pending;goalButton.disabled=true;};
+    let projectionRequest=0;
     refreshProjection=handle(async()=>{
       if(!savedBlend?.paperConfirmed||savedBlend.signature!==signature)throw Error(fr?"Confirmez d’abord votre allocation.":"Confirm your paper allocation first.");
-      const rev=revision;
+      const rate=String(rateInput.value??"").trim()===""?null:Number(rateInput.value)/100;
+      if(rate!==null&&(!Number.isFinite(rate)||rate<-.05||rate>.30))throw Error(fr?"Entre un taux entre −5 % et 30 %.":"Enter a rate between −5% and 30%.");
+      const rev=revision, seq=++projectionRequest;
+      goalButton.disabled=true;
       goalOutput.textContent=fr?"Simulation des objectifs en cours…":"Simulating your goals…";
       let r;
-      try{r=await api("matching/goals",{mandate:fullMandate,names:Object.keys(savedBlend.budgets),budgets:Object.values(savedBlend.budgets),version:shortlist[0].version});}
-      catch(e){if(goals.isConnected&&rev===revision)goalOutput.textContent=diagnostic(e.message);throw e;}
-      if(!goals.isConnected||rev!==revision)return;
+      try{r=await api("matching/goals",{mandate:fullMandate,names:Object.keys(savedBlend.budgets),budgets:Object.values(savedBlend.budgets),version:shortlist[0].version,discount_rate:rate});}
+      catch(e){if(goals.isConnected&&rev===revision&&seq===projectionRequest)goalOutput.textContent=diagnostic(e.message);throw e;}
+      finally{if(goals.isConnected&&rev===revision&&seq===projectionRequest)goalButton.disabled=false;}
+      if(!goals.isConnected||rev!==revision||seq!==projectionRequest)return;
+      if(savedBlend.discountRate!==rate){savedBlend.discountRate=rate;changed();}
+      if(resultView){goalOutput.innerHTML=resultView.projection(r,t,fr);return;}
       const moneyValue=v=>v==null?"—":Number(v).toFixed(0);
       const probability=v=>v==null?"—":pct(v);
       goalOutput.innerHTML=portfolioProjection(r,fr)+(window.Journey?.goals(r.matched.goals)||"")+(window.Journey?r.matched.goals.map(window.Journey.range).join(""):"")+`<div class="match-table-scroll"><table><thead><tr><th>${fr?"Objectif":"Objective"}</th><th>${fr?"Probabilité":"Probability"}</th><th>${fr?"Déficit attendu USD":"Expected deficit USD"}</th><th>${fr?"Prob. référence":"Reference probability"}</th></tr></thead><tbody>${r.matched.goals.map((g,i)=>`<tr><td>${esc(t(g.objective_id))} · ${esc(g.due_date)}</td><td>${probability(g.probability)}</td><td>${moneyValue(g.expected_deficit)}</td><td>${probability(r.reference.goals[i]?.probability)}</td></tr>`).join("")}</tbody></table></div>`;
-    });goalButton.onclick=refreshProjection;goals.append(goalButton,goalOutput);area.append(goals);
+    });goalButton.onclick=refreshProjection;goals.append(controls,rateNote,goalOutput);area.append(goals);
     if(stored?.paperConfirmed)void refreshProjection();
   }
   if(activePage==="matches"&&historicalDeck&&fullMandate&&mandateReport?.dynamic_overlay_available===false){
@@ -863,7 +907,7 @@ function compare(){
     area.append(disabled);
   }else if(activePage==="matches"&&historicalDeck){
     const dynamic=document.createElement("article");
-    dynamic.innerHTML=`<h2>${fr?"Gestion dynamique":"Dynamic management"}</h2><p>${fr?"Comparer 10 politiques sur les mêmes rendements historiques du portefeuille sélectionné.":"Compare 10 policies on the same historical returns of the selected portfolio."}</p>`;
+    dynamic.innerHTML=`<p>${fr?"Compare 10 règles de gestion et 2 références sur les mêmes mois historiques. Ces règles ajustent la part investie et la réserve en cash.":"Compare 10 management rules and 2 benchmarks over the same historical months. These rules adjust invested exposure and cash reserves."}</p>`;
     const run=document.createElement("button"), result=document.createElement("div");
     const clearProjection=clearAnalysis;
     clearAnalysis=()=>{clearProjection();result.replaceChildren();};
@@ -904,13 +948,24 @@ function compare(){
         const link=document.createElement("a");link.href=url;link.download=archive.filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
       });result.append(download);
     });
-    dynamic.append(costLabel,frequency,run,result);area.append(dynamic);
+    dynamic.append(costLabel,frequency,run,result);
+    if(resultView){
+      const advanced=document.createElement("details"), summary=document.createElement("summary");
+      advanced.id="match-advanced";advanced.className="rm-optional-report";
+      summary.textContent=fr?"Gestion dynamique · comparaison historique":"Dynamic management · historical comparison";
+      advanced.append(summary,dynamic);area.append(advanced);
+      hasAdvancedSection=true;
+    }else area.append(dynamic);
   }
   if(activePage==="matches"){
     const details=document.createElement("details");details.className="matched-strategies";
     const summary=document.createElement("summary");summary.textContent=fr?"Détail de mes stratégies sélectionnées":"Details of my selected strategies";details.append(summary);
     shortlist.forEach(p=>{const article=document.createElement("article");article.innerHTML=detail(p);details.append(article);});
-    area.append(details);return;
+    if(!hasAdvancedSection)details.id="match-advanced";
+    details.className+=" rm-optional-report";
+    area.append(details);
+    if(resultView&&trackingHost)area.append(trackingHost);
+    return;
   }
   shortlist.forEach(p=>{
     const article=document.createElement("article");article.innerHTML=detail(p);
