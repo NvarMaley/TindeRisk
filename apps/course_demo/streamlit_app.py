@@ -77,8 +77,8 @@ with comparison:
 
 with research:
     st.subheader("Markowitz avec des limites de perte explicites")
-    st.latex(r"max_wquad mu^mathsf{T}w-rac{lambda}{2}w^mathsf{T}Sigma w")
-    st.latex(r"sum_i w_i=1,quad 0le w_ile u_i,quad s_j^mathsf{T}wge -Lquadorall j")
+    st.latex(r"\max_w \quad \mu^{\mathsf{T}}w - \frac{\lambda}{2} w^{\mathsf{T}}\Sigma w")
+    st.latex(r"\sum_i w_i = 1, \quad 0 \le w_i \le u_i, \quad s_j^{\mathsf{T}}w \ge -L \quad \forall j")
     st.markdown(
         "Les **96 premiers mois** déterminent les moyennes μ et la covariance Σ. "
         "Le plafond par ligne est u et λ pénalise la variance. Dans chaque choc j, "
