@@ -98,7 +98,7 @@ Les résultats de chaque fiche utilisent le replay propre à la méthode, y comp
 
 Les contrôles sur les deux mandats vérifient les poids finaux, les classes autorisées, la somme de 100 %, les limites de stress et la disponibilité des 25 mois. La volatilité et le poids par ligne ont aussi été contrôlés pour le mandat Trésor + cash. Les statuts s’appliquent aux deux exemples de ce contrôle.
 
-Les règles de sélection, de stress, de repli défensif et de replay restent communes. [Construction personnalisée](../src/riskmatch/personalized_matches.py:271) · [Règles de calcul](../src/riskmatch/backtesting/walk_models.py:23) · [Replay](../src/riskmatch/backtesting/mandate_replay.py:122)
+Les règles de sélection, de stress, de repli défensif et de replay restent communes. [Construction personnalisée](../src/riskmatch/personalized_matches.py#L271) · [Règles de calcul](../src/riskmatch/backtesting/walk_models.py#L23) · [Replay](../src/riskmatch/backtesting/mandate_replay.py#L122)
 
 <a id="audit-1"></a>
 
