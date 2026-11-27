@@ -119,3 +119,25 @@ test("Explore explains the method, source and mandate fit for each returned card
   assert.match(html,/Dated stock factor scores/);
   assert.doesNotMatch(html,/min wᵀΣw/);
 });
+
+test("portfolio result separates nominal, simulated net gain, present value and uncertainty",()=>{
+  const ctx={window:{}};
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(__dirname,"../../apps/web/portfolio-result.js"),"utf8"),ctx);
+  const report={paths:1000,training_months:60,data_end:"2025-12-31",
+    matched:{terminal_quantiles:[55,100,180],net_gain_quantiles:[-20,15,50],mean_net_gain:20,
+      present_value:{rate:.03,terminal_quantiles:[48,85,125],net_gain_quantiles:[-24,8,35]},
+      funded_goal_schedule:[{objective_id:"home",date:"2031-11-25",median_paid:80}],
+      wealth_path:{dates:["2026-11-25","2031-11-25"],bands:[[90,90,90],[55,100,180]]},
+      goals:[{objective_id:"home",due_date:"2031-11-25",target:80,probability:.78,expected_deficit:5}]},
+    reference:{goals:[{probability:.62}]}};
+  const html=ctx.window.PortfolioResult.projection(report,()=>"Apartment <home>",false);
+  assert.match(html,/Median remaining balance/);
+  assert.match(html,/Mean simulated net gain/);
+  assert.match(html,/Median balance in present value/);
+  assert.match(html,/Central 90% of scenarios/);
+  assert.match(html,/Goal payment/);
+  assert.match(html,/2025-12-31/);
+  assert.match(html,/Apartment &lt;home&gt;/);
+  assert.doesNotMatch(html,/>Apartment <home>/);
+});

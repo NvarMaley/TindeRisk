@@ -40,6 +40,10 @@ def assess(root, data, *, include_path=True):
     mandate=data["mandate"]
     validated=validate_mandate(mandate)
     names=data["names"]
+    discount = data.get("discount_rate")
+    if discount is not None and (type(discount) not in (int,float)
+                                 or not np.isfinite(discount) or not -.05 <= discount <= .30):
+        raise ValueError("Invalid annual discount rate")
     from riskmatch import personalized_matches as pm
     if pm.is_version(data["version"]):
         context=pm.resolve(root,mandate,data["version"])
@@ -83,10 +87,15 @@ def assess(root, data, *, include_path=True):
         benchmark = "60/40"
         method = "development_sleeve_blocks"
         warning = "Conditional six-month blocks from development sleeve returns with modeled transfer fees."
-    matched=evaluate(mandate,combined_paths,cash_paths,report=validated,include_wealth_path=include_path)
+    cash_discount = float(np.expm1(12 * np.log1p(cash[:split]).mean()))
+    applied_discount = discount if discount is not None else cash_discount
+    matched=evaluate(mandate,combined_paths,cash_paths,report=validated,
+                     include_wealth_path=include_path,discount_rate=applied_discount if include_path else None)
     baseline=evaluate(mandate,reference_paths,cash_paths,report=validated)
     return {"status":"experimental","version":"match-goals-v2","reference_run":reference_run,
             "paths":1000,"benchmark":benchmark,"method":method,"training_months":split,"horizon_months":months,
+            "data_end": str(pm.DATA_END) if pm.is_version(data["version"]) else None,
+            "discount_source":"historical_cash" if discount is None else "custom",
             "matched":matched,"reference":baseline,
             "warning":warning}
 

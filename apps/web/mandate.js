@@ -22,6 +22,12 @@
   const section = (number, key, content, desc) => `<fieldset class="mandate-panel" data-mandate-section="${number}"><legend><span data-i18n="${key}">${t(key)}</span></legend>${desc?`<p class="muted" data-i18n="${desc}">${t(desc)}</p>`:""}${content}</fieldset>`;
   const grid = content => `<div class="mandate-grid">${content}</div>`;
   const advanced = (key, content) => `<details class="mandate-advanced"><summary data-i18n="${key}">${t(key)}</summary>${content}</details>`;
+  const sectors = Object.entries(window.PortfolioResult?.sectorLabels || {});
+  const screening = advanced("portfolioPreferences", `${check("prefer_diversification","preferDiversification")}
+    ${label("excludeCompanies",'<input name="excluded_companies" type="text" placeholder="AAPL, MSFT" maxlength="240" autocomplete="off">',true)}
+    <p data-i18n="excludeSectors">${t("excludeSectors")}</p><div class="rm-exclusion-grid">
+      ${sectors.map(([code, names])=>`<label><input name="exclude_sector_${code}" type="checkbox"><span lang="fr" class="rm-sector-fr">${names[0]}</span><span lang="en" class="rm-sector-en">${names[1]}</span></label>`).join("")}
+    </div><p class="muted" data-i18n="portfolioScreeningHelp">${t("portfolioScreeningHelp")}</p>`);
   form.innerHTML = `<div class="mandate-intro"><p data-i18n="mandateLocal">${t("mandateLocal")}</p><button type="button" id="mandate-example" data-i18n="loadExample">${t("loadExample")}</button></div>` +
     section("01","mandateCurrency",grid(`<input name="currency" type="hidden" value="USD">`+label("as_of",`<input name="as_of" type="date" value="${today()}" required>`)+label("horizon_date",`<input name="horizon_date" type="date" value="${tenYears()}" required>`))+`<p id="mandate-currency-note" class="muted"></p>`,"currencyHelp")+
     section("02","mandateWealth",grid(["capital","cash","investments","reserve"].map(f=>numeric(f,0,["capital","cash"].includes(f),f==="capital"?.01:0)).join(""))+advanced("optionalBalanceSheet",grid(numeric("other_assets","",false)+numeric("debt","",false))),"wealthHelp")+
@@ -29,7 +35,7 @@
     section("04","mandateGoals",`<div class="goal-picker">${obj.map(k=>`<button type="button" class="goal-choice" data-goal="${k}" aria-pressed="false" data-i18n="${k}">${t(k)}</button>`).join("")}</div><div id="goal-rows"></div><button type="button" id="add-goal" data-i18n="addGoal">${t("addGoal")}</button>${grid(`<div id="mandate-fx" hidden>${numeric("chf_per_usd","",true,0.000001)}</div><div id="mandate-inflation" hidden>${numeric("inflation",2,true,-99,100)}</div>`)}`,"chooseGoals")+
     section("05","mandateRisk",grid(numeric("loss_capacity_amount",0)+numeric("stress_loss",20,true,0,100)),"riskHelp")+
     section("07","mandateConstraints",`<h3 data-i18n="allowed_assets">${t("allowed_assets")}</h3>${grid(assets.map(f=>check(`asset_${f}`,assetLabels[f],true)).join(""))}
-      ${advanced("optionalLimits",grid(editableLimits.map(f=>`<div class="mandate-limit">${numeric(f,"",false,0,100)}${label("mandateLimitMode",`<select name="${f}_mode"><option value="hard" data-i18n="mandateFirm">${t("mandateFirm")}</option><option value="soft" data-i18n="mandatePreferred">${t("mandatePreferred")}</option></select>`)}</div>`).join("")))}`,"constraintsHelp")+
+      ${advanced("optionalLimits",grid(editableLimits.map(f=>`<div class="mandate-limit">${numeric(f,"",false,0,100)}${label("mandateLimitMode",`<select name="${f}_mode"><option value="hard" data-i18n="mandateFirm">${t("mandateFirm")}</option><option value="soft" data-i18n="mandatePreferred">${t("mandatePreferred")}</option></select>`)}</div>`).join("")))}${screening}`,"constraintsHelp")+
     `<div id="mandate-legacy" hidden><p class="muted" data-i18n="legacyMandateRestrictions">${t("legacyMandateRestrictions")}</p><button type="button" id="clear-legacy-mandate" data-i18n="clearLegacyMandate">${t("clearLegacyMandate")}</button></div>`+
     section("08","mandateReview",check("consent","mandateConsent")+`<button class="primary" type="submit" data-i18n="previewMandate">${t("previewMandate")}</button>`,"reviewHelp");
   const group = (root, name) => root.querySelector(`[name="${name}"]`);
@@ -134,6 +140,11 @@
       allow_derivatives:old?.allow_derivatives??false,allowed_assets:allowedAssets,esg_exclusions:old?.esg_exclusions??"",
       tax_assumption:old?.tax_assumption??"not_modeled",fx_hedge:old?.fx_hedge??"undecided",
     });
+    const excludedCompanies=[...new Set((read(form,"excluded_companies")||"").toUpperCase().split(/[\s,;]+/).filter(Boolean))];
+    const excludedSectors=sectors.map(([code])=>code).filter(code=>checked(form,`exclude_sector_${code}`));
+    if(excludedCompanies.length)constraints.excluded_companies=excludedCompanies;
+    if(excludedSectors.length)constraints.excluded_sectors=excludedSectors;
+    if(checked(form,"prefer_diversification"))constraints.prefer_diversification=true;
     const levels=kind=>Object.fromEntries(knowledge.map(k=>[k,legacyMandate?.[kind]?.[k]??"none"]));
     const inflation=group(form,"inflation").disabled?null:num(form,"inflation");
     return {schema_version:"2.0.0",currency:read(form,"currency"),as_of:read(form,"as_of"),horizon_date:read(form,"horizon_date"),chf_per_usd:document.getElementById("mandate-fx").hidden?null:num(form,"chf_per_usd"),inflation:inflation===null?null:inflation/100,...values,
@@ -150,6 +161,9 @@
     set(form,"inflation",m.inflation===null?2:100*m.inflation);
     legacyMandate=m;
     const c=m.constraints;
+    set(form,"excluded_companies",(c.excluded_companies||[]).join(", "));
+    set(form,"prefer_diversification",c.prefer_diversification);
+    for(const [code] of sectors)set(form,`exclude_sector_${code}`,(c.excluded_sectors||[]).includes(code));
     set(form,"stress_loss",100*Math.min(c.stress_loss.value,c.loss_budget.value));
     for(const k of editableLimits){
       const limit=c[k];

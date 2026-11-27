@@ -823,6 +823,12 @@ La projection confirmée répète **1 000 trajectoires** sur l’horizon du clie
 
 L’actualisation relance la projection avec la dernière allocation confirmée et l’archive figée. Le suivi en direct a son propre état et dépend des cours disponibles pour les titres. Une absence de cotation doit rester visible.
 
+Dans **Mes matchs**, le bilan consolide les positions, affiche les parts en actions, ETF actions, ETF du Trésor et cash, puis distingue le backtest de la projection. Il mesure la concentration par `1/Σwᵢ²` et la variance par `wᵀΣw`. L’écart entre la variance du portefeuille et la somme `Σ wᵢ²Σᵢᵢ` est la contribution signée des covariances. Les secteurs sont affichés pour les actions directes disposant d’une classification NAICS datée. Les expositions sectorielles à l’intérieur des ETF restent inconnues.
+
+Le gain net d’une trajectoire additionne le capital restant à l’horizon et les dépenses effectivement financées, puis déduit le capital initial et les apports. Sa valeur actuelle actualise séparément chaque flux à sa date et le capital restant à l’horizon. Le taux annuel est réglable sur l’écran de projection. Par défaut, le calcul utilise le rendement composé annualisé du cash USD sur la fenêtre d’estimation. L’inflation saisie dans le mandat sert au calcul séparé du pouvoir d’achat. Le changement du taux d’actualisation laisse les trajectoires nominales identiques.
+
+Les exclusions facultatives utilisent les intervalles datés du fichier des noms CRSP. Une société saisie par symbole est reliée à son identifiant d’émetteur pour exclure ses différentes actions. Les secteurs utilisent les codes NAICS à deux chiffres, regroupés lorsqu’un secteur couvre plusieurs préfixes. Avec une exclusion active, les ETF d’actions et les actions dont la classification nécessaire manque sont écartés. Les filtres sont appliqués à la cible finale et à chaque date du replay. La préférence pour la diversification ajoute un bonus de classement selon la dispersion des poids des lignes. [Secteurs NAICS, US Census Bureau](https://www.census.gov/programs-surveys/economic-census/year/2022/guidance/understanding-naics.html)
+
 ## Sources dans le projet
 
 - [Règles, entrées et optimisations](../src/riskmatch/backtesting/walk_models.py), [filtres et sélection](../src/riskmatch/personalized_matches.py), [replay mensuel](../src/riskmatch/backtesting/mandate_replay.py).

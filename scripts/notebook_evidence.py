@@ -303,6 +303,9 @@ class Evidence:
             projection = call("matching/goals", self.selection)
             assert projection["method"] == "joint_asset_blocks" and projection["training_months"] == 60
             assert len(projection["matched"]["wealth_path"]["bands"]) == projection["horizon_months"] + 1
+            assert len(projection["matched"]["net_gain_quantiles"]) == 3
+            assert len(projection["matched"]["present_value"]["terminal_quantiles"]) == 3
+            assert abs(sum(manual["composition"]["allocation"].values()) - 1) < 1e-7
         elif n == 26:
             self.dynamic = call("dynamic", self.selection)
             assert self.dynamic["policies"]["mpc"]["status"] == "computed"

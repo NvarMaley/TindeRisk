@@ -5,7 +5,7 @@ evaluation uses only information available at the start of each evaluation segme
 """
 from collections import Counter
 from datetime import date
-from functools import lru_cache
+from functools import lru_cache, partial
 import hashlib
 import json
 from pathlib import Path
@@ -30,6 +30,7 @@ from riskmatch.selection.sleeve_ledger import rebalance_paths
 from riskmatch.simulation.stress_report import scenario_matrix
 from riskmatch.market_data.returns import returns_report
 from riskmatch.market_data.security_master import load_catalog
+from riskmatch.market_data.portfolio_classification import dated_classification, exclusion_rule, optional_preferences
 from riskmatch.simulation.stress_mc import covariance_model
 from riskmatch.strategies.long_only_report import verified_pit
 
@@ -169,6 +170,51 @@ def matching_catalog(root, as_of):
             "matching_data_end": last, "matching_months": ESTIMATION_MONTHS}
 
 
+def matching_classification(root, data):
+    _, intervals, _, _, _, first, _, _, _, _, caps, _ = data
+    dates = tuple(a for a, _ in intervals[first-EXECUTION_LAG_MONTHS:]) + (DATA_END,)
+    instruments = tuple(sorted({instrument for members in caps.values() for instrument in members}))
+    return dated_classification(Path(root).resolve(), dates, instruments)
+
+
+def matching_exclusions(root, mandate, data=None):
+    companies, sectors, _ = optional_preferences(mandate["constraints"])
+    if not companies and not sectors:
+        return None
+    data = data if data is not None else market_data(Path(root).resolve())
+    return exclusion_rule(mandate, matching_classification(root, data), DATA_END,
+                          {a["instrument"]: a["ticker"] for a in data[0] if a["category"] == "stock"})
+
+
+def portfolio_composition(root, data, weights, covariance):
+    assets, *_, labels = data
+    classification = matching_classification(root, data).get(DATA_END, {})
+    kinds = ["stock", "equity_etf", "treasury_etf", "cash"]
+    categories = [asset["category"] for asset in assets] + ["cash"]
+    allocation = {kind: float(sum(w for w, item in zip(weights, categories) if item == kind)) for kind in kinds}
+    sectors = Counter()
+    positions = []
+    for weight, label, asset in zip(weights[:-1], labels, assets):
+        if weight <= 1e-8:
+            continue
+        sector = classification.get(asset["instrument"], (None, None, None))[2] if asset["category"] == "stock" else None
+        if asset["category"] == "stock":
+            sectors[sector or "unknown"] += float(weight)
+        positions.append({"name": label, "weight": float(weight), "type": asset["category"], "sector": sector})
+    if weights[-1] > 1e-8:
+        positions.append({"name": "USD cash", "weight": float(weights[-1]), "type": "cash", "sector": None})
+    positions.sort(key=lambda row: (-row["weight"], row["name"]))
+    marginal = covariance @ weights
+    risk = float(weights @ marginal)
+    standalone = float(weights @ np.sqrt(np.maximum(covariance.diagonal(), 0.)))
+    shares = {kind: float(sum(w * m for w, m, item in zip(weights, marginal, categories) if item == kind) / risk)
+              for kind in kinds} if risk > 1e-12 else None
+    return {"allocation": allocation, "positions": positions, "stock_sectors": dict(sectors),
+            "effective_positions": float(1 / (weights @ weights)), "volatility": float(np.sqrt(max(risk, 0.))),
+            "weighted_standalone_volatility": standalone, "variance_shares": shares,
+            "cross_covariance": max(risk, 0.) - float((weights ** 2) @ covariance.diagonal())}
+
+
 def risk_preferences(mandate, report, aversion):
     """Transparent research calibration; psychological score is not an estimated utility."""
     goals = mandate["goals"]
@@ -268,11 +314,13 @@ def adapt_target(weights, reference, upper, shocks, stress_limit, covariance, vo
     return result if valid_weights(result, upper, shocks, stress_limit, covariance, vol_limit) else None
 
 
-def construct(data, mandate, report, aversion, end, origin):
+def construct(data, mandate, report, aversion, end, origin, *, allowed=None):
     assets, _, returns, cash, _, _, _, _, signals, macro, caps, _ = data
     window = slice(end-ESTIMATION_MONTHS, end)
     x, rf = returns[window], cash[window]
     upper, cash_cap = bounds_for(assets, mandate, origin, signals[0])
+    if allowed is not None:
+        upper *= [allowed(asset, origin) for asset in assets]
     bounds = np.r_[upper, cash_cap]
     loss = report["effective_stress_limit"]
     vol_limit = hard_limit(mandate, "volatility", 1.)
@@ -416,9 +464,12 @@ def _run(root, encoded, aversion, style):
     data = market_data(root)
     assets, intervals, x, rf, data_version, first, split, origins, _, _, _, labels = data
     funds = listed_funds(root, data_version)
-    history, failures = replay(root, data, mandate, report, aversion, construct, AS_OF,
-                               funds)
-    current, unavailable, scenarios, covariance, eligible_count, lam, risk_weight = construct(
+    _, _, prefer_diversification = optional_preferences(mandate["constraints"])
+    allowed = matching_exclusions(root, mandate, data)
+    fit = partial(construct, allowed=allowed)
+    history, failures = replay(root, data, mandate, report, aversion, fit, AS_OF,
+                               funds, allowed=allowed)
+    current, unavailable, scenarios, covariance, eligible_count, lam, risk_weight = fit(
         data, mandate, report, aversion, len(x), origins[2])
     assets_with_cash = labels + ["USD cash"]
     date_rows = intervals[first:]
@@ -517,6 +568,8 @@ def _run(root, encoded, aversion, style):
         penalty = .15 * max(soft_excess, default=0.)
         card["fit_score"] = float(risk_weight * safety + (1-risk_weight) * growth - penalty)
         weights = current[card["name"]]
+        if prefer_diversification:
+            card["fit_score"] += .08 * (1 - float(weights @ weights))
         holdings = sum(weights > .0001)
         card["exposures"] = {kind: float(sum(weights[i] for i, asset in enumerate(assets)
                                                  if category(asset) == kind))
@@ -649,4 +702,6 @@ def blend(root, mandate, version, names, budgets, optimized):
     result["model_as_of"] = context["cards"][0]["model_as_of"]
     result["eligible_assets"] = context["eligible_assets"]
     result["universe_size"] = context["cards"][0]["universe_size"]
+    data = market_data(Path(root).resolve())
+    result["composition"] = portfolio_composition(root, data, weights, context["covariance"])
     return result

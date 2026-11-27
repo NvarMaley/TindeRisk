@@ -44,7 +44,7 @@ def bootstrap_indices(n,months,paths=2000,block=6,seed=12,valid_starts=None):
     return (starts[:,:,None]+np.arange(block)).reshape(paths,-1)[:,:months]
 
 
-def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,report=None,include_wealth_path=False):
+def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,report=None,include_wealth_path=False,discount_rate=None):
     """Inputs: same paths × months of decimal returns, base currency. No borrowing.
 
     Monthly return accrues geometrically between dated events. Funding is paid in
@@ -72,6 +72,9 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
     dist=None if distribution_proxy is None else np.asarray(distribution_proxy,float)
     if dist is not None and (dist.shape!=r.shape or not np.isfinite(dist).all()):raise ValueError('Invalid distribution proxy')
     wealth_path = [[initial] * 3] if include_wealth_path else None
+    nominal_net_flows = np.zeros(n)
+    discounted_net_flows = np.zeros(n)
+    funded_goal_schedule = []
     for k,(left,right) in enumerate(zip(bounds,bounds[1:])):
         # Last partial month uses the fraction of the actual full anniversary interval.
         full_right=add_month(start,k+1);days=(full_right-left).days; prev=left
@@ -82,10 +85,14 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
             fraction=(when-prev).days/days; growth=np.power(1+r[:,k],fraction)
             wealth*=growth;market*=growth;cash_market*=np.power(1+cash[:,k],fraction);peak=np.maximum(peak,market);max_loss=np.maximum(max_loss,1-market/peak);prev=when
             events=flow_events.get(when,[])
-            wealth+=sum(a for typ,a in events if typ=='contribution')
+            contributions=sum(a for typ,a in events if typ=='contribution')
+            wealth+=contributions
+            net_flow = np.full(n, -contributions, dtype=float) if wealth_path is not None else None
             for typ in ('liability','withdrawal'):
                 due=sum(a for t,a in events if t==typ)
                 paid=np.minimum(wealth,due);wealth-=paid;unmet+=due-paid
+                if net_flow is not None:
+                    net_flow += paid
                 if due:
                     if typ=='withdrawal':
                         income_paid+=paid;income_due+=due;unmet_withdrawal+=due-paid;withdrawal_schedule.append({'date':str(when),'due':due,'mean_paid':float(paid.mean())})
@@ -97,9 +104,20 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
                 if target is not None and g.objective_id!='OBJ02':
                     avail=wealth.copy();deficit=np.maximum(target-avail,0);success=avail>=target-1e-8
                     snapshots[g.index]=(avail,deficit,success,target)
-                    if g.funding:wealth-=np.minimum(wealth,target);unmet+=deficit
+                    if g.funding:
+                        paid_goal = np.minimum(wealth,target)
+                        wealth -= paid_goal
+                        unmet += deficit
+                        if net_flow is not None:
+                            net_flow += paid_goal
+                            funded_goal_schedule.append({"objective_id":g.objective_id, "date":str(when),
+                                                          "median_paid":float(np.median(paid_goal))})
                 else:snapshots[g.index]=(wealth.copy(),None,None,None)
                 market_snap[g.index]=(market.copy(),cash_market.copy(),max_loss.copy(),income_paid.copy(),income_due,unmet_liability.copy(),unmet_withdrawal.copy())
+            if net_flow is not None:
+                nominal_net_flows += net_flow
+                if discount_rate is not None:
+                    discounted_net_flows += net_flow / (1 + discount_rate)**years_between(start, when)
         if dist is not None:income_schedule.append({'date':str(right),'mean_distribution_proxy':float(monthly_income[-1].mean())})
         if wealth_path is not None:
             wealth_path.append(np.quantile(wealth, [.05, .5, .95]).tolist())
@@ -130,10 +148,32 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
         if g['normalized_shortfall'] is not None:weighted+=g['weight']*g['penalty']*g['normalized_shortfall'];covered+=g['weight']
     result = {'goals':out,'weighted_target_penalty':weighted if covered else None,'target_weight_coverage':covered,'mean_terminal_wealth':float(wealth.mean()),'terminal_quantiles':np.quantile(wealth,[.05,.5,.95]).tolist(),'mean_unpaid_obligations':float(unmet.mean()),'all_obligations_paid_probability':float(np.mean(unmet<=1e-8)),'withdrawal_schedule':withdrawal_schedule,'liability_schedule':liability_schedule,'income_proxy_schedule':income_schedule,'paths':n,'months':months}
     if wealth_path is not None:
-        cagr = market ** (1 / years_between(start, end)) - 1
+        years = years_between(start, end)
+        cagr = market ** (1 / years) - 1
+        gains = wealth + nominal_net_flows - initial
         result.update(wealth_path={"dates": [str(day) for day in bounds], "bands": wealth_path},
                       market_cagr_quantiles=np.quantile(cagr, [.05, .5, .95]).tolist(),
+                      mean_market_cagr=float(cagr.mean()),
+                      net_gain_quantiles=np.quantile(gains, [.05, .5, .95]).tolist(),
+                      mean_net_gain=float(gains.mean()),
+                      funded_goal_schedule=funded_goal_schedule,
                       market_loss_probability=float(np.mean(market < 1.)),
                       drawdown_threshold=report["effective_stress_limit"],
                       drawdown_breach_probability=float(np.mean(max_loss > report["effective_stress_limit"])))
+        if inflation is not None:
+            real_factor = (1 + inflation)**years
+            result["purchasing_power"] = {
+                "inflation": inflation,
+                "terminal_quantiles": np.quantile(wealth / real_factor, [.05, .5, .95]).tolist(),
+                "market_cagr_quantiles": np.quantile((market / real_factor)**(1 / years) - 1, [.05, .5, .95]).tolist(),
+            }
+        if discount_rate is not None:
+            present_wealth = wealth / (1 + discount_rate)**years
+            present_gains = present_wealth + discounted_net_flows - initial
+            result["present_value"] = {
+                "rate": discount_rate,
+                "terminal_quantiles": np.quantile(present_wealth, [.05, .5, .95]).tolist(),
+                "net_gain_quantiles": np.quantile(present_gains, [.05, .5, .95]).tolist(),
+                "mean_net_gain": float(present_gains.mean()),
+            }
     return result

@@ -9,6 +9,7 @@ Version 2.0.0, simulation only. Implementation: `src/riskmatch/profiling/mandate
 - Les autres actifs et les dettes se trouvent dans **Bilan patrimonial facultatif**. Le solde à investir, les liquidités, les placements disponibles, la réserve et les flux restent dans le parcours principal.
 - La pénalité de déficit demeure accessible dans les réglages avancés d'un objectif chiffré, avec 1 par défaut. L'inflation apparaît pour une cible réelle ou un objectif de protection contre l'inflation. Le taux de change apparaît pour une cible chiffrée en devise étrangère.
 - Les deux questions de perte restent distinctes. Les choix d'actifs couvrent actions américaines et ETF d'actions, ETF du Trésor américain et cash USD. La volatilité et le plafond par actif sont facultatifs, avec les modes « À respecter absolument » et « À privilégier ».
+- Les préférences facultatives permettent de favoriser les portefeuilles moins concentrés au classement ou d’exclure des sociétés par symbole et des secteurs NAICS. Une exclusion écarte les ETF d’actions faute de positions historiques intégralement filtrables. Les actions dont l’identifiant d’émetteur ou le secteur requis manque sont aussi écartées. Le détail est repris dans le bilan du mandat.
 - Le serveur conserve les onze identifiants et les champs hérités du schéma pour la lecture des anciennes sauvegardes et les modules de recherche. Les classes retirées bloquent le nouveau calcul personnalisé jusqu'à la révision du mandat.
 
 ## Data and units (CH01.01–05)
