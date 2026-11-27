@@ -38,3 +38,19 @@ def test_renamed_symbols_keep_the_historical_holding_keys(tmp_path, monkeypatch)
     result = paper_quotes.quotes(tmp_path, ["BK", "BNY", "MMC"])
     assert result["quotes"]["BK"] == result["quotes"]["BNY"]
     assert result["missing"] == ["MMC"]
+
+
+def test_broad_portfolio_quotes_are_batched(tmp_path, monkeypatch):
+    monkeypatch.setenv("APCA_API_KEY_ID", "fixture")
+    monkeypatch.setenv("APCA_API_SECRET_KEY", "fixture")
+    sizes = []
+
+    def fetch(request, timeout):
+        from urllib.parse import parse_qs, urlsplit
+        sizes.append(len(parse_qs(urlsplit(request.full_url).query)["symbols"][0].split(",")))
+        return StringIO('{"trades":{}}')
+
+    monkeypatch.setattr(paper_quotes,"urlopen",fetch)
+    result = paper_quotes.quotes(tmp_path,[f"TEST{i}" for i in range(650)])
+    assert result["status"] == "ok" and len(result["missing"]) == 650
+    assert sizes == [100,100,100,100,100,100,50]

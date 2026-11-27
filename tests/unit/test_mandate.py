@@ -25,6 +25,16 @@ def test_balance_sheet_and_cash_flows(mandate):
     assert r["personalized_eligible"]
 
 
+def test_matching_horizon_is_checked_at_mandate_preview(mandate):
+    mandate["horizon_date"] = "2076-11-25"
+    assert validate_mandate(mandate)["personalized_eligible"]
+    mandate["horizon_date"] = "2076-11-26"
+    report = validate_mandate(mandate)
+    assert report["status"] == "structurally_valid"
+    assert not report["personalized_eligible"]
+    assert "matching_horizon_beyond_limit" in report["personalized_reasons"]
+
+
 def test_legacy_asset_class_requires_mandate_review(mandate):
     mandate["constraints"]["allowed_assets"].append("reit")
     report = validate_mandate(mandate)

@@ -1,39 +1,25 @@
-# RiskMatch Explore — Portfolio Matching
+# Des cartes au bilan du portefeuille
 
-Current full-mandate matching uses the [personalized construction engine](PERSONALIZED_MATCHING.md).
-It replaces the shared five-ETF deck as the normal client route, while
-preserving that deck for legacy research. The specification below describes
-the intended complete research workflow and outstanding acceptance criteria.
+## Construction et choix
 
-## Pipeline
-1. Generate candidates from mandate, strategies and construction methods in the A–Z guide. Retain versioned models, data and assumptions.
-2. Filter hard constraints (liquidity, concentration, leverage, derivatives, financial capacity, currency, horizon). If required risk is incompatible, explain the funding gap and offer to reconsider horizon, contributions or goal; never raise risk automatically.
-3. Evaluate out of sample, costs, stress, scenarios and uncertainty. Eliminate invalid or dominated models on relevant criteria. Never guarantee historical drawdown limits.
-4. Feature up to six compatible allocations ranked by mandate fit, with at least 5% of capital reallocated between any pair. Keep the full compatible deck and same-period comparison accessible from the first card. The test-period return does not determine the featured rank.
-5. Like/dislike/skip and undo. Optional reason: loss, income, horizon, complexity, ESG, fees. Do not infer new risk tolerance from likes alone.
-6. Compare shortlist, benchmark and simple reference. If no compatible preference, ask for clarification rather than force a match.
-7. Open My Matches to combine one or more liked strategies into a single funded allocation, manually or with RiskMatch optimization. Recheck aggregate mandate, data and costs before explicit choice.
+Le [moteur personnalisé](PERSONALIZED_MATCHING.md) utilise le mandat USD, les 60 mois de rendements et les listes d’actions datées. Il applique les classes autorisées, les exclusions facultatives et les limites calculables. Les contraintes fermes requérant des données indisponibles rendent le mandat inéligible à la construction. Le classement de convenance utilise les objectifs, le risque modélisé et les préférences, à partir de la fenêtre de développement. Le rendement de la période de test reste une mesure de comparaison.
 
-## My Matches — allocation across strategies
+Jusqu’à six cartes sont mises en avant. Deux cartes mises en avant doivent déplacer au moins 5 % du capital entre titres. Les cibles finales à moins de 1 % de distance sont regroupées à l’écran. Chaque méthode garde son propre chemin historique dans l’[audit](AUDIT_STRATEGIES_ET_PORTEFEUILLE.md).
 
-Consolidation: the full fictional USD mandate can now be evaluated against the confirmed Match allocation through `/api/matching/goals`. It uses 1,000 common six-month block-bootstrap paths from the historical development sample and the existing typed financial-objective engine, paired with the 60/40 benchmark. Dated flows, priorities, target probability and expected deficit are evaluated when defined. Actual income distributions, contractual hedge costs and liability DV01 are still unavailable for abstract sleeve paths; results are conditional, not a guarantee or suitability approval.
+## Dans Mes matchs
 
-Combined monthly allocations now charge a further 10 bp on executed transfers between sleeves, starting from the specified allocation. A self-financing ledger reconciles each period; net sleeve P&L components sum to net return and their covariance contributions reconcile to the combined volatility. The minimum-variance optimizer still uses development gross sleeve covariance for the target proposal; the evaluation uses net transfer costs. Goal projections sample the development net blend. This does not change the frozen deck identity or the individual sleeve ledgers.
+Le client choisit une ou plusieurs stratégies, puis répartit 100 % de son budget entre elles. Le mode manuel utilise ses poids. Le mode variance minimale utilise la covariance des rendements des stratégies sur les 35 mois de développement, avant les frais supplémentaires de transfert. Le mode rendement estimé maximal donne le budget à la stratégie retenue ayant le rendement estimé le plus élevé. Le mode objectif prioritaire compare un ensemble déterministe de répartitions sur les mêmes scénarios et retient la meilleure parmi celles testées.
 
-A like expresses a preference, not an investment order or a new risk tolerance. Model each eligible liked strategy as a sleeve with versioned holdings and a capital budget `alpha_k >= 0`, with `sum(alpha_k) = 1`. The consolidated funded holdings are `w_global = sum(alpha_k * w_k)`. Consolidate overlapping securities by stable identity rather than treating repeated names as diversification. Derivative notionals, collateral, financing and cash require separate accounting; unsupported instrument combinations remain unavailable.
+Le moteur additionne les positions en commun. La volatilité estimée tient compte des covariances des actifs. La concentration est résumée par le nombre de positions et leur équivalent à poids égaux, calculé par `1/Σw²`. Le détail sectoriel couvre les actions directes classables. Un ETF apporte une exposition à plusieurs titres, dont les positions internes ne peuvent être filtrées sur toute l’archive.
 
-- Manual mode: editable percentages, total and currency amounts, with clear validation and no automatic override of client preferences.
-- Optimized mode: propose budgets among liked eligible sleeves only, using a documented client-objective utility or risk objective and explicit aggregate constraints. Never force a match or relax a hard constraint.
-- Recompute risk using common dated return paths and consolidated exposures (including cross-sleeve covariance, concentration, liquidity, FX, stress and tail risk). CAGR, drawdown and ES are not weighted averages of individual reported metrics. Compare costs, turnover, goal success and common-period net out-of-sample results against a reference portfolio. Specify sleeve rebalancing and execution assumptions.
-- Display strategy budgets, actual underlying exposure, concentration overlap, correlations, risk contributions and mandate fit. Infeasible or unverified aggregate allocations cannot be confirmed. Changing mandate, likes or candidate versions invalidates the prior allocation; store and revalidate it before paper-only confirmation.
+Le bilan sépare les quantités suivantes.
 
-Implementation and acceptance are tracked by CH25.22–28; the existing synthetic shortlist is not evidence of a validated multi-Match allocator.
+| Résultat | Données et interprétation |
+|---|---|
+| Rendement estimé, volatilité et stress | Estimations des poids consolidés au 31 décembre 2025. Le stress est la plus forte perte parmi les scénarios testés. |
+| Backtest | Règles appliquées dans le passé, en USD, avec coûts de transactions modélisés. Le combiné applique des frais supplémentaires de 10 points de base sur les transferts entre stratégies. |
+| Projection du portefeuille confirmé | 1 000 trajectoires construites avec des blocs communs de six mois, tirés des 60 mois des actifs détenus. Les poids cibles sont rétablis mensuellement, avec frais modélisés. La référence de cette projection est le cash USD. |
+| Solde et gain à l’horizon | Le solde restant tient compte des retraits, des dettes et des objectifs payés. Le gain réintègre ces paiements et déduit le capital de départ et les apports. La valeur actuelle actualise chaque flux à sa date selon le taux renseigné. |
+| Objectifs | Fréquence de réussite parmi les scénarios simulés et déficit moyen sur tous les scénarios. Un tiret indique que la réussite ne peut pas être chiffrée avec les paramètres du mandat. |
 
-## Standard Card
-Name, objective, asset classes, allocation and futures notionals, expected return with interval and assumptions, volatility, ES, historical drawdown and stress, estimated goal probability, costs, turnover, currency, FX risk, liquidity, benchmark, OOS period and calculation date. Distinguish realized, simulated and forecast data. Show loss percentages and currency, fit reasons and limitations.
-
-## Ranking
-After hard filtering, normalize criteria on documented stable scales. Example S=Σ w_j u_j(x_j), weights from explicit client goals, sum=1. Criteria may include success probability, ES, costs, robustness, simplicity and preferences. Test weight sensitivity and display tradeoffs. Likes are soft preferences, never overrides of hard guardrails. Construction methods are not 22 indistinct products.
-
-## Proposed States and API
-candidate → validated → presented → liked/disliked/skipped → shortlisted → allocated → aggregate_validated → reviewed → selected_for_paper_trading. API POST /profiles, GET /sessions/{id}/cards, POST /sessions/{id}/responses, GET /profiles/{id}/risk-report, POST /portfolio-runs, GET /portfolio-runs/{id}/candidates, POST /candidates/{id}/swipes, proposed POST /match-allocations/evaluate and POST /match-allocations/optimize, POST /selections. Authentication, ownership checks, idempotency, minimal sensitive logging. No real-order endpoint in MVP.
+Les études historiques héritées utilisent un replay de stratégies et, selon le cas, une référence 60/40. Le bilan personnalisé utilise les poids des actifs consolidés. Le suivi de cours et les politiques de gestion dynamique constituent des analyses séparées. [Audit des hypothèses](AUDIT_STRATEGIES_ET_PORTEFEUILLE.md)

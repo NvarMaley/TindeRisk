@@ -1,51 +1,30 @@
-# Technical Architecture
+# Architecture de RiskMatch V3
 
-Target frontend: React/TypeScript; API: Python/FastAPI; quantitative engine independent of UI; market data Parquet/DuckDB; production profiles/sessions PostgreSQL. Begin with modular monolith, add async workers only if needed. Select dependencies and versions as a team.
+La version présentée utilise une interface HTML, CSS et JavaScript bilingue, un serveur HTTP Python sur la boucle locale et un moteur quantitatif partagé. Le notebook appelle les mêmes handlers pour ses vérifications historiques. Les données de recherche sont chargées à partir des fichiers locaux versionnés, notamment Parquet via DuckDB.
 
 ```mermaid
 flowchart TD
- U["Web: cards and comparison"] --> A[API]
- A --> B["Behavioral / Profiling"]
- B --> I["Validated mandate"]
- D["Point-in-time market data"] --> Q["Analytics / Forecasting"]
- D --> R[Risk]
- I --> O["Strategies / Optimization"]
- Q --> O
- R --> O
- O --> T["Backtesting / Simulation"]
- T --> V["Portfolio Improvement"]
- V --> S[Selection]
- I --> S
- S --> A
- S --> M["Dynamic / Monitoring"]
+    U["Web app HTML / CSS / JS"] --> A["Serveur HTTP Python"]
+    N["Notebook historique"] --> A
+    A --> M["Mandat et questionnaire"]
+    D["Archive versionnée · Parquet / DuckDB"] --> E["Estimations et stratégies"]
+    M --> E
+    E --> B["Replay et contrôle des contraintes"]
+    B --> S["Cartes puis consolidation"]
+    S --> R["Bilan et projection du mandat"]
+    S --> P["Simulation dynamique et suivi"]
 ```
 
-Contracts: MarketSnapshot(as_of, universe_version, dataset_hash), Forecast(mu, covariance, horizon, model_version), Candidate(weights, futures_positions, collateral, constraints, provenance), Evaluation(metrics, costs, stress, period, warnings), Selection(candidate_id, mandate_version, consent, timestamp). Every amount carries currency, every return frequency, every derivative its multiplier. See the A–Z guide for ten engines.
-
-SYS.01: GoalSpec and ConstraintSet (mandate), ForecastBundle (mean/distribution), RiskReport (covariance, losses, stress), StrategySpec (signal/execution), OptimizerSpec (numerical objective/constraints), Candidate (positions/provenance). Improvement compares candidates via ablation on identical reference frames before selection. Explore swipes never make a rejected candidate eligible. [TASK_DEPENDENCIES.csv](TASK_DEPENDENCIES.csv) defines ticket prerequisites.
-
-The base Python contracts live in `src/riskmatch/contracts.py` (schema 1.0.0). All new contract artifacts carry `RunMetadata`; UTC as-of, run ID, schema and model versions, explicit units, warnings, status and provenance are required. `ClientProfile` defines a pseudonymous envelope; detailed financial fields and objective validation belong to chapters 01 and 12, not the infrastructure gate. Forecasts and risk are separate, with aligned instrument IDs and periods. Funded weights and futures contracts are separate; selection is paper-only. Existing demo endpoints retain their experimental legacy shapes until the API migration in CH27.07–08.
-
-`src/riskmatch/eligibility.py` defines conservative initial requirements for all 64 construction, strategy, factor and dynamic methods (11 client objectives are a separate catalog). Method validation is explicit and defaults to unavailable; data, frequency, instrument, Treasury verification, capacity, shorting, leverage and derivatives/margin checks produce diagnostic reasons. No registry entry alone constitutes an approved financial model. Requirements will be refined with each model's validation.
-
-| Directory | Responsibility |
+| Emplacement | Rôle dans le parcours actuel |
 |---|---|
-| apps/web | card UI, profile, comparison, EN/FR localization |
-| apps/api | auth, endpoints, orchestration |
-| src/riskmatch/behavioral | item bank, sessions, scoring |
-| profiling | mandate and feasibility |
-| market_data | ingestion, calendars, corporate actions |
-| analytics / forecasting | statistics, signals, forecasts |
-| risk | covariance, ES, factors, stress |
-| optimization / strategies | construction and management rules |
-| backtesting / simulation | P&L, costs, walk-forward and Monte Carlo |
-| selection / dynamic | matching and dynamic policies |
-| configs | versioned non-secret parameters |
-| tests | synthetic data, invariants, integration |
-| data | local data excluded from Git |
+| `apps/web` | Mandat, cartes Discovery, recherche, comparaison et bilan Mes matchs. |
+| `apps/api/server.py` | Routes JSON, validation des appels et distribution des fichiers web. |
+| `src/riskmatch/profiling`, `behavioral` | Vérification du mandat, capacité de perte et questionnaire. |
+| `src/riskmatch/market_data`, `analytics` | Sources datées, rendements, covariance et scénarios d’objectifs. |
+| `src/riskmatch/optimization`, `strategies`, `backtesting` | Cibles, optimisations, replays et coûts simulés. |
+| `src/riskmatch/personalized_matches.py`, `selection`, `dynamic` | Éligibilité, classement, poids consolidés, projection et règles de gestion. |
+| `apps/streamlit` | Cadre pour l’interface complète, utilisé sur le même hôte ou derrière un accès protégé. |
+| `apps/course_demo` | Démonstration Streamlit synthétique autonome pour GitHub Pages. |
+| `notebooks`, `tests` | Notebook portable, preuves calculées sur l’archive dans la copie locale et tests de régression. |
 
-Initial architecture only: avoid premature microservices, independently test interfaces and reproducible seeded, data-hashed runs.
-
-Treasury-only eligibility is a hard upstream constraint. Verify issuer and historical bond ETF holdings; raw out-of-scope data are retained but cannot produce eligible positions. See UNIV.01 and guide chapter 2.
-
-The local V3 demonstration uses fixed synthetic data. The Web App is bilingual; canonical API values and development artifacts are English. Local simulation saves are encrypted in browser storage; they do not constitute accounts or server-side persistence.
+Les sauvegardes du parcours sont conservées dans le navigateur. Le serveur de simulation ne possède pas de base de comptes multiutilisateur. Pour un accès distant, le proxy doit garder l’interface et l’API sous la même protection et les archives sur l’hôte autorisé. Le [guide Streamlit](../apps/streamlit/README.md) décrit le montage. La feuille de route conserve les études et extensions d’infrastructure au-delà du périmètre présenté. [Parcours](CLIENT_FLOW.md) · [Audit](AUDIT_STRATEGIES_ET_PORTEFEUILLE.md) · [Feuille de route](ROADMAP.md)

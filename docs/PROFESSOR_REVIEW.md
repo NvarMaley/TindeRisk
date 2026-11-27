@@ -1,4 +1,15 @@
-# RiskMatch V3 — Academic review, 27 November 2026
+# RiskMatch V3 — Revue académique
+
+## Parcours de présentation
+
+Le cas à présenter est celui d’un investisseur qui finance un objectif daté sous une limite de perte. La construction relie les contraintes du cours à une décision observable. Comparez une allocation de variance minimale avec une allocation qui donne la priorité à l’objectif, puis montrez l’effet sur le financement et la diversification. Le [README](../README.md) réunit le code, les accès Streamlit et les étapes de reproduction.
+
+1. **Mandat et profil.** Dans un nouveau carnet de simulation, chargez l’exemple du mandat. Confirmez-le puis répondez à Discovery. Le formulaire affiche les contraintes applicables et signale les horizons dépassant 50 ans pour la projection.
+2. **Construction.** Sélectionnez deux cartes pour comparer l’effet des budgets dans **Mes matchs**. Les positions en commun sont consolidées. Rendement estimé, volatilité et stress décrivent l’allocation finale. Le backtest décrit les décisions rejouées sur les dates historiques.
+3. **Résultat.** Confirmez la simulation. Lisez le capital restant, le gain net et la valeur actuelle. Le graphique marque les paiements programmés. Changer le taux d’actualisation change la valeur actuelle, avec les mêmes scénarios nominaux.
+4. **Reproduction.** Le chapitre 25 du notebook reprend les mêmes API. Les chapitres 26 et 27 couvrent les règles dynamiques et l’export de simulation. L’[audit stratégie par stratégie](AUDIT_STRATEGIES_ET_PORTEFEUILLE.md) et le [guide de lecture du bilan](PORTFOLIO_MATCHING.md) expliquent les résultats.
+
+Le [lien public](https://nvarmaley.github.io/TindeRisk/) ouvre le cas Streamlit synthétique. Le parcours complet utilise le serveur local ou son partage protégé et les archives autorisées. Une invitation se transmet séparément aux personnes autorisées. Un tunnel provisoire dépend de l’ordinateur hôte et de la session active.
 
 The single source notebook is [RiskMatch_V3.ipynb](../notebooks/RiskMatch_V3.ipynb).
 The executed historical review copy is generated locally in
@@ -7,7 +18,7 @@ cell errors, 1,496 rendered checklist entries and full historical responses
 from the same server handlers used by the web app. The copy contains local
 derived data and requires redistribution-rights review before submission.
 
-## Client implementation, 27 November 2026
+## Client implementation, 28 November 2026
 
 The active mandate shows ten goals. Discovery uses 30 fixed cards, with 20
 feeding the prudence index and eight supporting experimental loss-aversion
@@ -84,8 +95,7 @@ reproduction step involving the build scripts and original data entitlements.
 
 ## Technical tests and outstanding requirements
 
-- Python unit tests: 199 passed, 5 subtests passed.
-- Browser JavaScript tests: 40 passed.
+- The GitHub CI runs the Python and JavaScript suites and executes the portable notebook. The publication review also exercises the local historical notebook and the browser workflow.
 - Notebook: all 83 code cells ran in both portable and local historical
   mode through IPython, with complete saved outputs.
 - Local HTTP integration and Chromium acceptance checks passed. The client

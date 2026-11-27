@@ -1,10 +1,12 @@
 # Audit de RiskMatch V3 du 26 novembre 2026
 
+Ce document conserve les mesures et les incidents observés le 26 novembre. Pour le parcours actuellement servi et les vérifications de livraison, voir la [revue académique](PROFESSOR_REVIEW.md) et le [guide des résultats](PORTFOLIO_MATCHING.md).
+
 ## Contre-vérification après correction
 
 Les tableaux ci-dessous conservent le diagnostic initial. Le moteur corrigé personalized-v3 a ensuite été testé par HTTP sur le port 3002. Résultats du mandat de référence : 35 cartes distinctes, 5 pour le mandat Treasury restreint et 1 pour le mandat cash. Budgets manuels, minimum de variance, comparaison par objectif et export papier du mandat de référence ont abouti. Les deux estimations de risque en queue concordent sur chaque carte des trois cas. Les projections affichent la sensibilité aux deux moitiés de la fenêtre de développement. Les contraintes incompatibles avec la simulation dynamique sont signalées dès le mandat. Le notebook historique complet passe les 83 cellules. La version servie sur le port 3000 doit être redémarrée pour y retrouver les sauvegardes et le moteur corrigé. Les limites liées aux publications, aux ETF, aux sorties sans prix et à la validation humaine subsistent.
 
-## Décision pour la démonstration
+## Diagnostic au moment de l’audit
 
 Le code local réalise le parcours imaginé pour les mandats USD pris en charge. Le site actuellement ouvert sert un ancien moteur. Sur la même machine et pour le même mandat, les cartes et le classement divergent. Corriger cet écart avant une présentation. Les calculs du nouveau moteur sont reproductibles sur les archives locales. Leur valeur prédictive, la calibration comportementale et l’investissabilité historique demeurent ouvertes.
 

@@ -45,8 +45,8 @@
     ],
     [
       ["Replay the strategies on historical data", "Rejouer les stratégies dans le passé"],
-      ["The engine recalculates each method quarterly using the same 60-month eligibility rule and the stock list at each decision. It applies new targets one month later and rebalances monthly. The replay models a charge of 0.10% on the value of securities traded. The comparable test runs from December 2023 through December 2025. The January 2021 to November 2023 development period supplies the goal projection blocks.",
-        "Le moteur recalcule chaque méthode chaque trimestre avec la même règle des 60 mois et la liste d’actions connue à chaque décision. Il applique les nouvelles cibles un mois plus tard et rééquilibre chaque mois. Le test simule des frais de 0,10 % sur la valeur des titres échangés. Le test commun couvre décembre 2023 à décembre 2025. Les projections d’objectifs utilisent les mois de développement, de janvier 2021 à novembre 2023."],
+      ["The engine recalculates each method quarterly using the same 60-month eligibility rule and the stock list at each decision. It applies new targets one month later and rebalances monthly. The replay models a charge of 0.10% on the value of securities traded. The common test runs from December 2023 through December 2025. The January 2021 to November 2023 development period supplies the goal scenarios used to rank the cards.",
+        "Le moteur recalcule chaque méthode chaque trimestre avec la même règle des 60 mois et la liste d’actions connue à chaque décision. Il applique les nouvelles cibles un mois plus tard et rééquilibre chaque mois. Le test simule des frais de 0,10 % sur la valeur des titres échangés. Le test commun couvre décembre 2023 à décembre 2025. Les mois de développement, de janvier 2021 à novembre 2023, alimentent les scénarios d’objectifs du classement des cartes."],
     ],
     [
       ["Project goals and rank the cards", "Projeter les objectifs et classer les cartes"],
@@ -55,8 +55,8 @@
     ],
     [
       ["Compare and confirm an allocation", "Comparer et confirmer une allocation"],
-      ["Keep the cards you want to compare. In My Matches, set your own split or test a lower-volatility or goal-focused split where available. RiskMatch combines the underlying holdings and recalculates the portfolio’s risk and results. Confirming saves a simulated choice. Results depend on the available history, costs and stress assumptions, and future losses can be larger.",
-        "Garde les cartes que tu veux comparer. Dans Mes Matches, choisis ta répartition ou teste, selon les options disponibles, une répartition moins volatile ou orientée vers un objectif. RiskMatch combine les actifs détenus et recalcule le risque et les résultats du portefeuille. La confirmation enregistre un choix de simulation. Les résultats dépendent de l’historique disponible, des frais et des hypothèses de stress, et les pertes futures peuvent être plus importantes."],
+      ["Keep the cards you want to compare. In My Matches, combine their positions and check allocations, risk and historical results. Confirmation opens the final projection: 1,000 paths using the last 60 archived months of the consolidated holdings. The results distinguish the remaining balance, simulated net gain and present value. Set a discount rate to change the valuation of the same cash flows.",
+        "Garde les cartes que tu veux comparer. Dans Mes matchs, combine leurs positions et vérifie l’allocation, le risque et le résultat historique. La confirmation ouvre la projection finale. Elle construit 1 000 trajectoires à partir des 60 derniers mois archivés des positions consolidées. Le bilan distingue le capital restant, le gain net simulé et la valeur actuelle. Le taux d’actualisation modifie la valeur des mêmes flux."],
     ],
     [
       ["Follow the portfolio after confirmation", "Suivre le portefeuille après confirmation"],

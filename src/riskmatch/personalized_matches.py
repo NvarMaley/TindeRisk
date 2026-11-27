@@ -24,7 +24,7 @@ from riskmatch.backtesting.mandate_replay import (
 from riskmatch.backtesting.card_performance import card_performance
 from riskmatch.backtesting.walk_models import REGISTRY, SIGNED, fit_models
 from riskmatch.optimization.mean_variance_report import category, class_regularized_mean
-from riskmatch.profiling.mandate import validate_mandate, add_month
+from riskmatch.profiling.mandate import MATCHING_MAX_MONTHS, validate_mandate, add_month
 from riskmatch.prototype import ClientProfile, metrics
 from riskmatch.selection.sleeve_ledger import rebalance_paths
 from riskmatch.simulation.stress_report import scenario_matrix
@@ -489,7 +489,7 @@ def _run(root, encoded, aversion, style):
     months = 1
     while add_month(start, months) < end:
         months += 1
-    if months > 600:
+    if months > MATCHING_MAX_MONTHS:
         raise ValueError("Research scenario horizon exceeds 50 years")
     indices = bootstrap_indices(split-first, months, paths=256, block=6, seed=25)
     cash_paths = rf[first:split][indices]

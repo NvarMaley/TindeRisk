@@ -9,6 +9,7 @@
     "Unknown or ambiguous exclusion ticker":["Unknown or ambiguous exclusion ticker","Symbole d’exclusion inconnu ou ambigu"],
     "Dated company and industry data unavailable for exclusions":["Dated company and industry data unavailable for exclusions","Les données datées de sociétés et de secteurs sont indisponibles pour appliquer les exclusions"],
     "Invalid annual discount rate":["Invalid annual discount rate","Taux d’actualisation annuel invalide"],
+    matching_horizon_beyond_limit:["Portfolio matching and projections support horizons up to 50 years.","Les stratégies et la projection de portefeuille couvrent un horizon de 50 ans au maximum."],
     guideNavbrief:["Your project", "Ton projet"],
     guideNavprofile:["Your reactions", "Tes réactions"],
     guideNavengine:["The engine", "Le moteur"],
