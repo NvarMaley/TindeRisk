@@ -750,7 +750,10 @@ function compare(){
       button.onclick=handle(async()=>{if(!mandate){page("mandate");return;}if(!cards.length||index<cards.length){page("discovery");await showCard();return;}page("explore");await loadPortfolios();});empty.append(button);
     }
     area.append(empty);
-    if(resultView&&trackingHost&&paperTracking)area.append(trackingHost);
+    if(resultView&&trackingHost&&paperTracking){
+      trackingHost.querySelector("header h2").textContent=fr?"Suivi de ta précédente simulation":"Tracking your previous simulation";
+      area.append(trackingHost);
+    }
     return;
   }
   if(activePage==="matches" && !resultView && window.Journey && shortlist.length>1){
@@ -761,6 +764,20 @@ function compare(){
   const trackingBody=trackingHost?.querySelector(".matches-live-body");
   const signature=JSON.stringify([fullMandate||mandate,shortlist[0].version,shortlist.map(p=>p.name)]);
   const stored=savedBlend?.signature===signature?savedBlend:null;
+  const confirmationStatus=document.createElement("p");
+  confirmationStatus.className="allocation-confirmation";
+  confirmationStatus.setAttribute?.("role","status");
+  const updateConfirmation=()=>{
+    const isConfirmed=Boolean(savedBlend?.paperConfirmed&&savedBlend.signature===signature);
+    allocation.classList?.toggle("voyage-confirmed",isConfirmed);
+    confirmationStatus.hidden=!isConfirmed;
+    confirmationStatus.textContent=isConfirmed?(fr?"Allocation confirmée en simulation":"Confirmed paper allocation"):"";
+    if(trackingHost){
+      trackingHost.querySelector("header h2").textContent=paperTracking&&!isConfirmed
+        ? (fr?"Suivi de ta précédente simulation":"Tracking your previous simulation")
+        : (fr?"Suivi du portefeuille simulé":"Paper portfolio tracking");
+    }
+  };
   if(trackingHost&&!paperTracking&&stored?.paperConfirmed&&/^(personalized-v3:|historical-usd-v1-)/.test(shortlist[0].version)){
     const activate=document.createElement("button");
     activate.type="button";
@@ -786,9 +803,8 @@ function compare(){
   allocation.innerHTML=resultView
     ? `<h2>${fr?"Ton allocation finale":"Your final allocation"}</h2><p class="rm-result-progress">${fr?"Répartis 100 % entre les stratégies retenues. Calcule ton allocation, puis confirme-la pour voir la projection du mandat.":"Split 100% among your selected strategies. Calculate your allocation, then confirm it to see your mandate projection."}</p>${historicalDeck&&fullMandate?`<nav class="rm-result-jump"><a href="#match-forecast">${fr?"Projection":"Projection"}</a><a href="#match-advanced">${fr?"Analyses complémentaires":"Additional analysis"}</a></nav>`:""}`
     : `<h2>${fr?"Mes Matches":"My Matches"}</h2><p>${historicalDeck?(fr?"Simulation sur rendements historiques en USD.":"USD historical return simulation."):(fr?"Simulation illustrative.":"Illustrative simulation.")}</p>`+mandateTrace(fullMandate,mandateReport);
-  if(stored?.paperConfirmed){
-    allocation.classList?.add("voyage-confirmed");const status=document.createElement("p");status.textContent=fr?"Allocation confirmée en simulation":"Confirmed paper allocation";allocation.append(status);
-  }
+  updateConfirmation();
+  allocation.append(confirmationStatus);
   const inputs=shortlist.map(p=>{
     const label=document.createElement("label");label.className="allocation-row";label.textContent=strategyName(p.name)+" (%) ";
     const input=document.createElement("input");input.type="number";input.min="0";input.max="100";input.step="any";input.value=100/shortlist.length;
@@ -796,7 +812,7 @@ function compare(){
     label.append(input);allocation.append(label);return input;
   });
   const total=document.createElement("p");total.className="allocation-total";
-  const updateTotal=()=>{const sum=inputs.reduce((acc,input)=>acc+Number(input.value),0);total.textContent=(fr?"Total investi":"Total allocated")+" : "+sum.toFixed(2)+" %";total.classList?.toggle("mandate-conflict",Math.abs(sum-100)>1e-6);};
+  const updateTotal=()=>{const sum=inputs.reduce((acc,input)=>acc+Number(input.value),0);total.textContent=(fr?"Budget réparti":"Total allocated")+" · "+sum.toFixed(2)+" %";total.classList?.toggle("mandate-conflict",Math.abs(sum-100)>1e-6);};
   updateTotal();allocation.append(total);
   const output=document.createElement("div");
   const renderAllocation=result=>{
@@ -822,7 +838,7 @@ function compare(){
       if(!allocation.isConnected||revision!==requestRevision)return;
       if(optimized)inputs.forEach((input,i)=>{input.value=result.budgets[shortlist[i].name]*100;});
       updateTotal();
-      savedBlend={signature,budgets:result.budgets};clearAnalysis();changed();
+      savedBlend={signature,budgets:result.budgets};updateConfirmation();clearAnalysis();changed();
       renderAllocation(result);
       if(!resultView&&Number.isFinite(result.historical_annual_mean))output.insertAdjacentHTML("beforeend",`<p>${fr?"Moyenne arithmétique historique annualisée":"Annualized historical arithmetic mean"} · ${pct(result.historical_annual_mean)}</p>`);
       if(optimized==="return")output.insertAdjacentHTML("beforeend",`<p class="muted">${fr?"Maximiser le rendement estimé seul concentre le budget sur la stratégie retenue ayant l’estimation la plus élevée. La diversification éventuelle vient des titres de cette stratégie.":"Maximizing estimated return alone concentrates the budget on the retained strategy with the highest estimate. Any diversification comes from that strategy’s holdings."}</p>`);
@@ -835,26 +851,31 @@ function compare(){
       if(Number.isFinite(result.additional_transfer_fee_fraction))output.insertAdjacentHTML("beforeend",`<details><summary>${fr?"Frais simulés et mouvements":"Modeled fees and turnover"}</summary><p>${fr?"Somme des frais de transfert supplémentaires rapportés aux valeurs mensuelles":"Sum of extra transfer fees relative to monthly NAV"} · ${pct(result.additional_transfer_fee_fraction)} · ${fr?"Turnover annualisé":"Annualized turnover"} ${pct(result.additional_transfer_turnover)}</p></details>`);
       if(result.correlations&&shortlist.length>1){
         const pairs=shortlist.flatMap((p,i)=>shortlist.slice(i+1).map((q,j)=>
-          `<p>${esc(p.name)} / ${esc(q.name)} · ${result.correlations[i][i+j+1].toFixed(2)}</p>`));
+          `<p>${esc(strategyName(p.name))} / ${esc(strategyName(q.name))} · ${Number.isFinite(result.correlations[i]?.[i+j+1])?result.correlations[i][i+j+1].toFixed(2):"—"}</p>`));
         output.insertAdjacentHTML("beforeend",`<details><summary>${fr?"Corrélations":"Correlations"}</summary>${pairs.join("")}</details>`);
       }
       const confirm=document.createElement("button");
       confirm.className="primary";
       confirm.textContent=fr?"Confirmer cette simulation":"Confirm paper allocation";
       confirm.onclick=handle(async()=>{
-        const evaluated=await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});
+        if(confirm.disabled)return;
+        confirm.disabled=true;
+        let evaluated;
+        try{evaluated=await api("match-allocations/evaluate",{mandate:fullMandate||mandate,names:Object.keys(result.budgets),budgets:Object.values(result.budgets),version:result.version});}
+        catch(error){if(confirm.isConnected)confirm.disabled=false;throw error;}
         if(!confirm.isConnected||requestRevision!==revision)return;
         savedBlend={signature,budgets:result.budgets,paperConfirmed:true};
         startPaperTracking(trackingBody,evaluated);
+        updateConfirmation();
         changed();
-        allocation.classList?.add("voyage-confirmed");confirm.disabled=true;confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
+        confirm.textContent=fr?"Simulation confirmée":"Paper allocation confirmed";
         await refreshProjection?.();
         if(resultView&&confirm.isConnected)document.getElementById("match-forecast")?.scrollIntoView?.({behavior:"smooth",block:"start"});
       });
       (resultView&&output.querySelector?.(".rm-result-lead")||output).append(confirm);
     });allocation.append(button);
   }
-  inputs.forEach(input=>input.oninput=()=>{revision++;savedBlend=null;clearAnalysis();updateTotal();changed();output.replaceChildren();});
+  inputs.forEach(input=>input.oninput=()=>{revision++;savedBlend=null;updateConfirmation();clearAnalysis();updateTotal();changed();output.replaceChildren();});
   allocation.append(output);if(activePage==="matches")area.append(allocation);
   if(resultView&&stored?.paperConfirmed){
     void handle(async()=>{
@@ -935,7 +956,7 @@ function compare(){
       const select=document.createElement("select"),ledger=document.createElement("div");
       ledger.className="match-table-scroll";
       for(const name of Object.keys(r.policies)){const option=document.createElement("option");option.value=name;option.textContent=name.replaceAll("_"," ");select.append(option);}
-      const refresh=()=>{const v=r.policies[select.value];if(!v)return;ledger.innerHTML=`<table><thead><tr><th>Date</th><th>${fr?"Capital USD":"Capital USD"}</th><th>${fr?"Investi":"Invested"}</th><th>Stress</th><th>${fr?"Vol. estimée":"Est. vol."}</th><th>${fr?"Frais":"Fees"}</th></tr></thead><tbody>${v.ledger.map(row=>`<tr><td>${esc(row.date)}</td><td>${row.ending.toFixed(2)}</td><td>${pct(row.fraction)}</td><td>${pct(row.stress_estimate)}</td><td>${pct(row.annual_volatility)}</td><td>${row.fee.toFixed(2)}</td></tr>`).join("")}</tbody></table>`;};
+      const refresh=()=>{const v=r.policies[select.value];if(!v)return;ledger.innerHTML=`<table><thead><tr><th>Date</th><th>${fr?"Capital USD":"Capital USD"}</th><th>${fr?"Investi":"Invested"}</th><th>Stress</th><th>${fr?"Vol. estimée":"Est. vol."}</th><th>${fr?"Frais":"Fees"}</th></tr></thead><tbody>${(v.ledger||[]).map(row=>`<tr><td>${esc(row.date)}</td><td>${row.ending.toFixed(2)}</td><td>${pct(row.fraction)}</td><td>${pct(row.stress_estimate)}</td><td>${pct(row.annual_volatility)}</td><td>${row.fee.toFixed(2)}</td></tr>`).join("")}</tbody></table>`;};
       select.onchange=refresh;result.append(select,ledger);select.value="static";refresh();
       const download=document.createElement("button");
       download.textContent=fr?"Exporter le rapport de simulation ZIP":"Export paper simulation ZIP";

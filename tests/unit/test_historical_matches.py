@@ -33,6 +33,14 @@ class HistoricalMatchesTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             hm.blend('.',self.profile,['two','unknown'],None,True)
 
+    def test_constant_sleeve_has_no_defined_correlation(self):
+        variable = np.array([.01,.02,-.01,.03,.02,-.02])
+        rows = {"cash":({"USD cash":1.,"SPY":0.},{"stress":0.},np.full(6,.004)),
+                "stock":({"USD cash":0.,"SPY":1.},{"stress":-.1},variable)}
+        report = hm.blend_rows(self.profile,["cash","stock"],[.5,.5],False,rows,3,variable,
+                               "test","test period","test costs")
+        self.assertEqual(report["correlations"], [[None,None],[None,1.]])
+
     def test_card_sharpe_uses_held_out_cash_reference(self):
         card = next(row for row in hm.cards('.', self.profile) if row['name'] == 'one')
         excess = np.array([.035, -.02, .015, -.01]) - .002

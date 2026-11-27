@@ -18,6 +18,7 @@ KNOWLEDGE = {"none", "basic", "advanced"}
 EXPERIENCE = {"none", "limited", "experienced"}
 ASSETS = {"equity", "treasury", "reit", "cash", "futures", "commodity_etp"}
 MATCHING_ASSETS = frozenset({"equity", "treasury", "cash"})
+MATCHING_MAX_MONTHS = 600
 LIMITS = ("stress_loss", "loss_budget", "volatility", "max_asset_weight", "max_issuer_weight",
           "max_sector_weight", "max_turnover", "max_cost", "min_liquidity", "gross_limit", "net_min", "net_max")
 
@@ -312,6 +313,10 @@ def validate_mandate(payload):
     if companies or sectors:
         demo_reasons.append("demo_universe_restrictions_unmodeled")
     personalized_reasons = []
+    if end > add_month(start, MATCHING_MAX_MONTHS):
+        reason = "matching_horizon_beyond_limit"
+        personalized_reasons.append(reason)
+        demo_reasons.append(reason)
     if currency != "USD":
         personalized_reasons.append("demo_usd_only")
     if not set(allowed) <= MATCHING_ASSETS:

@@ -42,6 +42,10 @@ test("liked cards feed manual and optimized budgets, confirmation and the local 
   assert.equal(requests.at(-1).url,"/api/paper/export");
   assert.equal(requests.at(-1).body.policy,"static");
   assert.deepEqual(downloads,["RiskMatch-fixture.zip"]);
+  labels[0].children[0].value="35";
+  labels[0].children[0].oninput();
+  assert.equal(run("simulationSnapshot().savedBlend"),null);
+  assert.equal(panel.children.find(x=>x.className==="allocation-confirmation").hidden,true);
 });
 
 test("outdated matching server does not prevent restoring a save or erase its choices",async()=>{
@@ -138,6 +142,7 @@ test("portfolio result separates nominal, simulated net gain, present value and 
   assert.match(html,/Central 90% of scenarios/);
   assert.match(html,/Goal payment/);
   assert.match(html,/2025-12-31/);
+  assert.match(html,/Mean shortfall includes zero/);
   assert.match(html,/Apartment &lt;home&gt;/);
   assert.doesNotMatch(html,/>Apartment <home>/);
 });

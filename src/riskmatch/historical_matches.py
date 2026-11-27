@@ -159,7 +159,10 @@ def blend_rows(profile,names,budgets,optimized,rows,split,reference,version,peri
     rc = cov.sum(axis=1)/vol if vol else np.zeros_like(alpha)
     sleeve_cov=np.atleast_2d(np.cov(paths[split:],rowvar=False))
     denom=np.sqrt(np.outer(sleeve_cov.diagonal(),sleeve_cov.diagonal()))
-    correlations=np.divide(sleeve_cov,denom,out=np.zeros_like(sleeve_cov),where=denom>0)
+    variable=sleeve_cov.diagonal()>1e-20
+    valid_pairs=np.outer(variable,variable)
+    correlations=np.divide(sleeve_cov,denom,out=np.zeros_like(sleeve_cov),where=valid_pairs)
+    correlations=np.where(valid_pairs,np.clip(correlations,-1.,1.),None)
     overlap=[a for a in weights if sum(v*rows[k][0][a]>1e-8 for k,v in zip(names,alpha))>1]
     cash_test = None if cash is None else cash[split:]
     return dict(status='historical_research',version=version,period=period,costs=costs,

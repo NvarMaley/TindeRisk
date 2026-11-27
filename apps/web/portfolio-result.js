@@ -82,7 +82,9 @@
         row(pick("Rendement composé annuel","Compound annual return"),percent(m.cagr)),
         row(pick("Volatilité historique","Historical volatility"),percent(m.vol)),
         row(pick("Plus forte baisse","Maximum drawdown"),percent(Number.isFinite(m.drawdown)?Math.abs(m.drawdown):null)),
-        row(pick("Sharpe au-dessus du cash","Sharpe above cash"),Number.isFinite(m.sharpe)?m.sharpe.toFixed(2):"—")
+        row(pick("Sharpe au-dessus du cash","Sharpe above cash"),Number.isFinite(m.sharpe)?m.sharpe.toFixed(2):"—"),
+        ...(result.reference_metrics?[row(pick("Rendement de la référence","Benchmark return")+
+          " · "+(result.benchmark?strategyName(result.benchmark):"60/40"),percent(result.reference_metrics.cagr))]:[])
       ].join("")}</dl><p class="rm-note">${pick("Le Sharpe rapporte l’excédent de rendement au-dessus du cash à la volatilité. Le backtest simule le passé avec frais modélisés.","Sharpe scales excess return above cash by volatility. The backtest replays history with modeled fees.")}</p></article>
       ${observation}</div></section>`;
   }
@@ -115,7 +117,7 @@
       <svg viewBox="0 0 635 252" role="img" aria-label="${label}"><text x="8" y="17">${unit}</text>${grid}
       <polygon points="${points([...coords(0),...coords(2).reverse()])}" class="rm-fan-band"/>
       <polyline points="${points(coords(1))}" class="rm-fan-mid"/>${markers}</svg>
-      <div class="rm-chart-dates"><span>${shortDate(curve.dates[0],fr)}</span><span>${shortDate(curve.dates.at(-1),fr)}</span></div>
+      <div class="rm-chart-dates"><span>${shortDate(curve.dates[0],fr)}</span>${curve.dates.length>5?`<span>${shortDate(curve.dates[Math.round((curve.dates.length-1)/2)],fr)}</span>`:""}<span>${shortDate(curve.dates.at(-1),fr)}</span></div>
       <div class="rm-chart-legend"><span class="rm-legend-mid">${fr?"Médiane":"Median"}</span><span class="rm-legend-band">${fr?"90 % centraux des scénarios":"Central 90% of scenarios"}</span>${markers?`<span class="rm-legend-funding">${fr?"Paiement d’un objectif":"Goal payment"}</span>`:""}</div>
       ${events.length?`<ul class="rm-chart-events">${events.map(g=>`<li>${e(shortDate(g.date,fr))} · ${e(title(g.objective_id))} · ${fr?"paiement médian simulé":"median simulated payment"} ${e(usd(g.median_paid,fr))}</li>`).join("")}</ul>`:""}
     </figure>`;
@@ -128,6 +130,8 @@
     const band=a=>a?.length?`${money(a[0])} — ${money(a[2])}`:"—";
     const cap=m.terminal_quantiles, gain=m.net_gain_quantiles;
     const pv=rate?.terminal_quantiles;
+    const benchmark=response.benchmark==="USD cash"?pick("cash USD","USD cash"):(response.benchmark||pick("référence","benchmark"));
+    const qualitative=m.goals.some(g=>g.probability==null);
     const dataRows=m.goals.map((g,i)=>`<tr><th scope="row">${e(title(g.objective_id))}<small>${e(g.due_date)}</small></th>
       <td>${money(g.target)}</td><td>${percent(g.probability)}${Number.isFinite(g.probability)?`<span class="rm-probability" aria-hidden="true"><i style="width:${100*g.probability}%"></i></span>`:""}</td><td>${money(g.expected_deficit)}</td><td>${percent(response.reference.goals[i]?.probability)}</td></tr>`).join("");
     return `<div class="rm-result-lead rm-forecast"><span class="rm-eyebrow">${pick("Scénarios sur ton horizon","Scenarios over your horizon")}</span>
@@ -142,9 +146,10 @@
         row(pick("Fourchette du capital restant","Remaining balance range"),band(cap)),
         row(pick("Gain net médian en USD futurs","Median net gain in future USD"),money(gain?.[1])),
         row(pick("Gain net médian en valeur actuelle","Median net gain in present value"),money(rate?.net_gain_quantiles?.[1])),
+        ...(response.reference.terminal_quantiles?[row(pick("Solde médian avec la référence","Median balance with the benchmark")+" · "+benchmark,money(response.reference.terminal_quantiles[1]))]:[]),
         ...(m.purchasing_power?[row(pick("Capital médian en pouvoir d’achat de départ","Median balance in starting-date purchasing power"),money(m.purchasing_power.terminal_quantiles[1]))]:[]),
         ...(m.purchasing_power?[row(pick("Inflation annuelle du mandat","Annual mandate inflation"),percent(m.purchasing_power.inflation))]:[]),
-      ].join("")}</dl><p class="rm-note">${pick("Le gain net compte le capital restant et les retraits et objectifs effectivement payés, puis déduit le capital initial et les apports. La valeur actuelle applique le taux à chaque flux à sa date.","Net gain adds the remaining balance and actual withdrawals and funded goals, then subtracts starting capital and contributions. Present value discounts each cash flow on its date.")}</p></article>
+      ].join("")}</dl><p class="rm-note">${pick("Le gain net additionne le capital restant et les retraits, dettes et objectifs effectivement payés, puis déduit le capital initial et les apports. La valeur actuelle applique le taux à chaque flux à sa date.","Net gain adds the remaining balance and actual withdrawals, liabilities and funded goals, then subtracts starting capital and contributions. Present value discounts each cash flow on its date.")}</p></article>
       <article class="rm-subpanel"><h4>${pick("Performance du placement hors flux","Investment performance excluding flows")}</h4><dl class="rm-labeled">${[
         row(pick("Rendement composé annuel moyen","Mean compound annual return"),percent(m.mean_market_cagr)),
         ...(m.purchasing_power?[row(pick("Rendement annuel médian après inflation","Median annual return after inflation"),percent(m.purchasing_power.market_cagr_quantiles[1]))]:[]),
@@ -152,7 +157,8 @@
         row(pick("Fréquence des pertes à l’horizon","Frequency of terminal investment losses"),percent(m.market_loss_probability)),
         row(pick("Fréquence de recul au-delà du seuil du mandat","Frequency of drawdown beyond the mandate threshold"),percent(m.drawdown_breach_probability))
       ].join("")}</dl><p class="rm-note">${response.paths} ${pick("trajectoires, construites à partir de","paths built from")} ${response.training_months} ${pick("mois d’historique","months of history")}${response.data_end?" · "+pick("archive arrêtée au ","archive cutoff ")+e(response.data_end):""}. ${pick("Les rendements passés sont réutilisés en blocs de six mois. Frais de rééquilibrage modélisés, fiscalité hors simulation.","Historical returns are reused in six-month blocks. Rebalancing costs are modeled. Taxes are outside the simulation.")}</p></article></div>
-      ${dataRows?`<article class="rm-subpanel"><h4>${pick("Financement des objectifs","Funding your goals")}</h4><div class="match-table-scroll"><table class="rm-positions"><thead><tr><th>${pick("Objectif et date","Goal and date")}</th><th>${pick("Montant cible","Target amount")}</th><th>${pick("Probabilité","Probability")}</th><th>${pick("Déficit moyen","Mean shortfall")}</th><th>${pick("Probabilité avec le cash","Probability with cash")}</th></tr></thead><tbody>${dataRows}</tbody></table></div></article>`:""}`;
+      ${dataRows?`<article class="rm-subpanel"><h4>${pick("Financement des objectifs","Funding your goals")}</h4><div class="match-table-scroll"><table class="rm-positions"><thead><tr><th>${pick("Objectif et date","Goal and date")}</th><th>${pick("Montant cible","Target amount")}</th><th>${pick("Probabilité","Probability")}</th><th>${pick("Déficit moyen","Mean shortfall")}</th><th>${pick("Probabilité · référence","Probability · benchmark")} (${e(benchmark)})</th></tr></thead><tbody>${dataRows}</tbody></table></div><p class="rm-note">${pick("Les probabilités sont des fréquences dans les scénarios simulés. Le déficit moyen est calculé sur tous les scénarios, avec zéro si la cible est atteinte.","Probabilities are frequencies across the simulated paths. Mean shortfall includes zero for paths that reach the target.")} ${qualitative?pick("Un tiret signale un objectif dont la réussite n’est pas chiffrable avec les paramètres du mandat.","A dash marks a goal whose success cannot be quantified with the mandate inputs."):""}</p></article>`:""}
+      <details class="rm-limitations"><summary>${pick("Comment lire ces scénarios","How to read these scenarios")}</summary><p class="rm-note">${pick("L’archive courte peut sous-représenter les crises rares. La bande mesure la dispersion des scénarios sous les hypothèses retenues. Au-delà des cinq années d’archive, les blocs sont réutilisés.","The short archive may underrepresent rare crises. The band shows the spread of scenarios under the model assumptions. Blocks are reused beyond the five years of source data.")}</p></details>`;
   }
   window.PortfolioResult={allocation,projection,sectorLabels,sector};
 })();

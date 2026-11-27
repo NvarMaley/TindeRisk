@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import date
 import numpy as np
 from riskmatch.analytics.objectives import evaluate, bootstrap_indices
-from riskmatch.profiling.mandate import validate_mandate, add_month
+from riskmatch.profiling.mandate import MATCHING_MAX_MONTHS, validate_mandate, add_month
 from riskmatch.prototype import ClientProfile
 from riskmatch.historical_matches import catalog, blend, VERSION
 from riskmatch.matching import REFERENCE_RUN
@@ -66,7 +66,7 @@ def assess(root, data, *, include_path=True):
     start=date.fromisoformat(validated["as_of"]);end=date.fromisoformat(validated["horizon_date"])
     months=1
     while add_month(start,months)<end:months+=1
-    if months>600:
+    if months>MATCHING_MAX_MONTHS:
         raise ValueError("Research scenario horizon exceeds 50 years")
     indices=bootstrap_indices(split,months,paths=1000,block=6,seed=25)
     cash_paths = cash[:split][indices]

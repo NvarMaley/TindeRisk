@@ -28,7 +28,7 @@ def settings(root):
 
 
 def quotes(root, symbols):
-    if (not isinstance(symbols, list) or not 1 <= len(symbols) <= 600
+    if (not isinstance(symbols, list) or not 1 <= len(symbols) <= 1000
             or any(not isinstance(s, str) or not SYMBOL.fullmatch(s) for s in symbols)):
         raise ValueError("paperQuotesInvalidSymbols")
     symbols = list(dict.fromkeys(symbols))

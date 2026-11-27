@@ -28,3 +28,11 @@ Déployer uniquement cette page sur Streamlit ne rend pas le serveur local
 portant le moteur et ses archives accessible à distance. Si un accès à
 distance est configuré, conserver l’accès aux archives de recherche dans
 l’environnement autorisé.
+
+Pour une démonstration distante derrière un proxy protégé, le cadre peut
+utiliser `RISKMATCH_APP_URL=/riskmatch/` sur la même origine. Le proxy doit
+protéger l’entrée Streamlit, le cadre et les requêtes `/api/` avec la même
+session. Vérifier depuis un navigateur sans session que l’API est refusée,
+puis ouvrir une invitation et effectuer le parcours jusqu’à **Mes matchs**.
+Un tunnel temporaire dépend du serveur allumé. L’invitation et les identifiants
+restent dans la configuration locale.
