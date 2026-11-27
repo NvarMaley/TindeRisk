@@ -9,7 +9,7 @@ the intended complete research workflow and outstanding acceptance criteria.
 1. Generate candidates from mandate, strategies and construction methods in the A–Z guide. Retain versioned models, data and assumptions.
 2. Filter hard constraints (liquidity, concentration, leverage, derivatives, financial capacity, currency, horizon). If required risk is incompatible, explain the funding gap and offer to reconsider horizon, contributions or goal; never raise risk automatically.
 3. Evaluate out of sample, costs, stress, scenarios and uncertainty. Eliminate invalid or dominated models on relevant criteria. Never guarantee historical drawdown limits.
-4. Present at most 6–12 diverse initial candidates with identical format/horizon, neutral/controlled ordering and option to view all. Do not favor past performance.
+4. Feature up to six compatible allocations ranked by mandate fit, with at least 5% of capital reallocated between any pair. Keep the full compatible deck and same-period comparison accessible from the first card. The test-period return does not determine the featured rank.
 5. Like/dislike/skip and undo. Optional reason: loss, income, horizon, complexity, ESG, fees. Do not infer new risk tolerance from likes alone.
 6. Compare shortlist, benchmark and simple reference. If no compatible preference, ask for clarification rather than force a match.
 7. Open My Matches to combine one or more liked strategies into a single funded allocation, manually or with RiskMatch optimization. Recheck aggregate mandate, data and costs before explicit choice.

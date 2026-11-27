@@ -44,7 +44,7 @@ def bootstrap_indices(n,months,paths=2000,block=6,seed=12,valid_starts=None):
     return (starts[:,:,None]+np.arange(block)).reshape(paths,-1)[:,:months]
 
 
-def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,report=None):
+def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,report=None,include_wealth_path=False):
     """Inputs: same paths × months of decimal returns, base currency. No borrowing.
 
     Monthly return accrues geometrically between dated events. Funding is paid in
@@ -71,6 +71,7 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
     market=np.ones(n);cash_market=np.ones(n);peak=np.ones(n);max_loss=np.zeros(n);market_snap={}; monthly_income=[]; income_schedule=[]; liability_schedule=[]; withdrawal_schedule=[]
     dist=None if distribution_proxy is None else np.asarray(distribution_proxy,float)
     if dist is not None and (dist.shape!=r.shape or not np.isfinite(dist).all()):raise ValueError('Invalid distribution proxy')
+    wealth_path = [[initial] * 3] if include_wealth_path else None
     for k,(left,right) in enumerate(zip(bounds,bounds[1:])):
         # Last partial month uses the fraction of the actual full anniversary interval.
         full_right=add_month(start,k+1);days=(full_right-left).days; prev=left
@@ -100,6 +101,8 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
                 else:snapshots[g.index]=(wealth.copy(),None,None,None)
                 market_snap[g.index]=(market.copy(),cash_market.copy(),max_loss.copy(),income_paid.copy(),income_due,unmet_liability.copy(),unmet_withdrawal.copy())
         if dist is not None:income_schedule.append({'date':str(right),'mean_distribution_proxy':float(monthly_income[-1].mean())})
+        if wealth_path is not None:
+            wealth_path.append(np.quantile(wealth, [.05, .5, .95]).tolist())
     out=[]
     for g in goals:
         avail,deficit,success,target=snapshots[g.index];mkt,benchmark,dd,paid,due,liabgap,withdrawgap=market_snap[g.index];years=years_between(start,g.due)
@@ -125,4 +128,12 @@ def evaluate(mandate,monthly_returns,cash_returns,*,distribution_proxy=None,repo
     for g in out:
         g['weight']=g['priority']/total
         if g['normalized_shortfall'] is not None:weighted+=g['weight']*g['penalty']*g['normalized_shortfall'];covered+=g['weight']
-    return {'goals':out,'weighted_target_penalty':weighted if covered else None,'target_weight_coverage':covered,'mean_terminal_wealth':float(wealth.mean()),'terminal_quantiles':np.quantile(wealth,[.05,.5,.95]).tolist(),'mean_unpaid_obligations':float(unmet.mean()),'all_obligations_paid_probability':float(np.mean(unmet<=1e-8)),'withdrawal_schedule':withdrawal_schedule,'liability_schedule':liability_schedule,'income_proxy_schedule':income_schedule,'paths':n,'months':months}
+    result = {'goals':out,'weighted_target_penalty':weighted if covered else None,'target_weight_coverage':covered,'mean_terminal_wealth':float(wealth.mean()),'terminal_quantiles':np.quantile(wealth,[.05,.5,.95]).tolist(),'mean_unpaid_obligations':float(unmet.mean()),'all_obligations_paid_probability':float(np.mean(unmet<=1e-8)),'withdrawal_schedule':withdrawal_schedule,'liability_schedule':liability_schedule,'income_proxy_schedule':income_schedule,'paths':n,'months':months}
+    if wealth_path is not None:
+        cagr = market ** (1 / years_between(start, end)) - 1
+        result.update(wealth_path={"dates": [str(day) for day in bounds], "bands": wealth_path},
+                      market_cagr_quantiles=np.quantile(cagr, [.05, .5, .95]).tolist(),
+                      market_loss_probability=float(np.mean(market < 1.)),
+                      drawdown_threshold=report["effective_stress_limit"],
+                      drawdown_breach_probability=float(np.mean(max_loss > report["effective_stress_limit"])))
+    return result

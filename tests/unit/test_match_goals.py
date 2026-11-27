@@ -3,6 +3,7 @@ from pathlib import Path
 from unittest.mock import patch
 import numpy as np
 from riskmatch.selection.goals import assess, REFERENCE_RUN, VERSION
+from riskmatch.selection.goals import holdings_paths
 
 
 def test_match_goal_assessment_pairs_reference(tmp_path):
@@ -21,3 +22,14 @@ def test_match_goal_assessment_pairs_reference(tmp_path):
     assert result["paths"]==1000 and result["horizon_months"]==12
     assert result["matched"]["goals"][0]["probability"]==1
     assert result["reference"]["goals"][0]["probability"]==1
+    assert len(result["matched"]["wealth_path"]["dates"])==13
+
+
+def test_holdings_projection_keeps_joint_returns_and_charges_rebalance():
+    history=np.array([[.2,-.2,.01],[-.2,.2,.02]])
+    indices=np.array([[0,1],[1,0]])
+    assert np.allclose(holdings_paths(history,[.5,.5,0.],indices,cost=0),0.)
+    net=holdings_paths(history,[.5,.5,0.],indices)
+    assert np.allclose(net[:,0],0.)
+    assert np.allclose(net[:,1],-.0002)
+    assert np.allclose(holdings_paths(history,[0.,0.,1.],indices),history[indices,-1])

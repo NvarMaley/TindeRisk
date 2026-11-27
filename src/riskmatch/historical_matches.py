@@ -125,7 +125,7 @@ def blend(root,profile,names,budgets,optimized):
     return blend_rows(profile,names,budgets,optimized,rows,split,reference,VERSION,PERIOD,COSTS)
 
 
-def blend_rows(profile,names,budgets,optimized,rows,split,reference,version,period,costs):
+def blend_rows(profile,names,budgets,optimized,rows,split,reference,version,period,costs,*,cash=None):
     eligible = {name for name, (_, shocks, _) in rows.items()
                 if max(0., -min(shocks.values())) <= profile.max_stress_loss + 1e-10}
     if not isinstance(names,list) or not names or len(names)!=len(set(names)) or not set(names)<=eligible:
@@ -161,10 +161,13 @@ def blend_rows(profile,names,budgets,optimized,rows,split,reference,version,peri
     denom=np.sqrt(np.outer(sleeve_cov.diagonal(),sleeve_cov.diagonal()))
     correlations=np.divide(sleeve_cov,denom,out=np.zeros_like(sleeve_cov),where=denom>0)
     overlap=[a for a in weights if sum(v*rows[k][0][a]>1e-8 for k,v in zip(names,alpha))>1]
+    cash_test = None if cash is None else cash[split:]
     return dict(status='historical_research',version=version,period=period,costs=costs,
-                budgets=dict(zip(names,alpha.tolist())),weights=weights,metrics=metrics(net[:,None],[1]),
+                budgets=dict(zip(names,alpha.tolist())),weights=weights,
+                metrics=metrics(net[:,None],[1],cash_returns=cash_test),
+                historical_annual_mean=float(net.mean()*12),
                 allocation_metrics_version="net-sleeve-transfer-v1",
                 additional_transfer_fee_fraction=float(fees.sum()),additional_transfer_turnover=float(turnover.mean()*12),
                 risk_contributions=dict(zip(names,rc.tolist())),stress_loss=loss,stress_usd=loss*profile.capital,
-                scenarios=shocks,reference_metrics=metrics(reference[split:,None],[1]),paper_only=True,
+                scenarios=shocks,reference_metrics=metrics(reference[split:,None],[1],cash_returns=cash_test),paper_only=True,
                 correlations=correlations.tolist(),overlap=overlap)

@@ -5,11 +5,12 @@
     [["Return and risk optimization", "Optimisation du rendement et du risque"],
       "maximum_sharpe mean_variance_utility tracking_error black_litterman capm_utility ewma_utility robust_utility resampled_utility wasserstein_utility kelly fractional_kelly entropy_utility constrained_utility"],
     [["Loss control and defensive allocations", "Maîtrise des pertes et allocations défensives"],
-      "minimum_cvar minimum_cdar maximum_sortino maximum_omega volatility_target tail_hedge_proxy defensive_reference"],
+      "minimum_cvar minimum_cdar volatility_target tail_hedge_proxy defensive_reference"],
     [["Passive, active and factor strategies", "Gestion passive, active et factorielle"],
-      "passive_index passive_etfs active_long_only smart_beta_equal smart_beta_factor smart_beta_fundamental factor_investing core_satellite factor_size factor_value factor_momentum factor_low_volatility factor_liquidity factor_quality factor_profitability_proxy factor_investment"],
+      "passive_etfs active_long_only smart_beta_factor smart_beta_fundamental factor_investing core_satellite factor_size factor_value factor_momentum factor_low_volatility factor_liquidity factor_quality factor_profitability_proxy factor_investment"],
     [["Trends and economic conditions", "Tendances et conditions économiques"],
       "cross_sectional_momentum time_series_momentum mean_reversion tactical_allocation all_weather multi_strategy regime_switching global_macro"],
+    [["Research references", "Références de recherche"], "passive_index maximum_sortino maximum_omega"],
   ];
   const stages = [
     [
@@ -49,8 +50,8 @@
     ],
     [
       ["Project goals and rank the cards", "Projeter les objectifs et classer les cartes"],
-      ["For measurable goals, the engine builds 256 possible paths from six-month blocks of historical returns and applies your cash flows. Ranking combines stress losses, estimated return, goal outcomes and supported preferences. It brings different allocations forward and groups methods whose final weights are nearly identical.",
-        "Pour les objectifs mesurables, le moteur construit 256 trajectoires à partir de blocs de six mois de rendements historiques et y applique tes flux. Le classement combine les pertes en stress, le rendement estimé, les résultats des objectifs et les préférences prises en charge. Il met en avant des allocations variées et regroupe les méthodes dont les poids finaux sont très proches."],
+      ["For measurable goals, the engine builds 256 possible paths from six-month blocks of historical returns and applies your cash flows. Ranking combines stress losses, estimated return, goal outcomes and supported preferences. It highlights up to six compatible, distinct allocations. The full comparison remains available. The historical CAGR does not determine the selection.",
+        "Pour les objectifs mesurables, le moteur construit 256 trajectoires à partir de blocs de six mois de rendements historiques et y applique tes flux. Le classement combine les pertes en stress, le rendement estimé, les résultats des objectifs et les préférences prises en charge. Il met en avant jusqu’à six allocations compatibles et distinctes. La comparaison complète reste accessible. Le rendement du backtest ne détermine pas cette sélection."],
     ],
     [
       ["Compare and confirm an allocation", "Comparer et confirmer une allocation"],
@@ -64,8 +65,8 @@
     ],
     [
       ["Interpret the limitations of the results", "Interpréter les limites des résultats"],
-      ["The replay uses dated stock membership. Missing original publication timestamps and the retrospective ETF registry limit real-time interpretation. Requiring five years favors older, well-covered assets. Rare losses are hard to assess with 25 test months. The common expected return shrinks each security’s historical mean halfway toward the median, which can raise Treasury ETF estimates in an equity-heavy universe.",
-        "Le replay utilise les listes d’actions de l’époque. Les dates de publication manquantes et le registre rétrospectif des ETF limitent l’interprétation en temps réel. Exiger cinq ans favorise les titres anciens et bien couverts. Vingt-cinq mois de test donnent peu de recul sur les pertes rares. Le rendement estimé rapproche la moyenne de chaque titre à mi-chemin vers la médiane, ce qui peut relever les estimations des ETF du Trésor dans cet univers dominé par les actions."],
+      ["The replay uses dated stock membership. Missing original publication timestamps and the retrospective ETF registry limit real-time interpretation. Requiring five years favors older, well-covered assets. Rare losses are hard to assess with 25 test months. The common expected return shrinks each security’s historical mean halfway toward the median of its asset class. The choice of the 50% weight affects the resulting estimate.",
+        "Le replay utilise les listes d’actions de l’époque. Les dates de publication manquantes et le registre rétrospectif des ETF limitent l’interprétation en temps réel. Exiger cinq ans favorise les titres anciens et bien couverts. Vingt-cinq mois de test donnent peu de recul sur les pertes rares. Le rendement estimé rapproche la moyenne de chaque titre à mi-chemin vers la médiane de sa classe d’actifs. Le poids de 50 % demeure un choix de modélisation."],
     ],
   ];
   function render() {
@@ -73,7 +74,7 @@
     const t=window.RM.t;
     const {methods,sources,dependency}=window.StrategyMethods;
     const catalogue=document.getElementById("strategy-library");
-    catalogue.innerHTML=groups.map(([title,names])=>{
+    catalogue.innerHTML=groups.map(([title,names],groupIndex)=>{
       const keys=Array.isArray(names)?names:names.split(" ");
       const entries=keys.map(key=>{
         const method=methods[key], source=sources[method[3]||"returns"];
@@ -83,7 +84,7 @@
           <p class="muted"><strong>${esc(t("catalogueInputs"))}</strong> · ${esc(source[lang])}</p>
           <p><strong>${esc(lang?"Effet de la date des données":"Effect of the data cutoff")} · ${esc(dependency[key][lang])}</strong> ${esc(dependency[key][lang+2])}</p></details>`;
       }).join("");
-      return `<section><h2>${esc(title[lang])}</h2>${entries}</section>`;
+      return `<section><h2>${esc(title[lang])}</h2>${groupIndex===groups.length-1?`<p>${lang?"SPY compare le portefeuille au marché. Sortino et Omega restent en recherche car leurs ratios peuvent être indéfinis sur une fenêtre sans pertes.":"SPY provides a market comparison. Sortino and Omega remain research methods because their ratios can be undefined in a window without losses."}</p>`:""}${entries}</section>`;
     }).join("");
     document.getElementById("methodology-stages").innerHTML=stages.map(([title,body])=>
       `<li><h2>${esc(title[lang])}</h2><p>${esc(body[lang])}</p></li>`).join("");

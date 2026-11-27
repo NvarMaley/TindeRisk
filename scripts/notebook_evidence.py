@@ -241,8 +241,15 @@ class Evidence:
             call("matching/research", {})
             call("matching/improvements", {})
             call("matching/prepare", {"mandate": self.mandate})
-            cards = call("matching/cards", {"mandate": self.mandate, "aversion": self.aversion})
+            comparison = call("matching/cards", {"mandate": self.mandate, "aversion": self.aversion,
+                                                  "include_comparison": True})
+            cards = comparison["cards"]
             assert len(cards) >= 2
+            assert 1 <= sum(card["featured"] for card in cards) <= 6
+            assert len([m for m in comparison["methods"] if m["status"] != "research"]) == 47
+            assert {m["name"] for m in comparison["methods"] if m["status"] == "research"} == {
+                "passive_index", "maximum_sortino", "maximum_omega"}
+            assert comparison["market_reference"]["vol"] > 0
             for card in cards:
                 assert card["estimation_months"] == 60 and card["model_as_of"] == "2025-12-31"
                 test = card["backtest"]["test"]
@@ -280,9 +287,11 @@ class Evidence:
                               "names": [c["name"] for c in cards[:2]], "budgets": [.6, .4]}
             manual = call("match-allocations/evaluate", self.selection)
             optimized = call("match-allocations/optimize", self.selection)
+            maximum_return = call("match-allocations/return", self.selection)
             goal_mix = call("match-allocations/goal", self.selection)
             assert goal_mix["comparison"]["goal"]["score"] >= goal_mix["comparison"]["manual"]["score"]
-            for result in (manual, optimized, goal_mix):
+            assert maximum_return["expected_return"] >= max(manual["expected_return"], optimized["expected_return"]) - 1e-9
+            for result in (manual, optimized, maximum_return, goal_mix):
                 assert abs(sum(result["weights"].values()) - 1) < 1e-7
                 assert result["stress_loss"] <= .20 + 1e-8
             import pandas as pd
@@ -291,7 +300,9 @@ class Evidence:
             self.wealth_plot("Matches — historical net wealth (holdout)", {
                 "Manual 60/40 sleeves": manual["metrics"]["nav"],
                 "Optimized sleeves": optimized["metrics"]["nav"]})
-            call("matching/goals", self.selection)
+            projection = call("matching/goals", self.selection)
+            assert projection["method"] == "joint_asset_blocks" and projection["training_months"] == 60
+            assert len(projection["matched"]["wealth_path"]["bands"]) == projection["horizon_months"] + 1
         elif n == 26:
             self.dynamic = call("dynamic", self.selection)
             assert self.dynamic["policies"]["mpc"]["status"] == "computed"

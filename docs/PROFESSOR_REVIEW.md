@@ -57,7 +57,7 @@ and carry implementations.
 | 22 Futures | Archived ten-family research, rolling/expiry limitations; notebook | 0/11 |
 | 23 Walk-forward | Frozen common evaluation, benchmark paths and locked metrics; notebook | 0/14 |
 | 24 Stress/MC | Stress comparison, five-model selected projection, quantiles, deficits and sensitivity; notebook | 0/12 |
-| 25 Matching | Personalized construction on the 60-month portfolio panel, 35 distinct cards for each of two risk scores and six for the restricted Treasury example, manual and optimized budgets, joint goal projection; Strategies / My Matches | 0/28 |
+| 25 Matching | Personalized construction on the 60-month portfolio panel, the compatible methods, a featured shortlist, a common-period comparison and a restricted Treasury example, manual and optimized budgets, joint goal projection; Strategies / My Matches | 0/28 |
 | 26 Dynamic | 10 policies plus static and drift, costs, funded ledgers, robustness; My Matches | 0/11 |
 | 27 Integration | Reconciled twelve-file paper export, manifest and content hashes; My Matches / Export | 5/15 |
 
@@ -89,7 +89,7 @@ reproduction step involving the build scripts and original data entitlements.
 - Notebook: all 83 code cells ran in both portable and local historical
   mode through IPython, with complete saved outputs.
 - Local HTTP integration and Chromium acceptance checks passed. The client
-  flow covered the 30 Discovery cards, the 35 results in the example, allocation,
+  flow covered the 30 Discovery cards, strategy generation, allocation,
   confirmation and the objectives report. Position tracking reports when an
   external quote feed is unavailable.
 - The formal checklist has 222 of 1,230 identified tickets closed, with

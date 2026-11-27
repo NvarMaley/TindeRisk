@@ -49,9 +49,9 @@
     return `<article><h2>${french?"Qualité et données historiques":"Point-in-time data quality"}</h2><p>${french?"Les usages qui exigent une disponibilité historique certifiée restent bloqués. Le replay du mandat reste une simulation rétrospective.":"Uses requiring certified historical availability remain blocked. The mandate replay is a retrospective simulation."}</p><p>${esc(snapshot.built_at || "")} · ${snapshot.datasets.length} ${french?"tables":"partitions"} · ${esc(total.toLocaleString(french?"fr-CH":"en-US"))} ${french?"lignes normalisées":"normalized rows"}</p><div class="universe-table-wrap"><table><thead><tr>${(french?["Table","Lignes","Période","Invalides / doublons / conflits","Qualité"]:["Table","Rows","Period","Invalid / duplicate / conflict","Quality"]).map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></article>`;
   }
   const gaps = [
-    ["Missing months and delisting proceeds", "Mois manquants et produits de liquidation",
-      "A missing return excludes a security at that decision. A missing realized return for a holding can invalidate the strategy’s path. Five years of coverage favor older, well-documented securities.",
-      "Un mois manquant écarte le titre à cette date. Un rendement réalisé absent sur une position peut invalider la trajectoire de la stratégie. Les cinq ans exigés favorisent les titres anciens et bien documentés."],
+    ["Missing months and merger proceeds", "Mois manquants et règlements de fusion",
+      "A missing return excludes a security at that decision. A missing realized return for a holding can invalidate the strategy’s path. For documented final merger payments, the replay counts the observed final total return once and treats the proceeds as cash. Five years of coverage favor older, well-documented securities.",
+      "Un mois manquant écarte le titre à cette date. Un rendement réalisé absent sur une position peut invalider la trajectoire de la stratégie. Pour un règlement final de fusion documenté, le replay compte une seule fois le rendement total observé et convertit la valeur reçue en cash. Les cinq ans exigés favorisent les titres anciens et bien documentés."],
     ["Unverified publication times", "Dates de publication non vérifiées",
       "Original publication times are missing for the monthly CRSP and Fama–French RF series. Dated membership, data vintages and the execution lag reduce timing bias. The replay remains retrospective.",
       "Les dates de publication d’origine manquent dans les séries mensuelles CRSP et Fama–French RF. Les listes datées, les versions des données et le délai d’exécution réduisent le biais temporel. Le replay reste rétrospectif."],
@@ -59,8 +59,8 @@
       "Stock membership changes by date. The ETF registry is retrospective and some historical closing proceeds are unknown.",
       "La liste d’actions change à chaque date. Le registre d’ETF a été constitué après coup et certains produits de liquidation historiques restent inconnus."],
     ["Older archive, short test, model choices", "Archive ancienne, test court et choix de modèle",
-      "The test has 25 monthly returns, with limited evidence on rare losses. The equity-heavy median can raise the estimated return of a Treasury ETF. The current ranking also uses end-2025 estimates.",
-      "Le test comporte 25 mois, ce qui donne peu de recul sur les pertes rares. La médiane d’un univers dominé par les actions peut relever le rendement estimé d’un ETF du Trésor. Le classement actuel utilise aussi les estimations de fin 2025."],
+      "The test has 25 monthly returns, with limited evidence on rare losses. The common estimate depends on how heavily each class median is weighted. The current ranking also uses end-2025 estimates.",
+      "Le test comporte 25 mois, ce qui donne peu de recul sur les pertes rares. Le poids donné à la médiane de chaque classe influence le rendement estimé. Le classement actuel utilise aussi les estimations de fin 2025."],
     ["Recent prices and quote coverage", "Prix récents et couverture des cotations",
       "Public 2026 prices remain separate from the frozen return series. Position monitoring requires a configured quote feed and coverage for the holdings.",
       "Les prix publics de 2026 restent séparés des rendements figés. Le suivi des positions dépend d’un flux configuré et de la couverture des titres détenus."],

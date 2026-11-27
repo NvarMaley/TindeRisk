@@ -117,6 +117,16 @@ def regularized_mean(history,forecast=None):
     return .5*combined+.5*anchor
 
 
+def class_regularized_mean(history, assets):
+    """Annualized trailing means shrunk halfway toward their own asset class."""
+    annual = np.asarray(history, dtype=float).mean(axis=0) * 12
+    classes = np.array([category(asset) for asset in assets])
+    for kind in np.unique(classes):
+        group = classes == kind
+        annual[group] = .5 * annual[group] + .5 * np.median(annual[group])
+    return annual
+
+
 def run_report(root,data):
     as_of=date.fromisoformat(data['as_of']);currency=data.get('currency','USD');scope=data.get('scope','cohort');cap=data.get('max_weight',.05 if scope=='cohort' else .65);lam=data.get('risk_aversion',3.);penalty=data.get('turnover_penalty',.001);cost=data.get('cost_bps',10.);mandate=data.get('mandate');mean_model=data.get('mean_model','regularized')
     if as_of>date.today() or currency not in ('USD','CHF') or scope not in ('cohort','core') or any(isinstance(v,bool) or not isinstance(v,(int,float)) or not np.isfinite(v) for v in (cap,lam,penalty,cost)) or not 0<cap<=1 or not .01<=lam<=100 or not 0<=penalty<=.1 or not 0<=cost<=200:raise ValueError('Invalid mean-variance settings')

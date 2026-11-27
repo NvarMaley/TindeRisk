@@ -11,4 +11,7 @@ Saved calculation outputs illustrate the portable run. Dated evidence in chapter
 
 The client sections describe the [simplified mandate](../docs/CLIENT_MANDATE.md),
 the [30 fixed Discovery questions](../docs/RISKMATCH_BEHAVIORAL.md) and the
-[568-instrument USD portfolio panel plus cash](../docs/PERSONALIZED_MATCHING.md).
+[662-instrument USD portfolio panel plus cash](../docs/PERSONALIZED_MATCHING.md).
+The [strategy audit](../docs/AUDIT_STRATEGIES_ET_PORTEFEUILLE.md) documents the
+47 candidates, the SPY benchmark and the two research methods, with results
+for the standard and Treasury-plus-cash mandates.

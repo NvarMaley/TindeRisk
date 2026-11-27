@@ -23,7 +23,7 @@ from riskmatch.backtesting.mandate_replay import (
 )
 from riskmatch.backtesting.card_performance import card_performance
 from riskmatch.backtesting.walk_models import REGISTRY, SIGNED, fit_models
-from riskmatch.optimization.mean_variance_report import category, regularized_mean
+from riskmatch.optimization.mean_variance_report import category, class_regularized_mean
 from riskmatch.profiling.mandate import validate_mandate, add_month
 from riskmatch.prototype import ClientProfile, metrics
 from riskmatch.selection.sleeve_ledger import rebalance_paths
@@ -39,11 +39,14 @@ AS_OF = date(2026, 11, 25)
 DATA_END = date(2025, 12, 31)
 DEVELOPMENT_START = date(2020, 12, 31)
 HOLDOUT_START = date(2023, 11, 30)
-MATCHING_PROTOCOL = "usd-dated-membership-60-v1"
+MATCHING_PROTOCOL = "usd-dated-membership-60-v5"
 MATCHING_INSTRUMENT_CATEGORIES = ("stock", "equity_etf", "treasury_etf")
-KEYS = tuple(k for k in REGISTRY if k not in SIGNED)
+RESEARCH_METHODS = ("passive_index", "maximum_sortino", "maximum_omega")
+KEYS = tuple(k for k in REGISTRY if k not in SIGNED and k not in RESEARCH_METHODS
+             and k != "smart_beta_equal")
 OVERLAY_METHODS = ("defensive_reference", "constrained_utility")
 FUNDED_METHODS = (*KEYS, *OVERLAY_METHODS)
+FEATURED_LIMIT = 6
 LOCK = Lock()
 
 
@@ -120,10 +123,11 @@ def market_data(root):
     if first < ESTIMATION_MONTHS + EXECUTION_LAG_MONTHS:
         raise ValueError("Insufficient history to start the comparable replay")
     origins = [starts[first], starts[split], DATA_END]
-    assets, panel, available, signals, macro, caps = archive(
+    assets, panel, available, signals, macro, caps, settlements = archive(
         root, intervals, first, listed_funds(root, version), version, AS_OF)
     indices = eligible_indices(assets, panel[-ESTIMATION_MONTHS:],
                                available[-ESTIMATION_MONTHS:], DATA_END, caps.get(DATA_END, {}))
+    indices = [i for i in indices if i not in settlements or settlements[i][0] > DATA_END]
     with duckdb.connect() as db:
         tickers = dict(db.execute(
             "select instrument,snapshot_ticker from read_parquet(?)",
@@ -284,9 +288,10 @@ def construct(data, mandate, report, aversion, end, origin):
         covariance[np.ix_(active, active)] = covariance_model(
             np.column_stack([x, rf])[:, active])[3] * 12
     reference = defensive_reference(bounds, shock_matrix, covariance, loss, vol_limit)
+    expected = class_regularized_mean(x, assets)
     fitted = fit_models(KEYS, x, rf, assets, upper, origin, signals,
                         optimizer_limit=64, market_caps=caps.get(origin), lam=lam, seed=24,
-                        macro=macro.get(origin))
+                        macro=macro.get(origin), mean_estimates=expected)
     candidates = {}
     diagnostics = {}
     for key, result in fitted.items():
@@ -329,8 +334,7 @@ def construct(data, mandate, report, aversion, end, origin):
                               np.flatnonzero(reference > 1e-9).tolist() + [len(upper)]))
         idx = np.array(selected, int)
         if len(idx) > 1 and bounds[idx].sum() >= 1-1e-9:
-            mean = np.r_[regularized_mean(x),
-                         float(np.mean(rf)*12)]
+            mean = np.r_[expected, float(np.mean(rf)*12)]
             preferred = loss * (1-.55*risk_weight)
             effective = preferred if np.min(shock_matrix @ reference) >= -preferred else loss
             linear = [(key, shock[idx], -effective, 1.) for key, shock in scenarios.items()]
@@ -441,7 +445,7 @@ def _run(root, encoded, aversion, style):
     half = (split-first)//2
     windows = [bootstrap_indices(half, months, paths=256, block=6, seed=25) + offset
                for offset in (0, split-first-half)]
-    current_mean = regularized_mean(x[-ESTIMATION_MONTHS:])
+    current_mean = class_regularized_mean(x[-ESTIMATION_MONTHS:], assets)
     expected_returns = np.r_[current_mean, float(np.mean(rf[-ESTIMATION_MONTHS:]) * 12)]
     rows, cards = {}, []
     for name, w in current.items():
@@ -483,7 +487,7 @@ def _run(root, encoded, aversion, style):
                       "development_return": float(12 * returns[:split-first].mean()),
                       "eligible_assets": eligible_count, "universe_size": len(assets),
                       "model_as_of": str(intervals[-1][1]), "estimation_months": ESTIMATION_MONTHS, "goal_projection_paths": 256, "development_months": split-first,
-                      "forecast_source": "Regularized trailing 60 monthly returns at each decision",
+                      "forecast_source": "Trailing 60 monthly returns shrunk toward their asset-class median",
                       "goal_projection": goal_summary,
                       "weighted_target_penalty": projection["weighted_target_penalty"],
                       "objective_fit": fit,
@@ -542,12 +546,14 @@ def _run(root, encoded, aversion, style):
                                   other["expected_return"] >= card["expected_return"] and
                                   (other["stress_loss"] < card["stress_loss"] or
                                    other["expected_return"] > card["expected_return"]) for other in cards)
-    # Preserve all computed strategy rules, but diversify the first twelve cards.
+    # Keep the best fitting allocations with at least 5% of capital reallocated
+    # between any two featured portfolios.
     diverse, remaining = [], []
     for card in cards:
         weights = current[card["name"]]
-        if len(diverse) < 12 and all(.5*np.abs(weights-current[c["name"]]).sum() >= .05
-                                    for c in diverse):
+        card["featured"] = len(diverse) < FEATURED_LIMIT and all(
+            .5*np.abs(weights-current[c["name"]]).sum() >= .05 for c in diverse)
+        if card["featured"]:
             diverse.append(card)
         else:
             remaining.append(card)
@@ -569,10 +575,15 @@ def _run(root, encoded, aversion, style):
                                                 c["risk_growth_difference"]), c["name"]))
         for rank, card in enumerate(ranked, start=1):
             card.setdefault("sensitivity_ranks", []).append(rank)
+    spy = next(i for i, asset in enumerate(assets) if asset["ticker"] == "SPY")
+    spy_returns = x[split:, spy].copy()
+    spy_returns[0] = (1 + spy_returns[0]) / 1.001 - 1
+    market_metrics = metrics(spy_returns[:, None], [1], cash_returns=rf[split:])
     return {"version": version, "cards": cards, "rows": rows, "split": split-first,
             "reference": reference, "benchmark": benchmark, "cash": rf[first:], "dates": [str(b) for _, b in date_rows],
             "unavailable": unavailable, "data_version": data_version, "covariance": covariance,
-            "labels": assets_with_cash, "eligible_assets": eligible_count}
+            "labels": assets_with_cash, "eligible_assets": eligible_count,
+            "market_reference": {k: market_metrics[k] for k in ("cagr", "vol", "sharpe")}}
 
 
 def resolve(root, mandate, version):
@@ -588,6 +599,24 @@ def resolve(root, mandate, version):
     return result
 
 
+def comparison_report(deck):
+    """Expose mandate-specific availability while keeping legacy card responses."""
+    representatives = {card["name"]: card["name"] for card in deck["cards"]}
+    representatives.update({name: card["name"] for card in deck["cards"]
+                            for name in card["equivalent_methods"]})
+    methods = []
+    for name in FUNDED_METHODS:
+        if name in representatives:
+            methods.append({"name": name, "status": "available",
+                            "card": representatives[name]})
+        else:
+            reason = deck["unavailable"][name]
+            status = "backtest_incomplete" if reason[4:5] == "-" and reason[10:11] == ":" else "unavailable"
+            methods.append({"name": name, "status": status, "reason": reason})
+    methods.extend({"name": name, "status": "research"} for name in RESEARCH_METHODS)
+    return {"cards": deck["cards"], "methods": methods, "market_reference": deck["market_reference"]}
+
+
 def blend(root, mandate, version, names, budgets, optimized):
     from riskmatch.historical_matches import blend_rows
     context = resolve(root, mandate, version)
@@ -595,11 +624,19 @@ def blend(root, mandate, version, names, budgets, optimized):
         raise ValueError("No feasible personalized strategies")
     validated = validate_mandate(mandate)
     profile = ClientProfile(mandate["capital"], validated["horizon_years"], validated["effective_stress_limit"])
-    if not isinstance(names, list) or any(not isinstance(k, str) or k not in {c["name"] for c in context["cards"]} for k in names):
+    cards = {card["name"]: card for card in context["cards"]}
+    if (not isinstance(names, list) or not names or
+            any(not isinstance(k, str) or k not in cards for k in names) or len(set(names)) != len(names)):
         raise ValueError("Ineligible or stale selection")
+    if optimized == "return":
+        # Return is linear in the sleeve budgets. Each individual sleeve is
+        # already feasible, so the best feasible single sleeve attains the maximum.
+        best = max(names, key=lambda name: cards[name]["expected_return"])
+        budgets = [float(name == best) for name in names]
+        optimized = False
     result = blend_rows(profile, names, budgets, optimized, context["rows"], context["split"],
                         context["reference"], version, context["cards"][0]["period"],
-                        "10 bp modeled trades and additional sleeve transfers")
+                        "10 bp modeled trades and additional sleeve transfers", cash=context["cash"])
     weights = np.array([result["weights"][label] for label in context["labels"]])
     vol = float(np.sqrt(max(0., weights @ context["covariance"] @ weights)))
     if vol > hard_limit(mandate, "volatility", 1.) + 1e-7:
@@ -607,7 +644,6 @@ def blend(root, mandate, version, names, budgets, optimized):
     result["estimated_volatility"] = vol
     result["personalized"] = True
     result["benchmark"] = context["benchmark"]
-    cards = {card["name"]: card for card in context["cards"]}
     result["expected_return"] = sum(budget * cards[name]["expected_return"]
                                     for name, budget in result["budgets"].items())
     result["model_as_of"] = context["cards"][0]["model_as_of"]

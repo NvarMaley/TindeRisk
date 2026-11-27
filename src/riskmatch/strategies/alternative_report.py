@@ -86,13 +86,28 @@ def target(key,h,u,assets,macro,pair,diagnostics=None):
         raw[basket] = 1 / vol[basket]
         return capped(raw, u)
     if key=='multi_strategy':
-        sleeves=np.array([winners(),trend(),mix(.6)]);sleeve_returns=h[-36:]@sleeves.T;cov=np.cov(sleeve_returns,rowvar=False)*12;v=np.maximum(np.sqrt(np.maximum(np.diag(cov),0)),.02);b=1/v;b/=b.sum()
+        sleeves = np.array([winners(), trend(), mix(.6)])
+        sleeve_returns = h[-36:] @ sleeves.T
+        cov = np.cov(sleeve_returns, rowvar=False) * 12
+        volatility = np.sqrt(np.maximum(np.diag(cov), 0.))
+        b = 1 / np.maximum(volatility, .02)
+        b /= b.sum()
         if diagnostics is not None:
-            denom=float(b@cov@b);corr=cov/np.outer(v,v);diagnostics.update({'sleeves':['cross_sectional_momentum','time_series_momentum','strategic_60_40'],'budgets':b.tolist(),'correlation':corr.tolist(),'variance_contribution_shares':(b*(cov@b)/denom).tolist() if denom>1e-12 else None})
-        return b@sleeves
+            denom = float(b @ cov @ b)
+            scale = np.outer(volatility, volatility)
+            corr = np.divide(cov, scale, out=np.zeros_like(cov), where=scale > 1e-24)
+            diagnostics.update({
+                'sleeves': ['cross_sectional_momentum', 'time_series_momentum', 'strategic_60_40'],
+                'budgets': b.tolist(),
+                'correlation': np.where(scale > 1e-24, np.clip(corr, -1., 1.), None).tolist(),
+                'variance_contribution_shares': (b * (cov @ b) / denom).tolist() if denom > 1e-12 else None,
+            })
+        return b @ sleeves
     if key=='regime_switching':return mix(.2 if filtered_probability(h[:,index("SPY")])>.5 else .7,(.2,.7))
     if key=='tail_hedge_proxy':
-        wealth=np.cumprod(1+h[-12:,index("SPY")]);dd=wealth[-1]/wealth.max()-1;return mix(.2 if dd<-.10 else .6)
+        wealth = np.r_[1., np.cumprod(1 + h[-12:, index("SPY")])]
+        drawdown = wealth[-1] / wealth.max() - 1
+        return mix(.2 if drawdown < -.10 else .6)
     raise ValueError('Unsupported execution data: no validated dated futures/roll, collateral or instrument carry history')
 
 

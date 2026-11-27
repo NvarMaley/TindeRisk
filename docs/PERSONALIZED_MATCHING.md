@@ -1,6 +1,6 @@
 # Personalized Match construction — research implementation
 
-See the [French guide to portfolio data and the 51 strategies](UNIVERS_DONNEES_STRATEGIES.md)
+See the [French guide to portfolio data and the 47 candidate strategies](UNIVERS_DONNEES_STRATEGIES.md)
 for the simulated mandate date, archive cutoff, cleaning and use of asset-level research.
 
 ## Methodology
@@ -51,7 +51,7 @@ Every supported full mandate now generates its own weights:
    evaluate the entire eligible set. Matrix-heavy optimizers retain eligible
    ETFs and up to the 64-asset market-cap-ranked working set. This controls
    numerical cost; it is not an exhaustive search of all subsets.
-5. Fit regularized trailing means on the common 60-month estimation window.
+5. Fit regularized trailing means on the common 60-month estimation window. The common estimate weights the observed annualized mean and the median of the asset’s class equally.
    The portfolio risk controller and cards use shrinkage on standardized
    returns with the original volatilities restored, including cash. Some
    strategies deliberately use shorter signals, factor data, macro data or
@@ -75,8 +75,10 @@ Every supported full mandate now generates its own weights:
    remain explicit limitations.
    Soft volatility and asset-weight limits penalize the score when exceeded;
    unsupported soft limits are disclosed.
-   Select a diverse initial set by portfolio distance, with all remaining
-   viable methods available. Some strategies have overlapping exposures.
+   Present up to six leading candidates with at least 5% of capital reallocated
+   between any two displayed targets. An aligned comparison provides every
+   compatible card, the SPY market benchmark and an availability explanation.
+   The historical test CAGR does not determine the featured rank.
 9. Version the deck by input archive, mandate and aversion. Reconstruct and
    revalidate it before allocation, goal assessment, dynamic simulation or
    export. Changed inputs invalidate previously selected weights.
@@ -106,8 +108,9 @@ volatility, stress and actual sleeve transfer costs are recomputed.
   ETFs, commodity ETPs, crypto, futures and short/leveraged trading sit outside
   the personalized portfolio universe. Legacy mandates with excluded classes
   can be opened and must be reviewed before rerunning the personalized deck.
-- All 51 personalized method candidates are compatible with the four instrument
-  types. The all-weather proxy uses SPY, IEF, TIP and SHY. The tail hedge is a
+- The 47 funded candidates are built from the four supported instrument
+  types. The standalone SPY benchmark and the Sortino and Omega research
+  methods are outside candidate scoring. The equal-weight duplicate was merged. The all-weather proxy uses SPY, IEF, TIP and SHY. The tail hedge is a
   defensive equity/Treasury allocation, while global macro uses economic data
   as signals for its equity/Treasury allocation. Actual card availability still
   depends on asset permissions, feasibility, historical coverage and de-duplication.
@@ -115,7 +118,7 @@ volatility, stress and actual sleeve transfer costs are recomputed.
   turnover from actual existing holdings, after-tax treatment and currency
   hedging lack sufficient inputs. These hard constraints block generation.
 - Financial goal projection is conditional, with limited history and modeled
-  cash returns. The final allocation gets the existing 1,000-path assessment.
+  cash returns. The confirmed allocation gets a 1,000-path projection using joint six-month blocks from 60 months of consolidated holdings. The model keeps target weights fixed, includes monthly rebalancing fees, and applies the mandate cash flows. The replay of the strategy sleeves and its separate test metrics remain available.
   Dynamic overlays require cash permission and cannot certify a hard asset
   cap or a hard volatility cap. Dated liability flows are handled by the
   goal projection rather than the dynamic overlay.
@@ -129,3 +132,5 @@ scores and mandate restrictions. The routes preserve the previous response
 contract and use the same deck version for all subsequent calculations.
 Run the normal unit suite and web tests, then the full historical notebook.
 The prior fixed five-ETF deck is retained for legacy research and compatibility.
+
+The [per-strategy audit and portfolio walkthrough](AUDIT_STRATEGIES_ET_PORTEFEUILLE.md) records the two mandate tests, the four allocation modes and the projection convention.
